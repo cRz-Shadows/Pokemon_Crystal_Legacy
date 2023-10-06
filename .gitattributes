@@ -1,0 +1,37 @@
+# Auto detect text files and perform LF normalization
+* text eol=lf
+
+# Explicitly declare text files you want to always be normalized and converted
+# to native line endings on checkout.
+
+# files part of the build
+*.asm text
+*.pal text
+*.link text
+*.txt text
+
+# extra files
+*.awk text
+*.c text
+*.h text
+*.md text
+*.py text
+*.sh text
+*.sha1 text
+
+# Denote all files that are truly binary and should not be modified.
+*.png binary diff=hex
+*.lz.* binary diff=hex
+*.bin binary diff=hex
+*.blk binary diff=hex
+*.rle binary diff=hex
+*.attrmap binary diff=hex
+*.tilemap binary diff=hex
+
+# Declare files that will always have CRLF line endings on checkout.
+*.patch.template text eol=crlf linguist-language=INI
+
+# these are generated but just in case
+*.lz binary   diff=hex
+*.2bpp binary diff=hex
+*.1bpp binary diff=hex

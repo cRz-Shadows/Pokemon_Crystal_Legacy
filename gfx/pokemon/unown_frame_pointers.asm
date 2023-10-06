@@ -1,0 +1,29 @@
+UnownFramesPointers:
+	table_width 2, UnownFramesPointers
+	dw UnownAFrames
+	dw UnownBFrames
+	dw UnownCFrames
+	dw UnownDFrames
+	dw UnownEFrames
+	dw UnownFFrames
+	dw UnownGFrames
+	dw UnownHFrames
+	dw UnownIFrames
+	dw UnownJFrames
+	dw UnownKFrames
+	dw UnownLFrames
+	dw UnownMFrames
+	dw UnownNFrames
+	dw UnownOFrames
+	dw UnownPFrames
+	dw UnownQFrames
+	dw UnownRFrames
+	dw UnownSFrames
+	dw UnownTFrames
+	dw UnownUFrames
+	dw UnownVFrames
+	dw UnownWFrames
+	dw UnownXFrames
+	dw UnownYFrames
+	dw UnownZFrames
+	assert_table_length NUM_UNOWN
