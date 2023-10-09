@@ -2971,10 +2971,14 @@ wTMsHMs:: ds NUM_TMS + NUM_HMS
 wNumItems:: db
 wItems:: ds MAX_ITEMS * 2 + 1
 
-	ds 38
-
 wNumKeyItems:: db
 wKeyItems:: ds MAX_KEY_ITEMS + 1
+
+; wNumBalls:: db
+; wBalls:: ds MAX_BALLS * 2 + 1 ; remove
+
+; wNumPCItems:: db
+; wPCItems:: ds MAX_PC_ITEMS * 2 + 1 ; remove
 
 wPokegearFlags::
 ; bit 0: map
@@ -3084,7 +3088,8 @@ wMobileBattleRoomSceneID::                        db
 
 wNumBalls:: db
 wBalls:: ds MAX_BALLS * 2 + 1
-	ds 17
+	ds 23
+	; ds 49
 
 ; fight counts
 wJackFightCount::    db
@@ -3118,7 +3123,7 @@ wErinFightCount::    db
 
 wNumPCItems:: db
 wPCItems:: ds MAX_PC_ITEMS * 2 + 1
-	ds 38
+	; ds 100
 
 wEventFlags:: flag_array NUM_EVENTS
 

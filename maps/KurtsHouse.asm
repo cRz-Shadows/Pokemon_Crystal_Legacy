@@ -266,6 +266,13 @@ Kurt1:
 	iffalse .NoGSBall
 	writetext KurtsHouseKurtWhatIsThatText
 	waitbutton
+	readvar VAR_BADGES
+	if_less_than 7, .NotGot7Badges1
+	writetext KurtsHouseGSBallNoText
+	waitbutton
+	yesorno
+	iffalse .No
+.NotGot7Badges1
 	closetext
 	setevent EVENT_GAVE_GS_BALL_TO_KURT
 	takeitem GS_BALL
@@ -274,10 +281,10 @@ Kurt1:
 
 .GaveGSBallToKurt:
 	readvar VAR_BADGES
-	if_less_than 7, .NotGot7Badges
+	if_less_than 7, .NotGot7Badges2
 	checkflag ENGINE_KURT_MAKING_BALLS
 	iffalse .NotMakingBalls
-.NotGot7Badges:
+.NotGot7Badges2:
 	writetext KurtsHouseKurtImCheckingItNowText
 	waitbutton
 	writetext KurtsHouseKurtAhHaISeeText
@@ -313,6 +320,10 @@ Kurt1:
 	waitsfx
 	special RestartMapMusic
 	setmapscene AZALEA_TOWN, SCENE_AZALEATOWN_KURT_RETURNS_GS_BALL
+	end
+
+.No:
+	closetext
 	end
 
 Kurt2:
@@ -675,6 +686,18 @@ KurtsHouseCelebiStatueText:
 	text "It's a statue of"
 	line "the forest's pro-"
 	cont "tector."
+	done
+
+KurtsHouseGSBallNoText:
+	text "This one"
+	line "could take a"
+	cont "long time."
+
+	para "Are you sure"
+	line "you don't want"
+	cont "me to make"
+	cont "any more balls"
+	cont "first?"
 	done
 
 KurtsHouse_MapEvents:

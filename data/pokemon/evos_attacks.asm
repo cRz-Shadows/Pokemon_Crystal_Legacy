@@ -502,7 +502,7 @@ ClefairyEvosAttacks:
 	db 0 ; no more evolutions
 	db 1, POUND
 	db 1, GROWL
-	db 4, ENCORE
+	db 6, ENCORE
 	db 8, SING
 	db 13, DOUBLESLAP
 	db 19, MINIMIZE
@@ -518,7 +518,7 @@ ClefableEvosAttacks:
 	db 0 ; no more evolutions
 	db 1, POUND
 	db 1, GROWL
-	db 4, ENCORE
+	db 6, ENCORE
 	db 8, SING
 	db 13, DOUBLESLAP
 	db 19, MINIMIZE
@@ -566,7 +566,7 @@ JigglypuffEvosAttacks:
 	db 0 ; no more evolutions
 	db 1, SING
 	db 1, POUND
-	db 5, DEFENSE_CURL
+	db 6, DEFENSE_CURL
 	db 9, CHARM
 	db 14, DISABLE
 	db 16, DOUBLESLAP
@@ -581,7 +581,7 @@ WigglytuffEvosAttacks:
 	db 0 ; no more evolutions
 	db 1, SING
 	db 1, POUND
-	db 5, DEFENSE_CURL
+	db 6, DEFENSE_CURL
 	db 9, CHARM
 	db 14, DISABLE
 	db 16, DOUBLESLAP
@@ -1481,8 +1481,9 @@ KinglerEvosAttacks:
 	db 23, STOMP
 	db 27, CRABHAMMER
 	db 28, METAL_CLAW
-	db 38, PROTECT
-	db 45, GUILLOTINE
+	db 37, PROTECT
+	db 44, GUILLOTINE
+	db 51, CRABHAMMER
 	db 0 ; no more level-up moves
 
 VoltorbEvosAttacks:
@@ -1845,20 +1846,21 @@ MrMimeEvosAttacks:
 	db 0 ; no more level-up moves
 
 ScytherEvosAttacks:
-	db EVOLVE_ITEM, METAL_COAT, SCIZOR
-	db 0 ; no more evolutions
-	db 1, QUICK_ATTACK
-	db 1, LEER
-	db 6, FOCUS_ENERGY
-	db 12, PURSUIT
-	db 16, CUT
-	db 18, FALSE_SWIPE
-	db 30, WING_ATTACK
-	db 36, SLASH
-	db 40, AGILITY
-	db 43, DOUBLE_TEAM
-	db 48, SWORDS_DANCE
-	db 0 ; no more level-up moves
+    db EVOLVE_ITEM, METAL_COAT, SCIZOR
+    db 0 ; no more evolutions
+    db 1, QUICK_ATTACK
+    db 1, LEER
+    db 6, FOCUS_ENERGY
+    db 12, PURSUIT
+    db 16, CUT
+    db 18, FALSE_SWIPE
+    db 24, AGILITY
+    db 30, WING_ATTACK
+    db 36, SLASH
+    db 42, TWINEEDLE
+    db 48, DOUBLE_TEAM
+    db 54, SWORDS_DANCE
+    db 0 ; no more level-up moves
 
 JynxEvosAttacks:
 	db 0 ; no more evolutions
@@ -1907,19 +1909,18 @@ MagmarEvosAttacks:
 	db 0 ; no more level-up moves
 
 PinsirEvosAttacks:
-	db 0 ; no more evolutions
-	db 1, VICEGRIP
-	db 7, FOCUS_ENERGY
-	db 13, BIND
-	db 15, ROCK_SMASH
-	db 19, SEISMIC_TOSS
-	db 25, TWINEEDLE
-	db 27, HARDEN
-	db 31, GUILLOTINE
-	db 37, SUBMISSION
-	db 43, SWORDS_DANCE
-	db 48, MEGAHORN
-	db 0 ; no more level-up moves
+    db 0 ; no more evolutions
+    db 1, VICEGRIP
+    db 7, FOCUS_ENERGY
+    db 13, BIND
+    db 19, SEISMIC_TOSS
+    db 25, TWINEEDLE
+    db 27, HARDEN
+    db 31, GUILLOTINE
+    db 37, SUBMISSION
+    db 43, SWORDS_DANCE
+    db 48, MEGAHORN
+    db 0 ; no more level-up moves
 
 TaurosEvosAttacks:
 	db 0 ; no more evolutions
@@ -2602,7 +2603,7 @@ CleffaEvosAttacks:
 	db 0 ; no more evolutions
 	db 1, POUND
 	db 1, CHARM
-	db 4, ENCORE
+	db 6, ENCORE
 	db 8, SING
 	db 13, SWEET_KISS
 	db 0 ; no more level-up moves
@@ -2612,7 +2613,7 @@ IgglybuffEvosAttacks:
 	db 0 ; no more evolutions
 	db 1, SING
 	db 1, CHARM
-	db 4, DEFENSE_CURL
+	db 6, DEFENSE_CURL
 	db 9, POUND
 	db 14, SWEET_KISS
 	db 0 ; no more level-up moves
@@ -3131,19 +3132,19 @@ QwilfishEvosAttacks:
 	db 0 ; no more level-up moves
 
 ScizorEvosAttacks:
-	db 0 ; no more evolutions
-	db 1, QUICK_ATTACK
-	db 1, LEER
-	db 6, FOCUS_ENERGY
-	db 12, PURSUIT
-	db 18, FALSE_SWIPE
-	db 24, AGILITY
-	db 27, TWINEEDLE
-	db 30, METAL_CLAW
-	db 36, SLASH
-	db 42, DOUBLE_TEAM
-	db 48, SWORDS_DANCE
-	db 0 ; no more level-up moves
+    db 0 ; no more evolutions
+    db 1, QUICK_ATTACK
+    db 1, LEER
+    db 6, FOCUS_ENERGY
+    db 12, PURSUIT
+    db 18, FALSE_SWIPE
+    db 24, DOUBLE_TEAM
+    db 30, METAL_CLAW
+    db 36, SLASH
+    db 42, TWINEEDLE
+    db 48, SWORDS_DANCE
+    db 54, AGILITY
+    db 0 ; no more level-up moves
 
 ShuckleEvosAttacks:
 	db 0 ; no more evolutions
@@ -3163,19 +3164,18 @@ ShuckleEvosAttacks:
 	db 0 ; no more level-up moves
 
 HeracrossEvosAttacks:
-	db 0 ; no more evolutions
-	db 1, TACKLE
-	db 1, LEER
-	db 5, PIN_MISSILE
-	db 6, HORN_ATTACK
-	db 12, ENDURE
-	db 19, ROCK_SMASH
-	db 26, FURY_ATTACK
-	db 35, TAKE_DOWN
-	db 44, REVERSAL
-	db 45, MEGAHORN
-	db 50, CROSS_CHOP
-	db 0 ; no more level-up moves
+    db 0 ; no more evolutions
+    db 1, TACKLE
+    db 1, LEER
+    db 5, PIN_MISSILE
+    db 6, HORN_ATTACK
+    db 12, ENDURE
+    db 26, FURY_ATTACK
+    db 35, TAKE_DOWN
+    db 44, REVERSAL
+    db 45, MEGAHORN
+    db 50, CROSS_CHOP
+    db 0 ; no more level-up moves
 
 SneaselEvosAttacks:
 	db 0 ; no more evolutions
@@ -3357,20 +3357,20 @@ SkarmoryEvosAttacks:
 	db 41, DRILL_PECK
 	db 0 ; no more level-up moves
 
-HoundourEvosAttacks:
-	db EVOLVE_LEVEL, 24, HOUNDOOM
-	db 0 ; no more evolutions
-	db 1, LEER
-	db 1, EMBER
-	db 7, ROAR
-	db 13, SMOG
-	db 20, BITE
-	db 22, FLAME_WHEEL
-	db 27, FAINT_ATTACK
-	db 35, FLAMETHROWER
-	db 43, CRUNCH
-	db 0 ; no more level-up moves
-
+	HoundourEvosAttacks:
+    db EVOLVE_LEVEL, 24, HOUNDOOM
+    db 0 ; no more evolutions
+    db 1, LEER
+    db 1, EMBER
+    db 7, ROAR
+    db 12, BITE
+    db 17, SMOG
+    db 22, FLAME_WHEEL
+    db 27, FAINT_ATTACK
+    db 35, FLAMETHROWER
+    db 43, CRUNCH
+    db 0 ; no more level-up moves
+	
 HoundoomEvosAttacks:
 	db 0 ; no more evolutions
 	db 1, LEER

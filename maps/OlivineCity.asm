@@ -265,7 +265,7 @@ OlivineCitySailor2Text:
 	para "Bureaucracy if"
 	line "you ask me."
 	
-	para "She's somethibng"
+	para "She's something"
 	line "to be feared,"
 	cont "That's for sure!"
 	done

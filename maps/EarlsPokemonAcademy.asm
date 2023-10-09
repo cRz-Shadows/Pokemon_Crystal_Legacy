@@ -258,7 +258,7 @@ EarlsPokemonAcademyYoungster1Text:
 	cont "TYROGUE has led"
 	
 	para "to a new #MON"
-	line "dsicovery."
+	line "discovery."
 	done
 
 EarlsPokemonAcademyGameboyKid1Text:

@@ -745,10 +745,10 @@ _CGB_TrainerCardKanto:
 	ld a, LT_SURGE ; ERIKA
 	call GetTrainerPalettePointer
 	call LoadPalette_White_Col1_Col2_Black
-	ld a, JANINE
+	ld a, SABRINA
 	call GetTrainerPalettePointer
 	call LoadPalette_White_Col1_Col2_Black
-	ld a, SABRINA
+	ld a, JANINE
 	call GetTrainerPalettePointer
 	call LoadPalette_White_Col1_Col2_Black
 	ld a, BLAINE
