@@ -179,7 +179,7 @@ OakBattleKantoE4Text:
 	line "the KANTO LEAGUE!"
 
 	para "Only then will"
-	line "you truely have"
+	line "you truly have"
 	cont "what it takes."
 	done
 

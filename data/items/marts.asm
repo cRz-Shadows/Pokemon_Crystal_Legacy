@@ -396,7 +396,7 @@ MartCeladon5F2:
 	db -1 ; end
 
 MartCeladon5F2_2:
-	db 8 ; # items
+	db 9 ; # items
 	db TM_HIDDEN_POWER
 	db TM_SWAGGER
 	db TM_SNORE
