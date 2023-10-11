@@ -9,11 +9,11 @@ BattleTowerTrainers:
 	db "Tiberius@@", POKEMANIAC
 	db "MASUDA@@@@", GUITARIST
 	db "Karlos@@@@", SCIENTIST
-	db "OLSON@@@@@", POKEFANM
+	db "SoulXCross", TEACHER
 	db "ZABOROWSKI", LASS
 	db "Nift@@@@@@", BOARDER
 	db "Sable@@@@@", HIKER
-	db "KAWAKAMI@@", TEACHER
+	db "Obelisk@@@", TEACHER
 	db "Aero@@@@@@", COOLTRAINERM
 	db "Disq@@@@@@", KIMONO_GIRL
 	db "Joshua@@@@", OFFICER

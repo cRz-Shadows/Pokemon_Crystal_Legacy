@@ -1605,7 +1605,7 @@ JohtoGrassWildMons:
 	db 32, LICKITUNG
 	db 32, WEEPINBELL
 	db 34, PIDGEOTTO
-	db 33, CHANSEY
+	db 33, WEEPINBELL
 	db 36, ELECTABUZZ
 	db 36, ELECTABUZZ
 	; day
@@ -1613,7 +1613,7 @@ JohtoGrassWildMons:
 	db 32, LICKITUNG
 	db 32, WEEPINBELL
 	db 34, PIDGEOTTO
-	db 33, CHANSEY
+	db 33, WEEPINBELL
 	db 36, ELECTABUZZ
 	db 36, ELECTABUZZ
 	; nite
@@ -1621,7 +1621,7 @@ JohtoGrassWildMons:
 	db 32, LICKITUNG
 	db 32, WEEPINBELL
 	db 34, POLIWHIRL
-	db 33, CHANSEY
+	db 33, WEEPINBELL
 	db 36, ELECTABUZZ
 	db 36, ELECTABUZZ
 	end_grass_wildmons

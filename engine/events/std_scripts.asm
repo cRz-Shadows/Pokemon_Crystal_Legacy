@@ -76,7 +76,7 @@ PokecenterNurseScript:
 	sjump .ok
 .morn_comcenter
 	opentext
-	farwritetext PokeComNurseMornText
+	farwritetext NurseMornText
 	promptbutton
 	sjump .ok_first_time
 
@@ -90,7 +90,7 @@ PokecenterNurseScript:
 	sjump .ok
 .day_comcenter
 	opentext
-	farwritetext PokeComNurseDayText
+	farwritetext NurseDayText
 	promptbutton
 	sjump .ok_first_time
 
@@ -104,7 +104,7 @@ PokecenterNurseScript:
 	sjump .ok
 .nite_comcenter
 	opentext
-	farwritetext PokeComNurseNiteText
+	farwritetext NurseNiteText
 	promptbutton
 	sjump .ok_first_time
 .ok_first_time

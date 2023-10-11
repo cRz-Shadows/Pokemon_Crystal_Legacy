@@ -244,13 +244,19 @@ ClairText_NoRoom:
 	done
 
 ClairText_WhatsTheMatterDragonDen:
-	text "CLAIR: With all 8"
-	line "badges, you can"
+	text "CLAIR: What's the"
+	line "matter? Aren't you"
+
+	para "going on to the"
+	line "#MON LEAGUE?"
+
+	para "After you become"
+	line "CHAMPION, you can"
 
 	para "rematch any GYM"
-	line "LEADER you want"
+	line "LEADER you want."
 	
-	para "or go to the"
+	para "Go to the"
 	line "#MON LEAGUE."
 
 	para "Do you know how to"

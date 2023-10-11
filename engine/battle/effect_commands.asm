@@ -697,6 +697,11 @@ BattleCommand_CheckObedience:
 	ld a, 30
 	jr nz, .getlevel
 
+	; zephyrbadge
+	bit ZEPHYRBADGE, [hl]
+	ld a, 16
+	jr nz, .getlevel
+
 	; no badges
 	ld a, 10
 

@@ -339,7 +339,7 @@ SagePingBeatenText:
 	done
 
 SagePingAfterBattleText:
-	text "We use only ghost-"
+	text "We use GHOST-"
 	line "type #MON."
 
 	para "No NORMAL-type"

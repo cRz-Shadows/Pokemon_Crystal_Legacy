@@ -207,7 +207,7 @@ VioletCityLassText:
 	line "to appear in"
 	cont "SPROUT TOWER."
 
-	para "They say ghost-"
+	para "They say GHOST-"
 	line "type #MON moves"
 
 	para "seem to bypass"

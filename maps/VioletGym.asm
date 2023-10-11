@@ -282,9 +282,9 @@ BirdKeeperAbeAfterBattleText:
 
 VioletGymGuideText:
 	text "Hey! What's up?"
-	line "I'm no train-"
+	line "I'm no trainer"
 	
-	para "er but I can give"
+	para "but I can give"
 	line "some advice!"
 
 	para "Believe me!"

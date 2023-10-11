@@ -178,7 +178,7 @@ BugsyText_INeverLose:
 	line "did you know the"
 	cont "move CUT is"
 	
-	para "actually a bug"
+	para "actually a BUG-"
 	line "type move?"
 	
 	para "Let me demonstrate"

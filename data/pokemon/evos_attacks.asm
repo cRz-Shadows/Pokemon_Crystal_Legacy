@@ -1868,11 +1868,11 @@ JynxEvosAttacks:
 	db 1, LOVELY_KISS
 	db 1, POWDER_SNOW
 	db 1, CONFUSION
-	db 9, LOVELY_KISS
 	db 13, POWDER_SNOW
 	db 21, DOUBLESLAP
 	db 25, ICE_PUNCH
-	db 35, MEAN_LOOK
+	db 34, LOVELY_KISS
+	db 36, MEAN_LOOK
 	db 39, PSYCHIC_M
 	db 41, BODY_SLAM
 	db 51, PERISH_SONG
@@ -2102,6 +2102,7 @@ KabutoEvosAttacks:
 	db 30, ANCIENTPOWER
 	db 35, MEGA_DRAIN
 	db 40, ENDURE
+	db 43, SWORDS_DANCE
 	db 46, ROCK_SLIDE
 	db 0 ; no more level-up moves
 
@@ -2119,6 +2120,7 @@ KabutopsEvosAttacks:
 	db 35, MEGA_DRAIN
 	db 37, ENDURE
 	db 40, SLASH
+	db 43, SWORDS_DANCE
 	db 46, ROCK_SLIDE
 	db 0 ; no more level-up moves
 
@@ -2629,6 +2631,7 @@ TogepiEvosAttacks:
 	db 25, ENCORE
 	db 31, SAFEGUARD
 	db 38, DOUBLE_EDGE
+	db 43, TRI_ATTACK
 	db 0 ; no more level-up moves
 
 TogeticEvosAttacks:
@@ -2641,6 +2644,7 @@ TogeticEvosAttacks:
 	db 27, WING_ATTACK
 	db 31, SAFEGUARD
 	db 38, DOUBLE_EDGE
+	db 43, TRI_ATTACK
 	db 0 ; no more level-up moves
 
 NatuEvosAttacks:
@@ -2652,6 +2656,7 @@ NatuEvosAttacks:
 	db 10, NIGHT_SHADE
 	db 20, TELEPORT
 	db 35, PSYCHIC_M
+	db 40, WING_ATTACK
 	db 45, FUTURE_SIGHT
 	db 50, CONFUSE_RAY
 	db 0 ; no more level-up moves
@@ -2666,6 +2671,7 @@ XatuEvosAttacks:
 	db 25, PSYBEAM
 	db 30, RECOVER
 	db 35, PSYCHIC_M
+	db 40, WING_ATTACK
 	db 45, FUTURE_SIGHT
 	db 50, CONFUSE_RAY
 	db 0 ; no more level-up moves

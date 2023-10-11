@@ -179,7 +179,7 @@ Route33LassText:
 	line "bigger than I'd"
 	cont "expected."
 
-	para "I got too tired to"
+	para "I got too tired"
 	line "exploring for"
 
 	para "MARILL, so I came"
