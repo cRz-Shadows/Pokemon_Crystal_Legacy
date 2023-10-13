@@ -712,7 +712,7 @@ BlueCardDesc:
 	next "points.@"
 
 MiracleSeedDesc:
-	db   "Powers up grass-"
+	db   "Powers up GRASS-"
 	next "type moves. (HOLD)@"
 
 ThickClubDesc:

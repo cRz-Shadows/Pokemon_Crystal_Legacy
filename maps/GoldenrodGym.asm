@@ -399,7 +399,7 @@ GoldenrodGymGuideText:
 	para "but I've seen it"
 	line "shatter rocks."
 	
-	para "Head to Route 34"
+	para "Head to ROUTE 34"
 	line "if you need a"
 	cont "FIGHTING-type."
 	done

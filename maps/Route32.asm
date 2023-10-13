@@ -590,7 +590,7 @@ Route32CooltrainerMText_HaveThisSeed:
 	cont "this."
 
 	para "It increases the"
-	line "power of grass-"
+	line "power of GRASS-"
 	cont "type moves."
 	done
 
