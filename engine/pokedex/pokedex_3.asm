@@ -150,6 +150,42 @@ DrawDexEntryScreenRightEdge:
 	ldh [hBGMapAddress + 1], a
 	ret
 
+DrawDexEntryScreenRightEdge_Evo:
+	ldh a, [hBGMapAddress]
+	ld l, a
+	ldh a, [hBGMapAddress + 1]
+	ld h, a
+	push hl
+	inc hl
+	ld a, l
+	ldh [hBGMapAddress], a
+	ld a, h
+	ldh [hBGMapAddress + 1], a
+	hlcoord 19, 0
+	ld [hl], $66
+	hlcoord 19, 1
+	ld a, $67
+	ld b, 16
+	call Pokedex_FillColumn2
+	; ld [hl], $68
+	hlcoord 19, 17
+	ld [hl], $68
+	xor a
+	ld b, SCREEN_HEIGHT
+	hlcoord 19, 0, wAttrmap
+	call Pokedex_FillColumn2
+
+	; ld b, SCGB_POKEDEX_EVO
+	; call GetSGBLayout
+
+	call WaitBGMap2
+	pop hl
+	ld a, l
+	ldh [hBGMapAddress], a
+	ld a, h
+	ldh [hBGMapAddress + 1], a
+	ret
+
 Pokedex_FillColumn2:
 ; A local duplicate of Pokedex_FillColumn.
 	push de

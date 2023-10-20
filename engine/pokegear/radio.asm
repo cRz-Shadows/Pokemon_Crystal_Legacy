@@ -692,9 +692,16 @@ PokedexShow2:
 	ld b, 0
 	add hl, bc
 	add hl, bc
+	add hl, bc
+	; b = bank
+	ld a, BANK(PokedexDataPointerTable)
+	call GetFarByte
+	ld b, a
+	inc hl
+	; hl = address
 	ld a, BANK(PokedexDataPointerTable)
 	call GetFarWord
-	call PokedexShow_GetDexEntryBank
+	ld a, b
 	push af
 	push hl
 	call CopyDexEntryPart1

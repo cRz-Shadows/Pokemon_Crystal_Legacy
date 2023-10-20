@@ -1359,6 +1359,106 @@ endr
 	call FarCopyWRAM
 	ret
 
+LoadCPaletteBytesFromHLIntoDE:
+	; Loads the number of Palettes passed in 'c' when called
+	; Source address is 'hl'
+	; Destination address is 'de'
+	ldh a, [rSVBK]
+	push af
+	ld a, BANK("GBC Video")
+	ldh [rSVBK], a
+.loop
+	ld a, [hli]
+	ld [de], a
+	inc de
+	dec c
+	jr nz, .loop
+	pop af
+	ldh [rSVBK], a
+	ret
+
+LoadMonBaseTypePal:
+	; destination address of Palette and Slot is passed in 'de'
+	; Type Index (already fixed/adjusted if a Special Type) is passed in 'c'
+	ld hl, TypeIconPals ; pointer to the Type Colors designated in gfx\types_cats_status_pals.asm
+	ld a, c ; c is the Type Index
+	add a
+	ld c, a
+	ld b, 0
+	add hl, bc
+	ld bc, 2
+	jp FarCopyColorWRAM
+
+LoadDexTypePals:
+	ldh a, [rSVBK]
+	push af
+	ld a, BANK(wBGPals1)
+	ldh [rSVBK], a
+	xor a
+	ld [de], a
+	inc de
+	ld [de], a
+	inc de
+	pop af
+	ldh [rSVBK], a	
+
+	ld hl, TypeIconPals
+	ld a, b
+	add a
+	push bc
+	ld c, a
+	ld b, 0
+	add hl, bc
+	ld bc, 2
+	push de
+	call FarCopyColorWRAM
+	pop de
+
+	ld hl, TypeIconPals
+	pop bc
+	ld a, c
+	add a
+	ld c, a
+	ld b, 0
+	add hl, bc
+	inc de
+	inc de
+	ld bc, 2
+	push de
+	call FarCopyColorWRAM
+	pop de
+	inc de
+	inc de
+
+	ldh a, [rSVBK]
+	push af
+	ld a, BANK(wBGPals1)
+	ldh [rSVBK], a
+	xor a
+	ld [de], a
+	inc de
+	ld [de], a
+	inc de
+	pop af
+	ldh [rSVBK], a
+	ret
+
+LoadSingleBlackPal:
+	; Destination address of the Palette and Slot is passed in 'de'
+	ldh a, [rSVBK]
+	push af
+	ld a, BANK(wBGPals1)
+	ldh [rSVBK], a
+	xor a ; the color black is $0000
+	ld [de], a
+	inc de
+	ld [de], a
+	inc de
+
+	pop af
+	ldh [rSVBK], a
+	ret
+
 INCLUDE "data/maps/environment_colors.asm"
 
 PartyMenuBGMobilePalette:
@@ -1405,6 +1505,46 @@ INCLUDE "gfx/beta_poker/beta_poker.pal"
 SlotMachinePals:
 INCLUDE "gfx/slots/slots.pal"
 
+TypeIconPals:
+; NORMAL
+	RGB 21, 21, 14
+; FIGHTING
+	RGB 27, 04, 02
+; FLYING
+	RGB 22, 17, 30
+; POISON
+	RGB 22, 07, 19
+; GROUND
+	RGB 29, 24, 12
+; ROCK
+	RGB 24, 20, 07
+; BUG
+	RGB 21, 23, 06
+; GHOST
+	RGB 15, 11, 18
+; STEEL
+	RGB 23, 23, 25
+; FIRE
+	RGB 31, 15, 04
+; WATER
+	RGB 11, 18, 30
+; GRASS
+	RGB 11, 25, 11
+; ELECTRIC
+	RGB 31, 24, 06
+; PSYCHIC
+	RGB 31, 09, 15
+; ICE
+	RGB 16, 27, 27
+; DRAGON
+	RGB 15, 07, 31
+; DARK
+	RGB 15, 11, 09
+; FAIRY
+	RGB 31, 20, 29
+; UNKNOWN T
+	RGB 13, 19, 19
+	
 ; Input: E must contain the offset of the selected palette from PartyMenuOBPals.
 SetFirstOBJPalette::
 	ld hl, PartyMenuOBPals

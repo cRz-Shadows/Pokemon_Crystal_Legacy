@@ -116,12 +116,20 @@
 	charmap "y",         $b8
 	charmap "z",         $b9
 
-	charmap "┌",         $ba
-	charmap "─",         $bb
-	charmap "┐",         $bc
-	charmap "│",         $bd
-	charmap "└",         $be
-	charmap "┘",         $bf
+	charmap ">",		 $ba
+	charmap "<",		 $bb
+	charmap "=",		 $bc
+	charmap "+",		 $bd
+	charmap "<%>",		 $be
+	charmap "<BOLD_P>",	 $bf
+	charmap "<BOLD_C>",	 $c0
+
+	charmap "┌",         $c1
+	charmap "─",         $c2
+	charmap "┐",         $c3
+	charmap "│",         $c4
+	charmap "└",         $c5
+	charmap "┘",         $c6
 
 	charmap "′",         $ce
 	charmap "″",         $cf
@@ -137,8 +145,8 @@
 	charmap "■",         $d7
 	charmap "▲",         $d8
 	charmap "☎",         $d9
-	charmap "<BOLD_V>",  $da
-	charmap "<BOLD_S>",  $db
+	charmap "<BOLD_A>",  $da
+	charmap "<BOLD_B>",  $db
 	charmap "<COLON>",   $dc ; colon with tinier dots than ":"
 	charmap "“",         $dd ; opening quote
 	charmap "”",         $de ; closing quote
@@ -166,7 +174,7 @@
 	charmap "♂",         $ef
 	charmap "¥",         $f0
 	charmap "×",         $f1
-	charmap "<DOT>",     $f2 ; decimal point; same as "." in English
+	charmap "…",         $f2 ; ellipsis
 	charmap "/",         $f3
 	charmap ",",         $f4
 	charmap "♀",         $f5
@@ -393,5 +401,12 @@
 
 ; ASCII charmap, for mobile functions
 pushc
-newcharmap ascii
+	newcharmap ascii
+	DEF PRINTABLE_ASCII EQUS " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz\{|}~"
+	for i, STRLEN("{PRINTABLE_ASCII}")
+		charmap STRSUB("{PRINTABLE_ASCII}", i + 1, 1), i + $20
+	endr
+	charmap "\t", $09
+	charmap "\n", $0a
+	charmap "\r", $0d
 popc

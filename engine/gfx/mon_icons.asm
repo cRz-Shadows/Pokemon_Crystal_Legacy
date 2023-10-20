@@ -22,7 +22,7 @@ SetMenuMonIconColor:
 	ld [wCurPartySpecies], a
 	call GetMenuMonIconPalette
 	ld hl, wVirtualOAMSprite00Attributes
-	jr _ApplyMenuMonIconColor
+	jp _ApplyMenuMonIconColor
 
 SetMenuMonIconColor_NoShiny:
 	push hl
@@ -35,7 +35,51 @@ SetMenuMonIconColor_NoShiny:
 	and a
 	call GetMenuMonIconPalette_PredeterminedShininess
 	ld hl, wVirtualOAMSprite00Attributes
-	jr _ApplyMenuMonIconColor
+	jp _ApplyMenuMonIconColor
+
+SetDexMonIconColor_NoShiny:
+	push hl
+	push de
+	push bc
+	push af
+
+	ld a, [wTempIconSpecies]
+	ld [wCurPartySpecies], a
+	and a
+	call GetMenuMonIconPalette_PredeterminedShininess
+	ld hl, wVirtualOAMSprite00Attributes
+	push af
+	ldh a, [hObjectStructIndex]
+	swap a
+	ld d, 0
+	ld e, a
+	add hl, de
+	pop af
+	jp _ApplyMenuMonIconColor
+SetDexMonIconColor_SpritePage:
+	push hl
+	push de
+	push bc
+	push af
+
+	ld a, [wTempIconSpecies]
+	ld [wCurPartySpecies], a
+	and a
+	ld hl, wPokedexShinyToggle
+	bit 0, [hl]
+	jr z, .not_shiny
+	scf
+.not_shiny
+	call GetMenuMonIconPalette_PredeterminedShininess
+	ld hl, wVirtualOAMSprite00Attributes
+	push af
+	ldh a, [hObjectStructIndex]
+	swap a
+	ld d, 0
+	ld e, a
+	add hl, de
+	pop af
+	jp _ApplyMenuMonIconColor
 
 LoadPartyMenuMonIconColors:
 	push hl
@@ -155,7 +199,7 @@ LoadMenuMonIcon:
 	dw Trade_LoadMonIconGFX             ; MONICON_TRADE
 	dw Mobile_InitAnimatedMonIcon       ; MONICON_MOBILE1
 	dw Mobile_InitPartyMenuBGPal71      ; MONICON_MOBILE2
-	dw Unused_GetPartyMenuMonIcon       ; MONICON_UNUSED
+	dw Pokedex_InitAnimatedMonIcon       ; MONICON_UNUSED
 
 Unused_GetPartyMenuMonIcon:
 	call InitPartyMenuIcon
@@ -361,6 +405,55 @@ MoveList_InitAnimatedMonIcon:
 	ld hl, SPRITEANIMSTRUCT_ANIM_SEQ_ID
 	add hl, bc
 	ld [hl], SPRITE_ANIM_SEQ_NULL
+	ret
+
+Pokedex_InitAnimatedMonIcon:
+	ld a, [wCurPartySpecies]
+	push af
+	ld a, [wTempSpecies]
+	ld [wCurPartySpecies], a
+	call SetDexMonIconColor_NoShiny
+	
+	ld a, [wTempIconSpecies]
+	call ReadMonMenuIcon
+	ld [wCurIcon], a
+	call GetMemIconGFX
+
+	ld a, [wStatsScreenFlags]
+	cp 11
+	jr nz, .evo_page
+	ld a, -1
+	ld [wStatsScreenFlags], a
+	ld d, $88
+	ld e, $20
+	jr .setxdone
+.evo_page
+	ld a, [wStatsScreenFlags]
+	inc a
+; y coord
+	ld c, 32
+	call SimpleMultiply
+	add $28 ;$20
+	ld d, a
+; x coord
+	ld e, $19 ; $20
+.setxdone
+; type is partymon icon
+	ld a, SPRITE_ANIM_INDEX_PARTY_MON
+	call _InitSpriteAnimStruct
+
+	ld a, [wCurIconTile]
+	sub 10
+	ld hl, SPRITEANIMSTRUCT_TILE_ID
+	add hl, bc
+	ld [hl], a
+
+	ld hl, SPRITEANIMSTRUCT_ANIM_SEQ_ID
+	add hl, bc
+	ld [hl], SPRITE_ANIM_SEQ_NULL
+	
+	pop af
+	ld [wCurPartySpecies], a
 	ret
 
 Trade_LoadMonIconGFX:

@@ -22,11 +22,11 @@ _LoadStandardFont::
 	call Get1bppViaHDMA
 	ld de, Font + 32 * LEN_1BPP_TILE
 	ld hl, vTiles1 tile $20
-	lb bc, BANK(Font), 26 ; "a" to "z" (skip "┌" to "┘")
+	lb bc, BANK(Font), 33 ; "a" to "z" (skip "┌" to "┘")
 	call Get1bppViaHDMA
-	ld de, Font + 64 * LEN_1BPP_TILE
-	ld hl, vTiles1 tile $40
-	lb bc, BANK(Font), 32 ; $c0 to "←"
+	ld de, Font + 77 * LEN_1BPP_TILE
+	ld hl, vTiles1 tile $4d
+	lb bc, BANK(Font), 19 ; $c0 to "←"
 	call Get1bppViaHDMA
 	ld de, Font + 96 * LEN_1BPP_TILE
 	ld hl, vTiles1 tile $60
@@ -43,7 +43,7 @@ _LoadFontsExtra2::
 _LoadFontsBattleExtra::
 	ld de, FontBattleExtra
 	ld hl, vTiles2 tile $60
-	lb bc, BANK(FontBattleExtra), 25
+	lb bc, BANK(FontBattleExtra), 16
 	call Get2bppViaHDMA
 	jr LoadFrame
 

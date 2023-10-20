@@ -173,7 +173,6 @@ INCLUDE "engine/pokedex/pokedex.asm"
 INCLUDE "data/moves/moves.asm"
 INCLUDE "engine/pokemon/evolve.asm"
 
-
 SECTION "bank11", ROMX
 
 INCLUDE "engine/events/fruit_trees.asm"
@@ -474,13 +473,10 @@ INCLUDE "engine/movie/intro.asm"
 SECTION "bank3E", ROMX
 
 INCLUDE "engine/gfx/load_font.asm"
-INCLUDE "engine/link/time_capsule.asm"
 INCLUDE "engine/events/name_rater.asm"
 INCLUDE "engine/events/play_slow_cry.asm"
 INCLUDE "engine/pokedex/new_pokedex_entry.asm"
-INCLUDE "engine/link/time_capsule_2.asm"
 INCLUDE "engine/pokedex/unown_dex.asm"
-INCLUDE "engine/events/magikarp.asm"
 INCLUDE "engine/battle/hidden_power.asm"
 INCLUDE "engine/battle/misc.asm"
 
@@ -689,6 +685,22 @@ SECTION "Crystal Events", ROMX
 INCLUDE "engine/events/battle_tower/load_trainer.asm"
 INCLUDE "engine/events/odd_egg.asm"
 
+SECTION "DEX GFX 2", ROMX
+PokedexLZ:
+INCBIN "gfx/pokedex/pokedex.2bpp.lz"
+PokedexSlowpokeLZ:
+INCBIN "gfx/pokedex/slowpoke.2bpp.lz"
+Pokedex_ExtraTiles:
+INCBIN "gfx/pokedex/rangi_dex_tiles.2bpp"
+Pokedex_PageNumTiles:
+INCBIN "gfx/pokedex/dex_pagenums.2bpp"
+
+SECTION "Map GroupNums Names", ROMX
+INCLUDE "data/maps/map_names.asm"
+SECTION "Bank3E Overflow", ROMX
+INCLUDE "engine/link/time_capsule.asm"
+INCLUDE "engine/link/time_capsule_2.asm"
+INCLUDE "engine/events/magikarp.asm"
 
 SECTION "Stadium 2 Checksums", ROMX[$7DE0], BANK[$7F]
 
