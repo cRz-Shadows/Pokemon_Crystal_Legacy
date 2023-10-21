@@ -45,6 +45,8 @@ SpecialsPointers::
 	add_special DayCareLady
 	add_special DayCareManOutside
 	add_special MoveDeletion
+	add_special MoveReminder
+	add_special EggMoveReminder
 	add_special BankOfMom
 	add_special MagnetTrain
 	add_special NameRival
