@@ -104,6 +104,31 @@ CreditsStringsPointers:
 	dw .UsCoordination
 	dw .TextTranslation
 	dw .PaadTesting
+	dw .CreatedBy
+	dw .SmithPlaysPokemons
+	dw .Dev
+	dw .TheSmithPlays
+	dw .cRzShadows
+	dw .Editor
+	dw .Weebra
+	dw .DiscordAdmin
+	dw .Jaas
+	dw .Moderators
+	dw .Mod1
+	dw .Mod2
+	dw .Mod3
+	dw .Mod4
+	dw .Playtesters
+	dw .Tester1
+	dw .Tester2
+	dw .Tester3
+	dw .Tester4
+	dw .Tester5
+	dw .Tester6
+	dw .Tester7
+	dw .Tester8
+	dw .Tester9
+	dw .Tester10
 	assert_table_length NUM_CREDITS_STRINGS
 
 .SatoshiTajiri:       db "   SATOSHI TAJIRI@"         ; "たじり　さとし@"
@@ -181,7 +206,7 @@ CreditsStringsPointers:
 .KazuyoshiOsawa:      db "  KAZUYOSHI OSAWA@"
 .KimikoNakamichi:     db "  KIMIKO NAKAMICHI@"
 .Staff:               db "      #MON"                 ; "ポケットモンスター"
-                    next "  CRYSTAL VERSION"          ; "　　クりスタル　バージョン"
+                    next "   CRYSTAL LEGACY"          ; "　　クりスタル　バージョン"
                     next "       STAFF@"              ; "　　　　スタッフ@"
 .Director:            db "      DIRECTOR@"            ; "エグゼクティブ　ディレクター@"
 .CoDirector:          db "    CO-DIRECTOR@"           ; "ディレクター@"
@@ -212,6 +237,31 @@ CreditsStringsPointers:
 .UsCoordination:      db "  US COORDINATION@"
 .TextTranslation:     db "  TEXT TRANSLATION@"
 .PaadTesting:         db "    PAAD TESTING@"
+.CreatedBy:		 	  db "    CREATED BY@"
+.SmithPlaysPokemons:  db " SMITHPLAYSPOKEMON@"
+.Dev:				  db "     DEVELOPER@"
+.TheSmithPlays: 	  db "  THE SMITH PLAYS@"
+.cRzShadows: 		  db " CRAIG LIVINGSTONE@"
+.Editor:			  db "      EDITOR@"
+.Weebra: 		      db "      WEEBRA@"
+.DiscordAdmin:		  db "   DISCORD ADMIN@"
+.Jaas:				  db "     JAASHOUH@"
+.Moderators:		  db "    MODERATORS@"
+.Mod1:				  db "       REGI@"
+.Mod2:				  db "       AERO@"
+.Mod3:				  db "       DAILY@"
+.Mod4:				  db "       ZACH@"
+.Playtesters:		  db "    PLAYTESTERS@"
+.Tester1:			  db "       DISQ@"
+.Tester2:			  db "     TIBERIUS@"
+.Tester3:			  db "       SABLE@"
+.Tester4:			  db "      NIFTIMO@"
+.Tester5:			  db "      TAVROS@"
+.Tester6:			  db "      KARLOS@"
+.Tester7:			  db "   READER DRAGON@"
+.Tester8:			  db "     HALF1SCH@"
+.Tester9:			  db "       Isona@"
+.Tester10:			  db "      Talos-8@"
 
 .Copyright:
 	;    (C) 1  9  9  5 - 2  0  0  1     N  i  n  t  e  n  d  o

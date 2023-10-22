@@ -5,19 +5,19 @@ BattleTowerTrainers:
 	; THIS IS FIXED!
 	table_width (NAME_LENGTH - 1) + 1, BattleTowerTrainers
 	; name, class
-	db "HANSON@@@@", FISHER
+	db "Isona@@@@@", TEACHER
 	db "Tiberius@@", POKEMANIAC
 	db "MASUDA@@@@", GUITARIST
 	db "Karlos@@@@", SCIENTIST
 	db "SoulXCross", TEACHER
-	db "ZABOROWSKI", LASS
+	db "TALOS@@@@@", EXECUTIVEM
 	db "Nift@@@@@@", BOARDER
 	db "Sable@@@@@", HIKER
 	db "Obelisk@@@", TEACHER
 	db "Aero@@@@@@", COOLTRAINERM
 	db "Disq@@@@@@", KIMONO_GIRL
 	db "Joshua@@@@", OFFICER
-	db "DIAZ@@@@@@", PICNICKER
+	db "Nayru@@@@@", MEDIUM
 	db "ERICKSON@@", BIKER
 	db "Regi@@@@@@", JUGGLER
 	db "Reader@@@@", POKEFANF
@@ -28,21 +28,21 @@ BattleTowerTrainers:
 	db "McMAHILL@@", CAMPER
 	assert_table_length BATTLETOWER_NUM_UNIQUE_MON
 ; The following can only be sampled in Crystal 1.1.
-	db "OBRIEN@@@@", GENTLEMAN
-	db "FROST@@@@@", BEAUTY
-	db "MORSE@@@@@", SUPER_NERD
-	db "YUFUNE@@@@", BLACKBELT_T
-	db "BICKETT@@@", POKEFANM
-	db "RODRIGUEZ@", OFFICER
-	db "SANTIAGO@@", PSYCHIC_T
-	db "STOCK@@@@@", POKEFANM
-	db "THURMAN@@@", SCIENTIST
-	db "VALENTINO@", BEAUTY
-	db "WAGNER@@@@", CAMPER
-	db "YATES@@@@@", BIRD_KEEPER
-	db "ANDREWS@@@", PICNICKER
-	db "BAHN@@@@@@", POKEMANIAC
-	db "MORI@@@@@@", SCIENTIST
+	db "Plague@@@@", TEACHER
+	db "Coral@@@@@", SUPER_NERD
+	db "Francis@@@", BOARDER
+	db "Zumi@@@@@@", SUPER_NERD
+	db "TSK@@@@@@@", COOLTRAINERM
+	db "Cadmium@@@", COOLTRAINERM
+	db "Ryomnar@@@", EXECUTIVEM
+	db "Ferro@@@@@", SUPER_NERD
+	db "Frank@@@@@", SCIENTIST
+	db "Sea@@@@@@@", KIMONO_GIRL
+	db "Oats@@@@@@", SUPER_NERD
+	db "Prof Ru@@@", SCIENTIST
+	db "Sacred@@@@", COOLTRAINERM
+	db "KBM@@@@@@@", BLACKBELT_T
+	db "Idain@@@@@", POKEMANIAC
 	db "BUCKMAN@@@", SAGE
 	db "KAUFMAN@@@", SWIMMERM
 	db "HUGHES@@@@", FISHER

@@ -103,6 +103,31 @@
 	const US_COORDINATION
 	const TEXT_TRANSLATION
 	const PAAD_TESTING
+	const CREATEDBY
+	const SMITHPLAYSPOKEMON
+	const DEV
+	const THESMITHPLAYS
+	const CRZSHADOWS
+	const EDITOR
+	const WEEBRACREDITS
+	const DISCORDADMIN
+	const JAAS
+	const MODERATORS
+	const MOD1
+	const MOD2
+	const MOD3
+	const MOD4
+	const PLAYTESTERS
+	const TESTER1
+	const TESTER2
+	const TESTER3
+	const TESTER4
+	const TESTER5
+	const TESTER6
+	const TESTER7
+	const TESTER8
+	const TESTER9
+	const TESTER10
 NUM_CREDITS_STRINGS EQU const_value
 
 ; CreditsScript indexes (see data/credits_script.asm)

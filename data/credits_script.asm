@@ -16,6 +16,72 @@ CreditsScript:
 	db CREDITS_WAIT, 1
 
 ; Update the banner.
+	db CREDITS_SCENE, 2 ; Ditto
+
+	db             CREATEDBY, 1
+	db       SMITHPLAYSPOKEMON, 2
+
+	db CREDITS_WAIT, 12
+
+	db             DEV, 1
+	db       THESMITHPLAYS, 2
+
+	db CREDITS_WAIT, 12
+
+	db             DEV, 1
+	db       CRZSHADOWS, 2
+
+	db CREDITS_WAIT, 12
+
+	db             EDITOR, 1
+	db       WEEBRACREDITS, 2
+
+	db CREDITS_WAIT, 12
+
+; Clear the banner.
+	db CREDITS_CLEAR
+
+	db CREDITS_WAIT, 1
+
+; Update the banner.
+	db CREDITS_SCENE, 3 ; Igglybuff
+
+	db             DISCORDADMIN, 1
+	db       JAAS, 2
+
+	db CREDITS_WAIT, 12
+
+	db             MODERATORS, 0
+	db       MOD1, 1
+	db       MOD2, 2
+	db       MOD3, 3
+	db       MOD4, 4
+
+	db CREDITS_WAIT, 12
+
+	db             PLAYTESTERS, 0
+	db       TESTER1, 1
+	db       TESTER2, 2
+	db       TESTER3, 3
+	db       TESTER4, 4
+
+	db CREDITS_WAIT, 12
+
+	db             PLAYTESTERS, 0
+	db       TESTER5, 1
+	db       TESTER6, 2
+	db       TESTER7, 3
+	db       TESTER8, 4
+
+	db CREDITS_WAIT, 12
+
+	db             PLAYTESTERS, 0
+	db       TESTER9, 1
+	db       TESTER10, 2
+
+	db CREDITS_WAIT, 12
+
+; Update the banner.
 	db CREDITS_SCENE, 0 ; Pichu
 
 	db             DIRECTOR, 1

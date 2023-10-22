@@ -269,6 +269,10 @@ HurryUpElmIsWaitingText:
 	line "ing for you."
 
 	para "Hurry up, baby!"
+
+	para "Oh, and remember,"
+    line "you can get there"
+    cont "faster if you run!"
 	done
 
 SoWhatWasProfElmsErrandText:
