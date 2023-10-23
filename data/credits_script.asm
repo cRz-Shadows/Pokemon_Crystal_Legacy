@@ -81,6 +81,49 @@ CreditsScript:
 
 	db CREDITS_WAIT, 12
 
+; Clear the banner.
+	db CREDITS_CLEAR
+
+	db CREDITS_SCENE, 1 ; Smoochum
+
+	db             SPRITEARTISTS, 0
+	db       SPRITEARTIST1, 1
+	db       SPRITEARTIST2, 2
+	db       SPRITEARTIST3, 3
+	db       SPRITEARTIST4, 4
+
+	db CREDITS_WAIT, 12
+
+	db             SPRITEARTISTS, 0
+	db       SPRITEARTIST5, 1
+	db       SPRITEARTIST6, 2
+	db       SPRITEARTIST7, 3
+
+	db CREDITS_WAIT, 12
+
+	db             TUTORIALS, 0
+	db       POKECRYSTAL1, 1
+	db       POKECRYSTAL2, 2
+	db       POKECRYSTAL3, 3
+	db       POKECRYSTAL4, 4
+
+	db CREDITS_WAIT, 12
+
+	db             TUTORIALS, 0
+	db       POKECRYSTAL5, 1
+
+	db CREDITS_WAIT, 12
+
+	; Clear the banner.
+	db CREDITS_CLEAR
+
+	db             POKECRYSTALDISASSEMBLY, 1
+
+	db CREDITS_WAIT, 12
+
+; Clear the banner.
+	db CREDITS_CLEAR
+
 ; Update the banner.
 	db CREDITS_SCENE, 0 ; Pichu
 

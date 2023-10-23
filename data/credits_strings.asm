@@ -129,6 +129,21 @@ CreditsStringsPointers:
 	dw .Tester8
 	dw .Tester9
 	dw .Tester10
+	dw .SpriteArtists
+	dw .SpriteArtist1
+	dw .SpriteArtist2
+	dw .SpriteArtist3
+	dw .SpriteArtist4
+	dw .SpriteArtist5
+	dw .SpriteArtist6
+	dw .SpriteArtist7
+	dw .Tutorials
+	dw .Pokecrystal1
+	dw .Pokecrystal2
+	dw .Pokecrystal3
+	dw .Pokecrystal4
+	dw .Pokecrystal5
+	dw .Pokecrystal
 	assert_table_length NUM_CREDITS_STRINGS
 
 .SatoshiTajiri:       db "   SATOSHI TAJIRI@"         ; "たじり　さとし@"
@@ -260,8 +275,26 @@ CreditsStringsPointers:
 .Tester6:			  db "      KARLOS@"
 .Tester7:			  db "   READER DRAGON@"
 .Tester8:			  db "     HALF1SCH@"
-.Tester9:			  db "       Isona@"
-.Tester10:			  db "      Talos-8@"
+.Tester9:			  db "       ISONA@"
+.Tester10:			  db "      TALOS-8@"
+.SpriteArtists:		  db "  SPRITE ATRISTS@"
+.SpriteArtist1:		  db "       KATT@"
+.SpriteArtist2:		  db "      CHAMBER@"
+.SpriteArtist3:		  db "     SOLOO993@"
+.SpriteArtist4:		  db "   BLUE EMERALD@"
+.SpriteArtist5:		  db "       LAKE@"
+.SpriteArtist6:		  db "      NESLUG@"
+.SpriteArtist7:		  db "     PIKACHU25@"
+.Tutorials:			  db "     TUTORIALS@"
+.Pokecrystal1: 		  db "      NAYRU62@"
+.Pokecrystal2: 		  db "      RANGI42@"
+.Pokecrystal3: 		  db "       IDAIN@"
+.Pokecrystal4: 		  db "    DAMIENDOURY@"
+.Pokecrystal5: 		  db "  AAAAAA123456789@"
+.Pokecrystal:         db "  THANK YOU TO THE"
+					next " PRET TEAM FOR THE"
+					next "    POKECRYSTAL"
+					next "    DISASSEMBLY@"
 
 .Copyright:
 	;    (C) 1  9  9  5 - 2  0  0  1     N  i  n  t  e  n  d  o
