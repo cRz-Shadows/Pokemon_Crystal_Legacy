@@ -275,10 +275,10 @@ DoPlayerMovement::
 	jr nc, .ice
 
 ; Downhill riding is slower when not moving down.
-	call .RunCheck
-	jr z, .fast
+	; call .RunCheck
+	; jr z, .fast
 	call .BikeCheck
-	jr nz, .walk
+	jr nz, .HandleWalkAndRun
 
 	ld hl, wBikeFlags
 	bit BIKEFLAGS_DOWNHILL_F, [hl]
@@ -318,6 +318,25 @@ DoPlayerMovement::
 .bump
 	xor a
 	ret
+
+.HandleWalkAndRun
+	ld a, [wWalkingDirection]
+	cp STANDING
+	jr z, .ensurewalk
+	ldh a, [hJoypadDown]
+	and B_BUTTON
+	cp B_BUTTON
+	jr nz, .ensurewalk
+	ld a, [wPlayerState]
+	cp PLAYER_RUN
+	call nz, .StartRunning
+	jr .fast
+
+.ensurewalk
+	ld a, [wPlayerState]
+	cp PLAYER_NORMAL
+	call nz, .StartWalking
+	jr .walk
 
 .TrySurf:
 	call .CheckSurfPerms
@@ -799,6 +818,22 @@ ENDM
 	ld a, PLAYER_NORMAL
 	ld [wPlayerState], a
 	call UpdatePlayerSprite ; UpdateSprites
+	pop bc
+	ret
+
+.StartRunning:
+	ld a, PLAYER_RUN
+	ld [wPlayerState], a
+	push bc
+	farcall UpdatePlayerSprite
+	pop bc
+	ret
+
+.StartWalking:
+	ld a, PLAYER_NORMAL
+	ld [wPlayerState], a
+	push bc
+	farcall UpdatePlayerSprite
 	pop bc
 	ret
 

@@ -98,6 +98,12 @@ CreditsScript:
 	db       SPRITEARTIST5, 1
 	db       SPRITEARTIST6, 2
 	db       SPRITEARTIST7, 3
+	db       SPRITEARTIST8, 4
+
+	db CREDITS_WAIT, 12
+
+	db             SPRITEARTISTS, 0
+	db       SPRITEARTIST9, 1
 
 	db CREDITS_WAIT, 12
 

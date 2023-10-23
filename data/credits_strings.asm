@@ -137,6 +137,8 @@ CreditsStringsPointers:
 	dw .SpriteArtist5
 	dw .SpriteArtist6
 	dw .SpriteArtist7
+	dw .SpriteArtist8
+	dw .SpriteArtist9
 	dw .Tutorials
 	dw .Pokecrystal1
 	dw .Pokecrystal2
@@ -285,6 +287,8 @@ CreditsStringsPointers:
 .SpriteArtist5:		  db "       LAKE@"
 .SpriteArtist6:		  db "      NESLUG@"
 .SpriteArtist7:		  db "     PIKACHU25@"
+.SpriteArtist8:		  db "     TOM WANG@"
+.SpriteArtist9:		  db "      SEASICK@"
 .Tutorials:			  db "     TUTORIALS@"
 .Pokecrystal1: 		  db "      NAYRU62@"
 .Pokecrystal2: 		  db "      RANGI42@"
