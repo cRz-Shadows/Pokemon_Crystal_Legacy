@@ -56,11 +56,19 @@ ReleaseTheBeasts:
 	turnobject PLAYER, LEFT
 	applymovement BURNEDTOWERB1F_RAIKOU1, BurnedTowerRaikouMovement
 	disappear BURNEDTOWERB1F_RAIKOU1
+	
+	setval RAIKOU
+  	special ShowPokedexEntry
+
 	waitsfx
 	playsound SFX_WARP_FROM
 	turnobject PLAYER, RIGHT
 	applymovement BURNEDTOWERB1F_ENTEI1, BurnedTowerEnteiMovement
 	disappear BURNEDTOWERB1F_ENTEI1
+
+	setval ENTEI
+  	special ShowPokedexEntry
+
 	waitsfx
 	pause 15
 	playsound SFX_WARP_FROM
