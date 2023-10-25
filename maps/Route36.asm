@@ -215,6 +215,10 @@ TrainerSchoolboyAlan1:
 	iftrue .LoadFight1
 .LoadFight0:
 	loadtrainer SCHOOLBOY, ALAN1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_ALAN1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_ALAN1
 	startbattle
 	reloadmapafterbattle
 	loadmem wAlanFightCount, 1
@@ -223,6 +227,10 @@ TrainerSchoolboyAlan1:
 
 .LoadFight1:
 	loadtrainer SCHOOLBOY, ALAN2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_ALAN2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_ALAN2
 	startbattle
 	reloadmapafterbattle
 	loadmem wAlanFightCount, 2
@@ -231,6 +239,10 @@ TrainerSchoolboyAlan1:
 
 .LoadFight2:
 	loadtrainer SCHOOLBOY, ALAN3
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_ALAN3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_ALAN3
 	startbattle
 	reloadmapafterbattle
 	loadmem wAlanFightCount, 3
@@ -239,6 +251,10 @@ TrainerSchoolboyAlan1:
 
 .LoadFight3:
 	loadtrainer SCHOOLBOY, ALAN4
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_ALAN4
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_ALAN4
 	startbattle
 	reloadmapafterbattle
 	loadmem wAlanFightCount, 4
@@ -247,6 +263,10 @@ TrainerSchoolboyAlan1:
 
 .LoadFight4:
 	loadtrainer SCHOOLBOY, ALAN5
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_ALAN5
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_ALAN5
 	startbattle
 	reloadmapafterbattle
 	clearflag ENGINE_ALAN_READY_FOR_REMATCH

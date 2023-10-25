@@ -19,6 +19,10 @@ VioletGymFalknerScript:
 	closetext
 	winlosstext FalknerWinLossText, 0
 	loadtrainer FALKNER, FALKNER1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_FALKNER1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_FALKNER1
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_FALKNER
@@ -27,6 +31,10 @@ VioletGymFalknerScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_ZEPHYRBADGE
+	checkflag ENGINE_HARD_MODE
+	iffalse .DontUpdateBadge
+	loadmem wLevelCap, 16 ; update level cap for hard mode
+.DontUpdateBadge
 	readvar VAR_BADGES
 	scall VioletGymActivateRockets
 .FightDone:
@@ -62,6 +70,10 @@ VioletGymFalknerScript:
 	special HealParty
 	winlosstext Falkner_RematchDefeatText, 0
 	loadtrainer FALKNER, 2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_2
 	startbattle
 	reloadmapafterbattle
 	end

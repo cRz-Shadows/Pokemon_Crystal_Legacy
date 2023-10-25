@@ -217,6 +217,10 @@ TrainerFisherRalph1:
 	iftrue .LoadFight1
 .LoadFight0:
 	loadtrainer FISHER, RALPH1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_RALPH1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_RALPH1
 	startbattle
 	reloadmapafterbattle
 	loadmem wRalphFightCount, 1
@@ -225,6 +229,10 @@ TrainerFisherRalph1:
 
 .LoadFight1:
 	loadtrainer FISHER, RALPH2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_RALPH2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_RALPH2
 	startbattle
 	reloadmapafterbattle
 	loadmem wRalphFightCount, 2
@@ -233,6 +241,10 @@ TrainerFisherRalph1:
 
 .LoadFight2:
 	loadtrainer FISHER, RALPH3
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_RALPH3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_RALPH3
 	startbattle
 	reloadmapafterbattle
 	loadmem wRalphFightCount, 3
@@ -241,6 +253,10 @@ TrainerFisherRalph1:
 
 .LoadFight3:
 	loadtrainer FISHER, RALPH4
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_RALPH4
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_RALPH4
 	startbattle
 	reloadmapafterbattle
 	loadmem wRalphFightCount, 4
@@ -249,6 +265,10 @@ TrainerFisherRalph1:
 
 .LoadFight4:
 	loadtrainer FISHER, RALPH5
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_RALPH5
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_RALPH5
 	startbattle
 	reloadmapafterbattle
 	clearflag ENGINE_RALPH_READY_FOR_REMATCH
@@ -351,6 +371,10 @@ TrainerPicnickerLiz1:
 	iftrue .LoadFight1
 .LoadFight0:
 	loadtrainer PICNICKER, LIZ1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_LIZ1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_LIZ1
 	startbattle
 	reloadmapafterbattle
 	loadmem wLizFightCount, 1
@@ -359,6 +383,10 @@ TrainerPicnickerLiz1:
 
 .LoadFight1:
 	loadtrainer PICNICKER, LIZ2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_LIZ2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_LIZ2
 	startbattle
 	reloadmapafterbattle
 	loadmem wLizFightCount, 2
@@ -367,6 +395,10 @@ TrainerPicnickerLiz1:
 
 .LoadFight2:
 	loadtrainer PICNICKER, LIZ3
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_LIZ3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_LIZ3
 	startbattle
 	reloadmapafterbattle
 	loadmem wLizFightCount, 3
@@ -375,6 +407,10 @@ TrainerPicnickerLiz1:
 
 .LoadFight3:
 	loadtrainer PICNICKER, LIZ4
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_LIZ4
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_LIZ4
 	startbattle
 	reloadmapafterbattle
 	loadmem wLizFightCount, 4
@@ -383,6 +419,10 @@ TrainerPicnickerLiz1:
 
 .LoadFight4:
 	loadtrainer PICNICKER, LIZ5
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_LIZ5
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_LIZ5
 	startbattle
 	reloadmapafterbattle
 	clearflag ENGINE_LIZ_READY_FOR_REMATCH

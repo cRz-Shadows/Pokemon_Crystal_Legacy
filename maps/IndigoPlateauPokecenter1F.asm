@@ -96,6 +96,10 @@ PlateauRivalBattleCommon:
 	winlosstext PlateauRivalWinText, PlateauRivalLoseText
 	setlasttalked INDIGOPLATEAUPOKECENTER1F_SILVER
 	loadtrainer RIVAL2, RIVAL2_2_TOTODILE
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_RIVAL2_2_TOTODILE
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_RIVAL2_2_TOTODILE
 	startbattle
 	dontrestartmapmusic
 	reloadmapafterbattle
@@ -105,6 +109,10 @@ PlateauRivalBattleCommon:
 	winlosstext PlateauRivalWinText, PlateauRivalLoseText
 	setlasttalked INDIGOPLATEAUPOKECENTER1F_SILVER
 	loadtrainer RIVAL2, RIVAL2_2_CHIKORITA
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_RIVAL2_2_CHIKORITA
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_RIVAL2_2_CHIKORITA
 	startbattle
 	dontrestartmapmusic
 	reloadmapafterbattle
@@ -114,6 +122,10 @@ PlateauRivalBattleCommon:
 	winlosstext PlateauRivalWinText, PlateauRivalLoseText
 	setlasttalked INDIGOPLATEAUPOKECENTER1F_SILVER
 	loadtrainer RIVAL2, RIVAL2_2_CYNDAQUIL
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_RIVAL2_2_CYNDAQUIL
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_RIVAL2_2_CYNDAQUIL
 	startbattle
 	dontrestartmapmusic
 	reloadmapafterbattle

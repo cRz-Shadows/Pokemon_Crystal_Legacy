@@ -103,6 +103,10 @@ RocketBaseBoss:
 	winlosstext ExecutiveM4BeatenText, 0
 	setlasttalked TEAMROCKETBASEB3F_ROCKET1
 	loadtrainer ROCKET_LEADER, 2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_2
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_ROCKET_EXECUTIVEM_4

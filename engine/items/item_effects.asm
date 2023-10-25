@@ -1283,8 +1283,10 @@ RareCandyEffect:
 	ld a, MON_LEVEL
 	call GetPartyParamLocation
 
+	ld a, [wLevelCap]
+	ld b, a
 	ld a, [hl]
-	cp MAX_LEVEL
+	cp b
 	jp nc, NoEffectMessage
 
 	inc a
@@ -1502,6 +1504,15 @@ RevivalHerbEffect:
 	call UseItem_SelectMon
 	jp c, StatusHealer_ExitMenu
 
+	; TODO Hardcore mode
+	; ; check if we are on hard mode
+	; ld de, ENGINE_HARDCORE_MODE
+    ; ld b, CHECK_FLAG
+    ; farcall EngineFlagAction
+    ; ld a, c
+    ; or a
+    ; jr nz, .not_used ; if not on normal mode, can't use revive items
+
 	call RevivePokemon
 	cp FALSE
 	jr nz, .not_used
@@ -1520,8 +1531,21 @@ ReviveEffect:
 	call UseItem_SelectMon
 	jp c, StatusHealer_ExitMenu
 
+	; TODO Hardcore mode
+	; ; check if we are on hard mode
+	; ld de, ENGINE_HARDCORE_MODE
+    ; ld b, CHECK_FLAG
+    ; farcall EngineFlagAction
+    ; ld a, c
+    ; or a
+    ; jr nz, .not_used ; if not on normal mode, can't use revive items
+
 	call RevivePokemon
 	jp StatusHealer_Jumptable
+
+	; TODO Hardcore mode
+; .not_used
+; 	jp StatusHealer_Jumptable
 
 RevivePokemon:
 	call IsMonFainted

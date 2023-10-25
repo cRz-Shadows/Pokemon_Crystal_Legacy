@@ -139,6 +139,10 @@ TrainerCamperTodd1:
 	iftrue .LoadFight1
 .LoadFight0:
 	loadtrainer CAMPER, TODD1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_TODD1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_TODD1
 	startbattle
 	reloadmapafterbattle
 	loadmem wToddFightCount, 1
@@ -147,6 +151,10 @@ TrainerCamperTodd1:
 
 .LoadFight1:
 	loadtrainer CAMPER, TODD2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_TODD2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_TODD2
 	startbattle
 	reloadmapafterbattle
 	loadmem wToddFightCount, 2
@@ -155,6 +163,10 @@ TrainerCamperTodd1:
 
 .LoadFight2:
 	loadtrainer CAMPER, TODD3
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_TODD3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_TODD3
 	startbattle
 	reloadmapafterbattle
 	loadmem wToddFightCount, 3
@@ -163,6 +175,10 @@ TrainerCamperTodd1:
 
 .LoadFight3:
 	loadtrainer CAMPER, TODD4
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_TODD4
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_TODD4
 	startbattle
 	reloadmapafterbattle
 	loadmem wToddFightCount, 4
@@ -171,6 +187,10 @@ TrainerCamperTodd1:
 
 .LoadFight4:
 	loadtrainer CAMPER, TODD5
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_TODD5
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_TODD5
 	startbattle
 	reloadmapafterbattle
 	clearflag ENGINE_TODD_READY_FOR_REMATCH
@@ -264,6 +284,10 @@ TrainerPicnickerGina1:
 	iftrue .LoadFight1
 .LoadFight0:
 	loadtrainer PICNICKER, GINA1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_GINA1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_GINA1
 	startbattle
 	reloadmapafterbattle
 	loadmem wGinaFightCount, 1
@@ -272,6 +296,10 @@ TrainerPicnickerGina1:
 
 .LoadFight1:
 	loadtrainer PICNICKER, GINA2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_GINA2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_GINA2
 	startbattle
 	reloadmapafterbattle
 	loadmem wGinaFightCount, 2
@@ -280,6 +308,10 @@ TrainerPicnickerGina1:
 
 .LoadFight2:
 	loadtrainer PICNICKER, GINA3
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_GINA3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_GINA3
 	startbattle
 	reloadmapafterbattle
 	loadmem wGinaFightCount, 3
@@ -288,6 +320,10 @@ TrainerPicnickerGina1:
 
 .LoadFight3:
 	loadtrainer PICNICKER, GINA4
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_GINA4
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_GINA4
 	startbattle
 	reloadmapafterbattle
 	loadmem wGinaFightCount, 4
@@ -296,6 +332,10 @@ TrainerPicnickerGina1:
 
 .LoadFight4:
 	loadtrainer PICNICKER, GINA5
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_GINA5
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_GINA5
 	startbattle
 	reloadmapafterbattle
 	clearflag ENGINE_GINA_READY_FOR_REMATCH
@@ -361,6 +401,10 @@ OfficerKeithScript:
 	closetext
 	winlosstext OfficerKeithWinText, 0
 	loadtrainer OFFICER, KEITH
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_KEITH
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_KEITH
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_OFFICER_KEITH

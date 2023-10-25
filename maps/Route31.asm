@@ -76,6 +76,10 @@ TrainerBugCatcherWade1:
 	iftrue .LoadFight1
 .LoadFight0:
 	loadtrainer BUG_CATCHER, WADE1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_WADE1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_WADE1
 	startbattle
 	reloadmapafterbattle
 	loadmem wWadeFightCount, 1
@@ -84,6 +88,10 @@ TrainerBugCatcherWade1:
 
 .LoadFight1:
 	loadtrainer BUG_CATCHER, WADE2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_WADE2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_WADE2
 	startbattle
 	reloadmapafterbattle
 	loadmem wWadeFightCount, 2
@@ -92,6 +100,10 @@ TrainerBugCatcherWade1:
 
 .LoadFight2:
 	loadtrainer BUG_CATCHER, WADE3
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_WADE3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_WADE3
 	startbattle
 	reloadmapafterbattle
 	loadmem wWadeFightCount, 3
@@ -100,6 +112,10 @@ TrainerBugCatcherWade1:
 
 .LoadFight3:
 	loadtrainer BUG_CATCHER, WADE4
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_WADE4
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_WADE4
 	startbattle
 	reloadmapafterbattle
 	loadmem wWadeFightCount, 4
@@ -108,6 +124,10 @@ TrainerBugCatcherWade1:
 
 .LoadFight4:
 	loadtrainer BUG_CATCHER, WADE5
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_WADE5
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_WADE5
 	startbattle
 	reloadmapafterbattle
 	clearflag ENGINE_WADE_READY_FOR_REMATCH

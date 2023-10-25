@@ -21,6 +21,10 @@ CeladonGymErikaScript:
 	closetext
 	winlosstext ErikaBeatenText, 0
 	loadtrainer ERIKA, ERIKA1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_ERIKA1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_ERIKA1
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_ERIKA
@@ -33,6 +37,7 @@ CeladonGymErikaScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_RAINBOWBADGE
+	jumpstd KantoLevelCapUpdateScript
 .FightDone:
 	checkevent EVENT_GOT_TM19_GIGA_DRAIN
 	iftrue .GotGigaDrain

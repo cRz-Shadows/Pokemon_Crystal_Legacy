@@ -1632,7 +1632,8 @@ wMenuSelectionQuantity:: db
 wWhichIndexSet:: db
 wScrollingMenuCursorPosition:: db
 wWindowStackSize:: db
-	ds 8
+wTempCursorPosition:: db
+	ds 7
 wMenuMetadataEnd::
 
 ; menu header
@@ -3096,7 +3097,7 @@ wBalls:: ds MAX_BALLS * 2 + 1
 
 ; fight counts
 wJackFightCount::    db
-wBeverlyFightCount:: db ; unreferenced
+wLevelCap:: db
 wHueyFightCount::    db
 wGavenFightCount::   db
 wBethFightCount::    db
@@ -3186,7 +3187,8 @@ wDailyResetTimer:: dw
 wDailyFlags1:: db
 wDailyFlags2:: db
 wSwarmFlags:: db
-	ds 2
+	ds 1
+wDifficultyFlags:: db
 wTimerEventStartDay:: db
 	ds 3
 

@@ -17,6 +17,10 @@ ViridianGymBlueScript:
 	closetext
 	winlosstext LeaderBlueWinText, 0
 	loadtrainer BLUE, BLUE1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_BLUE1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_BLUE1
 	startbattle
 	reloadmapafterbattle
 	clearevent EVENT_CAUGHT_ARTICUNO
@@ -25,6 +29,7 @@ ViridianGymBlueScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_EARTHBADGE
+	jumpstd KantoLevelCapUpdateScript
 
 ; 	checkevent EVENT_BEAT_BLUE
 ; 	iftrue .ArticunoAlreadyReleased

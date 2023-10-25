@@ -87,6 +87,10 @@ FastShipLazySailorScript:
 	closetext
 	winlosstext SailorStanlyBeatenText, 0
 	loadtrainer SAILOR, STANLY
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_STANLY
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_STANLY
 	startbattle
 	reloadmap
 	special HealParty

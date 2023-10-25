@@ -88,6 +88,10 @@ TrainerYoungsterJoey:
 	iftrue .LoadFight1
 .LoadFight0:
 	loadtrainer YOUNGSTER, JOEY1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_JOEY1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_JOEY1
 	startbattle
 	reloadmapafterbattle
 	loadmem wJoeyFightCount, 1
@@ -96,6 +100,10 @@ TrainerYoungsterJoey:
 
 .LoadFight1:
 	loadtrainer YOUNGSTER, JOEY2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_JOEY2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_JOEY2
 	startbattle
 	reloadmapafterbattle
 	loadmem wJoeyFightCount, 2
@@ -104,6 +112,10 @@ TrainerYoungsterJoey:
 
 .LoadFight2:
 	loadtrainer YOUNGSTER, JOEY3
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_JOEY3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_JOEY3
 	startbattle
 	reloadmapafterbattle
 	loadmem wJoeyFightCount, 3
@@ -112,6 +124,10 @@ TrainerYoungsterJoey:
 
 .LoadFight3:
 	loadtrainer YOUNGSTER, JOEY4
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_JOEY4
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_JOEY4
 	startbattle
 	reloadmapafterbattle
 	loadmem wJoeyFightCount, 4
@@ -120,6 +136,10 @@ TrainerYoungsterJoey:
 
 .LoadFight4:
 	loadtrainer YOUNGSTER, JOEY5
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_JOEY5
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_JOEY5
 	startbattle
 	reloadmapafterbattle
 	clearflag ENGINE_JOEY_READY_FOR_REMATCH

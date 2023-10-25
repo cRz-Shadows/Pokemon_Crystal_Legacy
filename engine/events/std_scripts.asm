@@ -56,6 +56,7 @@ StdScripts::
 	add_stdscript PCScript
 	add_stdscript GameCornerCoinVendorScript
 	add_stdscript HappinessCheckScript
+	add_stdscript KantoLevelCapUpdateScript
 
 PokecenterNurseScript:
 	checktime MORN
@@ -1915,6 +1916,47 @@ HappinessCheckScript:
 	farwritetext HappinessText1
 	waitbutton
 	closetext
+	end
+
+KantoLevelCapUpdateScript:
+	; Update level caps with level scaling
+	checkflag ENGINE_HARD_MODE
+	iffalse .DontUpdateBadge
+	readvar VAR_BADGES
+	ifequal 16, .SixteenBadgeCap
+	ifequal 15, .FifteenBadgeCap
+	ifequal 14, .FourteenBadgeCap
+	ifequal 13, .ThirteenBadgeCap
+	ifequal 12, .TwelveBadgeCap
+	ifequal 11, .ElevenBadgeCap
+	ifequal 10, .TenBadgeCap
+	ifequal 9,  .NineBadgeCap
+.NineBadgeCap:
+	loadmem wLevelCap, 62 ; update level cap for hard mode
+	sjump .LevelCapScriptEnd
+.TenBadgeCap:
+	loadmem wLevelCap, 63 ; update level cap for hard mode
+	sjump .LevelCapScriptEnd
+.ElevenBadgeCap:
+	loadmem wLevelCap, 64 ; update level cap for hard mode
+	sjump .LevelCapScriptEnd
+.TwelveBadgeCap:
+	loadmem wLevelCap, 66 ; update level cap for hard mode
+	sjump .LevelCapScriptEnd
+.ThirteenBadgeCap:
+	loadmem wLevelCap, 66 ; update level cap for hard mode
+	sjump .LevelCapScriptEnd
+.FourteenBadgeCap:
+	loadmem wLevelCap, 67 ; update level cap for hard mode
+	sjump .LevelCapScriptEnd
+.FifteenBadgeCap:
+	loadmem wLevelCap, 69 ; update level cap for hard mode
+	sjump .LevelCapScriptEnd
+.SixteenBadgeCap:
+	loadmem wLevelCap, 69 ; update level cap for hard mode
+	sjump .LevelCapScriptEnd
+.DontUpdateBadge
+.LevelCapScriptEnd:
 	end
 
 Movement_ContestResults_WalkAfterWarp:

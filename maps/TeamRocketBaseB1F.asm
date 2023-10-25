@@ -237,6 +237,10 @@ TrainerCameraGrunt1:
 	winlosstext CameraGrunt1BeatenText, 0
 	setlasttalked TEAMROCKETBASEB1F_ROCKET1
 	loadtrainer GRUNTM, GRUNTM_20
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_GRUNTM_20
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_GRUNTM_20
 	startbattle
 	disappear TEAMROCKETBASEB1F_ROCKET1
 	reloadmapafterbattle
@@ -250,6 +254,10 @@ TrainerCameraGrunt2:
 	winlosstext CameraGrunt2BeatenText, 0
 	setlasttalked TEAMROCKETBASEB1F_ROCKET1
 	loadtrainer GRUNTM, GRUNTM_21
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_GRUNTM_21
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_GRUNTM_21
 	startbattle
 	disappear TEAMROCKETBASEB1F_ROCKET1
 	reloadmapafterbattle

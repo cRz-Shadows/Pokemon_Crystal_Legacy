@@ -20,6 +20,10 @@ VermilionGymSurgeScript:
 	closetext
 	winlosstext LtSurgeWinLossText, 0
 	loadtrainer LT_SURGE, LT_SURGE1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_LT_SURGE1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_LT_SURGE1
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_LTSURGE
@@ -31,6 +35,7 @@ VermilionGymSurgeScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_THUNDERBADGE
+	jumpstd KantoLevelCapUpdateScript
 	writetext LtSurgeThunderBadgeText
 	waitbutton
 	closetext

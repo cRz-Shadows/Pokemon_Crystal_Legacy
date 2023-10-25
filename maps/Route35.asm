@@ -180,6 +180,10 @@ TrainerBugCatcherArnie:
 	iftrue .LoadFight1
 .LoadFight0:
 	loadtrainer BUG_CATCHER, ARNIE1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_ARNIE1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_ARNIE1
 	startbattle
 	reloadmapafterbattle
 	loadmem wArnieFightCount, 1
@@ -188,6 +192,10 @@ TrainerBugCatcherArnie:
 
 .LoadFight1:
 	loadtrainer BUG_CATCHER, ARNIE2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_ARNIE2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_ARNIE2
 	startbattle
 	reloadmapafterbattle
 	loadmem wArnieFightCount, 2
@@ -196,6 +204,10 @@ TrainerBugCatcherArnie:
 
 .LoadFight2:
 	loadtrainer BUG_CATCHER, ARNIE3
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_ARNIE3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_ARNIE3
 	startbattle
 	reloadmapafterbattle
 	loadmem wArnieFightCount, 3
@@ -204,6 +216,10 @@ TrainerBugCatcherArnie:
 
 .LoadFight3:
 	loadtrainer BUG_CATCHER, ARNIE4
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_ARNIE4
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_ARNIE4
 	startbattle
 	reloadmapafterbattle
 	loadmem wArnieFightCount, 4
@@ -212,6 +228,10 @@ TrainerBugCatcherArnie:
 
 .LoadFight4:
 	loadtrainer BUG_CATCHER, ARNIE5
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_ARNIE5
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_ARNIE5
 	startbattle
 	reloadmapafterbattle
 	clearflag ENGINE_ARNIE_READY_FOR_REMATCH
@@ -247,6 +267,10 @@ TrainerOfficerDirk:
 	closetext
 	winlosstext OfficerDirkBeatenText, 0
 	loadtrainer OFFICER, DIRK
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_DIRK
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_DIRK
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_OFFICER_DIRK

@@ -30,6 +30,10 @@ Red:
 .rematchteam
 	loadtrainer RED, 2
 .EndLoadTrainerRed
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_2
 	startbattle
 	dontrestartmapmusic
 	reloadmapafterbattle

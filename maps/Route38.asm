@@ -88,6 +88,10 @@ TrainerLassDana1:
 	iftrue .LoadFight1
 .LoadFight0:
 	loadtrainer LASS, DANA1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_DANA1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_DANA1
 	startbattle
 	reloadmapafterbattle
 	loadmem wDanaFightCount, 1
@@ -96,6 +100,10 @@ TrainerLassDana1:
 
 .LoadFight1:
 	loadtrainer LASS, DANA2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_DANA2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_DANA2
 	startbattle
 	reloadmapafterbattle
 	loadmem wDanaFightCount, 2
@@ -104,6 +112,10 @@ TrainerLassDana1:
 
 .LoadFight2:
 	loadtrainer LASS, DANA3
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_DANA3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_DANA3
 	startbattle
 	reloadmapafterbattle
 	loadmem wDanaFightCount, 3
@@ -112,6 +124,10 @@ TrainerLassDana1:
 
 .LoadFight3:
 	loadtrainer LASS, DANA4
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_DANA4
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_DANA4
 	startbattle
 	reloadmapafterbattle
 	loadmem wDanaFightCount, 4
@@ -120,6 +136,10 @@ TrainerLassDana1:
 
 .LoadFight4:
 	loadtrainer LASS, DANA5
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_DANA5
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_DANA5
 	startbattle
 	reloadmapafterbattle
 	clearflag ENGINE_DANA_READY_FOR_REMATCH
@@ -224,6 +244,10 @@ TrainerSchoolboyChad1:
 	iftrue .LoadFight1
 .LoadFight0:
 	loadtrainer SCHOOLBOY, CHAD1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_CHAD1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_CHAD1
 	startbattle
 	reloadmapafterbattle
 	loadmem wChadFightCount, 1
@@ -232,6 +256,10 @@ TrainerSchoolboyChad1:
 
 .LoadFight1:
 	loadtrainer SCHOOLBOY, CHAD2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_CHAD2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_CHAD2
 	startbattle
 	reloadmapafterbattle
 	loadmem wChadFightCount, 2
@@ -240,6 +268,10 @@ TrainerSchoolboyChad1:
 
 .LoadFight2:
 	loadtrainer SCHOOLBOY, CHAD3
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_CHAD3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_CHAD3
 	startbattle
 	reloadmapafterbattle
 	loadmem wChadFightCount, 3
@@ -248,6 +280,10 @@ TrainerSchoolboyChad1:
 
 .LoadFight3:
 	loadtrainer SCHOOLBOY, CHAD4
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_CHAD4
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_CHAD4
 	startbattle
 	reloadmapafterbattle
 	loadmem wChadFightCount, 4
@@ -256,6 +292,10 @@ TrainerSchoolboyChad1:
 
 .LoadFight4:
 	loadtrainer SCHOOLBOY, CHAD5
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_CHAD5
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_CHAD5
 	startbattle
 	reloadmapafterbattle
 	clearflag ENGINE_CHAD_READY_FOR_REMATCH

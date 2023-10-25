@@ -66,6 +66,10 @@ CeruleanGymMistyScript:
 	closetext
 	winlosstext MistyWinLossText, 0
 	loadtrainer MISTY, MISTY1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_MISTY1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_MISTY1
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_MISTY
@@ -77,6 +81,7 @@ CeruleanGymMistyScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_CASCADEBADGE
+	jumpstd KantoLevelCapUpdateScript
 .FightDone:
 	writetext MistyFightDoneText
 	waitbutton

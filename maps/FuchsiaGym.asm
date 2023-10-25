@@ -22,6 +22,10 @@ FuchsiaGymJanineScript:
 	closetext
 	winlosstext JanineText_ToughOne, 0
 	loadtrainer JANINE, JANINE1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_JANINE1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_JANINE1
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_JANINE
@@ -39,6 +43,7 @@ FuchsiaGymJanineScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_SOULBADGE
+	jumpstd KantoLevelCapUpdateScript
 	sjump .AfterBattle
 .FightDone:
 	faceplayer
@@ -74,6 +79,10 @@ LassAliceScript:
 	closetext
 	winlosstext LassAliceBeatenText, 0
 	loadtrainer LASS, ALICE
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_ALICE
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_ALICE
 	startbattle
 	iftrue .AliceBecomesJanine
 	reloadmapafterbattle
@@ -108,6 +117,10 @@ LassLindaScript:
 	closetext
 	winlosstext LassLindaBeatenText, 0
 	loadtrainer LASS, LINDA
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_LINDA
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_LINDA
 	startbattle
 	iftrue .LindaBecomesJanine
 	reloadmapafterbattle
@@ -142,6 +155,10 @@ PicnickerCindyScript:
 	closetext
 	winlosstext PicnickerCindyBeatenText, 0
 	loadtrainer PICNICKER, CINDY
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_CINDY
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_CINDY
 	startbattle
 	iftrue .CindyBecomesJanine
 	reloadmapafterbattle
@@ -176,6 +193,10 @@ CamperBarryScript:
 	closetext
 	winlosstext CamperBarryBeatenText, 0
 	loadtrainer CAMPER, BARRY
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_BARRY
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_BARRY
 	startbattle
 	iftrue .BarryBecomesJanine
 	reloadmapafterbattle

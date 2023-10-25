@@ -66,6 +66,10 @@ TrainerPicnickerErin1:
 	iftrue .LoadFight1
 .LoadFight0:
 	loadtrainer PICNICKER, ERIN1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_ERIN1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_ERIN1
 	startbattle
 	reloadmapafterbattle
 	loadmem wErinFightCount, 1
@@ -74,6 +78,10 @@ TrainerPicnickerErin1:
 
 .LoadFight1:
 	loadtrainer PICNICKER, ERIN2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_ERIN2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_ERIN2
 	startbattle
 	reloadmapafterbattle
 	loadmem wErinFightCount, 2
@@ -82,6 +90,10 @@ TrainerPicnickerErin1:
 
 .LoadFight2:
 	loadtrainer PICNICKER, ERIN3
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_ERIN3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_ERIN3
 	startbattle
 	reloadmapafterbattle
 	clearflag ENGINE_ERIN_READY_FOR_REMATCH

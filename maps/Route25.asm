@@ -171,6 +171,10 @@ TrainerCooltrainermKevin:
 	closetext
 	winlosstext CooltrainermKevinBeatenText, 0
 	loadtrainer COOLTRAINERM, KEVIN
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_KEVIN
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_KEVIN
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_COOLTRAINERM_KEVIN

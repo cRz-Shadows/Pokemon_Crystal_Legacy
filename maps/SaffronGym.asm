@@ -21,6 +21,10 @@ SaffronGymSabrinaScript:
 	closetext
 	winlosstext SabrinaWinLossText, 0
 	loadtrainer SABRINA, SABRINA1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_SABRINA1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_SABRINA1
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_SABRINA
@@ -33,6 +37,7 @@ SaffronGymSabrinaScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_MARSHBADGE
+	jumpstd KantoLevelCapUpdateScript
 	writetext SabrinaMarshBadgeText
 	waitbutton
 	closetext

@@ -665,6 +665,20 @@ _AreYouABoyOrAreYouAGirlText::
 	line "Or are you a girl?"
 	done
 
+_SelectDifficultyText::
+	text "Select Difficulty."
+	done
+
+_SelectDifficultyNormalText::
+	text "Classic #mon."
+	done
+
+_SelectDifficultyHardText::
+	text "Set mode, no"
+	line "items in battle,"
+	cont "gym level caps."
+	done
+
 Text_BattleEffectActivate::
 	text "<USER>'s"
 	line "@"

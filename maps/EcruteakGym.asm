@@ -31,6 +31,10 @@ EcruteakGymMortyScript:
 	closetext
 	winlosstext MortyWinLossText, 0
 	loadtrainer MORTY, MORTY1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_MORTY1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_MORTY1
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_MORTY
@@ -39,6 +43,10 @@ EcruteakGymMortyScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_FOGBADGE
+	checkflag ENGINE_HARD_MODE
+	iffalse .DontUpdateBadge
+	loadmem wLevelCap, 31 ; update level cap for hard mode
+.DontUpdateBadge
 	readvar VAR_BADGES
 	scall EcruteakGymActivateRockets
 	setmapscene ECRUTEAK_TIN_TOWER_ENTRANCE, SCENE_FINISHED
@@ -77,6 +85,10 @@ EcruteakGymMortyScript:
 	special HealParty
 	winlosstext Morty_RematchDefeatText, 0
 	loadtrainer MORTY, 2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_2
 	startbattle
 	reloadmapafterbattle
 	end

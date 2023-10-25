@@ -188,6 +188,10 @@ TrainerHikerParry:
 	iftrue .LoadFight1
 .LoadFight0:
 	loadtrainer HIKER, PARRY3
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_PARRY3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_PARRY3
 	startbattle
 	reloadmapafterbattle
 	loadmem wParryFightCount, 1
@@ -196,6 +200,10 @@ TrainerHikerParry:
 
 .LoadFight1:
 	loadtrainer HIKER, PARRY1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_PARRY1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_PARRY1
 	startbattle
 	reloadmapafterbattle
 	loadmem wParryFightCount, 2
@@ -204,6 +212,10 @@ TrainerHikerParry:
 
 .LoadFight2:
 	loadtrainer HIKER, PARRY2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_PARRY2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_PARRY2
 	startbattle
 	reloadmapafterbattle
 	clearflag ENGINE_PARRY_READY_FOR_REMATCH
@@ -273,6 +285,10 @@ TrainerCamperQuentin:
 	closetext
 	winlosstext CamperQuentinBeatenText, 0
 	loadtrainer CAMPER, QUENTIN
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_QUENTIN
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_QUENTIN
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_CAMPER_QUENTIN

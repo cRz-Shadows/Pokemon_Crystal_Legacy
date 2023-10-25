@@ -65,6 +65,10 @@ TrainerHikerAnthony:
 	iftrue .LoadFight1
 .LoadFight0:
 	loadtrainer HIKER, ANTHONY2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_ANTHONY2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_ANTHONY2
 	startbattle
 	reloadmapafterbattle
 	loadmem wAnthonyFightCount, 1
@@ -73,6 +77,10 @@ TrainerHikerAnthony:
 
 .LoadFight1:
 	loadtrainer HIKER, ANTHONY1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_ANTHONY1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_ANTHONY1
 	startbattle
 	reloadmapafterbattle
 	loadmem wAnthonyFightCount, 2
@@ -81,6 +89,10 @@ TrainerHikerAnthony:
 
 .LoadFight2:
 	loadtrainer HIKER, ANTHONY3
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_ANTHONY3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_ANTHONY3
 	startbattle
 	reloadmapafterbattle
 	loadmem wAnthonyFightCount, 3
@@ -89,6 +101,10 @@ TrainerHikerAnthony:
 
 .LoadFight3:
 	loadtrainer HIKER, ANTHONY4
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_ANTHONY4
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_ANTHONY4
 	startbattle
 	reloadmapafterbattle
 	loadmem wAnthonyFightCount, 4
@@ -97,6 +113,10 @@ TrainerHikerAnthony:
 
 .LoadFight4:
 	loadtrainer HIKER, ANTHONY5
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_ANTHONY5
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_ANTHONY5
 	startbattle
 	reloadmapafterbattle
 	clearflag ENGINE_ANTHONY_READY_FOR_REMATCH

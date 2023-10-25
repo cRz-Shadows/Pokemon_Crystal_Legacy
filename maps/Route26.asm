@@ -68,6 +68,10 @@ TrainerCooltrainermGaven3:
 	iftrue .LoadFight1
 .LoadFight0:
 	loadtrainer COOLTRAINERM, GAVEN3
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_GAVEN3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_GAVEN3
 	startbattle
 	reloadmapafterbattle
 	loadmem wGavenFightCount, 1
@@ -76,6 +80,10 @@ TrainerCooltrainermGaven3:
 
 .LoadFight1:
 	loadtrainer COOLTRAINERM, GAVEN1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_GAVEN1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_GAVEN1
 	startbattle
 	reloadmapafterbattle
 	loadmem wGavenFightCount, 2
@@ -84,6 +92,10 @@ TrainerCooltrainermGaven3:
 
 .LoadFight2:
 	loadtrainer COOLTRAINERM, GAVEN2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_GAVEN2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_GAVEN2
 	startbattle
 	reloadmapafterbattle
 	clearflag ENGINE_GAVEN_READY_FOR_REMATCH
@@ -172,6 +184,10 @@ TrainerCooltrainerfBeth1:
 	iftrue .LoadFight1
 .LoadFight0:
 	loadtrainer COOLTRAINERF, BETH1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_BETH1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_BETH1
 	startbattle
 	reloadmapafterbattle
 	loadmem wBethFightCount, 1
@@ -180,6 +196,10 @@ TrainerCooltrainerfBeth1:
 
 .LoadFight1:
 	loadtrainer COOLTRAINERF, BETH2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_BETH2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_BETH2
 	startbattle
 	reloadmapafterbattle
 	loadmem wBethFightCount, 2
@@ -188,6 +208,10 @@ TrainerCooltrainerfBeth1:
 
 .LoadFight2:
 	loadtrainer COOLTRAINERF, BETH3
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_BETH3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_BETH3
 	startbattle
 	reloadmapafterbattle
 	clearflag ENGINE_BETH_READY_FOR_REMATCH

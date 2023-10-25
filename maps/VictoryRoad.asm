@@ -64,6 +64,10 @@ VictoryRoadRivalNext:
 	winlosstext VictoryRoadRivalDefeatText, VictoryRoadRivalVictoryText
 	setlasttalked VICTORYROAD_SILVER
 	loadtrainer RIVAL1, RIVAL1_5_TOTODILE
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_RIVAL1_5_TOTODILE
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_RIVAL1_5_TOTODILE
 	startbattle
 	dontrestartmapmusic
 	reloadmapafterbattle
@@ -73,6 +77,10 @@ VictoryRoadRivalNext:
 	winlosstext VictoryRoadRivalDefeatText, VictoryRoadRivalVictoryText
 	setlasttalked VICTORYROAD_SILVER
 	loadtrainer RIVAL1, RIVAL1_5_CHIKORITA
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_RIVAL1_5_CHIKORITA
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_RIVAL1_5_CHIKORITA
 	startbattle
 	dontrestartmapmusic
 	reloadmapafterbattle
@@ -82,6 +90,10 @@ VictoryRoadRivalNext:
 	winlosstext VictoryRoadRivalDefeatText, VictoryRoadRivalVictoryText
 	setlasttalked VICTORYROAD_SILVER
 	loadtrainer RIVAL1, RIVAL1_5_CYNDAQUIL
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_RIVAL1_5_CYNDAQUIL
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_RIVAL1_5_CYNDAQUIL
 	startbattle
 	dontrestartmapmusic
 	reloadmapafterbattle

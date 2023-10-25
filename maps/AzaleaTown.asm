@@ -67,6 +67,10 @@ AzaleaTownRivalBattleScript:
 	winlosstext AzaleaTownRivalWinText, AzaleaTownRivalLossText
 	setlasttalked AZALEATOWN_SILVER
 	loadtrainer RIVAL1, RIVAL1_2_TOTODILE
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_RIVAL1_2_TOTODILE
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_RIVAL1_2_TOTODILE
 	startbattle
 	dontrestartmapmusic
 	reloadmapafterbattle
@@ -76,6 +80,10 @@ AzaleaTownRivalBattleScript:
 	winlosstext AzaleaTownRivalWinText, AzaleaTownRivalLossText
 	setlasttalked AZALEATOWN_SILVER
 	loadtrainer RIVAL1, RIVAL1_2_CHIKORITA
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_RIVAL1_2_CHIKORITA
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_RIVAL1_2_CHIKORITA
 	startbattle
 	dontrestartmapmusic
 	reloadmapafterbattle
@@ -85,6 +93,10 @@ AzaleaTownRivalBattleScript:
 	winlosstext AzaleaTownRivalWinText, AzaleaTownRivalLossText
 	setlasttalked AZALEATOWN_SILVER
 	loadtrainer RIVAL1, RIVAL1_2_CYNDAQUIL
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_RIVAL1_2_CYNDAQUIL
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_RIVAL1_2_CYNDAQUIL
 	startbattle
 	dontrestartmapmusic
 	reloadmapafterbattle

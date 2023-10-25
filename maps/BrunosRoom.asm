@@ -62,9 +62,23 @@ BrunoScript_Battle:
 .Rematch:
 	loadtrainer BRUNO, 2
 .LoadtrainerEnd:
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_2
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_ELITE_4_BRUNO
+		
+	checkflag ENGINE_HARD_MODE
+	iffalse .DontUpdateBadge
+	readvar VAR_BADGES
+	if_less_than 9, .BaseCap
+	sjump .DontUpdateBadge
+.BaseCap
+	loadmem wLevelCap, 55 ; update level cap for hard mode
+.DontUpdateBadge
+
 	opentext
 	writetext BrunoScript_BrunoDefeatText
 	waitbutton

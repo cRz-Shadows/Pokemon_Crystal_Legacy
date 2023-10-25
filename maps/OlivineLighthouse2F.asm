@@ -64,6 +64,10 @@ TrainerSailorHuey:
 	iftrue .LoadFight1
 .LoadFight0:
 	loadtrainer SAILOR, HUEY1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_HUEY1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_HUEY1
 	startbattle
 	reloadmapafterbattle
 	loadmem wHueyFightCount, 1
@@ -72,6 +76,10 @@ TrainerSailorHuey:
 
 .LoadFight1:
 	loadtrainer SAILOR, HUEY2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_HUEY2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_HUEY2
 	startbattle
 	reloadmapafterbattle
 	loadmem wHueyFightCount, 2
@@ -80,6 +88,10 @@ TrainerSailorHuey:
 
 .LoadFight2:
 	loadtrainer SAILOR, HUEY3
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_HUEY3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_HUEY3
 	startbattle
 	reloadmapafterbattle
 	loadmem wHueyFightCount, 3
@@ -88,6 +100,10 @@ TrainerSailorHuey:
 
 .LoadFight3:
 	loadtrainer SAILOR, HUEY4
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_HUEY4
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_HUEY4
 	startbattle
 	reloadmapafterbattle
 	clearflag ENGINE_HUEY_READY_FOR_REMATCH

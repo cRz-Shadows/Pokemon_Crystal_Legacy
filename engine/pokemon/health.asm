@@ -9,6 +9,23 @@ HealParty:
 	cp EGG
 	jr z, .next
 
+	; TODO Hardcore mode
+; 	; !this section doesn't work yet
+; 	; need to check if pokemon is fainted, if not jump to .notzero
+; 	ld bc, MON_HP
+;     add hl, bc
+;     ld a, [hl]
+;     cp 0
+;     jr nz, .notzero ; Pokémon is fainted, skip healing
+
+; 	; check if we are on hard mode
+; 	ld de, ENGINE_HARDCORE_MODE
+;     ld b, CHECK_FLAG
+;     farcall EngineFlagAction
+;     ld a, c
+;     or a
+;     jr nz, .next
+; .notzero
 	push hl
 	call HealPartyMon
 	pop hl

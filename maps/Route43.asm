@@ -94,6 +94,10 @@ TrainerPokemaniacBrent:
 	iftrue .LoadFight1
 .LoadFight0:
 	loadtrainer POKEMANIAC, BRENT1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_BRENT1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_BRENT1
 	startbattle
 	reloadmapafterbattle
 	loadmem wBrentFightCount, 1
@@ -102,6 +106,10 @@ TrainerPokemaniacBrent:
 
 .LoadFight1:
 	loadtrainer POKEMANIAC, BRENT2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_BRENT2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_BRENT2
 	startbattle
 	reloadmapafterbattle
 	loadmem wBrentFightCount, 2
@@ -110,6 +118,10 @@ TrainerPokemaniacBrent:
 
 .LoadFight2:
 	loadtrainer POKEMANIAC, BRENT3
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_BRENT3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_BRENT3
 	startbattle
 	reloadmapafterbattle
 	loadmem wBrentFightCount, 3
@@ -118,6 +130,10 @@ TrainerPokemaniacBrent:
 
 .LoadFight3:
 	loadtrainer POKEMANIAC, BRENT4
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_BRENT4
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_BRENT4
 	startbattle
 	reloadmapafterbattle
 	clearflag ENGINE_BRENT_READY_FOR_REMATCH
@@ -225,6 +241,10 @@ TrainerPicnickerTiffany:
 	iftrue .LoadFight1
 .LoadFight0:
 	loadtrainer PICNICKER, TIFFANY3
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_TIFFANY3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_TIFFANY3
 	startbattle
 	reloadmapafterbattle
 	loadmem wTiffanyFightCount, 1
@@ -233,6 +253,10 @@ TrainerPicnickerTiffany:
 
 .LoadFight1:
 	loadtrainer PICNICKER, TIFFANY1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_TIFFANY1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_TIFFANY1
 	startbattle
 	reloadmapafterbattle
 	loadmem wTiffanyFightCount, 2
@@ -241,6 +265,10 @@ TrainerPicnickerTiffany:
 
 .LoadFight2:
 	loadtrainer PICNICKER, TIFFANY2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_TIFFANY2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_TIFFANY2
 	startbattle
 	reloadmapafterbattle
 	loadmem wTiffanyFightCount, 3
@@ -249,6 +277,10 @@ TrainerPicnickerTiffany:
 
 .LoadFight3:
 	loadtrainer PICNICKER, TIFFANY4
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_TIFFANY4
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_TIFFANY4
 	startbattle
 	reloadmapafterbattle
 	clearflag ENGINE_TIFFANY_READY_FOR_REMATCH

@@ -64,6 +64,7 @@ NewGame:
 	call ResetWRAM
 	call NewGame_ClearTilemapEtc
 	call AreYouABoyOrAreYouAGirl
+	call SelectDifficulty
 	call OakSpeech
 	call InitializeWorld
 
@@ -81,6 +82,23 @@ AreYouABoyOrAreYouAGirl:
 	farcall Mobile_AlwaysReturnNotCarry ; mobile
 	jr c, .ok
 	farcall InitGender
+	ret
+
+.ok
+	ld c, 0
+	farcall InitMobileProfile ; mobile
+	ret
+
+if DEF(_DEBUG)
+DebugRoom: ; unreferenced
+	farcall _DebugRoom
+	ret
+endc
+
+SelectDifficulty::
+	farcall Mobile_AlwaysReturnNotCarry ; mobile
+	jr c, .ok
+	farcall InitDifficulty
 	ret
 
 .ok
@@ -213,6 +231,9 @@ endc
 	ld [hl], HIGH(MOM_MONEY) ; mid
 	inc hl
 	ld [hl], LOW(MOM_MONEY)
+
+	ld a, 5
+	ld [wLevelCap], a
 
 	call InitializeNPCNames
 

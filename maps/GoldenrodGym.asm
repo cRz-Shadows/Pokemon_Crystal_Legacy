@@ -29,6 +29,10 @@ GoldenrodGymWhitneyScript:
 	closetext
 	winlosstext WhitneyShouldntBeSoSeriousText, 0
 	loadtrainer WHITNEY, WHITNEY1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_WHITNEY1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_WHITNEY1
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_WHITNEY
@@ -59,6 +63,10 @@ GoldenrodGymWhitneyScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_PLAINBADGE
+	checkflag ENGINE_HARD_MODE
+	iffalse .DontUpdateBadge
+	loadmem wLevelCap, 25 ; update level cap for hard mode
+.DontUpdateBadge
 	readvar VAR_BADGES
 	scall GoldenrodGymActivateRockets
 .GotPlainBadge:
@@ -88,6 +96,10 @@ GoldenrodGymWhitneyScript:
 	special HealParty
 	winlosstext Whitney_RematchDefeatText, 0
 	loadtrainer WHITNEY, 2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_2
 	startbattle
 	reloadmapafterbattle
 	end

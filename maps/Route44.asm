@@ -60,6 +60,10 @@ TrainerBirdKeeperVance1:
 	iftrue .LoadFight1
 .LoadFight0:
 	loadtrainer BIRD_KEEPER, VANCE1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_VANCE1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_VANCE1
 	startbattle
 	reloadmapafterbattle
 	loadmem wVanceFightCount, 1
@@ -68,6 +72,10 @@ TrainerBirdKeeperVance1:
 
 .LoadFight1:
 	loadtrainer BIRD_KEEPER, VANCE2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_VANCE2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_VANCE2
 	startbattle
 	reloadmapafterbattle
 	loadmem wVanceFightCount, 2
@@ -76,6 +84,10 @@ TrainerBirdKeeperVance1:
 
 .LoadFight2:
 	loadtrainer BIRD_KEEPER, VANCE3
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_VANCE3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_VANCE3
 	startbattle
 	reloadmapafterbattle
 	clearflag ENGINE_VANCE_READY_FOR_REMATCH
@@ -204,6 +216,10 @@ TrainerFisherWilton1:
 	iftrue .LoadFight1
 .LoadFight0:
 	loadtrainer FISHER, WILTON1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_WILTON1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_WILTON1
 	startbattle
 	reloadmapafterbattle
 	loadmem wWiltonFightCount, 1
@@ -212,6 +228,10 @@ TrainerFisherWilton1:
 
 .LoadFight1:
 	loadtrainer FISHER, WILTON2
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_WILTON2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_WILTON2
 	startbattle
 	reloadmapafterbattle
 	loadmem wWiltonFightCount, 2
@@ -220,6 +240,10 @@ TrainerFisherWilton1:
 
 .LoadFight2:
 	loadtrainer FISHER, WILTON3
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_WILTON3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_WILTON3
 	startbattle
 	reloadmapafterbattle
 	clearflag ENGINE_WILTON_READY_FOR_REMATCH

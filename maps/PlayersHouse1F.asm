@@ -52,6 +52,13 @@ MeetMomScript:
 	yesorno
 	iffalse .WrongDay
 	special InitialSetDSTFlag
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode
+	loadmem wLevelCap, 10 ; initialise level cap for hard mode
+	sjump .doneLevelCap
+.normalmode
+	loadmem wLevelCap, 100
+.doneLevelCap
 	yesorno
 	iffalse .SetDayOfWeek
 	sjump .DayOfWeekDone

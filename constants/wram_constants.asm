@@ -313,6 +313,10 @@ CELEBIEVENT_FOREST_IS_RESTLESS_F EQU 2
 	const SWARMFLAGS_YANMA_SWARM_F               ; 3
 	const SWARMFLAGS_MOBILE_4_F                  ; 4
 
+; wDifficultyFlags::
+	const_def
+	const DIFFICULTYFLAGS_HARD_MODE           ; 0
+
 ; wLuckyNumberShowFlag::
 LUCKYNUMBERSHOW_GAME_OVER_F EQU 0
 

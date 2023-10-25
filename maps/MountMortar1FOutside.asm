@@ -19,6 +19,10 @@ MountMortarB1FKiyoScript:
 	closetext
 	winlosstext MountMortarB1FKiyoWinText, 0
 	loadtrainer BLACKBELT_T, KIYO
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_KIYO
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_KIYO
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_BLACKBELT_KIYO

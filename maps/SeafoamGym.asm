@@ -21,6 +21,10 @@ SeafoamGymBlaineScript:
 	closetext
 	winlosstext BlaineWinLossText, 0
 	loadtrainer BLAINE, BLAINE1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_BLAINE1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_BLAINE1
 	startbattle
 	iftrue .ReturnAfterBattle
 	appear SEAFOAMGYM_GYM_GUIDE
@@ -32,6 +36,7 @@ SeafoamGymBlaineScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_VOLCANOBADGE
+	jumpstd KantoLevelCapUpdateScript
 
 ; 	checkevent EVENT_BEAT_BLAINE
 ; 	iftrue .MoltresAlreadyReleased

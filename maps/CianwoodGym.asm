@@ -53,6 +53,10 @@ CianwoodGymChuckScript:
 	loadtrainer CHUCK, 3
 	sjump .CianwoodGymChuckScriptEnd
 .CianwoodGymChuckScriptEnd:
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_3
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_3
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_CHUCK
@@ -61,6 +65,26 @@ CianwoodGymChuckScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_STORMBADGE
+
+	; Update level caps with level scaling
+	checkflag ENGINE_HARD_MODE
+	iffalse .DontUpdateBadge
+	readvar VAR_BADGES
+	ifequal 7, .SevenBadgeCap
+	ifequal 6, .SixBadgeCap
+	ifequal 5, .FiveBadgeCap
+.FiveBadgeCap:
+	loadmem wLevelCap, 36 ; update level cap for hard mode
+	sjump .LevelCapScriptEnd
+.SixBadgeCap:
+	loadmem wLevelCap, 38 ; update level cap for hard mode
+	sjump .LevelCapScriptEnd
+.SevenBadgeCap:
+	loadmem wLevelCap, 45 ; update level cap for hard mode
+	sjump .LevelCapScriptEnd
+.DontUpdateBadge
+.LevelCapScriptEnd:
+
 	readvar VAR_BADGES
 	scall CianwoodGymActivateRockets
 .FightDone:
@@ -96,6 +120,10 @@ CianwoodGymChuckScript:
 	special HealParty
 	winlosstext Chuck_RematchDefeatText, 0
 	loadtrainer CHUCK, 4
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_4
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_4
 	startbattle
 	reloadmapafterbattle
 	end

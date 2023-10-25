@@ -18,6 +18,10 @@ PewterGymBrockScript:
 	closetext
 	winlosstext BrockWinLossText, 0
 	loadtrainer BROCK, BROCK1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_BROCK1
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+.normalmode_BROCK1
 	startbattle
 	reloadmapafterbattle
 	setevent EVENT_BEAT_BROCK
@@ -27,6 +31,7 @@ PewterGymBrockScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_BOULDERBADGE
+	jumpstd KantoLevelCapUpdateScript
 	writetext BrockBoulderBadgeText
 	waitbutton
 	closetext
