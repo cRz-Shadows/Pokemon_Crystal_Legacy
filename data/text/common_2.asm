@@ -670,7 +670,7 @@ _SelectDifficultyText::
 	done
 
 _SelectDifficultyNormalText::
-	text "Classic #mon."
+	text "Classic #MON."
 	done
 
 _SelectDifficultyHardText::

@@ -67,18 +67,7 @@ InitDifficulty:
 	ld hl, .DifficultyMenuHeader
 	call LoadMenuHeader
 	call WaitBGMap2
-	; VerticalMenu
-	xor a
-	ldh [hBGMapMode], a
-	call MenuBox
-	call UpdateSprites
-	call PlaceVerticalMenuItems
-	call ApplyTilemap
-	call CopyMenuData
-	ld a, [wMenuDataFlags]
-
-    call MenuCursorLoop
-
+    call MenuCursorLoop ; VerticalMenu + yesnobox
 	call CloseWindow
 	ld a, [wMenuCursorY]
     dec a
@@ -107,14 +96,27 @@ InitDifficulty:
 	db "Hard@"
 
 MenuCursorLoop:
-	ld a, $1
-    ldh [hBGMapMode], a
-    call ScrollingMenuJoypad
-	
-    bit A_BUTTON_F, a
-    jr nz, .pressed_a
-    jr MenuCursorLoop
-.pressed_a:
+	; VerticalMenu
+	xor a
+	ldh [hBGMapMode], a
+	call MenuBox
+	call UpdateSprites
+	call PlaceVerticalMenuItems
+	call ApplyTilemap
+	call CopyMenuData
+	ld a, [wMenuDataFlags]
+	bit 7, a
+	jr z, .cancel
+	call InitVerticalMenuCursor
+	call StaticMenuJoypad
+	call MenuClickSound
+	bit 1, a
+	jr z, .okay
+.cancel
+	scf
+	jr .done
+.okay
+	and a
 	ld a, [wMenuCursorY]
 	ld [wTempCursorPosition], a ; store temp cursor position because it will be overriten by the yesnobox
 	call UpdateDifficultyText
@@ -150,8 +152,8 @@ MenuCursorLoop:
 	call ApplyTilemap
 	call CopyMenuData
 	ld a, [wMenuDataFlags]
-
 	call MenuCursorLoop
+.done
 	ret
 
 .DifficultyMenuHeaderLoop:
