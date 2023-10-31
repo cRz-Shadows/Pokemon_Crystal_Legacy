@@ -107,16 +107,16 @@ CreditsScript:
 
 	db CREDITS_WAIT, 12
 
-	db             TUTORIALS, 0
-	db       POKECRYSTAL1, 1
-	db       POKECRYSTAL2, 2
-	db       POKECRYSTAL3, 3
-	db       POKECRYSTAL4, 4
+	db             NAYRUTHANKSTEXT, 0
+	db       NAYRU, 4
 
 	db CREDITS_WAIT, 12
 
 	db             TUTORIALS, 0
-	db       POKECRYSTAL5, 1
+	db       POKECRYSTAL2, 1
+	db       POKECRYSTAL3, 2
+	db       POKECRYSTAL4, 3
+	db       POKECRYSTAL5, 4
 
 	db CREDITS_WAIT, 12
 

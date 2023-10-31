@@ -250,31 +250,31 @@ FishGroups_Names::
 	assert_table_length NUM_FISHGROUPS ; (13, NONE is not included in the count)
 
 Group1_Name:
-	db "SHORE@"
+    db " SHORE@"
 Group2_Name:
-	db "OCEAN@"
+    db " OCEAN@"
 Group3_Name:
-	db "LAKE@"
+    db " LAKE@"
 Group4_Name:
-	db "POND@"
+    db " POND@"
 Group5_Name:
-	db "DRATINI@"
+    db " DRATINI@"
 Group6_Name:
-	db "QWILFISH S@"
+    db " QWILFISH SWARM@"
 Group7_Name:
-	db "REMORAID S@"
+    db " REMORAID SWARM@"
 Group8_Name:
-	db "GYARADOS@"
+    db " GYARADOS@"
 Group9_Name:
-	db "DRATINI 2@"
+    db " DRATINI 2@"
 Group10_Name:
-	db "WHIRL@"
+    db " WHIRL ISLE@"
 Group11_Name:
-	db "QWILFISH@"
+    db " QWILFISH@"
 Group12_Name:
-	db "REMORAID@"
+    db " REMORAID@"
 Group13_Name:
-	db "QWILFISH 2@"
+    db " QWILFISH 2@"
 
 GetFishGroupName:
 ; given fishing group num in 'a'

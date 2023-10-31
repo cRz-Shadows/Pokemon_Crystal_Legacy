@@ -96,6 +96,8 @@ TinTower1F_MapScripts:
 	disappear TINTOWER1F_RAIKOU
 	playsound SFX_EXIT_BUILDING
 	waitsfx
+	setval RAIKOU
+  	special ShowPokedexEntry
 .Next1:
 	setval ENTEI
 	special MonCheck
@@ -109,6 +111,8 @@ TinTower1F_MapScripts:
 	disappear TINTOWER1F_ENTEI
 	playsound SFX_EXIT_BUILDING
 	waitsfx
+	setval ENTEI
+  	special ShowPokedexEntry
 .Next2:
 	turnobject PLAYER, UP
 	pause 10

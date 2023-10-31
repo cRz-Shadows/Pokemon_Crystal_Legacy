@@ -2448,7 +2448,7 @@ Pokedex_DetailedArea_rods:
 	ld d, h 
 	ld e, l
 	ld a, BANK(FishGroups_Names)
-	hlcoord 1 , 10 ; we want allllll the chars we can have
+	hlcoord 1 , 11 ; we want allllll the chars we can have
 	pop bc ; line counter, rod in b, maps in c
 	call FishEntry_adjusthlcoord_map ; line counter, rod in b, maps in c
 	push bc
@@ -2524,14 +2524,14 @@ Fishing_Print_Rod:
 
 ; time of day icons	
 	; ld b,b
-	hlcoord 9, 10 ; same position regardless
+	hlcoord 9, 13 ; same position regardless
 	call FishEntry_adjusthlcoord_rod ; current print line needs to be in c
 	ld [hl], $6b ; day icon tile
 	ld de, 6
 	add hl, de
 	ld [hl], $6c ; nite icon tile 
 ; % char	
-	hlcoord 13, 10
+	hlcoord 13, 13
 	call FishEntry_adjusthlcoord_rod ; current print line needs to be in c
 	ld [hl], "<%>"
 	ld de, 6 ; de should still be 6 since we push/pop de in adjust, check this
@@ -2546,7 +2546,7 @@ Fishing_Print_Rod:
 	ld a, d
 	ld [wTextDecimalByte], a
 	ld de, wTextDecimalByte
-	hlcoord 16, 10
+	hlcoord 16, 13
 	call FishEntry_adjusthlcoord_rod ; current print line needs to be in b
 	lb bc, 1, 3
 	call PrintNum
@@ -2557,7 +2557,7 @@ Fishing_Print_Rod:
 	ld a, e
 	ld [wTextDecimalByte], a
 	ld de, wTextDecimalByte
-	hlcoord 10, 10
+	hlcoord 10, 13
 	call FishEntry_adjusthlcoord_rod ; current print line needs to be in b
 	lb bc, 1, 3
 	call PrintNum
@@ -2576,7 +2576,7 @@ Fishing_Print_Rod:
 	jr z, .printrod
 	ld de, superrod_text
 .printrod
-	hlcoord 1 , 10
+	hlcoord 1 , 13
 	call FishEntry_adjusthlcoord_rod ; current print line needs to be in b
 	call PlaceString
 
@@ -2618,29 +2618,29 @@ FishEntry_adjusthlcoord_map:
 ; NOTE, preserve bc before calling this
 ; given: current printed map lines in c, rod lines in b
 ; given: set hl coords to baseline location SAME AS ROD, [[[10]]]
-	push af
-	push de	
-	push bc
-	ld c, b ; can be 1, 2, or 3, we wouldn't be here if we havent printed a rod
-	ld a, 20
-	call SimpleMultiply ; uses c as the other number
-	; result in a
-	ld d, 0
-	ld e, a
-	add hl, de ; allows us to print on the proper row by adjusting the pre-calcd hlcoord
-	pop bc ; now we need to add more lines depending on how many maps we've already printed
-	push bc
-	; should always be 0 since we havent implemented that yet
-	ld a, 10
-	call SimpleMultiply ; uses c as the other number
-	; result in a
-	ld d, 0
-	ld e, a
-	add hl, de ; allows us to print on the proper row by adjusting the pre-calcd hlcoord	
+	; push af
+	; push de	
+	; push bc
+	; ld c, b ; can be 1, 2, or 3, we wouldn't be here if we havent printed a rod
+	; ld a, 20
+	; call SimpleMultiply ; uses c as the other number
+	; ; result in a
+	; ld d, 0
+	; ld e, a
+	; add hl, de ; allows us to print on the proper row by adjusting the pre-calcd hlcoord
+	; pop bc ; now we need to add more lines depending on how many maps we've already printed
+	; push bc
+	; ; should always be 0 since we havent implemented that yet
+	; ld a, 10
+	; call SimpleMultiply ; uses c as the other number
+	; ; result in a
+	; ld d, 0
+	; ld e, a
+	; add hl, de ; allows us to print on the proper row by adjusting the pre-calcd hlcoord	
 	
-	pop bc
-	pop de
-	pop af
+	; pop bc
+	; pop de
+	; pop af
 	ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; FISHING ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

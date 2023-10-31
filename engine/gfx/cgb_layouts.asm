@@ -598,10 +598,14 @@ BillsPCOrangePalette:
 INCLUDE "gfx/pc/orange.pal"
 
 _CGB_PokedexUnownMode:
-	ld de, wBGPals1
-	ld a, PREDEFPAL_POKEDEX
-	call GetPredefPal
-	call LoadHLPaletteIntoDE
+	; ld de, wBGPals1
+    ; ld a, PREDEFPAL_POKEDEX
+    ; call GetPredefPal
+    ld de, wBGPals1
+    call CheckPokedexColor
+    call GetPredefPal
+    
+    call LoadHLPaletteIntoDE
 	ld a, [wCurPartySpecies]
 	call GetMonPalettePointer
 	call LoadPalette_White_Col1_Col2_Black
@@ -1106,10 +1110,13 @@ _CGB_BetaPikachuMinigame:
 	ret
 
 _CGB_PokedexSearchOption:
-	ld de, wBGPals1
-	ld a, PREDEFPAL_POKEDEX
-	call GetPredefPal
-	call LoadHLPaletteIntoDE
+	; ld de, wBGPals1
+    ; ld a, PREDEFPAL_POKEDEX
+    ; call GetPredefPal
+    ld de, wBGPals1
+    call CheckPokedexColor
+    call GetPredefPal
+    call LoadHLPaletteIntoDE
 	call WipeAttrmap
 	call ApplyAttrmap
 	call ApplyPals

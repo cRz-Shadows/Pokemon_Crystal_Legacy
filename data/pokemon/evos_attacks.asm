@@ -672,8 +672,10 @@ ParasEvosAttacks:
 	db EVOLVE_LEVEL, 24, PARASECT
 	db 0 ; no more evolutions
 	db 1, SCRATCH
+	db 5, ABSORB
 	db 7, STUN_SPORE
 	db 13, POISONPOWDER
+	db 16, MEGA_DRAIN
 	db 19, LEECH_LIFE
 	db 24, SPORE
 	db 31, SLASH
@@ -684,10 +686,12 @@ ParasEvosAttacks:
 ParasectEvosAttacks:
 	db 0 ; no more evolutions
 	db 1, SCRATCH
+	db 5, ABSORB
 	db 1, STUN_SPORE
 	db 1, POISONPOWDER
 	db 7, STUN_SPORE
 	db 13, POISONPOWDER
+	db 16, MEGA_DRAIN
 	db 19, LEECH_LIFE
 	db 24, SPORE
 	db 31, SLASH

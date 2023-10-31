@@ -167,10 +167,8 @@ SECTION "Battle Core", ROMX
 INCLUDE "engine/battle/core.asm"
 INCLUDE "data/battle/effect_command_pointers.asm"
 
-
 SECTION "bank10", ROMX
 
-INCLUDE "engine/pokedex/pokedex.asm"
 INCLUDE "data/moves/moves.asm"
 INCLUDE "engine/pokemon/evolve.asm"
 
@@ -695,6 +693,10 @@ Pokedex_ExtraTiles:
 INCBIN "gfx/pokedex/rangi_dex_tiles.2bpp"
 Pokedex_PageNumTiles:
 INCBIN "gfx/pokedex/dex_pagenums.2bpp"
+
+SECTION "Nayru Pokedex", ROMX
+
+INCLUDE "engine/pokedex/pokedex.asm"
 
 SECTION "Map GroupNums Names", ROMX
 INCLUDE "data/maps/map_names.asm"

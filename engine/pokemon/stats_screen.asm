@@ -978,11 +978,12 @@ StatsScreen_placeCaughtLocation:
 .MetAtMapString:
 	db "MET: @"
 .MetUnknownMapString:
-	db "UNKNOWN@"
+	db "UNKNOWN LOCATION@"
 
 StatsScreen_placeCaughtTime:
 	ld a, [wTempMonCaughtTime]
 	and CAUGHT_TIME_MASK
+	jr z, .unknown_time
 	rlca
 	rlca
 	dec a
@@ -995,10 +996,23 @@ StatsScreen_placeCaughtTime:
 	hlcoord 6, 9
 	call PlaceString
 	ret
+.unknown_time
+	ld a, 0
+	ld hl, .unknown_time_text
+	call GetNthString
+	ld d, h
+	ld e, l
+	call CopyName1
+	ld de, wStringBuffer2
+	hlcoord 6, 9
+	call PlaceString
+	ret
 .times
 	db "MORN@"
 	db "DAY@"
 	db "NITE@"
+.unknown_time_text
+	db "TRADE@"
 
 StatsScreen_placeCaughtLevel:
 	; caught level
@@ -1026,7 +1040,7 @@ StatsScreen_placeCaughtLevel:
 	call PlaceString
 	ret   
 .MetUnknownLevelString:
-	db "TRADE@"
+	db "@"
 
 StatsScreen_LoadUnownFont:
 	ld a, BANK(sScratch)

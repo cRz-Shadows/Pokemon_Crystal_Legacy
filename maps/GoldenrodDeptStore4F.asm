@@ -64,7 +64,7 @@ GoldenrodDeptStore4FGameboyKidText:
 	para "Pfft..."
 
 	para "Such"
-	line "misimformation."
+	line "misinformation."
 
 	para "I know some"
 	line "of the rumoured"

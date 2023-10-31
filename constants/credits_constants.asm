@@ -139,12 +139,13 @@
 	const SPRITEARTIST8
 	const SPRITEARTIST9
 	const TUTORIALS
-	const POKECRYSTAL1
+	const NAYRU
 	const POKECRYSTAL2
 	const POKECRYSTAL3
 	const POKECRYSTAL4
 	const POKECRYSTAL5
 	const POKECRYSTALDISASSEMBLY
+	const NAYRUTHANKSTEXT
 NUM_CREDITS_STRINGS EQU const_value
 
 ; CreditsScript indexes (see data/credits_script.asm)

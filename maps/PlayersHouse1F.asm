@@ -222,7 +222,7 @@ ElmsLookingForYouText:
 	line "neighbor, PROF."
 
 	para "ELM, was looking"
-	line "for you!."
+	line "for you."
 
 	para "Your GEAR is back"
 	line "from the shop."

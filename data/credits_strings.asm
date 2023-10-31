@@ -140,12 +140,13 @@ CreditsStringsPointers:
 	dw .SpriteArtist8
 	dw .SpriteArtist9
 	dw .Tutorials
-	dw .Pokecrystal1
+	dw .Nayru
 	dw .Pokecrystal2
 	dw .Pokecrystal3
 	dw .Pokecrystal4
 	dw .Pokecrystal5
 	dw .Pokecrystal
+	dw .NayruThanksText
 	assert_table_length NUM_CREDITS_STRINGS
 
 .SatoshiTajiri:       db "   SATOSHI TAJIRI@"         ; "たじり　さとし@"
@@ -290,7 +291,7 @@ CreditsStringsPointers:
 .SpriteArtist8:		  db "     TOM WANG@"
 .SpriteArtist9:		  db "      SEASICK@"
 .Tutorials:			  db "     TUTORIALS@"
-.Pokecrystal1: 		  db "      NAYRU62@"
+.Nayru: 		      db "      NAYRU62@"
 .Pokecrystal2: 		  db "      RANGI42@"
 .Pokecrystal3: 		  db "       IDAIN@"
 .Pokecrystal4: 		  db "    DAMIENDOURY@"
@@ -299,6 +300,10 @@ CreditsStringsPointers:
 					next " PRET TEAM FOR THE"
 					next "    POKECRYSTAL"
 					next "    DISASSEMBLY@"
+.NayruThanksText:     db "   IMPROVED DEX"
+					next "  MOVE RELEASRNER"
+					next " POKEMON DVS SCREEN"
+					next "      MADE BY@"
 
 .Copyright:
 	;    (C) 1  9  9  5 - 2  0  0  1     N  i  n  t  e  n  d  o
