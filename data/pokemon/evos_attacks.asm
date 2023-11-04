@@ -515,7 +515,6 @@ ClefairyEvosAttacks:
 
 ClefableEvosAttacks:
 	db 0 ; no more evolutions
-	db 0 ; no more evolutions
 	db 1, POUND
 	db 1, GROWL
 	db 6, ENCORE

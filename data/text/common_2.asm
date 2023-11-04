@@ -666,7 +666,7 @@ _AreYouABoyOrAreYouAGirlText::
 	done
 
 _SelectDifficultyText::
-	text "Select Difficulty."
+	text "Select difficulty."
 	done
 
 _SelectDifficultyNormalText::
@@ -676,7 +676,7 @@ _SelectDifficultyNormalText::
 _SelectDifficultyHardText::
 	text "Set mode, no"
 	line "items in battle,"
-	cont "gym level caps."
+	cont "GYM LVL caps."
 	done
 
 Text_BattleEffectActivate::

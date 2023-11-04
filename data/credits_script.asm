@@ -108,7 +108,7 @@ CreditsScript:
 	db CREDITS_WAIT, 12
 
 	db             NAYRUTHANKSTEXT, 0
-	db       NAYRU, 4
+	db       NAYRU, 3
 
 	db CREDITS_WAIT, 12
 

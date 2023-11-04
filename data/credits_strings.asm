@@ -301,7 +301,6 @@ CreditsStringsPointers:
 					next "    POKECRYSTAL"
 					next "    DISASSEMBLY@"
 .NayruThanksText:     db "   IMPROVED DEX"
-					next "  MOVE RELEASRNER"
 					next " POKEMON DVS SCREEN"
 					next "      MADE BY@"
 
