@@ -674,7 +674,7 @@ _SelectDifficultyNormalText::
 	done
 
 _SelectDifficultyHardText::
-	text "Set mode, no"
+	text "SET mode, no"
 	line "items in battle,"
 	cont "GYM LVL caps."
 	done

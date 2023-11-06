@@ -81,10 +81,12 @@ MeetMomScript:
 .ExplainPhone:
 	writetext DontKnowTheInstructionsText
 	promptbutton
+	writetext InstructionsNextText
+	waitbutton
 	sjump .FinishPhone
 
 .FinishPhone:
-	writetext InstructionsNextText
+	writetext CanRunText
 	waitbutton
 	closetext
 	checkevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
@@ -271,15 +273,17 @@ InstructionsNextText:
 	line "stored in memory."
 	done
 
+CanRunText:
+	para "Oh, and remember,"
+    line "you can get there"
+    cont "faster if you run!"
+	done
+
 HurryUpElmIsWaitingText:
 	text "PROF.ELM is wait-"
 	line "ing for you."
 
 	para "Hurry up, baby!"
-
-	para "Oh, and remember,"
-    line "you can get there"
-    cont "faster if you run!"
 	done
 
 SoWhatWasProfElmsErrandText:
