@@ -169,6 +169,15 @@ Pokedex_place_Mon_Icon:
 	ret
 
 Dex_Pics_DrawBorder:
+	hlcoord 0, 9
+	ld a, [wPokedexShinyToggle]
+	bit 0, a
+	jr z, .not_shiny
+	ld [hl], "<DEX_⁂>"
+	jr .shiny_done
+.not_shiny
+	ld [hl], " "
+.shiny_done
 	hlcoord 0, 0
 	ld [hl], $77 
 	inc hl

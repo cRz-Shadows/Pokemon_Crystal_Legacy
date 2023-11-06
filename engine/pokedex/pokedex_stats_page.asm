@@ -1,3 +1,50 @@
+DisplayDexMonStats::
+	ld a, [wTempSpecies]
+	ld [wCurSpecies], a
+
+	ld a, DEXENTRY_BASESTATS
+	call HandlePageNumReset
+
+	call Pokedex_Clearbox
+	ld de, .Base_stats_text
+	hlcoord 2, 9
+	call PlaceString
+	call Pokedex_PrintPageNum ; page num is also returned in a
+	and a
+	jr z, .print_page1
+	cp 1
+	jr z, .print_page2
+	cp 2
+	jr z, .print_page3
+	jr .print_page4
+.print_page1
+	call Pokedex_GBS_Stats ; 4 lines
+	call Pokedex_CatchRate ; 1 line
+	jp DexEntry_IncPageNum
+.print_page2
+	call Pokedex_Get_Items ; 3 lines
+	call Pokedex_PrintBaseExp ; 1 line
+	call Pokedex_Get_Growth ; 1 lines
+	jp DexEntry_IncPageNum
+.print_page3
+	; these ones NEED to be in this order
+	call Pokedex_EggG_SetUp ; 3 lines
+	call Pokedex_PrintHatchSteps ; 1 line
+	call Pokedex_Get_GenderRatio ; 1 line	
+	; call Pokedex_HeightWeight ; 2 lines
+	; call Pokedex_Get_Items ; 3 lines
+	jp DexEntry_IncPageNum
+.print_page4
+	; call Pokedex_EggG_SetUp ; 3 lines
+	; call Pokedex_PrintHatchSteps ; 1 line
+	; call Pokedex_Get_GenderRatio ; 1 line
+	call Pokedex_HeightWeight ; 2 lines
+	xor a
+	ld [wPokedexEntryPageNum], a
+	ret
+.Base_stats_text:
+	db "BASE STATS@"
+
 Pokedex_GBS_Stats:
 	ld de, BS_HP_text
 	hlcoord 3, 10

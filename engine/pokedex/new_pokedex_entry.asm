@@ -1,5 +1,4 @@
 NewPokedexEntry:
-	ld a, [wPokedexShinyToggle]
 	xor a
 	ld [wPokedexShinyToggle], a
 	ldh a, [hMapAnims]
@@ -17,6 +16,7 @@ NewPokedexEntry:
 	add POKEDEX_SCX
 	ldh [hSCX], a
 	xor a
+	ldh [hSCY], a
 	ld [wPokedexStatus], a
 	farcall _NewPokedexEntry
 	call WaitPressAorB_BlinkCursor

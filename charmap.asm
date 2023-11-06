@@ -39,6 +39,7 @@
 ; Actual characters (from gfx/font/font_battle_extra.png)
 
 	charmap "<LV>",      $6e
+	charmap "<DEX_LV>",  $5d
 
 	charmap "<DO>",      $70 ; hiragana small do, unused
 	charmap "◀",         $71
@@ -52,6 +53,7 @@
 
 	; needed for StatsScreen_PlaceShinyIcon and PrintPartyMonPage1
 	charmap "⁂",         $3f ; gfx/stats/stats_tiles.png, tile 14
+	charmap "<DEX_⁂>",   $64 ; gfx/stats/stats_tiles.png, tile 14
 
 ; Actual characters (from gfx/font/font.png)
 

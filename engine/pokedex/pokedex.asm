@@ -400,24 +400,6 @@ Pokedex_UpdateDexEntryScreen:
 	ld [wJumptableIndex], a
 	ret
 
-.toggle_shininess
-; toggle the current shininess setting
-	ld a, [wPokedexShinyToggle]
-	xor 1
-	ld [wPokedexShinyToggle], a
-	; refresh palettes
-	ld a, SCGB_POKEDEX
-	call Pokedex_GetSGBLayout
-	; play sound based on setting
-	ld a, [wPokedexShinyToggle]
-	bit 0, a
-	ld de, SFX_BUMP
-	jr z, .got_sound
-	ld de, SFX_SHINE
-.got_sound
-	call PlaySFX
-	jp WaitSFX
-
 Pokedex_Page:
 	call Pokedex_GetSelectedMon
 	ld [wPrevDexEntry], a
@@ -428,7 +410,19 @@ Pokedex_toggle_shininess_Entry:
 	call Pokedex_toggle_shininess1
 ; refresh palettes
 	ld a, SCGB_POKEDEX
-	call Pokedex_GetSGBLayout	
+	call Pokedex_GetSGBLayout
+
+	; add or remove shiny icon
+	hlcoord 8, 4
+	ld a, [hl]
+	cp "<DEX_⁂>"
+	jr z, .shinyicon_set
+	ld [hl], "<DEX_⁂>"
+	jr .done
+.shinyicon_set
+	ld [hl], " "
+.done
+
 	call Pokedex_toggle_shininess2
 	ret
 
@@ -436,7 +430,17 @@ Pokedex_toggle_shininess_Pics:
 	call Pokedex_toggle_shininess1
 ; refresh palettes
 	ld a, SCGB_POKEDEX_PICS
-	call Pokedex_GetSGBLayout	
+	call Pokedex_GetSGBLayout
+	; add or remove shiny icon
+	hlcoord 0, 9
+	ld a, [hl]
+	cp "<DEX_⁂>"
+	jr z, .shinyicon_set
+	ld [hl], "<DEX_⁂>"
+	jr .done
+.shinyicon_set
+	ld [hl], " "
+.done	
 	call Pokedex_toggle_shininess2
 	ret
 
@@ -556,9 +560,18 @@ Pokedex_ReinitDexEntryScreen:
 	ld [wPokedexEntryPageNum], a
 	ld [wPokedexStatus], a ; moves machines index
 	farcall DisplayDexMonMoves
-.cont	
+.cont
 	call Pokedex_DrawFootprint
 	call Pokedex_LoadSelectedMonTiles
+	hlcoord 8, 4
+	ld a, [wPokedexShinyToggle]
+	bit 0, a
+	jr z, .not_shiny
+	ld [hl], "<DEX_⁂>"
+	jr .shiny_done
+.not_shiny
+	ld [hl], " "
+.shiny_done
 	call WaitBGMap
 	call Pokedex_GetSelectedMon
 	ld [wCurPartySpecies], a
@@ -968,6 +981,16 @@ Pics_Page:
 	ld a, [wLastDexMode]
 	cp -2
 	jp z, Pokedex_ReinitDexEntryScreen
+	
+	hlcoord 8, 4
+	ld a, [wPokedexShinyToggle]
+	bit 0, a
+	jr z, .not_shiny
+	ld [hl], "<DEX_⁂>"
+	jr .shiny_done
+.not_shiny
+	ld [hl], " "
+.shiny_done
 	call WaitBGMap
 	ret
 .toggle_shininess:

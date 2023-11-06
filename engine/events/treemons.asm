@@ -30,12 +30,12 @@ RockMonEncounter:
 	xor a
 	ld [wTempWildMonSpecies], a
 	ld [wCurPartyLevel], a
-
+	
 	ld hl, RockMonMaps
-	call GetTreeMonSet
+	call GetTreeMonSet ; works the same way
 	jr nc, .no_battle
 
-	call GetTreeMons
+	call GetRockMons
 	jr nc, .no_battle
 
 	; 40% chance of an encounter
@@ -120,6 +120,30 @@ GetTreeMons:
 	xor a
 	ret
 
+GetRockMons:
+; Return the address of TreeMon table a in hl.
+; Return nc if table a doesn't exist.
+	
+	cp NUM_ROCKSMASH_SETS
+	jr nc, .quit
+
+	ld e, a
+	ld d, 0
+	ld hl, RockSmashMons
+	add hl, de
+	add hl, de
+
+	ld a, [hli]
+	ld h, [hl]
+	ld l, a
+
+	scf
+	ret
+
+.quit
+	xor a
+	ret
+
 INCLUDE "data/wild/treemons.asm"
 
 GetTreeMon:
@@ -166,7 +190,6 @@ GetTreeMon:
 
 SelectTreeMon:
 ; Read a TreeMons table and pick one monster at random.
-
 	ld a, 100
 	call RandomRange
 .loop
@@ -202,6 +225,7 @@ GetTreeScore:
 	ld [wTreeMonOTIDScore], a
 	ld c, a
 	ld a, [wTreeMonCoordScore]
+	; ld b,b
 	sub c
 	jr z, .rare
 	jr nc, .ok
