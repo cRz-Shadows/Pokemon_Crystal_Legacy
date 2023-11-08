@@ -129,6 +129,7 @@ CreditsStringsPointers:
 	dw .Tester8
 	dw .Tester9
 	dw .Tester10
+	dw .Tester11
 	dw .SpriteArtists
 	dw .SpriteArtist1
 	dw .SpriteArtist2
@@ -280,6 +281,7 @@ CreditsStringsPointers:
 .Tester8:			  db "     HALF1SCH@"
 .Tester9:			  db "       ISONA@"
 .Tester10:			  db "      TALOS-8@"
+.Tester11:			  db "    WOOTONMAJR@"
 .SpriteArtists:		  db "  SPRITE ATRISTS@"
 .SpriteArtist1:		  db "       KATT@"
 .SpriteArtist2:		  db "      CHAMBER@"

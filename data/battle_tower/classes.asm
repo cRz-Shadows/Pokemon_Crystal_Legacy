@@ -24,7 +24,7 @@ BattleTowerTrainers:
 	db "HILL@@@@@@", FIREBREATHER
 	db "Ha1fisch@@", SWIMMERM
 	db "ZAAACH@@@@", SCHOOLBOY
-	db "LANCASTER@", SKIER
+	db "WOOTTON@@@", BOARDER
 	db "McMAHILL@@", CAMPER
 	assert_table_length BATTLETOWER_NUM_UNIQUE_MON
 ; The following can only be sampled in Crystal 1.1.

@@ -52,13 +52,6 @@ MeetMomScript:
 	yesorno
 	iffalse .WrongDay
 	special InitialSetDSTFlag
-	checkflag ENGINE_HARD_MODE
-	iffalse .normalmode
-	loadmem wLevelCap, 10 ; initialise level cap for hard mode
-	sjump .doneLevelCap
-.normalmode
-	loadmem wLevelCap, 100
-.doneLevelCap
 	yesorno
 	iffalse .SetDayOfWeek
 	sjump .DayOfWeekDone
@@ -89,6 +82,13 @@ MeetMomScript:
 	writetext CanRunText
 	waitbutton
 	closetext
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode
+	loadmem wLevelCap, 10 ; initialise level cap for hard mode
+	sjump .doneLevelCap
+.normalmode
+	loadmem wLevelCap, 100
+.doneLevelCap
 	checkevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
 	iftrue .FromRight
 	checkevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_2
@@ -274,7 +274,7 @@ InstructionsNextText:
 	done
 
 CanRunText:
-	para "Oh, and remember,"
+	text "Oh, and remember,"
     line "you can get there"
     cont "faster if you run!"
 	done
