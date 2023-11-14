@@ -805,12 +805,15 @@ LoadOrangePage:
 	call StatsScreen_placeCaughtTime
 	call StatsScreen_placeCaughtLocation
 	call StatsScreen_PrintDVs
-	readvar VAR_UNOWNCOUNT
-	ifequal NUM_UNOWN, .ShowHiddenPower ; This doesn't work
-	sjump .EndLoadOrangePage
-.ShowHiddenPower
+	
+	; check if we've caught all the unown, Event flag set by talking to printer guy at ruins lab
+	ld de, EVENT_CAUGHT_ALL_UNOWN
+	ld b, CHECK_FLAG
+	call EventFlagAction
+	ld a, c
+	and a
+	ret z ; flag was not set
 	call StatsScreen_Print_HiddenPow_Info
-.EndLoadOrangePage
 	ret
 
 StatsScreen_PrintHappiness:
