@@ -1,5 +1,6 @@
 INCLUDE "engine/pokedex/pokedex_area_page_trees_rocks.asm"
 INCLUDE "engine/pokedex/pokedex_area_page_fishing.asm"
+INCLUDE "data/wild/non_wildmon_locations.asm"
 
 Pokedex_DetailedArea:
 	xor a
@@ -54,6 +55,18 @@ Pokedex_DetailedArea:
 
 	cp DEXENTRY_AREA_ROAMING
 	jr z, .roaming
+
+	cp DEXENTRY_AREA_CASINO
+	jr z, .casino
+
+	cp DEXENTRY_AREA_NPCTRADES
+	jr z, .npctrades
+
+	cp DEXENTRY_AREA_EVENTWILDMONS
+	jr z, .eventwildmons
+
+	cp DEXENTRY_AREA_GIFTMONS
+	jr z, .giftmons
 	
 	; loop back around as if we are arriving for the first time, creating a closed-loop rotation
 .first
@@ -100,7 +113,19 @@ Pokedex_DetailedArea:
 	call Pokedex_DetailedArea_bugcontest
 	jr .skip_empty_area_check
 .roaming
-	call Pokedex_DetailedArea_roaming	
+	call Pokedex_DetailedArea_roaming
+	jr .skip_empty_area_check
+.casino
+	call Pokedex_DetailedArea_casino
+	jr .skip_empty_area_check
+.npctrades
+	call Pokedex_DetailedArea_npctrades
+	jr .skip_empty_area_check
+.eventwildmons
+	call Pokedex_DetailedArea_eventwildmons
+	jr .skip_empty_area_check
+.giftmons
+	call Pokedex_DetailedArea_giftmons
 	; fallthrough
 .skip_empty_area_check
 	cp -1 ; -1 means we skipped, ;;;; 0 is normal
@@ -118,7 +143,7 @@ Dex_FindFirstList:
 	ld a, BANK(JohtoGrassWildMons)
 	call Dex_Check_Grass
 	and a
-	jr z, .grass_johto
+	jp z, .grass_johto
 	ld hl, KantoGrassWildMons
 	ld a, BANK(KantoGrassWildMons)
 	call Dex_Check_Grass
@@ -175,6 +200,24 @@ Dex_FindFirstList:
 	and a
 	jr z, .roaming
 
+	call Dex_Check_casino
+	and a
+	jr z, .casino
+
+	call Dex_Check_npctrades
+	and a
+	jr z, .npctrades
+
+	ld hl, EventWildMons
+	call Dex_Check_eventmons
+	and a
+	jr z, .eventwildmons
+
+	ld hl, GiftMons
+	call Dex_Check_eventmons
+	and a
+	jr z, .giftmons			
+
 ; none found
 	ld a, DEXENTRY_AREA_NONE
 	ret
@@ -213,7 +256,20 @@ Dex_FindFirstList:
 	ret
 .roaming
 	ld a, DEXENTRY_AREA_ROAMING
-	ret	
+	ret
+.casino
+	ld a, DEXENTRY_AREA_CASINO
+	ret
+.npctrades
+	ld a, DEXENTRY_AREA_NPCTRADES
+	ret
+.eventwildmons
+	ld a, DEXENTRY_AREA_EVENTWILDMONS
+	ret
+.giftmons
+	ld a, DEXENTRY_AREA_GIFTMONS
+	ret
+
 
 Print_area_entry:
 ; morn,day,nite,space,map name
@@ -289,6 +345,12 @@ Print_area_entry:
 	ld c, 4
 	call DelayFrames
 	pop bc ; line counter
+	ret
+
+DexArea_IncWildMonIndex:
+	ld a, [wPokedexStatus]
+	inc a
+	ld [wPokedexStatus], a
 	ret
 
 Pokedex_Skip_Empty_Area_Category:
@@ -405,9 +467,7 @@ Pokedex_DetailedArea_grass:
 .done
 	pop hl ; points to map group/num
 	pop bc ; line counter in c
-	ld a, [wPokedexStatus] ; wildmon index
-	inc a
-	ld [wPokedexStatus], a ; wildmon index
+	call DexArea_IncWildMonIndex
 	push bc ; line counter in c
 	ld b, 0
 	ld c, GRASS_WILDDATA_LENGTH
@@ -440,9 +500,7 @@ Pokedex_DetailedArea_grass:
 	call Grass_check_any_remaining
 	and a
 	jr z, .reached_end
-	ld a, [wPokedexStatus] ; wildmon index
-	inc a 
-	ld [wPokedexStatus], a ; wildmon index
+	call DexArea_IncWildMonIndex
 	call DexEntry_IncPageNum
 	; page number is currently in a
 	xor a ; to ensure a isnt actually returned at -1. 0 is for normal
@@ -698,9 +756,7 @@ Pokedex_DetailedArea_surf:
 .done
 	pop hl ; points to map group/num
 	pop bc ; line counter in c
-	ld a, [wPokedexStatus] ; wildmon index
-	inc a
-	ld [wPokedexStatus], a ; wildmon index
+	call DexArea_IncWildMonIndex
 	push bc ; line counter in c
 	ld b, 0
 	ld c, WATER_WILDDATA_LENGTH
@@ -732,9 +788,7 @@ Pokedex_DetailedArea_surf:
 	call Surf_check_any_remaining
 	and a
 	jr z, .reached_end
-	ld a, [wPokedexStatus] ; wildmon index
-	inc a 
-	ld [wPokedexStatus], a ; wildmon index
+	call DexArea_IncWildMonIndex
 	call DexEntry_IncPageNum
 	; page number is currently in a
 	xor a ; to ensure a isnt actually returned at -1. 0 is for normal
@@ -888,9 +942,7 @@ Dex_Check_Grass:
 	and a
 	jr z, .found
 	pop hl ; points to map group/num
-	ld a, [wPokedexStatus]
-	inc a
-	ld [wPokedexStatus], a
+	call DexArea_IncWildMonIndex
 	ld b, 0
 	ld c, GRASS_WILDDATA_LENGTH
 	add hl, bc
@@ -963,9 +1015,7 @@ Dex_Check_Surf:
 	and a
 	jr z, .found
 	pop hl ; points to map group/num
-	ld a, [wPokedexStatus]
-	inc a
-	ld [wPokedexStatus], a
+	call DexArea_IncWildMonIndex
 	ld b, 0
 	ld c, WATER_WILDDATA_LENGTH
 	add hl, bc
@@ -1026,7 +1076,7 @@ Dex_Check_bugcontest:
 ; 	;   %, species,   min, max
 ; 	db 20, CATERPIE,    7, 18
 
-; given HL, point in ContestMons, check for any further matching mons
+; given 'hl', point in ContestMons, check for any further matching mons
 ; return zero in 'a' if found, else 1 in 'a'
 .loop
 	ld a, BANK(ContestMons)
@@ -1141,7 +1191,7 @@ BugContest_Print:
 	hlcoord 4, 11
 	call PrintNum
 	ret
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; CONTEST END ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ROAMING ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; wRoamMon1:: roam_struct wRoamMon1
 ; wRoamMon2:: roam_struct wRoamMon2
@@ -1298,7 +1348,7 @@ Dex_Print_Roamer_Info:
 	; check if DVs are init'd
 	and a ; will still be zero if we jumped here after DV check, else will be 1
 	jr z, .not_shiny
-	
+
 	ld b, h
 	ld c, l
 	farcall CheckShininess ; ptr needs to be in bc
@@ -1318,3 +1368,586 @@ Dex_Print_Roamer_Info:
 	ret
 .hp_text:
 	db "HP:@"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; ROAMING END ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; CASINO ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Dex_Check_casino:
+; assume no repeat species entries per region
+; return zero in 'a' if found, else 1 in 'a'
+	xor a
+	ld [wPokedexEvoStage2], a
+	ld hl, CasinoMons ; pointing to johto casino map_id
+	inc hl
+	inc hl ; pointing to casino mon species
+.loop ; for johto casino
+	ld a, BANK(CasinoMons)
+	call GetFarByte
+	cp -1
+	jr z, .check_kanto_casino
+	; we arent at the end yet, so this byte is the species
+	ld c, a ; pokemon species of entry in EventWildMons/GiftMons
+	ld a, [wCurSpecies] ; current pokedex entry species
+	cp c
+	jr z, .found
+	; species didnt match, inc hl by 3, need to check for -1
+.loop_b	
+	ld de, 3 ; size of casinomon entry, 3 bytes
+	add hl, de
+	jr .loop
+.check_kanto_casino
+	ld a, [wPokedexEvoStage2]
+	and a
+	jr nz, .notfound
+	inc a
+	ld [wPokedexEvoStage2], a
+	jr .loop_b
+.found
+	xor a
+	ret
+.notfound
+	ld a, 1
+	ret
+
+Pokedex_DetailedArea_casino:
+; 2 lines per entry: map name, coins
+	call Dex_Check_casino
+	and a
+	jp nz, Pokedex_Skip_Empty_Area_Category
+	
+	xor a
+	ld [wPokedexEvoStage2], a ; 0 if we havent printed a johto casino mon
+	ld [wPokedexEvoStage3], a
+
+	; print the title, CASINO PRIZE
+	hlcoord 1, 9
+	ld de, .casino_text
+	call PlaceString
+
+; johto casino
+	ld hl, CasinoMons + 2 ; ptr to 1st johto casinomon species
+.johto_loop
+	ld a, BANK(CasinoMons)
+	call GetFarByte
+	cp -1
+	jr z, .kanto_loop_setup
+	; we arent at the end yet, so this byte is the species
+	ld c, a ; pokemon species of entry in EventWildMons/GiftMons
+	ld a, [wCurSpecies] ; current pokedex entry species
+	ld de, CasinoMons ; johto casino map_id
+	cp c
+	call z, Print_casinomon
+	; inc hl by 3, need to check for -1
+	ld de, 3 ; size of casinomon entry, 3 bytes
+	add hl, de
+	jr .johto_loop
+.kanto_loop_setup
+	inc hl ; ptr to kanto casino map_id
+	push hl ; ptr to kanto casino map_id
+	inc hl
+	inc hl ; first kanto casinomon species
+.kanto_loop
+	ld a, BANK(CasinoMons)
+	call GetFarByte
+	cp -1
+	jr z, .kanto_done
+	; we arent at the end yet, so this byte is the species
+	ld c, a ; pokemon species of entry in EventWildMons/GiftMons
+	ld a, [wCurSpecies] ; current pokedex entry species
+	pop de ; kanto casino map_id ptr
+	push de ; kanto casino map_id ptr
+	cp c
+	call z, Print_casinomon
+	; inc hl by 3, need to check for -1
+	ld de, 3 ; size of casinomon entry, 3 bytes
+	add hl, de
+	jr .kanto_loop
+
+
+.kanto_done
+	pop hl ; ptr to kanto casino map_id, clean stack
+.donedone
+	ld a, [wPokedexEntryType] ; casino
+	inc a
+	call DexEntry_NextCategory
+	ret
+.casino_text:
+	db "CASINO PRIZE@"
+
+Print_casinomon:
+	; 'de' has casino map_id ptr
+	push hl ; current casinomon species ptr
+
+	ld h, d
+	ld l, e
+	ld a, BANK(CasinoMons)
+	call GetFarWord
+	ld d, h
+	ld e, l
+	farcall GetMapGroupNum_Name ; map info in 'de'
+	ld a, [wPokedexEvoStage2]
+	and a
+	jr z, .first_print_map_id
+	hlcoord 2, 13
+	jr .print_map_id
+.first_print_map_id
+	hlcoord 2, 10
+.print_map_id
+	; map name ptr is in de
+	ld a, BANK(MapGroupNum_Names)
+	call PlaceFarString
+	
+	pop hl ; current casinomon species ptr
+	push hl ; current casinomon species ptr
+	inc hl ; pointing to coins ptr
+	ld a, BANK(CasinoMons)
+	call GetFarWord ; hl contains coins
+	
+	; print Casino Coins req, a 2 byte number, using wCurDamage
+	ld a, h
+	ld [wCurDamage], a
+	ld a, l
+	ld [wCurDamage + 1], a
+	ld de, wCurDamage
+
+	ld a, [wPokedexEvoStage2]
+	and a
+	jr z, .first_print_coins
+	hlcoord 2, 14
+	jr .print_map_id
+.first_print_coins
+	hlcoord 2, 11
+.print_coins
+	lb bc, 2, 5 ; 2 byte number, up to 5 digits
+	push hl ; print location
+	call PrintNum
+	pop hl ; print location
+	ld de, 7 ; spaces to inc print line over
+	add hl, de
+	ld de, .coins_text
+	call PlaceString
+
+	pop hl ; current casinomon species ptr
+	ret
+.coins_text:
+	db "COINS@"
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; CASINO END ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; NPC TRADES ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; NPCTrades::
+; NPCTRADE_GIVEMON  rb
+; NPCTRADE_GETMON   rb
+; NPCTRADE_ITEM     rb
+; NPCTRADE_GENDER   rb
+	; species wanted, species offering, item mon holds, requested gender, map
+	; check corresponding trade flag array: wram.asm, wTradeFlags
+		; ld b, CHECK_FLAG
+		; call TradeFlagAction
+		; ld hl, wTradeFlags
+		; ld a, [wJumptableIndex]
+		; ld c, a
+		; predef SmallFarFlagAction
+		; ld a, c
+		; and a
+		; ret
+
+Dex_Check_npctrades:
+; return zero in 'a' if found, else 1 in 'a'
+	ld hl, NPCTrades
+	ld bc, 0 ; count in b, corresponding to NUM_NPC_TRADES
+	ld de, NPCTRADE_GETMON
+	add hl, de	
+.loop
+	ld a, NUM_NPC_TRADES
+	cp b ; count, trade entry index
+	jr z, .notfound
+
+	ld a, BANK(NPCTrades)
+	call GetFarByte
+	
+	ld c, a ; pokemon species of entry in EventWildMons/GiftMons
+	ld a, [wCurSpecies] ; current pokedex entry species
+	cp c
+	jr z, .found
+	
+	; species didnt match, inc hl by NPCTRADE_STRUCT_LENGTH
+	ld de, NPCTRADE_STRUCT_LENGTH ; size of npctrade entry, NPCTRADE_STRUCT_LENGTH
+	add hl, de
+	inc b ; count, trade entry index
+	jr .loop
+.found
+	xor a
+	ret
+.notfound
+	ld a, 1
+	ret
+
+Pokedex_DetailedArea_npctrades:
+; 1 full page per entry
+	call Dex_Check_npctrades
+	and a
+	jp nz, Pokedex_Skip_Empty_Area_Category
+	
+	xor a
+	ld [wPokedexEvoStage2], a ; signals additional species entries
+	ld [wPokedexEvoStage3], a
+
+	; print the title, NPC Trade
+	hlcoord 1, 9
+	ld de, .npctrade_text
+	call PlaceString
+
+; cannot assume there will be no species repeats
+	ld hl, NPCTrades
+	ld c, NPCTRADE_STRUCT_LENGTH
+	ld a, [wPokedexStatus] ; wildmon index
+	call AddNTimes
+	ld a, [wPokedexStatus] ; wildmon index
+	ld b, a ; count in b, corresponding to NUM_NPC_TRADES
+	ld de, NPCTRADE_GETMON
+	add hl, de
+
+.loop
+	ld a, NUM_NPC_TRADES
+	cp b ; count, trade entry index
+	jr z, .donedone
+
+	ld a, BANK(NPCTrades)
+	call GetFarByte
+	
+	ld c, a ; pokemon species of entry in EventWildMons/GiftMons
+	ld a, [wCurSpecies] ; current pokedex entry species
+	cp c
+	jr z, .found
+.return
+	; species didnt match, inc hl by NPCTRADE_STRUCT_LENGTH
+	ld de, NPCTRADE_STRUCT_LENGTH ; size of npctrade entry, NPCTRADE_STRUCT_LENGTH
+	add hl, de
+	inc b ; count, trade entry index
+	call DexArea_IncWildMonIndex
+	jr .loop
+.donedone
+	ld a, [wPokedexEntryType] ; NPC trade
+	inc a
+	call DexEntry_NextCategory
+	ret
+.inc_page
+	call DexArea_IncWildMonIndex
+	call DexEntry_IncPageNum
+	; page number is currently in a
+	xor a ; to ensure a isnt actually returned at -1. 0 is for normal
+	ret	
+.found
+	ld a, [wPokedexEvoStage2]
+	and a
+	jr nz, .inc_page
+	; if we're here, means print the entry, and set wPokedexEvoStage2 to 1
+	inc a
+	ld [wPokedexEvoStage2], a ; next time, if we find a species match, it's a look-ahead
+	; hl is pointing to Target Trade Mon
+	call Dex_Print_TradeMon_Info
+	jr .return
+
+.npctrade_text:
+	db "NPC TRADE@"
+
+Dex_Print_TradeMon_Info:
+	; 'de': location: 		hlcoord 2, 10
+	; 'hl': blurb/hint: 	hlcoord 2, 11
+	push bc ; 'b' is current count out of max NUM_NPC_TRADES
+	; 'hl' is currently pointing to Target Trade Mon in NPCTrades
+	dec hl ; 'hl' now pointing to base of NPCTrades entry, Requested Species
+	dec hl
+	push hl ; pointing to base of NPCTrades entry, Requested Species
+	
+	; use 'b' to get map from NPCTradeMons_Locations
+	ld hl, NPCTradeMons_Locations
+	ld c, b
+	ld b, 0
+	add hl, bc
+	add hl, bc ; add twice because map_id is 2 bytes
+	ld a, BANK(NPCTradeMons_Locations)
+	call GetFarWord
+	ld d, h 
+	ld e, l	
+	farcall GetMapGroupNum_Name ; map info in 'de'
+	; map name ptr is in de
+	hlcoord 2 , 10
+	ld a, BANK(MapGroupNum_Names)
+	call PlaceFarString
+
+	hlcoord 2, 12
+	ld de, .OT_Name_Text ; "OT/@"
+	call PlaceString
+	hlcoord 2, 13
+	ld de, .Nickname_Text ; "NAME/@"
+	call PlaceString
+	hlcoord 2, 14
+	ld de, .GivenItem_Text ; "HOLDING/@"
+	call PlaceString
+	hlcoord 2, 15
+	ld de, .WantedMon_Text ; "FOR/@"
+	call PlaceString
+
+; requested mon species, hlcoord 8, 15
+	pop hl ; pointing to base of NPCTrades entry, Requested Species
+	push hl ; pointing to base of NPCTrades entry, Requested Species
+	ld bc, NPCTRADE_GIVEMON
+	add hl, bc	
+	ld a, [wTempSpecies]
+	push af ; real current mon species
+	ld a, BANK(NPCTrades)
+	call GetFarByte
+	ld [wCurSpecies], a
+	ld [wTempSpecies], a
+	call GetPokemonName
+	hlcoord 8, 15
+	call PlaceString
+	pop af ; real species
+	ld [wCurSpecies], a
+	ld [wTempSpecies], a
+; if gender req, put at hlcoord 7, 15
+	pop hl ; pointing to base of NPCTrades entry, NPCTRADE_DIALOG
+	push hl ; pointing to base of NPCTrades entry, NPCTRADE_DIALOG
+	ld bc, NPCTRADE_GENDER
+	add hl, bc
+	ld a, BANK(NPCTrades)
+	call GetFarByte
+	ld c, " "
+	cp TRADE_GENDER_EITHER
+	jr z, .gender_done
+	ld c, "♂"
+	cp TRADE_GENDER_MALE
+	jr z, .gender_done
+	ld c, "♀"
+	; fallthrough
+.gender_done
+	hlcoord 7, 15
+	ld [hl], c
+; original trainer name
+	pop hl ; pointing to base of NPsCTrades entry, NPCTRADE_DIALOG
+	push hl ; pointing to base of NPCTrades entry, NPCTRADE_DIALOG
+	ld bc, NPCTRADE_OT_NAME
+	add hl, bc
+	ld d, h 
+	ld e, l	
+	hlcoord 8, 12
+	ld a, BANK(NPCTrades)
+	call PlaceFarString
+
+; held item, hlcoord 8, 14
+	pop hl ; pointing to base of NPCTrades entry, Requested Species
+	push hl ; pointing to base of NPCTrades entry, Requested Species
+	ld bc, NPCTRADE_ITEM
+	add hl, bc	
+	ld a, [wTempSpecies]
+	push af ; real current mon species
+	ld a, BANK(NPCTrades)
+	call GetFarByte
+	ld [wNamedObjectIndex], a
+	call GetItemName
+	hlcoord 8, 14
+	call PlaceString
+	pop af ; real species
+	ld [wCurSpecies], a
+	ld [wTempSpecies], a
+
+; traded mon nickname
+	pop hl ; pointing to base of NPsCTrades entry, NPCTRADE_DIALOG
+	push hl ; pointing to base of NPCTrades entry, NPCTRADE_DIALOG
+	ld bc, NPCTRADE_NICKNAME
+	add hl, bc
+	ld d, h 
+	ld e, l	
+	hlcoord 8, 13
+	ld a, BANK(NPCTrades)
+	call PlaceFarString
+
+	pop hl ; pointing to base of NPCTrades entry, NPCTRADE_DIALOG
+	inc hl
+	inc hl ; pointing to Target Trade Mon in NPCTrades
+	pop bc ; 'b' is current count out of max NUM_NPC_TRADES
+	ret
+
+.OT_Name_Text:
+	db "OT/@"
+.Nickname_Text:
+	db "NAME/@"
+.GivenItem_Text:
+	db "HOLD/@"
+.WantedMon_Text:
+	db "FOR/@"	
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; NPC TRADES END ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; EVENT MONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Dex_Check_eventmons:
+; EventWildMons or GiftMons in 'hl'
+; return zero in 'a' if found, else 1 in 'a'
+	; species, EVENT_FLAG, map_id, blurb string ptr
+	; ends with -1
+.loop
+	ld a, BANK(EventWildMons)
+	call GetFarByte ; will be -1 at the end, otherwise it's the % chance to encounter
+	cp -1
+	jr z, .notfound
+	; we arent at the end yet, so this byte is the species
+	ld c, a ; pokemon species of entry in EventWildMons/GiftMons
+	ld a, [wCurSpecies] ; current pokedex entry species
+	cp c
+	jr z, .found
+	; species didnt match, inc hl by 7, need to check for -1
+	ld de, 7 ; size of specialencounter entry, 7 bytes
+	add hl, de
+	jr .loop
+.found
+	xor a
+	ret
+.notfound
+	ld a, 1
+	ret
+
+Pokedex_DetailedArea_eventmons:
+	; 'hl' is EventWildMons/GiftMons
+	ld c, 7 ; specialencounter is 7 bytes, need to check for -1
+	ld a, [wPokedexStatus] ; wildmon index
+	call AddNTimes
+.loop	
+	ld a, BANK(EventWildMons)
+	call GetFarByte ; will be -1 at the end, otherwise it's the species
+	cp -1
+	jr z, .donedone
+
+	ld c, a ; pokemon species of entry in EventWildMons/GiftMons
+	ld a, [wCurSpecies] ; current pokedex entry species
+	cp c
+	jr z, .found
+.notfound	
+	; species didnt match, inc hl by 7, need to check for -1
+	ld de, 7 ; size of specialencounter entry, 7 bytes
+	add hl, de ; pointing to next species byte
+	call DexArea_IncWildMonIndex
+	jr .loop
+
+.found
+	; check event flag
+	inc hl ; now pointing to event flag
+	push hl ; pointing to event flag constant
+	ld a, BANK(EventWildMons)
+	call GetFarWord ; event flag constant in 'hl'
+	
+	ld d, h ; event flag
+	ld e, l ; event flag
+	ld b, CHECK_FLAG
+	call EventFlagAction
+	ld a, c
+	pop hl ; pointing to event flag constant
+	and a
+; TOGGLE EVENT CHECK:
+	; jr nz, .event_flag_set ; for conditional hint display 
+
+	; get map name
+	inc hl
+	inc hl ; now pointing to map_id
+	push hl ; pointing to map_id
+	ld a, BANK(EventWildMons)
+	call GetFarWord ; map_id in 'hl'	
+	ld d, h 
+	ld e, l
+	pop hl ; pointing to map_id
+	
+	; get blurb str
+	inc hl
+	inc hl ; now pointing to hint blurb str double ptr
+	push hl ; pointing to hint blurb str double ptr
+	ld a, BANK(EventWildMons)
+	call GetFarWord ; blurb hint ptr in 'hl'
+	call Dex_Print_EventMon_Info
+	pop hl ; pointing to hint blurb str double ptr
+
+	; check any remaining
+	inc hl
+	inc hl ; now pointing to next species index
+	call Dex_Check_eventmons ; 0 means found
+	and a
+	jr z, .inc_page
+	; else, fallthrough
+.donedone
+	ld a, [wPokedexEntryType] ; event mon
+	inc a
+	call DexEntry_NextCategory
+	ret
+.inc_page
+	call DexArea_IncWildMonIndex
+	call DexEntry_IncPageNum
+	; page number is currently in a
+	xor a ; to ensure a isnt actually returned at -1. 0 is for normal
+	ret
+
+Dex_Print_EventMon_Info:
+	; 'de': location: 		hlcoord 2, 10
+	; 'hl': blurb/hint: 	hlcoord 2, 11
+	push hl ; blurb/hint str ptr
+
+	farcall GetMapGroupNum_Name ; map info in 'de'
+	; map name ptr is in de
+	hlcoord 2 , 10
+	ld a, BANK(MapGroupNum_Names)
+	call PlaceFarString
+
+	pop de ; blurb/hint str ptr
+	hlcoord 2 , 11
+	ld a, BANK(EventWildMons)
+	call PlaceFarString	
+	ret
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; EVENT WILD MONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Pokedex_DetailedArea_eventwildmons:
+	ld hl, EventWildMons
+	call Dex_Check_eventmons
+	and a
+	jp nz, Pokedex_Skip_Empty_Area_Category
+	
+	xor a
+	ld [wPokedexEvoStage2], a
+	ld [wPokedexEvoStage3], a
+
+	; print the title, SPECIAL ENCOUNTER
+	hlcoord 1, 9
+	ld de, .eventwildmon_text
+	call PlaceString
+
+	ld hl, EventWildMons
+	jp Pokedex_DetailedArea_eventmons
+	
+.eventwildmon_text:
+	db "SPECIAL ENCOUNTER@"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; EVENT WILD MONS END ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; GIFT MONS ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+Pokedex_DetailedArea_giftmons:
+	ld hl, GiftMons
+	call Dex_Check_eventmons
+	and a
+	jp nz, Pokedex_Skip_Empty_Area_Category
+	
+	xor a
+	ld [wPokedexEvoStage2], a
+	ld [wPokedexEvoStage3], a
+
+	; print the title, GIFT POKEMON
+	hlcoord 1, 9
+	ld de, .giftmon_text
+	call PlaceString
+
+	ld hl, GiftMons
+	jp Pokedex_DetailedArea_eventmons
+
+.giftmon_text:
+	db "GIFT #MON@"
+	ret
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; GIFT MONS END ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; EVENT MONS END ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

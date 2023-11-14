@@ -924,17 +924,17 @@ Violet_Map_Name10: ; map_const VIOLET_POKECENTER_1F ; 10
 Violet_Map_Name11: ; map_const VIOLET_KYLES_HOUSE ; 11
 	db "KYLE'S HOUSE@"
 Violet_Map_Name12: ; map_const ROUTE_32_RUINS_OF_ALPH_GATE ; 12
-	db "ROUTE 32 GATE 1@"
+	db "ROUTE 32-RUIN GATE@"
 Violet_Map_Name13: ; map_const ROUTE_32_POKECENTER_1F ; 13
 	db "ROUTE 32 ", $E1, $E2, "CENTER@"
 Violet_Map_Name14: ; map_const ROUTE_35_GOLDENROD_GATE ; 14
-	db "ROUTE 35 GATE 2@"
+	db "ROUTE 35-GOLD GATE@"
 Violet_Map_Name15: ; map_const ROUTE_35_NATIONAL_PARK_GATE ; 15
-	db "ROUTE 35 GATE 3@"
+	db "ROUTE 35-PARK GATE@"
 Violet_Map_Name16: ; map_const ROUTE_36_RUINS_OF_ALPH_GATE ; 16
-	db "ROUTE 36 GATE 1@"
+	db "ROUTE 36-RUIN GATE@"
 Violet_Map_Name17: ; map_const ROUTE_36_NATIONAL_PARK_GATE ; 17                                        ; 11
-	db "ROUTE 36 GATE 2@"
+	db "ROUTE 36-PARK GATE@"
 
 Goldenrod_Map_Name1: ; map_const ROUTE_34,;  1
 	db "ROUTE 34@"
@@ -1201,7 +1201,7 @@ Celadon_Map_Name18: ; map_const CELADON_POKECENTER_2F_BETA ; 18
 Celadon_Map_Name19: ; map_const CELADON_GAME_CORNER, 19
 	db "CEL. GAME CORNER@"
 Celadon_Map_Name20: ; map_const CELADON_GAME_CORNER_PRIZE_ROOM ; 20
-	db "CELADON PRIZEROOM@"
+	db "CELADON PRIZE ROOM@"
 Celadon_Map_Name21: ; map_const CELADON_GYM ; 21
 	db "CELADON GYM@"
 Celadon_Map_Name22: ; map_const CELADON_CAFE ; 22
@@ -1213,7 +1213,7 @@ Celadon_Map_Name24: ; map_const ROUTE_16_GATE ; 24
 Celadon_Map_Name25: ; map_const ROUTE_7_SAFFRON_GATE ; 25
 	db "ROUTE 7 GATE@"
 Celadon_Map_Name26: ; map_const ROUTE_17_ROUTE_18_GATE ; 26 
-	db "ROUTE 17&18 GATE@"                                        ; 22
+	db "ROUTE 17-18 GATE@"                                        ; 22
 
 Cianwood_Map_Name1: ; map_const ROUTE_40,  1
 	db "ROUTE 40@"

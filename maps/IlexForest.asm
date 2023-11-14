@@ -449,6 +449,7 @@ IlexForestShrineScript:
 	takeitem GS_BALL
 	clearevent EVENT_FOREST_IS_RESTLESS
 	setevent EVENT_AZALEA_TOWN_KURT
+	setevent EVENT_CELEBI_FATEFUL_ENCOUNTER
 	disappear ILEXFOREST_LASS
 	clearevent EVENT_ROUTE_34_ILEX_FOREST_GATE_LASS
 	writetext Text_InsertGSBall

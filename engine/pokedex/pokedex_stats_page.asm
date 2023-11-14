@@ -180,7 +180,10 @@ BS_SPCLDEF_text:
 	db "SPD@"
 
 Pokedex_Get_Items:
-; TODO: Add code to differentiate same items in both entries, special cases
+; TODO: Add code to differentiate same items in both entries, % chances
+	ld a, [wCurSpecies]
+	push af
+
 	hlcoord 3, 10
 	ld de, .BS_ITEM_text
 	call PlaceString
@@ -217,6 +220,9 @@ Pokedex_Get_Items:
 .Item2Done
 	hlcoord 7, 12
 	call PlaceString
+	pop af
+	ld [wCurSpecies], a
+	ld [wTempSpecies], a
 	ret
 .ThreeDashes:
 	db "---@"

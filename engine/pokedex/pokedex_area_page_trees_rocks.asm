@@ -349,7 +349,7 @@ Pokedex_DetailedArea_rocksmash:
 	ld a, [wPokedexStatus]; RockMonMaps entry index, will be zero if we havent started yet
 	and a
 	jr nz, .start
-	call Dex_Check_commontree_rocksmash_set
+	call Dex_Check_rocksmash
 	and a
 	jp nz, Pokedex_Skip_Empty_Area_Category
 .start
