@@ -806,7 +806,7 @@ LoadOrangePage:
 	call StatsScreen_placeCaughtLocation
 	call StatsScreen_PrintDVs
 	readvar VAR_UNOWNCOUNT
-	ifequal NUM_UNOWN, .ShowHiddenPower
+	ifequal NUM_UNOWN, .ShowHiddenPower ; This doesn't work
 	sjump .EndLoadOrangePage
 .ShowHiddenPower
 	call StatsScreen_Print_HiddenPow_Info

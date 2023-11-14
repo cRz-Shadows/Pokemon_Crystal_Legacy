@@ -215,7 +215,8 @@ BlackBeltText_VoicesInMyHead:
 BlackthornCooltrainerF1Text:
 	text "Are you going to"
 	line "make your #MON"
-	cont "forget some moves?"
+	cont "remember some"
+	cont "moves?"
 	done
 
 BlackthornYoungsterText:

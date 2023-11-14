@@ -478,8 +478,8 @@ _EggMoveReminderIntro::
     line "interested?"
     done
 _MoveReminderIntro::
-    text "Hi, I'm the Move"
-    line "Reminder!"
+    text "Hi, I'm the MOVE"
+    line "REMINDER!"
 
     para "I can teach your"
     line "#mon a move it"
@@ -487,12 +487,12 @@ _MoveReminderIntro::
     para "has learned pre-"
     line "viously."
 
-	para "Are you"
-    line "interested?"
+	para "Shall I make a"
+	line "#MON remember?"
     done
 
 _MoveReminderWhichMon::
-    text "Which #mon"
+    text "Which #MON"
     next "would you like"
 
     para "to make remember"
@@ -501,7 +501,7 @@ _MoveReminderWhichMon::
 
 _MoveReminderWhichMove::
     text "Which move would"
-    next "you like to"
+    next "you like it to"
     cont "remember?"
     done
 

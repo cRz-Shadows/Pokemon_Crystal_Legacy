@@ -85,6 +85,10 @@ MewtwoScript:
 	setevent EVENT_RED_IN_MT_SILVER
 	setevent EVENT_CERULEAN_CAVE_B1F_MEWTWO
 	reloadmapafterbattle
+	checkflag ENGINE_HARD_MODE
+	iffalse .NotHardMode
+	loadmem wLevelCap, 100 ; update level cap for hard mode
+.NotHardMode
 	credits
 	end
 .notfoughtred

@@ -87,6 +87,8 @@ TinTower1F_MapScripts:
 	setval RAIKOU
 	special MonCheck
 	iftrue .Next1 ; if player caught Raikou, it doesn't appear in Tin Tower
+	setval RAIKOU
+	special UnusedSetSeenMon
 	applymovement TINTOWER1F_RAIKOU, TinTower1FRaikouApproachesMovement
 	turnobject PLAYER, LEFT
 	cry RAIKOU
@@ -96,12 +98,12 @@ TinTower1F_MapScripts:
 	disappear TINTOWER1F_RAIKOU
 	playsound SFX_EXIT_BUILDING
 	waitsfx
-	setval RAIKOU
-  	special ShowPokedexEntry
 .Next1:
 	setval ENTEI
 	special MonCheck
 	iftrue .Next2 ; if player caught Entei, it doesn't appear in Tin Tower
+	setval ENTEI
+  	special UnusedSetSeenMon
 	applymovement TINTOWER1F_ENTEI, TinTower1FEnteiApproachesMovement
 	turnobject PLAYER, RIGHT
 	cry ENTEI
@@ -111,8 +113,6 @@ TinTower1F_MapScripts:
 	disappear TINTOWER1F_ENTEI
 	playsound SFX_EXIT_BUILDING
 	waitsfx
-	setval ENTEI
-  	special ShowPokedexEntry
 .Next2:
 	turnobject PLAYER, UP
 	pause 10

@@ -266,7 +266,7 @@ Group7_Name:
 Group8_Name:
     db " GYARADOS@"
 Group9_Name:
-    db " DRATINI 2@"
+    db " ROUTE 45@"
 Group10_Name:
     db " WHIRL ISLE@"
 Group11_Name:
@@ -274,7 +274,7 @@ Group11_Name:
 Group12_Name:
     db " REMORAID@"
 Group13_Name:
-    db " QWILFISH 2@"
+    db " ROUTE 12@"
 
 GetFishGroupName:
 ; given fishing group num in 'a'

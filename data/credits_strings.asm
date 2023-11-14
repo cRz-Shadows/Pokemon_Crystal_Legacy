@@ -260,7 +260,7 @@ CreditsStringsPointers:
 .SmithPlaysPokemons:  db " SMITHPLAYSPOKEMON@"
 .Dev:				  db "     DEVELOPER@"
 .TheSmithPlays: 	  db "  THE SMITH PLAYS@"
-.cRzShadows: 		  db " CRAIG LIVINGSTONE@"
+.cRzShadows: 		  db "    CRZ SHADOWS@"
 .Editor:			  db "      EDITOR@"
 .Weebra: 		      db "      WEEBRA@"
 .DiscordAdmin:		  db "   DISCORD ADMIN@"

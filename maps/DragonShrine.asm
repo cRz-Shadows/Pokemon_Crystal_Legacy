@@ -158,6 +158,10 @@ DragonShrine_MapScripts:
 	opentext
 	writetext DragonShrineHereRisingBadgeText
 	waitbutton
+	checkflag ENGINE_HARD_MODE
+	iffalse .DontUpdateBadge
+	loadmem wLevelCap, 50 ; update level cap for hard mode
+.DontUpdateBadge
 	setflag ENGINE_RISINGBADGE
 	playsound SFX_GET_BADGE
 	waitsfx

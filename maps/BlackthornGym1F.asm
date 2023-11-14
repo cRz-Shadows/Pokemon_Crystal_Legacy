@@ -162,10 +162,6 @@ BlackthornGymGuideScript:
 	end
 
 BlackthornGymStatue:
-	checkflag ENGINE_HARD_MODE
-	iffalse .DontUpdateBadge
-	loadmem wLevelCap, 50 ; update level cap for hard mode
-.DontUpdateBadge
 	checkflag ENGINE_RISINGBADGE
 	iftrue .Beaten
 	jumpstd GymStatue1Script

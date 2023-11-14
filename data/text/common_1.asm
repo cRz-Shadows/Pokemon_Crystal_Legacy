@@ -1312,7 +1312,7 @@ _UseAnotherRepelText::
 	text "@"
 	text_ram wStringBuffer3
 	text "'s"
-	line "wore off."
+	line "worn off."
 
 	para "Use another?"
 	done

@@ -294,7 +294,7 @@ BirdKeeperAbeAfterBattleText:
 
 VioletGymGuideText:
 	text "Hey! What's up?"
-	line "I'm no trainer"
+	line "I'm no trainer,"
 	
 	para "but I can give"
 	line "some advice!"
