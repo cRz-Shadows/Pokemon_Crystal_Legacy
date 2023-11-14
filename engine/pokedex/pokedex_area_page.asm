@@ -1288,12 +1288,17 @@ Dex_Print_Roamer_Info:
 	push bc ; current print line in c
 	lb bc, 1, 3 ; num of bytes of the number, max digits
 	call PrintNum
+	ld a, 1 ; for next check
 
 .not_initd
 	pop bc ; current print line in c
 	pop hl ; ; now pointing to DVs
 ; check if shiny
 	push bc  ; current print line in c
+	; check if DVs are init'd
+	and a ; will still be zero if we jumped here after DV check, else will be 1
+	jr z, .not_shiny
+	
 	ld b, h
 	ld c, l
 	farcall CheckShininess ; ptr needs to be in bc

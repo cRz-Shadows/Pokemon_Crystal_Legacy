@@ -1,6 +1,8 @@
 NewPokedexEntry:
 	xor a
 	ld [wPokedexShinyToggle], a
+	ld [wPokedexEntryPageNum], a
+
 	ldh a, [hMapAnims]
 	push af
 	xor a
