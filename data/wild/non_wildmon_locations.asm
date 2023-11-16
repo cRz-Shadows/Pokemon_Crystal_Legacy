@@ -67,14 +67,14 @@ FridayLapras_Str:
 	next "hidden sea cave.@"
 SudowoodoEvent_Str:
 	db 	 "Unassuming fake"
-	next "tree. Vengefull if"
+	next "tree. Vengeful if"
 	next "watered. LVL 20.@"
 ShinyGyarados_Str:
 	db 	 "Unique rampaging"
 	next "Red GYARADOS."
 	next "LVL 30.@"
 SnorlaxEvent_Str:
-	db 	 "Guarenteed to be"
+	db 	 "Guaranteed to be"
 	next "holding LEFTOVERS."
 	next "LVL 40.@"
 SuicuneEvent_Str:
@@ -110,8 +110,8 @@ MewtwoEvent_Str:
 	next "RED and SILVER"
 	next "ice. LVL 75.@"
 MewEvent_Str:
-	db 	 "Meet under the"
-	next "truck, with 252."
+	db 	 "Meet at nugget"
+	next "bridge, with 251."
 	next "LVL 60.@"
 
 GiftMons::
