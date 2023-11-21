@@ -80,8 +80,10 @@ CeruleanGymMistyScript:
 	writetext ReceivedCascadeBadgeText
 	playsound SFX_GET_BADGE
 	waitsfx
+	closetext
 	setflag ENGINE_CASCADEBADGE
 	jumpstd KantoLevelCapUpdateScript
+	opentext
 .FightDone:
 	writetext MistyFightDoneText
 	waitbutton

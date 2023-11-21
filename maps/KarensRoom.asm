@@ -95,7 +95,7 @@ KarensRoom_EnterMovement:
 	step_end
 
 KarenScript_KarenRematchBeforeText:
-	text "Karen: Ah,"
+	text "KAREN: Ah,"
 	line "it's you"
 	cont "again."
 

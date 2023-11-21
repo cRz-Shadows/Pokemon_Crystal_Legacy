@@ -36,8 +36,10 @@ CeladonGymErikaScript:
 	writetext PlayerReceivedRainbowBadgeText
 	playsound SFX_GET_BADGE
 	waitsfx
+	closetext
 	setflag ENGINE_RAINBOWBADGE
 	jumpstd KantoLevelCapUpdateScript
+	opentext
 .FightDone:
 	checkevent EVENT_GOT_TM19_GIGA_DRAIN
 	iftrue .GotGigaDrain

@@ -6,26 +6,26 @@ BattleTowerTrainers:
 	table_width (NAME_LENGTH - 1) + 1, BattleTowerTrainers
 	; name, class
 	db "Isona@@@@@", TEACHER
-	db "Tiberius@@", POKEMANIAC
-	db "MASUDA@@@@", GUITARIST
+	db "Tiberius@@", GENTLEMAN
+	db "Masuda@@@@", GUITARIST
 	db "Karlos@@@@", SCIENTIST
 	db "SoulXCross", TEACHER
-	db "TALOS@@@@@", EXECUTIVEM
-	db "Nift@@@@@@", BOARDER
+	db "Talos@@@@@", EXECUTIVEM
+	db "Sacred@@@@", BOARDER
 	db "Sable@@@@@", HIKER
 	db "Obelisk@@@", TEACHER
 	db "Aero@@@@@@", COOLTRAINERM
 	db "Disq@@@@@@", KIMONO_GIRL
 	db "Joshua@@@@", OFFICER
 	db "Nayru@@@@@", MEDIUM
-	db "ERICKSON@@", BIKER
+	db "Idain@@@@@", POKEMANIAC
 	db "Regi@@@@@@", JUGGLER
 	db "Reader@@@@", POKEFANF
-	db "HILL@@@@@@", FIREBREATHER
-	db "Ha1fisch@@", SWIMMERM
+	db "KBM@@@@@@@", BLACKBELT_T
+	db "Luna@@@@@@", BEAUTY
 	db "ZAAACH@@@@", SCHOOLBOY
-	db "WOOTTON@@@", BOARDER
-	db "McMAHILL@@", CAMPER
+	db "Cadmium@@@", BOARDER
+	db "Tajiri@@@@", BUG_CATCHER
 	assert_table_length BATTLETOWER_NUM_UNIQUE_MON
 ; The following can only be sampled in Crystal 1.1.
 	db "Plague@@@@", TEACHER
@@ -33,48 +33,48 @@ BattleTowerTrainers:
 	db "Francis@@@", BOARDER
 	db "Zumi@@@@@@", SUPER_NERD
 	db "TSK@@@@@@@", COOLTRAINERM
-	db "Cadmium@@@", COOLTRAINERM
+	db "Jojobear@@", SAGE
 	db "Ryomnar@@@", EXECUTIVEM
 	db "Ferro@@@@@", SUPER_NERD
 	db "Frank@@@@@", SCIENTIST
 	db "Sea@@@@@@@", KIMONO_GIRL
 	db "Oats@@@@@@", SUPER_NERD
-	db "Prof Ru@@@", SCIENTIST
-	db "Sacred@@@@", COOLTRAINERM
-	db "KBM@@@@@@@", BLACKBELT_T
-	db "Idain@@@@@", POKEMANIAC
-	db "BUCKMAN@@@", SAGE
-	db "KAUFMAN@@@", SWIMMERM
-	db "HUGHES@@@@", FISHER
-	db "ARITA@@@@@", KIMONO_GIRL
-	db "EASTON@@@@", PSYCHIC_T
-	db "FREEMAN@@@", CAMPER
-	db "GIESE@@@@@", LASS
-	db "HATCHER@@@", GENTLEMAN
-	db "JACKSON@@@", POKEFANF
-	db "KAHN@@@@@@", POKEMANIAC
-	db "LEONG@@@@@", YOUNGSTER
-	db "MARINO@@@@", TEACHER
-	db "NEWMAN@@@@", SAILOR
-	db "NGUYEN@@@@", BLACKBELT_T
-	db "OGDEN@@@@@", SUPER_NERD
-	db "PARK@@@@@@", COOLTRAINERF
-	db "RAINE@@@@@", SWIMMERM
-	db "SELLS@@@@@", BIRD_KEEPER
-	db "WRIGHT@@@@", YOUNGSTER
-	db "THORNTON@@", LASS
-	db "CRAWFORD@@", BOARDER
-	db "VAN DYKE@@", SKIER
-	db "WALKER@@@@", SCHOOLBOY
-	db "MEYER@@@@@", SWIMMERF
-	db "JOHNSON@@@", YOUNGSTER
-	db "ADAMS@@@@@", GUITARIST
-	db "SMITH@@@@@", BUG_CATCHER
-	db "TAJIRI@@@@", BUG_CATCHER
-	db "BAKER@@@@@", POKEMANIAC
-	db "COLLINS@@@", SCIENTIST
-	db "SMART@@@@@", SUPER_NERD
-	db "DYKSTRA@@@", SWIMMERF
-	db "EATON@@@@@", BIKER
-	db "WONG@@@@@@", FIREBREATHER
+	db "Rubicate@@", SCIENTIST
+	db "PokeGlitch", SAGE
+	db "theSLAYER@", BIKER
+	db "Dabomstew@", SAGE
+	db "LuckyT@@@@", SCIENTIST
+	db "Opwith@@@@", POKEMANIAC
+	db "@@@@@@@@@@", CAL
+	db "LVL 3@@@@@", CAMPER
+	db "Cam@@@@@@@", FIREBREATHER
+	db "KoH@@@@@@@", POKEFANM
+	db "Miksy91@@@", SKIER
+	db "Celadonk@@", JUGGLER
+	db "Jobexi@@@@", YOUNGSTER
+	db "Fotomac@@@", GRUNTM
+	db "Oak@@@@@@@", POKEMON_PROF
+	db "Vortiene@@", GENTLEMAN
+	db "ZZAZZ@@@@@", SCIENTIST
+	db "Nair@@@@@@", PICNICKER
+	db "Steppo@@@@", EXECUTIVEM
+	db "Yahweasel@", TEACHER
+	db "Nuuk@@@@@@", COOLTRAINERM
+	db "DamienD@@@", FISHER
+	db "Masaru2@@@", YOUNGSTER
+	db "Hikikomori", MEDIUM
+	db "Snyd@@@@@@", GENTLEMAN
+	db "THexagon@@", GUITARIST
+	db "TimoVM@@@@", SCIENTIST
+	db "Peanutella", LASS
+	db "Dracrius@@", BOARDER
+	db "EricGall23", SKIER
+	db "z3bra@@@@@", POKEMANIAC
+	db "Rangi@@@@@", BEAUTY
+	db "SarnDev@@@", BOARDER
+	db "Atma@@@@@@", COOLTRAINERF
+	db "SatoMew@@@", BEAUTY
+	db "SHF@@@@@@@", GRUNTM
+	db "80c@@@@@@@", BURGLAR
+	db "SS@@@@@@@@", BURGLAR
 	assert_table_length BATTLETOWER_NUM_UNIQUE_TRAINERS

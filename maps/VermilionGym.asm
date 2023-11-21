@@ -35,10 +35,10 @@ VermilionGymSurgeScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_THUNDERBADGE
-	jumpstd KantoLevelCapUpdateScript
 	writetext LtSurgeThunderBadgeText
 	waitbutton
 	closetext
+	jumpstd KantoLevelCapUpdateScript
 	end
 
 .FightDone:
