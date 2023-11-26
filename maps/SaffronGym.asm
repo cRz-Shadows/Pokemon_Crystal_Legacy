@@ -37,10 +37,10 @@ SaffronGymSabrinaScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_MARSHBADGE
-	jumpstd KantoLevelCapUpdateScript
 	writetext SabrinaMarshBadgeText
 	waitbutton
 	closetext
+	jumpstd KantoLevelCapUpdateScript
 	end
 
 .FightDone:

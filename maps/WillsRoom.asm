@@ -112,9 +112,11 @@ WillScript_WillRematchBeforeText:
     line "this encounter."
 
     para "My psychic #MON"
-    line "and I have evolved"
-    cont "developing new"
-	cont "tactics."
+    line "and I have"
+	cont "evolved,"
+
+    para "developing new"
+	line "tactics."
 
     para "Prepare yourself"
     line "for a battle of"

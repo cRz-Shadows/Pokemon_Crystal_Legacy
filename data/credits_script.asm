@@ -78,7 +78,6 @@ CreditsScript:
 	db             PLAYTESTERS, 0
 	db       TESTER9, 1
 	db       TESTER10, 2
-	db       TESTER11, 3
 
 	db CREDITS_WAIT, 12
 

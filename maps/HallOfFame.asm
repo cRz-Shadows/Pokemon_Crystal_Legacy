@@ -177,9 +177,9 @@ HallOfFame_Rematch_LanceText:
     cont "to register you,"
 
     para "and your trusted"
-    line "partners"
+    line "partners,"
 
-	para "as champions,"
+	para "as champions"
     line "once again."
     done
 

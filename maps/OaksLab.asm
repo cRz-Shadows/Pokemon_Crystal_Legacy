@@ -173,7 +173,7 @@ OakBattleKantoE4Text:
 
 	para "You must return"
 	line "to the ELITE"
-	cont "FOUR!"
+	cont "FOUR..."
 
 	para "and battle in"
 	line "the KANTO LEAGUE!"

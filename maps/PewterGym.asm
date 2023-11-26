@@ -31,10 +31,10 @@ PewterGymBrockScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_BOULDERBADGE
-	jumpstd KantoLevelCapUpdateScript
 	writetext BrockBoulderBadgeText
 	waitbutton
 	closetext
+	jumpstd KantoLevelCapUpdateScript
 	end
 
 .FightDone:

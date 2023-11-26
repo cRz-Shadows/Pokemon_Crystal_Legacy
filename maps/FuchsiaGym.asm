@@ -43,7 +43,9 @@ FuchsiaGymJanineScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_SOULBADGE
+	closetext
 	jumpstd KantoLevelCapUpdateScript
+	opentext
 	sjump .AfterBattle
 .FightDone:
 	faceplayer

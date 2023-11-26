@@ -96,8 +96,7 @@ KarensRoom_EnterMovement:
 
 KarenScript_KarenRematchBeforeText:
 	text "KAREN: Ah,"
-	line "it's you"
-	cont "again."
+	line "it's you again."
 
     para "I trust you"
     line "haven't forgotten"

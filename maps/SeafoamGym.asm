@@ -36,7 +36,6 @@ SeafoamGymBlaineScript:
 	playsound SFX_GET_BADGE
 	waitsfx
 	setflag ENGINE_VOLCANOBADGE
-	jumpstd KantoLevelCapUpdateScript
 
 ; 	checkevent EVENT_BEAT_BLAINE
 ; 	iftrue .MoltresAlreadyReleased
@@ -48,6 +47,7 @@ SeafoamGymBlaineScript:
 	writetext BlaineAfterBattleText
 	waitbutton
 	closetext
+	jumpstd KantoLevelCapUpdateScript
 	end
 
 .FightDone:
