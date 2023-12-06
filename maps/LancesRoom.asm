@@ -89,6 +89,8 @@ LancesRoomLanceScript:
 	readvar VAR_BADGES
 	if_less_than 9, .BaseCap
 	if_not_equal 16, .DontUpdateBadge
+	checkevent EVENT_CERULEAN_CAVE_B1F_MEWTWO
+	iftrue .DontUpdateBadge
 	loadmem wLevelCap, 77 ; update level cap for hard mode
 	sjump .DontUpdateBadge
 .BaseCap

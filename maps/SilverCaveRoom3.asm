@@ -67,6 +67,10 @@ Red:
 	pause 30
 	special HealParty
 	refreshscreen
+	checkflag ENGINE_HARD_MODE
+	iffalse .NotHardMode1
+	loadmem wLevelCap, 100 ; update level cap for hard mode
+.NotHardMode1
 	credits
 	end
 
