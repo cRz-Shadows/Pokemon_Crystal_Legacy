@@ -70,6 +70,7 @@ Where you can find all Pret Tutorials: https://github.com/pret/pokecrystal/wiki
     - https://github.com/pret/pokecrystal/wiki/Allow-more-trainer-parties,-with-individual-DVs,-stat-experience,-nicknames,-variable-teams,-etc
     - https://github.com/pret/pokecrystal/wiki/Option-to-show-shiny-colors-in-Pok%C3%A9dex
 - aaaaaa123456789 - https://github.com/pret/pokecrystal/wiki/Remove-the-artificial-save-delay
+- SonicRay100 - https://github.com/pret/pokecrystal/wiki/Simplify-the-Clock-Reset-Procedure
 - Etdv-thevoid - https://github.com/pret/pokecrystal/wiki/Add-a-third-trainer-card-page-for-Kanto-badges
 - coco-bandicoot - https://github.com/pret/pokecrystal/wiki/Restore-the-GS-Ball-Celebi-Event
 - MajorAgnostic - https://github.com/pret/pokecrystal/wiki/Force-Set-battle-style-or-forbid-item-usage-in-battle
