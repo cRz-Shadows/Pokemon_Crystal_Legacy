@@ -187,10 +187,10 @@ Pokedex_Get_Items:
 	hlcoord 3, 10
 	ld de, .BS_ITEM_text
 	call PlaceString
-	hlcoord 3, 11
+	hlcoord 2, 11
 	ld de, .BS_ITEM1
 	call PlaceString
-	hlcoord 3, 12
+	hlcoord 2, 12
 	ld de, .BS_ITEM2
 	call PlaceString
 
@@ -229,9 +229,9 @@ Pokedex_Get_Items:
 .BS_ITEM_text:
 	db "Wild Held Items:@"
 .BS_ITEM1:
-	db "[1]@"
+	db "[23<%>]@"
 .BS_ITEM2:
-	db "[2]@"
+	db "[ 2<%>]@"
 
 Pokedex_EggG_SetUp:
 	ld a, [wBaseEggGroups]

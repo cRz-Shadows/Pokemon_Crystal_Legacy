@@ -120,6 +120,21 @@ CreditsScript:
 
 	db CREDITS_WAIT, 12
 
+	db             TUTORIALS, 0
+	db       POKECRYSTAL6, 1
+	db       POKECRYSTAL7, 2
+	db       POKECRYSTAL8, 3
+	db       POKECRYSTAL9, 4
+
+	db CREDITS_WAIT, 12
+
+	db             TUTORIALS, 0
+	db       POKECRYSTAL10, 1
+	db       POKECRYSTAL11, 2
+	db       POKECRYSTAL12, 3
+
+	db CREDITS_WAIT, 12
+
 	; Clear the banner.
 	db CREDITS_CLEAR
 

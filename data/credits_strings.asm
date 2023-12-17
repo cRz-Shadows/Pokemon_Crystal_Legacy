@@ -146,6 +146,13 @@ CreditsStringsPointers:
 	dw .Pokecrystal3
 	dw .Pokecrystal4
 	dw .Pokecrystal5
+	dw .Pokecrystal6
+	dw .Pokecrystal7
+	dw .Pokecrystal8
+	dw .Pokecrystal9
+	dw .Pokecrystal10
+	dw .Pokecrystal11
+	dw .Pokecrystal12
 	dw .Pokecrystal
 	dw .NayruThanksText
 	assert_table_length NUM_CREDITS_STRINGS
@@ -298,6 +305,13 @@ CreditsStringsPointers:
 .Pokecrystal3: 		  db "       IDAIN@"
 .Pokecrystal4: 		  db "    DAMIENDOURY@"
 .Pokecrystal5: 		  db "  AAAAAA123456789@"
+.Pokecrystal6: 		  db "    EDTV-THEVOID@"
+.Pokecrystal7: 		  db "   COCO-BANDICOOT@"
+.Pokecrystal8: 		  db "   MAJORAGNOSTIC@"
+.Pokecrystal9: 		  db "       KDLPRO@"
+.Pokecrystal10: 	  db "      NICK-PC@"
+.Pokecrystal11: 	  db "     XAEROCHILL@"
+.Pokecrystal12: 	  db "    NOBODYSOCIETY@"
 .Pokecrystal:         db "  THANK YOU TO THE"
 					next " PRET TEAM FOR THE"
 					next "    POKECRYSTAL"
