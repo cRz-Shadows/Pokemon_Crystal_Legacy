@@ -155,6 +155,7 @@ PokecenterNurseScript:
 	pause 10
 	turnobject LAST_TALKED, DOWN
 	pause 10
+	turnobject PLAYER, DOWN
 	end
 
 .NurseReturnPokemonText

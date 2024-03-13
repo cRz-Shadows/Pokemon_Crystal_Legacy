@@ -508,7 +508,7 @@ PlayerDepositItemMenu:
 	jr z, .AskQuantity
 	ld a, 1
 	ld [wItemQuantityChange], a
-	jr .ContinueDeposit
+	jr .TooImportantToDeposit
 
 .AskQuantity:
 	ld hl, .PlayersPCHowManyDepositText
@@ -544,6 +544,11 @@ PlayerDepositItemMenu:
 	call PrintText
 	ret
 
+.TooImportantToDeposit:
+	ld hl, .TooImportantToDepositText
+	call PrintText
+	ret
+
 .DeclinedToDeposit:
 	and a
 	ret
@@ -558,6 +563,10 @@ PlayerDepositItemMenu:
 
 .PlayersPCNoRoomDepositText:
 	text_far _PlayersPCNoRoomDepositText
+	text_end
+
+.TooImportantToDepositText:
+	text_far _TooImportantToDepositText
 	text_end
 
 PlayerMailBoxMenu:

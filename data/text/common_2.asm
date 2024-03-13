@@ -1159,6 +1159,11 @@ _PlayersPCNoRoomDepositText::
 	line "store items."
 	prompt
 
+_TooImportantToDepositText::
+	text "That's too impor-"
+	line "tant to deposit!"
+	prompt
+
 _PokecenterPCTurnOnText::
 	text "<PLAYER> turned on"
 	line "the PC."
