@@ -1173,6 +1173,9 @@ VitaminEffect:
 	cp 100
 	jr nc, NoEffectMessage
 
+	; TODO Hardcore mode
+	; jump to NoEffectMessage if mon is fainted and on hardcode mode
+
 	add 10
 	ld [hl], a
 	call UpdateStatsAfterItem

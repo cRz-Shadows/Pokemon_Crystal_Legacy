@@ -39,6 +39,7 @@ used_space.png
 
 # save game files
 *.sgm
+*.srm
 *.sav
 *.rtc
 *.sn*

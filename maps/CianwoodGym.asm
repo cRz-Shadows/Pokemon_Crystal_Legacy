@@ -334,8 +334,8 @@ BlackbeltLaoBeatenText:
 
 BlackbeltLaoAfterText:
 	text "Fighting #MON"
-	line "are afraid of psy-"
-	cont "chics…"
+	line "are afraid of"
+	cont "psychics…"
 	done
 
 BlackbeltNobSeenText:

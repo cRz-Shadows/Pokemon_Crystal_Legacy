@@ -21,7 +21,7 @@ Route31VioletGateOfficerText:
 
 Route31VioletGateCooltrainerFText:
 	text "I saw the cutest"
-	line "#MON back there"
+	line "#MON out there."
 	
 	para "It looked a lot"
 	line "like PIKACHU!"

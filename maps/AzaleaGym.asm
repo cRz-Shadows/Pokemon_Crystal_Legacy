@@ -186,12 +186,12 @@ BugsyText_INeverLose:
 	para "the authority on"
 	line "bug #MON!"
 	
-	para "For example,"
-	line "did you know the"
-	cont "move CUT is"
+	para "For example, did"
+	line "you know that"
 	
-	para "actually a BUG-"
-	line "type move?"
+	para "the move CUT is"
+	line "actually a BUG-"
+	cont "type move?"
 	
 	para "Let me demonstrate"
 	line "all I've learned"
@@ -343,13 +343,6 @@ TwinsAmyandmay1SeenText:
 	text "AMY: Hi! Are you"
 	line "challenging the"
 	cont "LEADER? No way!"
-	
-	para "BUGSY is so"
-	line "strong! His"
-	cont "SCYTHER's CUT"
-	
-	para "always seems to"
-	line "crit!"
 	done
 
 TwinsAmyandmay1BeatenText:
@@ -360,6 +353,13 @@ TwinsAmyandmay1BeatenText:
 TwinsAmyandmay1AfterBattleText:
 	text "AMY: You're"
 	line "really strong!"
+
+	para "But BUGSY's even"
+	line "stronger! His"
+
+	para "SCYTHER's CUT al-"
+	line "most always makes"
+	cont "critical hits!"
 	done
 
 TwinsAmyandmay2SeenText:
@@ -384,6 +384,13 @@ TwinsAmyandmay2AfterBattleText:
 	text "MAY: Our bug #-"
 	line "MON lost! Oh, what"
 	cont "a shame."
+
+	para "BUGSY's won't"
+	line "lose though!"
+
+	para "His PINECO makes"
+	line "short work of"
+	cont "ROCK-type #MON!"
 	done
 
 AzaleaGymGuideText:
@@ -399,13 +406,13 @@ AzaleaGymGuideText:
 	line "tough without my"
 	cont "advice."
 
-	para "Let's see… BUGSY"
-	line "has a bagworm"
-	cont "#MON which-"
+	para "Let's see…"
+	line "BUGSY's bagworm"
+	cont "#MON knows a"
 	
-	para "has been trained"
-	line "to cover his"
-	cont "ROCK weakness."
+	para "move that covers"
+	line "its ROCK-type"
+	cont "weakness."
 
 	para "He's also devel-"
 	line "oped a new"
@@ -413,11 +420,13 @@ AzaleaGymGuideText:
 	para "version of CUT"
 	line "that is BUG-type."
 
-	para "Oh also don't"
-	line "forget to play"
-	
-	para "around the crit!"
-	line "Good luck!"
+	para "Oh, and don't"
+	line "forget about"
+
+	para "those nasty"
+	line "critical hits!"
+
+	para "Good luck!"
 	done
 
 AzaleaGymGuideWinText:

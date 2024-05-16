@@ -240,18 +240,16 @@ OlivineGymGuideText:
 	cont "but two aces."
 	
 	para "The first is a"
-	line "metal bug that"
+	line "metal bug that can"
 	
-	para "knows a technique"
-	line "to increase"
-	cont "its attack."
+	para "use a technique to"
+	line "boost its ATTACK."
 	
 	para "While fire will"
-	line "hurt it, sometimes"
-	
-	para "it manages to"
-	line "endure very"
-	cont "powerful blows."
+	line "hurt it, it can"
+
+	para "sometimes endure"
+	line "powerful blows."
 	
 	para "The second is a"
 	line "giant iron snake"
@@ -262,16 +260,12 @@ OlivineGymGuideText:
 	para "Approach it with"
 	line "caution."
 	
-	para "While it may"
-	line "look slow,"
-	
-	para "I've seen it"
-	line "occasionally"
-	cont "strike enemies"
-	
-	para "first with a"
-	line "shocking display"
-	cont "of speed."
+	para "It may look slow,"
+	line "but I've seen it"
+
+	para "strike first with"
+	line "shocking displays"
+	cont "of SPEED."
 	done
 
 OlivineGymGuideWinText:

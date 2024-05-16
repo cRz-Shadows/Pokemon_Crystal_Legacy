@@ -439,7 +439,7 @@ GuideGentNoText:
 	line "I enjoy doing…"
 
 	para "Fine. Come see me"
-	line "when you like."
+	line "whenever you like."
 	done
 
 CherrygroveRivalText_Seen:

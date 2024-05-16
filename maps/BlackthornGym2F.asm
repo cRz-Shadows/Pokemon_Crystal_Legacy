@@ -80,7 +80,7 @@ TrainerCooltrainerfFran:
 
 CooltrainermCodySeenText:
 	text "I just got access"
-	line "to use dragon-"
+	line "to use DRAGON-"
 	cont "type #MON!"
 	done
 

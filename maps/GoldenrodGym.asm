@@ -399,19 +399,21 @@ GoldenrodGymGuideText:
 	line "making!"
 
 	para "This GYM is home"
-	line "to a NORMAL-type"
-	cont "#MON leader."
+	line "to WHITNEY, the"
+	cont "master of NORMAL-"
+	cont "type #MON."
 
 	para "Be cautious of"
 	line "her cute team."
-	
-	para "Her teddy bear"
-	line "might look nice,"
+
+	para "That little teddy"
+	line "bear of hers might"
+	cont "be adorable,"
 	
 	para "but I've seen it"
 	line "shatter rocks."
 	
-	para "Head to ROUTE 34"
+	para "Check ROUTE 34"
 	line "if you need a"
 	cont "FIGHTING-type."
 	done

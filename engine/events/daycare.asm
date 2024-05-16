@@ -22,6 +22,7 @@
 	const DAYCARETEXT_COME_AGAIN
 
 DayCareMan:
+	; TODO on hardcore mode, if the mon is fainted, dont allow depositing.
 	ld hl, wDayCareMan
 	bit DAYCAREMAN_HAS_MON_F, [hl]
 	jr nz, .AskWithdrawMon
@@ -60,6 +61,7 @@ DayCareMan:
 	ret
 
 DayCareLady:
+	; TODO on hardcore mode, if the mon is fainted, dont allow depositing.
 	ld hl, wDayCareLady
 	bit DAYCARELADY_HAS_MON_F, [hl]
 	jr nz, .AskWithdrawMon

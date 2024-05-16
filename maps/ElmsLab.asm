@@ -1102,7 +1102,7 @@ ElmGiveEverstoneText2:
 
 	para "Give it to a #-"
 	line "MON you don't want"
-	cont "to evolve."
+	cont "to evolve yet."
 	done
 
 ElmText_CallYou:
@@ -1191,8 +1191,8 @@ ElmGiveTicketText2:
 	para "GYM LEADERS of"
 	line "JOHTO again!"
 
-	para "This time at"
-	line "their strongest."
+	para "This time they"
+	line "won't hold back."
 
 	para "Give my regards to"
 	line "PROF.OAK in KANTO!"

@@ -304,7 +304,7 @@ MrPokemonsHouse_OakText1:
 
 	para "See? This is the"
 	line "latest version of"
-	cont "#DEX."
+	cont "the #DEX."
 
 	para "It automatically"
 	line "records data on"

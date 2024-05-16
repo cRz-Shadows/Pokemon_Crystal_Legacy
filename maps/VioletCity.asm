@@ -207,11 +207,11 @@ VioletCityLassText:
 	line "to appear in"
 	cont "SPROUT TOWER."
 
-	para "They say GHOST-"
-	line "type #MON moves"
+	para "They say that"
+	line "GHOST-type moves"
 
-	para "seem to bypass"
-	line "the defenses of"
+	para "can bypass the"
+	line "defenses of"
 	
 	para "tough #MON like"
 	line "ONIX and GEODUDE."

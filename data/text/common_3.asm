@@ -465,27 +465,28 @@ _EvolvingText::
 	done
 
 _EggMoveReminderIntro::
-    text "Hi, I'm the Egg"
-    line "Move Reminder!"
+    text "Hiya, I'm the"
+    line "EGG-MOVE TUTOR!"
 
     para "I can teach your"
-    line "#mon an egg-"
+    line "#MON moves they"
 
-    para "move you usually"
-    line "have to breed for."
+    para "can normally only"
+    line "learn as an EGG."
 
 	para "Are you"
     line "interested?"
     done
+
 _MoveReminderIntro::
     text "Hi, I'm the MOVE"
     line "REMINDER!"
 
-    para "I can teach your"
-    line "#mon a move it"
+    para "I can make #MON"
+    line "rememember moves"
 
-    para "has learned pre-"
-    line "viously."
+    para "that they learned"
+    line "while growing up."
 
 	para "Shall I make a"
 	line "#MON remember?"
@@ -500,9 +501,8 @@ _MoveReminderWhichMon::
     done
 
 _MoveReminderWhichMove::
-    text "Which move would"
-    next "you like it to"
-    cont "remember?"
+    text "Which move should"
+    line "it learn?"
     done
 
 _MoveReminderCancel::
@@ -512,18 +512,18 @@ _MoveReminderCancel::
 _MoveReminderEgg::
     text "Hey! What am I"
     line "supposed to teach"
-    cont "an Egg?"
+    cont "an EGG?"
     done
 
 _MoveReminderNoMon::
     text "You don't have a"
-    line "#mon that can"
+    line "#MON that can"
     cont "remember a move."
     done
 
 _MoveReminderNoMoves::
     text "There are no moves"
-    line "for this #mon"
+    line "for this #MON"
     cont "to learn."
     done
 

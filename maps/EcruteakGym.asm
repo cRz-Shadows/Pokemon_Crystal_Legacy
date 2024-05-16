@@ -397,22 +397,21 @@ MediumGraceAfterBattleText:
 
 EcruteakGymGuideText:
 	text "Hey CHAMP!"
-	line "You're almost half"
-	cont "way there!"
+	line "You're almost"
+	cont "halfway there!"
 	
 	para "The trainers here"
-	line "have GHOST and"
+	line "use GHOST and"
 	cont "DARK-type #MON."
 
-	para "While MORTY is"
-	line "a GHOST-type"
-	cont "expert, be wary"
+	para "While MORTY is a"
+	line "GHOST-type expert,"
 	
-	para "of his mystic"
-	line "deer that is said"
+	para "be wary of his"
+	line "mystic deer."
 	
-	para "to cause odd"
-	line "nightmares."
+	para "It's said to cause"
+	line "odd nightmares…"
 	done
 
 EcruteakGymGuideWinText:

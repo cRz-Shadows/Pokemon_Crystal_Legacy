@@ -235,12 +235,12 @@ EarlsPokemonAcademyYoungster1Text:
 	para "trade can evolve"
 	line "through leveling."
 
-	para "MACHAMP and"
+	para "MACHOKE and"
 	line "GRAVELER evolve"
 	cont "at LVL 38, while"
 	
-	para "ALAKAZAM and"
-	line "GENGAR evolve "
+	para "KADABRA and"
+	line "HAUNTER evolve"
 	cont "at LVL 42."
 
 	para "Some items, like"
@@ -262,58 +262,51 @@ EarlsPokemonAcademyYoungster1Text:
 	done
 
 EarlsPokemonAcademyGameboyKid1Text:
-	text "The newly dis-"
-	line "covered DARK"
+	text "The newly discov-"
+    line "ered DARK-type"
+    cont "deals physical"
+    cont "damage."
 
-	para "type deals"
-	line "physical damage."
-	
-	para "GHOST-type,"
-	line "deals special"
-	cont "damage."
-	
-	para "The move SPIKE"
-	line "CANNON, once"
-	cont "thought to be a"
-	
-	para "NORMAL-type"
-	line "move, is a"
-	cont "STEEL-type move."
-	done
+    para "The GHOST-type"
+    line "deals special"
+    cont "damage."
+
+    para "The move SPIKE"
+    line "CANNON, once"
+    cont "thought to be a"
+
+    para "NORMAL-type move,"
+    line "is actually a"
+    cont "STEEL-type move."
+    done
 
 EarlsPokemonAcademyGameboyKid2Text:
 	text "As trainers ex-"
 	line "pand their skills,"
 
-	para "many moves have"
-	line "become more"
-	cont "accurate than"
-	
-	para "previously"
-	line "thought to be."
+	para "Many moves are now"
+    line "more accurate than"
+    cont "previously known,"
 
-	para "Many moves which"
-	line "were once "
-	cont "considered as"
-	
-	para "underpowered have"
-	line "also seen in-"
-	cont "creases in power."
-	
-	para "Most notably,"
-	line "BUG-type has"
-	
-	para "made much progress"
-	line "in terms of"
-	cont "viability."
+	para "and some that were"
+    line "once thought to be"
+	cont "underpowered have"
 
-	para "FIGHTING-type"
-	line "has also improved"
-	cont "drastically"
+    para "seen increases"
+    line "to their power."
 	
-	para "over the last"
-	line "three years."
-	done
+	para "Most notably, the"
+    line "BUG-type is now"
+    cont "far more viable in"
+    cont "battle."
+
+    para "The FIGHTING-type"
+    line "has also improved"
+    cont "dramatically over"
+
+    para "the last three"
+    line "years."
+    done
 
 EarlsPokemonAcademyYoungster2Text:
 	text "As #MON"
@@ -321,33 +314,33 @@ EarlsPokemonAcademyYoungster2Text:
 	cont "as do their stats."
 	
 	para "While still rec-"
-	line "ognizable, some"
-	cont "which were once"
+    line "ognizable, some"
+    cont "#MON once"
 	
 	para "thought to be"
-	line "non viable, have"
-	cont "seen small stat"
+    line "nonviable have"
+    cont "seen small stat"
 	
-	para "growths between"
-	line "5-20 base points."
+	para "increases of"
+    line "5-20 base points."
 
-	para "Also worth noting,"
-	line "ARIADOS seem to"
-	cont "have become much"
+	para "ARIADOS in par-"
+    line "ticular has become"
+	cont "much faster, with"
 
-	para "faster, with a "
-	line "base stat of 80."
-	
-	para "Many #MON have"
-	line "also started to"
-	cont "learn new moves."
+	para "a new base SPEED"
+    line "stat of 80."
+
+    para "Many #MON can"
+    line "learn moves they"
+    cont "couldn't before."
 
 	para "Now, nearly all"
 	line "#MON learn"
-	cont "multiple"
+	cont "multiple moves of"
 
-	para "moves of it's type,"
-	line "via LVL up."
+	para "its own type via"
+    line "level-up."
 	
 	para "Many also seem"
 	line "to be learning"
@@ -356,15 +349,15 @@ EarlsPokemonAcademyYoungster2Text:
 	para "than they once"
 	line "did."
 	
-	para "While this helps"
-	line "trainers, it may"
-	cont "also make"
-	cont "opponents"
-	
-	para "stronger due to"
-	line "having better type"
-	cont "coverage."
-	done
+	para "Be aware that your"
+    line "opponents now use"
+    cont "teams with better"
+    cont "type coverage,"
+
+    para "so expect a much"
+    line "more challenging"
+    cont "journey ahead."
+    done
 
 AcademyBlackboardText:
 	text "The blackboard"
@@ -507,8 +500,7 @@ AcademyNotebookText3:
 AcademyStickerMachineText:
 	text "This super machine"
 	line "prints data out as"
-
-	para "stickers!"
+	cont "stickers!"
 	done
 
 EarlsPokemonAcademy_MapEvents:

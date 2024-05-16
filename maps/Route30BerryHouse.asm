@@ -28,11 +28,12 @@ Route30BerryHouseBookshelf:
 
 Route30BerrySpeechHouseMonEatBerriesText:
 	text "You know, #MON"
-	line "eat BERRIES."
+	line "get healthier by"
+	cont "eating BERRIES."
 
-	para "Well, my #MON"
-	line "got healthier by"
-	cont "eating a BERRY."
+	para "They can even eat"
+	line "BERRIES they're"
+	cont "holding in battle."
 
 	para "Here. I'll share"
 	line "one with you!"
@@ -40,8 +41,8 @@ Route30BerrySpeechHouseMonEatBerriesText:
 
 Route30BerrySpeechHouseCheckTreesText:
 	text "Check trees for"
-	line "BERRIES. They just"
-	cont "drop right off."
+	line "BERRIES. They grow"
+	cont "back every day."
 	done
 
 Route30BerryHouse_MapEvents:

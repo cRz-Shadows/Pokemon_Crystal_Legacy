@@ -1766,6 +1766,7 @@ BillsPC_CopyMon:
 	ret
 
 DepositPokemon:
+	; TODO on hardcore mode, if the mon is fainted, dont allow depositing. Instead, show a message which tells the player they must release the mon
 	ld a, [wBillsPC_CursorPosition]
 	ld hl, wBillsPC_ScrollPosition
 	add [hl]

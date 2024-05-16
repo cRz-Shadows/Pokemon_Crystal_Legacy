@@ -221,22 +221,19 @@ MomWalksBackMovement:
 
 ElmsLookingForYouText:
 	text "Oh, <PLAYER>…! Our"
-	line "neighbor, PROF."
+	line "neighbor, PROF.ELM"
 
-	para "ELM, was looking"
-	line "for you."
+	para "was looking for"
+	line "you. Also, your"
 
-	para "Your GEAR is back"
+	para "#GEAR is back"
 	line "from the shop."
 
 	para "Here you go!"
 	done
 
 MomGivesPokegearText:
-	text "#MON GEAR, or"
-	line "just #GEAR."
-
-	para "Oh, the day of the"
+	text "Oh, the day of the"
 	line "week isn't set."
 
 	para "You mustn't forget"
@@ -255,8 +252,8 @@ ComeHomeForDSTText:
 	done
 
 KnowTheInstructionsText:
-	text "Great! I won't say"
-	line "how to use it."
+	text "Great! No need to"
+	line "explain it then."
 	done
 
 DontKnowTheInstructionsText:
@@ -271,6 +268,9 @@ DontKnowTheInstructionsText:
 InstructionsNextText:
 	text "Phone numbers are"
 	line "stored in memory."
+
+	para "Just choose a name"
+	line "you want to call."
 	done
 
 CanRunText:

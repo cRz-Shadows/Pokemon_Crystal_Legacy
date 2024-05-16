@@ -148,11 +148,18 @@ Route29FisherScript:
 Route29CooltrainerMScript:
 	faceplayer
 	opentext
+	checktime MORN
+	iftrue .morn
 	checktime DAY
-	iftrue .day_morn
+	iftrue .day
 	checktime NITE
 	iftrue .nite
-.day_morn
+.morn
+	writetext Route29CooltrainerMText_WaitingForDay
+	waitbutton
+	closetext
+	end
+.day
 	writetext Route29CooltrainerMText_WaitingForNight
 	waitbutton
 	closetext
@@ -267,19 +274,16 @@ CatchingTutorialIntroText:
 	done
 
 CatchingTutorialDebriefText:
-	text "That's how you do"
-	line "it."
+	text "If you weaken them"
+	line "first, #MON are"
+	cont "easier to catch."
 
-	para "Anyway, if you"
-	line "want to learn"
+	para "If you want to"
+	line "learn more, go"
+	cont "to the ACADEMY"
+	cont "in VIOLET CITY!"
 
-	para "more about this"
-	line "region, head to"
-	
-	para "the ACADEMY in"
-	line "VIOLET CITY!"
-	
-	para "The students"
+	para "The students there"
 	line "know a lot about"
 	cont "#MON."
 	done
@@ -287,14 +291,15 @@ CatchingTutorialDebriefText:
 CatchingTutorialDeclinedText:
 	text "Oh. Fine, then."
 
-	para "Anyway, if you"
-	line "want to learn"
+	para "Check every route"
+	line "to find different"
+	cont "types of #MON."
 
-	para "more about this"
-	line "region, head to"
-	
-	para "the ACADEMY in"
-	line "VIOLET CITY!"
+	para "If you want to"
+	line "learn more, go"
+
+	para "to the ACADEMY"
+	line "in VIOLET CITY!"
 	
 	para "The students"
 	line "know a lot about"
@@ -338,12 +343,12 @@ Route29FisherText:
 	line "progress."
 	done
 
-Route29CooltrainerMText_WaitingForDay: ; unreferenced
+Route29CooltrainerMText_WaitingForDay:
 	text "I'm waiting for"
 	line "#MON that"
 
-	para "appear only in the"
-	line "daytime."
+	para "appear only later"
+	line "in the day."
 	done
 
 Route29CooltrainerMText_WaitingForNight:
