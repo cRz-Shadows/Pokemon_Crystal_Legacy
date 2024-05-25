@@ -122,7 +122,7 @@ CherrygroveSilverSceneNorth:
 	loadtrainer RIVAL1, RIVAL1_1_TOTODILE
 	loadvar VAR_BATTLETYPE, BATTLETYPE_CANLOSE
 	checkflag ENGINE_HARDCORE_MODE
-	iftrue .LoadHardcoreModeBattle_TOTORILE
+	iftrue .LoadHardcoreModeBattle
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_RIVAL1_1_TOTODILE
 	loadvar VAR_BATTLETYPE, BATTLETYPE_CANLOSE_SETNOITEMS
@@ -139,7 +139,7 @@ CherrygroveSilverSceneNorth:
 	loadtrainer RIVAL1, RIVAL1_1_CHIKORITA
 	loadvar VAR_BATTLETYPE, BATTLETYPE_CANLOSE
 	checkflag ENGINE_HARDCORE_MODE
-	iftrue .LoadHardcoreModeBattle_CHIKORITA
+	iftrue .LoadHardcoreModeBattle
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_RIVAL1_1_CHIKORITA
 	loadvar VAR_BATTLETYPE, BATTLETYPE_CANLOSE_SETNOITEMS
@@ -156,7 +156,7 @@ CherrygroveSilverSceneNorth:
 	loadtrainer RIVAL1, RIVAL1_1_CYNDAQUIL
 	loadvar VAR_BATTLETYPE, BATTLETYPE_CANLOSE
 	checkflag ENGINE_HARDCORE_MODE
-	iftrue .LoadHardcoreModeBattle_CYNDAQUIL
+	iftrue .LoadHardcoreModeBattle
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_RIVAL1_1_CYNDAQUIL
 	loadvar VAR_BATTLETYPE, BATTLETYPE_CANLOSE_SETNOITEMS
@@ -164,6 +164,14 @@ CherrygroveSilverSceneNorth:
 	startbattle
 	dontrestartmapmusic
 	reloadmap
+	iftrue .AfterVictorious
+	sjump .AfterYourDefeat
+
+.LoadHardcoreModeBattle
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+	startbattle
+	dontrestartmapmusic
+	reloadmapafterbattle
 	iftrue .AfterVictorious
 	sjump .AfterYourDefeat
 
@@ -191,25 +199,6 @@ CherrygroveSilverSceneNorth:
 	special HealParty
 	playmapmusic
 	end
-
-.LoadHardcoreModeBattle_TOTORILE
-	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
-	sjump .HardcoreModeBattle
-
-.LoadHardcoreModeBattle_CHIKORITA
-	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
-	sjump .HardcoreModeBattle
-
-.LoadHardcoreModeBattle_CYNDAQUIL
-	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
-	; sjump .HardcoreModeBattle
-
-.HardcoreModeBattle
-	startbattle
-	dontrestartmapmusic
-	reloadmapafterbattle
-	iftrue .AfterVictorious
-	sjump .AfterYourDefeat
 
 CherrygroveTeacherScript:
 	faceplayer
