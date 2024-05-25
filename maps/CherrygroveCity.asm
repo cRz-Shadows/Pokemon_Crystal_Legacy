@@ -121,6 +121,8 @@ CherrygroveSilverSceneNorth:
 	setlasttalked CHERRYGROVECITY_SILVER
 	loadtrainer RIVAL1, RIVAL1_1_TOTODILE
 	loadvar VAR_BATTLETYPE, BATTLETYPE_CANLOSE
+	checkflag ENGINE_HARDCORE_MODE
+	iftrue .LoadHardcoreModeBattle_TOTORILE
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_RIVAL1_1_TOTODILE
 	loadvar VAR_BATTLETYPE, BATTLETYPE_CANLOSE_SETNOITEMS
@@ -136,6 +138,8 @@ CherrygroveSilverSceneNorth:
 	setlasttalked CHERRYGROVECITY_SILVER
 	loadtrainer RIVAL1, RIVAL1_1_CHIKORITA
 	loadvar VAR_BATTLETYPE, BATTLETYPE_CANLOSE
+	checkflag ENGINE_HARDCORE_MODE
+	iftrue .LoadHardcoreModeBattle_CHIKORITA
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_RIVAL1_1_CHIKORITA
 	loadvar VAR_BATTLETYPE, BATTLETYPE_CANLOSE_SETNOITEMS
@@ -151,6 +155,8 @@ CherrygroveSilverSceneNorth:
 	setlasttalked CHERRYGROVECITY_SILVER
 	loadtrainer RIVAL1, RIVAL1_1_CYNDAQUIL
 	loadvar VAR_BATTLETYPE, BATTLETYPE_CANLOSE
+	checkflag ENGINE_HARDCORE_MODE
+	iftrue .LoadHardcoreModeBattle_CYNDAQUIL
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_RIVAL1_1_CYNDAQUIL
 	loadvar VAR_BATTLETYPE, BATTLETYPE_CANLOSE_SETNOITEMS
@@ -185,6 +191,25 @@ CherrygroveSilverSceneNorth:
 	special HealParty
 	playmapmusic
 	end
+
+.LoadHardcoreModeBattle_TOTORILE
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+	sjump .HardcoreModeBattle
+
+.LoadHardcoreModeBattle_CHIKORITA
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+	sjump .HardcoreModeBattle
+
+.LoadHardcoreModeBattle_CYNDAQUIL
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+	; sjump .HardcoreModeBattle
+
+.HardcoreModeBattle
+	startbattle
+	dontrestartmapmusic
+	reloadmapafterbattle
+	iftrue .AfterVictorious
+	sjump .AfterYourDefeat
 
 CherrygroveTeacherScript:
 	faceplayer

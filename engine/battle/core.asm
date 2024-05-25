@@ -2391,9 +2391,11 @@ WinTrainerBattle:
 
 	ld a, [wBattleType]
 	cp BATTLETYPE_CANLOSE
-	jr nz, .skip_heal
+	jr z, .heal
 	cp BATTLETYPE_CANLOSE_SETNOITEMS
-	jr nz, .skip_heal
+	jr z, .heal
+	jr .skip_heal
+.heal
 	predef HealParty
 .skip_heal
 
@@ -2937,9 +2939,11 @@ LostBattle:
 
 	ld a, [wBattleType]
 	cp BATTLETYPE_CANLOSE
-	jr nz, .not_canlose
+	jr z, .canlose
 	cp BATTLETYPE_CANLOSE_SETNOITEMS
-	jr nz, .not_canlose
+	jr z, .canlose
+	jr .not_canlose
+.canlose
 
 ; Remove the enemy from the screen.
 	hlcoord 0, 0

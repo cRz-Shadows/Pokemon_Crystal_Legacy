@@ -189,4 +189,5 @@
 	const ENGINE_YANMA_SWARM
 ; wDifficultyFlags
 	const ENGINE_HARD_MODE
+	const ENGINE_HARDCORE_MODE
 NUM_ENGINE_FLAGS EQU const_value

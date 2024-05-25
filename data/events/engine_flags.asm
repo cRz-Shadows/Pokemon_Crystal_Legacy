@@ -200,5 +200,6 @@ EngineFlags:
 	engine_flag wSwarmFlags, SWARMFLAGS_YANMA_SWARM_F
 
 	engine_flag wDifficultyFlags, DIFFICULTYFLAGS_HARD_MODE
+	engine_flag wDifficultyFlags, DIFFICULTYFLAGS_HARDCORE_MODE
 
 	assert_table_length NUM_ENGINE_FLAGS

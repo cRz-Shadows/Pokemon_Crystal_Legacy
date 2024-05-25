@@ -1827,6 +1827,13 @@ _ComeAgainText::
 	text "Come again."
 	done
 
+_CantAcceptFaintedMonText::
+	text "Sorry, but you'll"
+	line "have to heal your"
+	cont "#MON before I"
+	cont "accept it."
+	prompt
+
 _NotYetText::
 	text "Not yet…"
 	done

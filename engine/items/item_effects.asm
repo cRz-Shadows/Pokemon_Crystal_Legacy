@@ -1163,6 +1163,13 @@ VitaminEffect:
 
 	call RareCandy_StatBooster_GetParameters
 
+	; hardcore mode
+	call CheckHardcoreMode
+	jr z, .notHardcore
+	call CheckMonIsFainted
+	jp z, NoEffectMessage ; can't use if mon is fainted
+.notHardcore
+
 	call GetStatExpRelativePointer
 
 	ld a, MON_STAT_EXP
@@ -1172,9 +1179,6 @@ VitaminEffect:
 	ld a, [hl]
 	cp 100
 	jr nc, NoEffectMessage
-
-	; TODO Hardcore mode
-	; jump to NoEffectMessage if mon is fainted and on hardcode mode
 
 	add 10
 	ld [hl], a
@@ -1282,6 +1286,13 @@ RareCandyEffect:
 	jp c, RareCandy_StatBooster_ExitMenu
 
 	call RareCandy_StatBooster_GetParameters
+
+	; hardcore mode
+	call CheckHardcoreMode
+	jr z, .notHardcore
+	call CheckMonIsFainted
+	jp z, NoEffectMessage ; if the mon is fainted, use no effect message
+.notHardcore
 
 	ld a, MON_LEVEL
 	call GetPartyParamLocation
@@ -1507,14 +1518,9 @@ RevivalHerbEffect:
 	call UseItem_SelectMon
 	jp c, StatusHealer_ExitMenu
 
-	; TODO Hardcore mode
-	; ; check if we are on hard mode
-	; ld de, ENGINE_HARDCORE_MODE
-    ; ld b, CHECK_FLAG
-    ; farcall EngineFlagAction
-    ; ld a, c
-    ; or a
-    ; jr nz, .not_used ; if not on normal mode, can't use revive items
+	; Hardcore mode
+	call CheckHardcoreMode
+    jr nz, .not_used ; if not on normal mode, can't use revive items
 
 	call RevivePokemon
 	cp FALSE
@@ -1534,21 +1540,13 @@ ReviveEffect:
 	call UseItem_SelectMon
 	jp c, StatusHealer_ExitMenu
 
-	; TODO Hardcore mode
-	; ; check if we are on hard mode
-	; ld de, ENGINE_HARDCORE_MODE
-    ; ld b, CHECK_FLAG
-    ; farcall EngineFlagAction
-    ; ld a, c
-    ; or a
-    ; jr nz, .not_used ; if not on normal mode, can't use revive items
+	; Hardcore mode
+	call CheckHardcoreMode
+    jr nz, .not_used ; if not on normal mode, can't use revive items
 
 	call RevivePokemon
+.not_used
 	jp StatusHealer_Jumptable
-
-	; TODO Hardcore mode
-; .not_used
-; 	jp StatusHealer_Jumptable
 
 RevivePokemon:
 	call IsMonFainted
@@ -2947,4 +2945,53 @@ GetMthMoveOfCurrentMon:
 	ld c, a
 	ld b, 0
 	add hl, bc
+	ret
+
+CheckHardcoreMode:
+	push de
+	push bc
+	push hl
+	ld de, ENGINE_HARDCORE_MODE
+    ld b, CHECK_FLAG
+    farcall EngineFlagAction
+    ld a, c
+    or a
+	pop hl
+	pop bc
+	pop de
+	ret
+
+CheckMonIsFainted:
+	push hl
+	push de
+	push bc
+	ld hl, wPartySpecies
+	ld a, MON_SPECIES
+	call GetPartyParamLocation
+	ld d, h
+	ld e, l
+
+	ld hl, MON_STATUS
+	add hl, de
+	xor a
+	ld [hli], a
+	ld [hl], a
+
+	ld hl, MON_MAXHP
+	add hl, de
+
+	; bc = MON_HP
+	ld b, h
+	ld c, l
+	dec bc
+	dec bc
+
+	ld a, [bc]
+	ld h, b
+	ld l, c
+	inc hl
+	or [hl]
+	pop bc
+	pop de
+	pop hl
 	ret

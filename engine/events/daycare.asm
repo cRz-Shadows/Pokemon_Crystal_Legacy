@@ -20,9 +20,9 @@
 	const DAYCARETEXT_NOT_ENOUGH_MONEY
 	const DAYCARETEXT_OH_FINE
 	const DAYCARETEXT_COME_AGAIN
+	const DAYCARETEXT_FAINTED_MON
 
 DayCareMan:
-	; TODO on hardcore mode, if the mon is fainted, dont allow depositing.
 	ld hl, wDayCareMan
 	bit DAYCAREMAN_HAS_MON_F, [hl]
 	jr nz, .AskWithdrawMon
@@ -61,7 +61,6 @@ DayCareMan:
 	ret
 
 DayCareLady:
-	; TODO on hardcore mode, if the mon is fainted, dont allow depositing.
 	ld hl, wDayCareLady
 	bit DAYCARELADY_HAS_MON_F, [hl]
 	jr nz, .AskWithdrawMon
@@ -130,6 +129,14 @@ DayCareAskDepositPokemon:
 	jr z, .Egg
 	farcall CheckCurPartyMonFainted
 	jr c, .OutOfUsableMons
+
+	; hardcore mode, don't accept fainted pokemon
+	farcall CheckHardcoreMode
+	jr z, .notHardcore
+	farcall CheckMonIsFainted
+	jp z, .CantAcceptFaintedMon
+.notHardcore
+
 	ld hl, wPartyMon1Item
 	ld bc, PARTYMON_STRUCT_LENGTH
 	ld a, [wCurPartyMon]
@@ -165,6 +172,11 @@ DayCareAskDepositPokemon:
 
 .HoldingMail:
 	ld a, DAYCARETEXT_REMOVE_MAIL
+	scf
+	ret
+
+.CantAcceptFaintedMon:
+	ld a, DAYCARETEXT_FAINTED_MON
 	scf
 	ret
 
@@ -295,6 +307,7 @@ PrintDayCareText:
 	dw .NotEnoughMoneyText ; 11
 	dw .OhFineThenText ; 12
 	dw .ComeAgainText ; 13
+	dw .CantAcceptFaintedMonText
 
 .DayCareManIntroText:
 	text_far _DayCareManIntroText
@@ -374,6 +387,10 @@ PrintDayCareText:
 
 .ComeAgainText:
 	text_far _ComeAgainText
+	text_end
+
+.CantAcceptFaintedMonText:
+	text_far _CantAcceptFaintedMonText
 	text_end
 
 DayCareManOutside:

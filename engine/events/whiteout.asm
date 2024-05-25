@@ -15,11 +15,15 @@ Script_Whiteout:
 	checkflag ENGINE_BUG_CONTEST_TIMER
 	iftrue .bug_contest
 	callasm HalveMoney
+	checkflag ENGINE_HARDCORE_MODE
+	iftrue .reset
 	callasm GetWhiteoutSpawn
 	farscall Script_AbortBugContest
 	special WarpToSpawnPoint
 	newloadmap MAPSETUP_WARP
 	endall
+.reset
+	callasm Reset
 
 .bug_contest
 	jumpstd BugContestResultsWarpScript

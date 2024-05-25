@@ -42,24 +42,15 @@ HealPartyMon:
 	ld c, l
 	dec bc
 	dec bc
-	; TODO Hardcore mode
-; 	; check if we are on hardcore mode
-; 	ld de, ENGINE_HARDCORE_MODE
-;     ld b, CHECK_FLAG
-;     farcall EngineFlagAction
-;     ld a, c
-;     or a
-;     jr nz, .notHardcore
-
-; 	ld a, [bc]
-; 	push hl
-; 	ld h, b
-; 	ld l, c
-; 	inc hl
-; 	or [hl]
-; 	pop hl
-; 	ret z
-; .notHardcore
+	; Hardcore mode, don't heal fainted pokemon
+	call CheckHardcoreMode
+    jr z, .notHardcore
+	inc bc
+	ld a, [bc]
+	dec bc
+	cp 0
+	ret z
+.notHardcore
 	ld a, [hli]
 	ld [bc], a
 	inc bc

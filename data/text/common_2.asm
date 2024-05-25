@@ -670,13 +670,28 @@ _SelectDifficultyText::
 	done
 
 _SelectDifficultyNormalText::
-	text "Classic #MON."
+	text "Are you sure?"
+
+	para "Classic #MON."
 	done
 
 _SelectDifficultyHardText::
-	text "SET mode, no"
+	text "Are you sure?"
+
+	para "SET mode, no"
 	line "items in battle,"
 	cont "GYM LVL caps."
+	done
+
+_SelectDifficultyHardcoreText::
+	text "Are you sure?"
+
+	para "Hard mode, but"
+	line "#MON can't be"
+	cont "revived."
+
+	para "Wipeouts reset to"
+	line "previous save."
 	done
 
 Text_BattleEffectActivate::

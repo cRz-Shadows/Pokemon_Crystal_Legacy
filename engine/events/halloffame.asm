@@ -569,12 +569,19 @@ HOF_AnimatePlayerPic:
 	lb bc, 2, 7
 	call Textbox
 
+	ld de, ENGINE_HARDCORE_MODE
+	ld b, CHECK_FLAG
+	farcall EngineFlagAction
+	cp 0
+	jr nz, .HardcoreMode
+
 	ld de, ENGINE_HARD_MODE
 	ld b, CHECK_FLAG
 	farcall EngineFlagAction
 	cp 0
-	jr z, .NormalMode
 	jr nz, .HardMode
+
+	jr .NormalMode
 
 .NormalMode:
 	hlcoord 32, 1
@@ -594,6 +601,14 @@ HOF_AnimatePlayerPic:
 	ld de, .crystal_legacy_3
 	call PlaceString
 	jr .EndMode
+.HardcoreMode:
+	hlcoord 32, 1
+	ld de, .crystal_legacy_2
+	call PlaceString
+
+	hlcoord 32, 2
+	ld de, .crystal_legacy_4
+	call PlaceString
 .EndMode:
 	hlcoord 2, 4
 	ld de, wPlayerName
@@ -635,3 +650,6 @@ HOF_AnimatePlayerPic:
 
 .crystal_legacy_3:
 	db "Hard@"
+
+.crystal_legacy_4:
+	db "HC@"

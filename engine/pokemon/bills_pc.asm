@@ -1766,11 +1766,17 @@ BillsPC_CopyMon:
 	ret
 
 DepositPokemon:
-	; TODO on hardcore mode, if the mon is fainted, dont allow depositing. Instead, show a message which tells the player they must release the mon
 	ld a, [wBillsPC_CursorPosition]
 	ld hl, wBillsPC_ScrollPosition
 	add [hl]
 	ld [wCurPartyMon], a
+
+ 	; hardcore mode, if the mon is fainted, show a message which tells the player they must release the mon
+	farcall CheckHardcoreMode
+    jr z, .notHardcore
+	farcall CheckMonIsFainted	
+	jr z, .MonFainted
+.notHardcore
 	ld hl, wPartyMonNicknames
 	ld a, [wCurPartyMon]
 	call GetNickname
@@ -1809,6 +1815,7 @@ DepositPokemon:
 
 .BoxFull:
 	ld de, PCString_BoxFull
+.finishFailText
 	call BillsPC_PlaceString
 	ld de, SFX_WRONG
 	call WaitPlaySFX
@@ -1817,6 +1824,9 @@ DepositPokemon:
 	call DelayFrames
 	scf
 	ret
+.MonFainted:
+	ld de, PCString_ReleaseMon
+	jr .finishFailText
 
 TryWithdrawPokemon:
 	ld a, [wBillsPC_CursorPosition]
@@ -2226,6 +2236,7 @@ PCString_Non: db "Non.@" ; unreferenced
 PCString_BoxFull: db "The BOX is full.@"
 PCString_PartyFull: db "The party's full!@"
 PCString_NoReleasingEGGS: db "No releasing EGGS!@"
+PCString_ReleaseMon: db "Release <PK><MN>.@"
 
 _ChangeBox:
 	call LoadStandardMenuHeader
