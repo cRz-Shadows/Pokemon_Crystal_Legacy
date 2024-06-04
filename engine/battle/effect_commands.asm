@@ -3259,18 +3259,21 @@ BattleCommand_ConstantDamage:
 	jr .got_power
 
 .psywave
+	push de
 	ld a, b
+	ld d, a ; d = level
 	srl a
 	add b
-	ld b, a
+	ld b, a ; b = 1.5xlevel
 .psywave_loop
 	call BattleRandom
-	and a
-	jr z, .psywave_loop
+	cp d
+    jr c, .psywave_loop  ; if a < level, generate another random number
 	cp b
-	jr nc, .psywave_loop
+	jr nc, .psywave_loop ; if a >= 1.5xlevel, generate another random number
 	ld b, a
 	ld a, 0
+	pop de
 	jr .got_power
 
 .super_fang
