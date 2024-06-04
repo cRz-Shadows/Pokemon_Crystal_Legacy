@@ -15,7 +15,7 @@ PHYSICAL EQU const_value
 	const ROCK
 	const BIRD
 	const BUG
-	const DARK
+	const GHOST ; Ghost is made special whenever psysical/special checks are made, this preserves trade compatability
 	const STEEL
 
 UNUSED_TYPES EQU const_value
@@ -31,7 +31,7 @@ SPECIAL EQU const_value
 	const PSYCHIC_TYPE
 	const ICE
 	const DRAGON
-	const GHOST
+	const DARK ; Dark is made physical whenever psysical/special checks are made, this preserves trade compatability
 TYPES_END EQU const_value
 
 NUM_TYPES EQU TYPES_END + UNUSED_TYPES - UNUSED_TYPES_END - 1 ; discount BIRD

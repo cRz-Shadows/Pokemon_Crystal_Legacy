@@ -33,8 +33,13 @@ BattleCommand_Counter:
 	ret z
 
 	ld a, [wStringBuffer1 + MOVE_TYPE]
+	cp GHOST
+	ret z
+	cp DARK
+	jr z, .physical
 	cp SPECIAL
 	ret nc
+.physical
 
 	ld hl, wCurDamage
 	ld a, [hli]

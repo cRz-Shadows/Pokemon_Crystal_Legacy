@@ -1120,6 +1120,10 @@ AI_Smart_SpDefenseUp2:
 	ret nc
 
 	ld a, [wBattleMonType1]
+	cp GHOST
+	jr z, .encourage
+	cp DARK
+	ret z
 	cp SPECIAL
 	jr nc, .encourage
 	ld a, [wBattleMonType2]
@@ -1348,8 +1352,13 @@ AI_Smart_Counter:
 	jr z, .skipmove
 
 	ld a, [wEnemyMoveStruct + MOVE_TYPE]
+	cp GHOST
+	jr z, .skipmove
+	cp DARK
+	jr z, .physical
 	cp SPECIAL
 	jr nc, .skipmove
+.physical
 
 	inc b
 
@@ -1376,9 +1385,13 @@ AI_Smart_Counter:
 	jr z, .done
 
 	ld a, [wEnemyMoveStruct + MOVE_TYPE]
+	cp GHOST
+	jr z, .done
+	cp DARK
+	jr z, .encourage
 	cp SPECIAL
 	jr nc, .done
-
+	
 .encourage
 	call Random
 	cp 39 percent + 1
@@ -1839,11 +1852,17 @@ AI_Smart_Curse:
 	ld a, [wBattleMonType1]
 	cp GHOST
 	jr z, .greatly_encourage
+	cp DARK
+	jr z, .physical1
 	cp SPECIAL
 	ret nc
+.physical1
 	ld a, [wBattleMonType2]
+	cp DARK
+	jr z, .physical2
 	cp SPECIAL
 	ret nc
+.physical2
 	call AI_80_20
 	ret c
 	dec [hl]
@@ -2530,8 +2549,13 @@ AI_Smart_MirrorCoat:
 	jr z, .skipmove
 
 	ld a, [wEnemyMoveStruct + MOVE_TYPE]
+	cp GHOST
+	jr z, .special
+	cp DARK
+	jr z, .skipmove
 	cp SPECIAL
 	jr c, .skipmove
+.special
 
 	inc b
 
@@ -2558,6 +2582,10 @@ AI_Smart_MirrorCoat:
 	jr z, .done
 
 	ld a, [wEnemyMoveStruct + MOVE_TYPE]
+	cp GHOST
+	jr z, .done
+	cp DARK
+	jr z, .encourage
 	cp SPECIAL
 	jr c, .done
 

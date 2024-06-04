@@ -2586,8 +2586,13 @@ PlayerAttackDamage:
 	ret z
 
 	ld a, [hl]
+	cp GHOST
+	jr z, .special
+	cp DARK
+	jr z, .physical
 	cp SPECIAL
 	jr nc, .special
+.physical
 
 ; physical
 	ld hl, wEnemyMonDefense
@@ -2717,13 +2722,21 @@ CheckDamageStatsCritical:
 	and a
 	jr nz, .enemy
 	ld a, [wPlayerMoveStructType]
+	cp GHOST
+	jr z, .special
+	cp DARK
+	jr z, .physical
 	cp SPECIAL
+	jr nc, .special
+	jr .physical
 ; special
+.special
 	ld a, [wPlayerSAtkLevel]
 	ld b, a
 	ld a, [wEnemySDefLevel]
-	jr nc, .end
+	jr .end
 ; physical
+.physical
 	ld a, [wPlayerAtkLevel]
 	ld b, a
 	ld a, [wEnemyDefLevel]
@@ -2731,13 +2744,19 @@ CheckDamageStatsCritical:
 
 .enemy
 	ld a, [wEnemyMoveStructType]
-	cp SPECIAL
+	cp GHOST
+	jr z, .special2
+	cp DARK
+	jr nc, .special2
+	jr .physical2
 ; special
+.special2
 	ld a, [wEnemySAtkLevel]
 	ld b, a
 	ld a, [wPlayerSDefLevel]
-	jr nc, .end
+	jr .end
 ; physical
+.physical2
 	ld a, [wEnemyAtkLevel]
 	ld b, a
 	ld a, [wPlayerDefLevel]
@@ -2838,8 +2857,13 @@ EnemyAttackDamage:
 	ret z
 
 	ld a, [hl]
+	cp GHOST
+	jr z, .special
+	cp DARK
+	jr z, .physical
 	cp SPECIAL
 	jr nc, .special
+.physical
 
 ; physical
 	ld hl, wBattleMonDefense

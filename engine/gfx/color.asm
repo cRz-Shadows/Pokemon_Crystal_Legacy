@@ -1519,8 +1519,8 @@ TypeIconPals:
     RGB 24, 20, 07
 ; BUG
     RGB 21, 23, 06
-; DARK
-    RGB 15, 11, 09    
+; GHOST
+	RGB 15, 11, 18
 ; STEEL
     RGB 23, 23, 25
 ; FIRE
@@ -1537,8 +1537,8 @@ TypeIconPals:
     RGB 16, 27, 27
 ; DRAGON
     RGB 15, 07, 31
-; GHOST
-    RGB 15, 11, 18
+; DARK
+    RGB 15, 11, 09    
 ; FAIRY
 	RGB 31, 20, 29
 ; UNKNOWN T

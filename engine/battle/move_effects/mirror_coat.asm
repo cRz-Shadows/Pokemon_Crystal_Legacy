@@ -34,8 +34,13 @@ BattleCommand_MirrorCoat:
 	ret z
 
 	ld a, [wStringBuffer1 + MOVE_TYPE]
+	cp DARK
+	ret z
+	cp GHOST
+	jr z, .special
 	cp SPECIAL
 	ret c
+.special
 
 	ld hl, wCurDamage
 	ld a, [hli]
