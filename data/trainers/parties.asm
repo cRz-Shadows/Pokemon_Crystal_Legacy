@@ -345,30 +345,30 @@ WillGroup:
 	
 	; WILL (2) Rematch
 	db "WILL@", TRAINERTYPE_STAT_EXP | TRAINERTYPE_ITEM_MOVES
-		db 66, GIRAFARIG
+		db 66, STANTLER
 			dw $01FE, $01FE, $01FE, $01FE, $01FE ; hp, atk, def, spd, spc
-			db PINK_BOW
-			db PSYCHIC_M, ROCK_SMASH, AGILITY, BATON_PASS
-		db 67, ESPEON
+			db SCOPE_LENS
+            db DOUBLE_EDGE, EARTHQUAKE, HIDDEN_POWER, REFLECT
+        db 67, SLOWKING
 			dw $01FE, $01FE, $01FE, $01FE, $01FE ; hp, atk, def, spd, spc
-			db SPELL_TAG
-			db PSYCHIC_M, SHADOW_BALL, REFLECT, MORNING_SUN
-		db 67, SLOWBRO
-			dw $007F, $007F, $007F, $007F, $007F ; hp, atk, def, spd, spc
 			db LEFTOVERS
-			db CURSE, ROCK_SMASH, EARTHQUAKE, PSYCHIC_M
-		db 67, SLOWKING
+            db FLAMETHROWER, SURF, REST, SLEEP_TALK
+        db 67, EXEGGUTOR
 			dw $007F, $007F, $007F, $007F, $007F ; hp, atk, def, spd, spc
+			db MIRACLEBERRY
+            db ANCIENTPOWER, SLEEP_POWDER, DREAM_EATER, SOFTBOILED
+        db 67, NINETALES
+			dw $007F, $007F, $007F, $007F, $007F ; hp, atk, def, spd, spc
+			db CHARCOAL
+            db FIRE_BLAST, SHADOW_BALL, CONFUSE_RAY, IRON_TAIL
+        db 66, SLOWBRO
+			dw $80BE, $80BE, $80BE, $80BE, $80BE ; hp, atk, def, spd, spc
 			db QUICK_CLAW
-			db THUNDER_WAVE, FLAMETHROWER, SURF, PSYCHIC_M
-		db 66, NINETALES
+            db FLAMETHROWER, CURSE, EARTHQUAKE, ROCK_SMASH
+        db 68, XATU
 			dw $80BE, $80BE, $80BE, $80BE, $80BE ; hp, atk, def, spd, spc
-			db FOCUS_BAND
-			db FLAMETHROWER,SHADOW_BALL, CONFUSE_RAY, REFLECT
-		db 68, XATU
-			dw $80BE, $80BE, $80BE, $80BE, $80BE ; hp, atk, def, spd, spc
-			db TWISTEDSPOON
-			db DRILL_PECK, RECOVER, GIGA_DRAIN, PSYCHIC_M
+			db LEFTOVERS
+            db FUTURE_SIGHT, FLY, CONFUSE_RAY, PROTECT
 	db -1 ; end
 
 PKMNTrainerGroup:
@@ -469,27 +469,27 @@ BrunoGroup:
 		db 67, STEELIX
 			dw $01FE, $01FE, $01FE, $01FE, $01FE ; hp, atk, def, spd, spc
 			db QUICK_CLAW
-			db CRUNCH, EARTHQUAKE, SWAGGER, ROCK_SLIDE
-		db 68, HITMONCHAN
-			dw $01FE, $01FE, $01FE, $01FE, $01FE ; hp, atk, def, spd, spc
-			db BLACKBELT_I
-			db MACH_PUNCH, PURSUIT, SUBMISSION, CURSE
-		db 67, HERACROSS
-			dw $80BE, $80BE, $80BE, $80BE, $80BE ; hp, atk, def, spd, spc
-			db SILVERPOWDER
-			db CROSS_CHOP, MEGAHORN, CURSE, EARTHQUAKE
-		db 68, HITMONLEE
+            db CRUNCH, EARTHQUAKE, EXPLOSION, IRON_TAIL
+        db 68, POLIWRATH
 			dw $01FE, $01FE, $01FE, $01FE, $01FE ; hp, atk, def, spd, spc
 			db SCOPE_LENS
-			db DOUBLE_EDGE, MEDITATE, HI_JUMP_KICK, FAINT_ATTACK
-		db 67, URSARING
+            db SUBMISSION, BLIZZARD, HYDRO_PUMP, PSYCHIC_M
+        db 67, HERACROSS
 			dw $80BE, $80BE, $80BE, $80BE, $80BE ; hp, atk, def, spd, spc
-			db PINK_BOW
-			db STRENGTH, SUBMISSION, FAINT_ATTACK, CURSE
-		db 68, MACHAMP
+			db QUICK_CLAW
+            db CROSS_CHOP, MEGAHORN, REVERSAL, EARTHQUAKE
+        db 68, DONPHAN
+			dw $01FE, $01FE, $01FE, $01FE, $01FE ; hp, atk, def, spd, spc
+			db SCOPE_LENS
+            db CURSE, EARTHQUAKE, ANCIENTPOWER, ROCK_SMASH
+        db 67, GRANBULL
+			dw $80BE, $80BE, $80BE, $80BE, $80BE ; hp, atk, def, spd, spc
+			db LEFTOVERS
+            db HIDDEN_POWER, CRUNCH, REST, SNORE
+        db 68, MACHAMP
 			dw $007F, $007F, $007F, $007F, $007F ; hp, atk, def, spd, spc
 			db LEFTOVERS
-			db ROCK_SLIDE, EARTHQUAKE, MEDITATE, CROSS_CHOP
+            db ROCK_SLIDE, EARTHQUAKE, BODY_SLAM, CROSS_CHOP
 	db -1 ; end
 	
 KarenGroup:
@@ -503,31 +503,37 @@ KarenGroup:
 	db -1 ; end
 
 ; KAREN (2) Rematch
-	db "KAREN@", TRAINERTYPE_STAT_EXP | TRAINERTYPE_ITEM_MOVES
+	db "KAREN@", TRAINERTYPE_DVS | TRAINERTYPE_STAT_EXP | TRAINERTYPE_ITEM_MOVES
 		db 68, UMBREON
+			db $fc, $dd
 			dw $01FE, $01FE, $01FE, $01FE, $01FE ; hp, atk, def, spd, spc
 			db MIRACLEBERRY
-			db FAINT_ATTACK, DOUBLE_TEAM,  TOXIC, MOONLIGHT
-		db 67, VILEPLUME
+            db GROWTH, SHADOW_BALL, HIDDEN_POWER, BATON_PASS
+        db 67, GENGAR
+			db $dc, $dd
 			dw $80BE, $80BE, $80BE, $80BE, $80BE ; hp, atk, def, spd, spc
-			db LEFTOVERS
-			db SLEEP_POWDER, GIGA_DRAIN, LEECH_SEED, SUBSTITUTE
-		db 68, GENGAR
+			db SCOPE_LENS
+            db SHADOW_BALL, PSYCHIC_M, GIGA_DRAIN, DESTINY_BOND
+        db 68, PERSIAN
+			db $dc, $dd
 			dw $80BE, $80BE, $80BE, $80BE, $80BE ; hp, atk, def, spd, spc
-			db FOCUS_BAND
-			db SHADOW_BALL, PSYCHIC_M, DESTINY_BOND, CONFUSE_RAY
-		db 68, MURKROW
+			db SCOPE_LENS
+            db SLASH, CUT, IRON_TAIL, HYPNOSIS
+        db 68, MURKROW
+			db $dc, $dd
 			dw $01FE, $01FE, $01FE, $01FE, $01FE ; hp, atk, def, spd, spc
 			db SHARP_BEAK
-			db SKY_ATTACK, PURSUIT, SWAGGER, PSYCH_UP
-		db 67, MISDREAVUS
+            db SKY_ATTACK, PURSUIT, SWAGGER, PSYCH_UP
+        db 67, BLISSEY
+			db $dc, $dd
 			dw $01FE, $01FE, $01FE, $01FE, $01FE ; hp, atk, def, spd, spc
-			db SPELL_TAG
-			db SHADOW_BALL, THUNDERBOLT, HYPNOSIS, DREAM_EATER
-		db 69, HOUNDOOM
+			db LEFTOVERS
+            db PSYCHIC_M, SOFTBOILED, ATTRACT, ZAP_CANNON
+        db 69, HOUNDOOM
+			db $fc, $dd
 			dw $007F, $007F, $007F, $007F, $007F ; hp, atk, def, spd, spc
-			db BLACKGLASSES
-			db FLAMETHROWER, CRUNCH, IRON_TAIL, REVERSAL
+			db CHARCOAL
+            db FLAMETHROWER, CRUNCH, IRON_TAIL, HIDDEN_POWER
 	db -1 ; end
 
 KogaGroup:
@@ -542,30 +548,30 @@ KogaGroup:
 	
 	; KOGA (2) Rematch
 	db "KOGA@", TRAINERTYPE_STAT_EXP | TRAINERTYPE_ITEM_MOVES
-		db 67, QWILFISH
+		db 67, TENTACRUEL
 			dw $01FE, $01FE, $01FE, $01FE, $01FE ; hp, atk, def, spd, spc
-			db FOCUS_BAND
-			db WATERFALL, TOXIC, PROTECT, SPIKES
-		db 67, MUK
+			db MINT_BERRY
+            db WATERFALL, BLIZZARD, GIGA_DRAIN, REST
+        db 67, MUK
 			dw $80BE, $80BE, $80BE, $80BE, $80BE ; hp, atk, def, spd, spc
 			db LEFTOVERS
-			db MINIMIZE, FIRE_BLAST, SLUDGE_BOMB, TOXIC
-		db 67, PARASECT
+            db MINIMIZE, FIRE_BLAST, SLUDGE_BOMB, TOXIC
+        db 67, GLIGAR
+			dw $01FE, $01FE, $01FE, $01FE, $01FE ; hp, atk, def, spd, spc
+			db SCOPE_LENS
+            db IRON_TAIL, SLUDGE_BOMB, EARTHQUAKE, FAINT_ATTACK
+        db 67, NIDOKING
 			dw $01FE, $01FE, $01FE, $01FE, $01FE ; hp, atk, def, spd, spc
 			db QUICK_CLAW
-			db SPORE, CUT, GIGA_DRAIN, SWORDS_DANCE
-		db 67, ARIADOS
-			dw $01FE, $01FE, $01FE, $01FE, $01FE ; hp, atk, def, spd, spc
-			db SILVERPOWDER
-			db MEGAHORN, GIGA_DRAIN, DOUBLE_TEAM, TOXIC
-		db 67, GLIGAR
+            db LOVELY_KISS, FIRE_BLAST, SURF, EARTHQUAKE
+        db 67, HYPNO
 			dw $80BE, $80BE, $80BE, $80BE, $80BE ; hp, atk, def, spd, spc
-			db BLACKBELT_I
-			db EARTHQUAKE, IRON_TAIL, DOUBLE_TEAM, FAINT_ATTACK
-		db 68, CROBAT
-			dw $007F, $007F, $007F, $007F, $007F ; hp, atk, def, spd, spc
 			db BRIGHTPOWDER
-			db DOUBLE_TEAM, TOXIC, BITE, CONFUSE_RAY
+            db FIRE_PUNCH, THUNDER_WAVE, PSYCHIC_M, SHADOW_BALL
+        db 68, CROBAT
+			dw $007F, $007F, $007F, $007F, $007F ; hp, atk, def, spd, spc
+			db LEFTOVERS
+            db PROTECT, FLY, TOXIC, CONFUSE_RAY
 	db -1 ; end
 
 ChampionGroup:
@@ -580,31 +586,37 @@ ChampionGroup:
 	db -1 ; end
 	
 	; CHAMPION (2) Rematch
-	db "LANCE@", TRAINERTYPE_STAT_EXP | TRAINERTYPE_ITEM_MOVES
-		db 69, GYARADOS
+	db "LANCE@", TRAINERTYPE_DVS | TRAINERTYPE_STAT_EXP | TRAINERTYPE_ITEM_MOVES
+		db 69, TYRANITAR
+			db $dc, $dd
 			dw $01FE, $01FE, $01FE, $01FE, $01FE ; hp, atk, def, spd, spc
-			db LEFTOVERS
-			db SURF, RAIN_DANCE, HYPER_BEAM, ROCK_SMASH
-		db 68, DRAGONITE
+			db MAGNET
+            db CRUNCH, ROCK_SLIDE, EARTHQUAKE, THUNDERBOLT
+        db 68, DRAGONITE
+			db $dc, $dd
 			dw $80BE, $80BE, $80BE, $80BE, $80BE ; hp, atk, def, spd, spc
 			db MIRACLEBERRY
-			db BLIZZARD, FIRE_BLAST, THUNDER, REST
-		db 69, TYRANITAR
+            db BLIZZARD, FIRE_BLAST, THUNDER, REST
+        db 69, GYARADOS
+			db $cf, $dd
 			dw $80BE, $80BE, $80BE, $80BE, $80BE ; hp, atk, def, spd, spc
 			db QUICK_CLAW
-			db ROCK_SLIDE, CRUNCH, HYPER_BEAM, DOUBLE_TEAM
-		db 68, CHARIZARD
+            db HIDDEN_POWER, HYPER_BEAM, HYDRO_PUMP, FIRE_BLAST
+        db 68, CHARIZARD
+			db $dc, $dd
 			dw $01FE, $01FE, $01FE, $01FE, $01FE ; hp, atk, def, spd, spc
 			db LEFTOVERS
-			db FLAMETHROWER, CRUNCH, EARTHQUAKE, BELLY_DRUM
-		db 69, AERODACTYL
+            db FIRE_BLAST, CRUNCH, EARTHQUAKE, SWORDS_DANCE
+        db 69, AERODACTYL
+			db $dc, $dd
 			dw $80BE, $80BE, $80BE, $80BE, $80BE ; hp, atk, def, spd, spc
-			db SOFT_SAND
-			db SKY_ATTACK, ROCK_SLIDE, EARTHQUAKE, IRON_TAIL
-		db 70, DRAGONITE
+			db SCOPE_LENS
+            db SKY_ATTACK, ROCK_SLIDE, EARTHQUAKE, IRON_TAIL
+        db 70, DRAGONITE
+			db $dc, $dd
 			dw $007F, $007F, $007F, $007F, $007F ; hp, atk, def, spd, spc
 			db PINK_BOW
-			db EARTHQUAKE, CURSE, EXTREMESPEED, HYPER_BEAM
+            db IRON_TAIL, CURSE, EXTREMESPEED, HYPER_BEAM
 	db -1 ; end
 
 BrockGroup:

@@ -904,9 +904,9 @@ ResetBattleTowerTrainersSRAM:
 	ret
 
 BattleTower_GiveReward:
+	 ; TODO check if the prize is a decoration using a new wram variable, and if so just somewhere else and give the player one
 	ld a, BANK(sBattleTowerReward)
 	call OpenSRAM
-
 	ld a, [sBattleTowerReward]
 	call CloseSRAM
 	ld [wScriptVar], a
@@ -953,6 +953,29 @@ BattleTower_SaveOptions:
 	ret
 
 BattleTower_RandomlyChooseReward:
+
+	; ld a, [wBTChoiceOfLvlGroup] ; check level group for different prize pools
+	; cp 1
+	; jr z, .level1
+	; cp 2
+	; jr z, .level2
+	; cp 3
+	; jr z, .level3
+	; cp 4
+	; jr z, .level4
+	; cp 5
+	; jr z, .level5
+	; cp 6
+	; jr z, .level6
+	; cp 7
+	; jr z, .level7
+	; cp 8
+	; jr z, .level8
+	; cp 9
+	; jr z, .level9
+	; cp 10
+	; jr z, .level10
+
 ; Generate a random stat boosting item.
 .loop
 	call Random
@@ -971,6 +994,7 @@ BattleTower_RandomlyChooseReward:
 	pop af
 	ld [sBattleTowerReward], a
 	call CloseSRAM
+	; TODO remember to set a wram variable to 1 if prize is a decoration, and 0 otherwise
 	ret
 
 BattleTowerAction_CheckExplanationRead:
