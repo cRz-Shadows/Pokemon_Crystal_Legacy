@@ -3900,6 +3900,7 @@ BattleTower_LevelCheck:
 	ldh [rSVBK], a
 	ld a, [wcd4f]
 	ld c, 10
+	ld [wBTLevelGroup], a ; Save level group for prize selection
 	call SimpleMultiply
 	ld hl, wcd50
 	ld [hl], a

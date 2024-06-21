@@ -3000,7 +3000,7 @@ wRegisteredItem:: db
 wPlayerState:: db
 
 wHallOfFameCount:: db
-	ds 1
+wBattleTowerIsDecoration:: db
 wTradeFlags:: flag_array NUM_NPC_TRADES
 	ds 1
 wMooMooBerries:: db
@@ -3423,7 +3423,7 @@ w3_d100::
 wBT_OTTrainer:: battle_tower_struct wBT_OT
 	ds $20
 wBT_TrainerTextIndex:: db
-	ds 1
+wBTLevelGroup:: db
 w3_d202:: battle_tower_struct w3_d202
 w3_d2e2:: battle_tower_struct w3_d2e2
 w3_d3c2:: battle_tower_struct w3_d3c2
