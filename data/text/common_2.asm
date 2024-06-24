@@ -672,7 +672,8 @@ _SelectDifficultyText::
 _SelectDifficultyNormalText::
 	text "Are you sure?"
 
-	para "Classic #MON."
+	para "Classic #MON"
+	line "rules."
 	done
 
 _SelectDifficultyHardText::

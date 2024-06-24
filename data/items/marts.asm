@@ -216,7 +216,7 @@ MartMahogany1:
 	db -1 ; end
 
 MartMahogany2:
-	db 10 ; # items
+	db 12 ; # items
 	db RAGECANDYBAR
 	db METAL_COAT
 	db UP_GRADE
@@ -227,6 +227,8 @@ MartMahogany2:
 	db TM_NIGHTMARE
 	db TM_DEFENSE_CURL
 	db TM_DETECT
+	db TM_FRUSTRATION
+	db TM_ROAR
 	db -1 ; end
 
 MartBlackthorn:
