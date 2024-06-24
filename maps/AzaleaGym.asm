@@ -58,13 +58,15 @@ AzaleaGymBugsyScript:
 	end
 
 .GotFuryCutter:
-	writetext BugsyText_BugMonsAreDeep
-	waitbutton
 	checkevent EVENT_BEAT_ELITE_FOUR
-	iffalse .NoRoomForFuryCutter
+	iffalse .NotBeatE4
 	writetext BugsyRematchText
 	yesorno
 	iftrue .BugsyRematch
+	sjump .NoRoomForFuryCutter
+.NotBeatE4
+	writetext BugsyText_BugMonsAreDeep
+	waitbutton
 .NoRoomForFuryCutter:
 	closetext
 	end
@@ -264,7 +266,21 @@ BugsyText_BugMonsAreDeep:
 	done
 
 BugsyRematchText:
-	text "Want to have a"
+	text "Wow, you're the"
+	line "JOHTO CHAMPION"
+	cont "now!"
+
+	para "Your skills are"
+	line "truly impressive!"
+
+	para "I've been busy"
+	line "with my research."
+
+	para "I'm ready to"
+	line "show you my new"
+	cont "findings."
+
+	para "Want to have a"
 	line "rematch with me?"
 	done
 

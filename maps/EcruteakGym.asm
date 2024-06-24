@@ -70,13 +70,15 @@ EcruteakGymMortyScript:
 	end
 
 .GotShadowBall:
-	writetext MortyFightDoneText
-	waitbutton
 	checkevent EVENT_BEAT_ELITE_FOUR
-	iffalse .NoRoomForShadowBall
+	iffalse .NotBeatE4
 	writetext MortyRematchText
 	yesorno
 	iftrue .MortyRematch
+	sjump .NoRoomForShadowBall
+.NotBeatE4
+	writetext MortyFightDoneText
+	waitbutton
 .NoRoomForShadowBall:
 	closetext
 	end
@@ -300,7 +302,29 @@ MortyFightDoneText:
 	done
 
 MortyRematchText:
-	text "Want to have a"
+	text "Ah, the JOHTO"
+	line "CHAMPION! Good"
+	cont "of you to come."
+
+	para "You've shown your"
+	line "strength and"
+	cont "skill, but have"
+
+	para "you improved"
+	line "since our last"
+	cont "battle?"
+
+	para "I've been"
+	line "training with my"
+	cont "GHOST-type"
+	cont "#MON."
+
+	para "Let's see if you"
+	line "can overcome the"
+	cont "shadows once"
+	cont "again."
+
+	para "Want to have a"
 	line "rematch with me?"
 	done
 

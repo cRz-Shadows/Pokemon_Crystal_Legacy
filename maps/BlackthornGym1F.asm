@@ -89,13 +89,15 @@ BlackthornGymClairScript:
 	end
 
 .GotTM24:
-	writetext BlackthornGymClairText_League
-	waitbutton
 	checkevent EVENT_BEAT_ELITE_FOUR
-	iffalse .CantRematchYet
+	iffalse .NotBeatE4
 	writetext ClairRematchText
 	yesorno
 	iftrue .ClairRematch
+	sjump .CantRematchYet
+.NotBeatE4
+	writetext BlackthornGymClairText_League
+	waitbutton
 .CantRematchYet:
 	closetext
 	end
@@ -306,7 +308,22 @@ BlackthornGymClairText_League:
 	done
 
 ClairRematchText:
-	text "Anyway..."
+	text "You did it, huh?"
+
+	para "You are now the"
+	line "JOHTO CHAMP."
+
+	para "You've proven"
+	line "your strength"
+
+	para "but can you"
+	line "handle me again?"
+
+	para "As a Dragon"
+	line "Master, I won't"
+	cont "hold back."
+
+	para "Not this time."
 
 	para "Want to have a"
 	line "rematch with me?"

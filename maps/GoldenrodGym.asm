@@ -81,13 +81,15 @@ GoldenrodGymWhitneyScript:
 	end
 
 .GotAttract:
-	writetext WhitneyGoodCryText
-	waitbutton
 	checkevent EVENT_BEAT_ELITE_FOUR
-	iffalse .NoRoomForAttract
+	iffalse .NotBeatE4
 	writetext WhitneyRematchText
 	yesorno
 	iftrue .WhitneyRematch
+	sjump .NoRoomForAttract
+.NotBeatE4
+	writetext WhitneyGoodCryText
+	waitbutton
 .NoRoomForAttract:
 	closetext
 	end
@@ -291,7 +293,19 @@ WhitneyGoodCryText:
 	done
 
 WhitneyRematchText:
-	text "Want to have a"
+	text "Hi! It's you!"
+
+    para "Wow, JOHTO"
+    line "CHAMPION now?"
+
+    para "You really are"
+    line "amazing!"
+
+    para "I want to see"
+    line "how strong you"
+    cont "are."
+
+	para "Want to have a"
 	line "rematch with me?"
 	done
 

@@ -79,13 +79,15 @@ OlivineGymJasmineScript:
 	end
 
 .GotIronTail:
-	writetext Jasmine_GoodLuck
-	waitbutton
 	checkevent EVENT_BEAT_ELITE_FOUR
-	iffalse .NoRoomForIronTail
+	iffalse .NotBeatE4
 	writetext JasmineRematchText
 	yesorno
 	iftrue .JasmineRematch
+	sjump .NoRoomForIronTail
+.NotBeatE4
+	writetext Jasmine_GoodLuck
+	waitbutton
 .NoRoomForIronTail:
 	closetext
 	end
@@ -218,8 +220,20 @@ Jasmine_GoodLuck:
 	done
 
 JasmineRematchText:
-	text "Want to have a"
-	line "rematch with me?"
+	text "…Congratulations,"
+    line "JOHTO CHAMPION."
+
+    para "You have become"
+    line "so strong…"
+
+    para "I wonder if I"
+    line "have improved."
+
+    para "Would you like"
+    line "to test that?"
+
+    para "Want to have a"
+    line "rematch with me?"
 	done
 
 Jasmine_RematchDefeatText:

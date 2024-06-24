@@ -55,13 +55,15 @@ VioletGymFalknerScript:
 	end
 
 .SpeechAfterTM:
-	writetext FalknerFightDoneText
-	waitbutton
 	checkevent EVENT_BEAT_ELITE_FOUR
-	iffalse .NoRoomForMudSlap
+	iffalse .NotBeatE4
 	writetext FalknerRematchText
 	yesorno
 	iftrue .FalknerRematch
+	sjump .NoRoomForMudSlap
+.NotBeatE4
+	writetext FalknerFightDoneText
+	waitbutton
 .NoRoomForMudSlap:
 	closetext
 	end
@@ -233,8 +235,18 @@ FalknerFightDoneText:
 	done
 
 FalknerRematchText:
-	text "Want to have a"
-	line "rematch with me?"
+	text "Congratulations"
+	line "on defeating the"
+	cont "ELITE 4!"
+
+	para "I've been training"
+	line "my FLYING-type"
+	cont "#MON even"
+	cont "harder."
+
+	para "Think you can take"
+	line "on the power of"
+	cont "the skies again?"
 	done
 
 Falkner_RematchDefeatText:

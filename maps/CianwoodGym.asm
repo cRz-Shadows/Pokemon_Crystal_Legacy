@@ -105,13 +105,15 @@ CianwoodGymChuckScript:
 	end
 
 .AlreadyGotTM:
-	writetext ChuckAfterText
-	waitbutton
 	checkevent EVENT_BEAT_ELITE_FOUR
-	iffalse .BagFull
+	iffalse .NotBeatE4
 	writetext ChuckRematchText
 	yesorno
 	iftrue .ChuckRematch
+	sjump .BagFull
+.NotBeatE4
+	writetext ChuckAfterText
+	waitbutton
 .BagFull:
 	closetext
 	end
@@ -294,8 +296,18 @@ ChuckAfterText:
 	done
 
 ChuckRematchText:
-	text "Want to have a"
-	line "rematch with me?"
+	text "WAHAHAH!"
+	line "JOHTO CHAMPION!"
+
+	para "You've come"
+	line "back for more!"
+
+	para "I see your"
+	line "skills have"
+	cont "improved!"
+
+	para "Ready to see"
+	line "who's stronger?"
 	done
 
 Chuck_RematchDefeatText:
