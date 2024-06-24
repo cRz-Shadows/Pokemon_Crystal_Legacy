@@ -44,9 +44,29 @@ SaffronGymSabrinaScript:
 	end
 
 .FightDone:
+	checkevent EVENT_ELITE_4_REMATCH
+	iffalse .NotBeatE4Rematch
+	writetext SabrinaRematchText
+	yesorno
+	iftrue .SabrinaRematch
+	sjump .SaidNo
+.NotBeatE4Rematch
 	writetext SabrinaFightDoneText
 	waitbutton
+.SaidNo
 	closetext
+	end
+
+.SabrinaRematch:
+	special HealParty
+	winlosstext Sabrina_RematchDefeatText, 0
+	loadtrainer SABRINA, SABRINA1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+	.normalmode_2
+	startbattle
+	reloadmapafterbattle
 	end
 
 TrainerMediumRebecca:
@@ -196,6 +216,31 @@ SabrinaFightDoneText:
 
 	para "kind of psychic"
 	line "power…"
+	done
+
+SabrinaRematchText:
+	text "SABRINA: Ah, the"
+	line "KANTO CHAMPION."
+
+	para "I sensed your"
+	line "return."
+
+	para "Your power has"
+	line "grown immensely."
+
+	para "Even now, I feel"
+	line "your aura."
+
+	para "Want to have a"
+	line "rematch with me?"
+	done
+
+Sabrina_RematchDefeatText:
+	text "SABRINA: Your love"
+	line "for your #MON"
+
+	para "again overwhelmed"
+	line "my psychic power…"
 	done
 
 MediumRebeccaSeenText:

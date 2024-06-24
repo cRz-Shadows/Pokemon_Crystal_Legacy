@@ -59,9 +59,29 @@ FuchsiaGymJanineScript:
 	iffalse .AfterTM
 	setevent EVENT_GOT_TM06_TOXIC
 .AfterTM:
+	checkevent EVENT_ELITE_4_REMATCH
+	iffalse .NotBeatE4Rematch
+	writetext JanineRematchText
+	yesorno
+	iftrue .JanineRematch
+	sjump .SaidNo
+.NotBeatE4Rematch
 	writetext JanineText_ApplyMyself
 	waitbutton
+.SaidNo
 	closetext
+	end
+
+.JanineRematch:
+	special HealParty
+	winlosstext Janine_RematchDefeatText, 0
+	loadtrainer JANINE, JANINE1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+	.normalmode_2
+	startbattle
+	reloadmapafterbattle
 	end
 
 LassAliceScript:
@@ -306,6 +326,32 @@ JanineText_ApplyMyself:
 	para "I want to become"
 	line "better than both"
 	cont "Father and you!"
+	done
+
+JanineRematchText:
+	text "Fufufufu…"
+
+	para "Wow, you did it!"
+
+	para "You're the KANTO"
+	line "CHAMPION now!"
+
+	para "I'm so proud of"
+	line "you! But don't"
+	cont "think I'll go easy"
+	cont "on you."
+
+	para "Want to have a"
+	line "rematch with me?"
+	done
+
+Janine_RematchDefeatText:
+	text "JANINE: You're"
+	line "still just as"
+	cont "tough!"
+
+	para "You definitely"
+	line "won…"
 	done
 
 LassAliceBeforeText:

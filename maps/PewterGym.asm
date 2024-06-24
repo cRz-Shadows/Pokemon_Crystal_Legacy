@@ -38,9 +38,29 @@ PewterGymBrockScript:
 	end
 
 .FightDone:
+	checkevent EVENT_ELITE_4_REMATCH
+	iffalse .NotBeatE4Rematch
+	writetext BrockRematchText
+	yesorno
+	iftrue .BrockRematch
+	sjump .SaidNo
+.NotBeatE4Rematch
 	writetext BrockFightDoneText
 	waitbutton
+.SaidNo
 	closetext
+	end
+
+.BrockRematch:
+	special HealParty
+	winlosstext Brock_RematchDefeatText, 0
+	loadtrainer BROCK, BROCK1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+	.normalmode_2
+	startbattle
+	reloadmapafterbattle
 	end
 
 TrainerCamperJerry:
@@ -147,6 +167,30 @@ BrockFightDoneText:
 	line "I'm going to be-"
 	cont "come a lot strong-"
 	cont "er too."
+	done
+
+BrockRematchText:
+	text "BROCK: Hey there,"
+	line "<PLAYER>!"
+
+	para "I heard you are"
+	line "now the KANTO"
+	cont "CHAMPION."
+
+	para "That's incredible!"
+
+	para "You must be even"
+	line "stronger now."
+
+	para "Want to have a"
+	line "rematch with me?"
+	done
+
+Brock_RematchDefeatText:
+	text "BROCK: Your #-"
+	line "#MON once again"
+	cont "overcame my rock-"
+	cont "hard defense…"
 	done
 
 CamperJerrySeenText:

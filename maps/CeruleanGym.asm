@@ -85,9 +85,29 @@ CeruleanGymMistyScript:
 	jumpstd KantoLevelCapUpdateScript
 	opentext
 .FightDone:
+	checkevent EVENT_ELITE_4_REMATCH
+	iffalse .NotBeatE4Rematch
+	writetext MistyRematchText
+	yesorno
+	iftrue .MistyRematch
+	sjump .SaidNo
+.NotBeatE4Rematch
 	writetext MistyFightDoneText
 	waitbutton
+.SaidNo
 	closetext
+	end
+
+.MistyRematch:
+	special HealParty
+	winlosstext Misty_RematchDefeatText, 0
+	loadtrainer MISTY, MISTY1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+	.normalmode_2
+	startbattle
+	reloadmapafterbattle
 	end
 
 TrainerSwimmerfDiana:
@@ -288,6 +308,27 @@ MistyFightDoneText:
 
 	para "I can battle some"
 	line "skilled trainers."
+	done
+
+MistyRematchText:
+	text "MISTY: Wow, you're"
+	line "the KANTO CHAMPION"
+	cont "now!"
+
+	para "That's amazing!"
+	line "You've come a long"
+	cont "way, <PLAYER>."
+
+	para "But I'm not"
+	line "backing down."
+
+	para "Want to have a"
+	line "rematch with me?"
+	done
+
+Misty_RematchDefeatText:
+	text "MISTY: You really"
+	line "are good…"
 	done
 
 SwimmerfDianaSeenText:

@@ -51,9 +51,29 @@ SeafoamGymBlaineScript:
 	end
 
 .FightDone:
+	checkevent EVENT_ELITE_4_REMATCH
+	iffalse .NotBeatE4Rematch
+	writetext BlaineRematchText
+	yesorno
+	iftrue .BlaineRematch
+	sjump .SaidNo
+.NotBeatE4Rematch
 	writetext BlaineFightDoneText
 	waitbutton
+.SaidNo
 	closetext
+	end
+
+.BlaineRematch:
+	special HealParty
+	winlosstext Blaine_RematchDefeatText, 0
+	loadtrainer BLAINE, BLAINE1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+	.normalmode_2
+	startbattle
+	reloadmapafterbattle
 	end
 
 SeafoamGymGuideScript:
@@ -151,6 +171,33 @@ BlaineFightDoneText:
 
 	para "even stronger."
 	line "Just you watch!"
+	done
+
+BlaineRematchText:
+	text "BLAINE: Whoa!"
+
+	para "I see you've"
+	line "become the"
+	cont "KANTO CHAMPION!"
+
+	para "That's blazing!"
+
+	para "Your skills are"
+	line "top-notch."
+
+	para "I'm always"
+	line "up for a battle."
+
+	para "Want to have a"
+	line "rematch with me?"
+	done
+
+Blaine_RematchDefeatText:
+	text "SABRINA: Your love"
+	line "for your #MON"
+
+	para "again overwhelmed"
+	line "my psychic power…"
 	done
 
 SeafoamGymGuideWinText:

@@ -49,9 +49,29 @@ CeladonGymErikaScript:
 	iffalse .GotGigaDrain
 	setevent EVENT_GOT_TM19_GIGA_DRAIN
 .GotGigaDrain:
+	checkevent EVENT_ELITE_4_REMATCH
+	iffalse .NotBeatE4Rematch
+	writetext ErikaRematchText
+	yesorno
+	iftrue .ErikaRematch
+	sjump .SaidNo
+.NotBeatE4Rematch
 	writetext ErikaAfterBattleText
 	waitbutton
+.SaidNo
 	closetext
+	end
+
+.ErikaRematch:
+	special HealParty
+	winlosstext Erika_RematchDefeatText, 0
+	loadtrainer ERIKA, ERIKA1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+	.normalmode_2
+	startbattle
+	reloadmapafterbattle
 	end
 
 TrainerLassMichelle:
@@ -186,6 +206,38 @@ ErikaAfterBattleText:
 	text "ERIKA: Losing"
 	line "leaves a bitter"
 	cont "aftertaste…"
+
+	para "But knowing that"
+	line "there are strong"
+
+	para "trainers spurs me"
+	line "to do better…"
+	done
+
+ErikaRematchText:
+	text "ERIKA: Oh, hello."
+
+	para "What a surprise,"
+	line "KANTO CHAMPION!"
+
+	para "It's so lovely"
+	line "to see you again."
+
+	para "Your journey"
+	line "must have been"
+	cont "so exciting."
+
+	para "Even champions"
+	line "enjoy a challenge."
+
+	para "Want to have a"
+	line "rematch with me?"
+	done
+
+Erika_RematchDefeatText:
+	text "ERIKA: Losing"
+	line "still leaves a"
+	cont "bitter aftertaste…"
 
 	para "But knowing that"
 	line "there are strong"

@@ -42,9 +42,29 @@ VermilionGymSurgeScript:
 	end
 
 .FightDone:
+	checkevent EVENT_ELITE_4_REMATCH
+	iffalse .NotBeatE4Rematch
+	writetext SurgeRematchText
+	yesorno
+	iftrue .SurgeRematch
+	sjump .SaidNo
+.NotBeatE4Rematch
 	writetext LtSurgeFightDoneText
 	waitbutton
+.SaidNo
 	closetext
+	end
+
+.SurgeRematch:
+	special HealParty
+	winlosstext Surge_RematchDefeatText, 0
+	loadtrainer LT_SURGE, LT_SURGE1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+	.normalmode_2
+	startbattle
+	reloadmapafterbattle
 	end
 
 TrainerGentlemanGregory:
@@ -162,6 +182,26 @@ LtSurgeFightDoneText:
 
 	para "My #MON and I"
 	line "are still at it!"
+	done
+
+SurgeRematchText:
+	text "SURGE: So, "
+	line "you're now"
+	cont "KANTO CHAMPION!"
+
+	para "Impressive work,"
+	line "kid! But don't"
+	cont "think I'm done!"
+
+	para "How about we"
+	line "have a go"
+	cont "again?"
+	done
+
+Surge_RematchDefeatText:
+	text "SURGE: Arrrgh!"
+	line "You're still just"
+	cont "as strong!"
 	done
 
 GentlemanGregorySeenText:

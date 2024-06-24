@@ -44,9 +44,29 @@ ViridianGymBlueScript:
 	end
 
 .FightDone:
+	checkevent EVENT_ELITE_4_REMATCH
+	iffalse .NotBeatE4Rematch
+	writetext BlueRematchText
+	yesorno
+	iftrue .BlueRematch
+	sjump .SaidNo
+.NotBeatE4Rematch
 	writetext LeaderBlueEpilogueText
 	waitbutton
+.SaidNo
 	closetext
+	end
+
+.BlueRematch:
+	special HealParty
+	winlosstext Blue_RematchDefeatText, 0
+	loadtrainer BLUE, BLUE1
+	checkflag ENGINE_HARD_MODE
+	iffalse .normalmode_2
+	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
+	.normalmode_2
+	startbattle
+	reloadmapafterbattle
 	end
 
 ViridianGymGuideScript:
@@ -147,6 +167,32 @@ LeaderBlueEpilogueText:
 	para "You'd better not"
 	line "lose until I beat"
 	cont "you. Got it?"
+	done
+
+BlueRematchText:
+	text "BLUE: Well, well."
+	line "KANTO CHAMPION!"
+
+	para "Looks like you've"
+	line "come a long way."
+
+	para "I used to have"
+	line "that title too,"
+	cont "you know. But I"
+	cont "won't go easy."
+
+	para "Let's see if you"
+	line "can keep it up."
+
+	para "Want to have a"
+	line "rematch with me?"
+	done
+
+Blue_RematchDefeatText:
+	text "BLUE: What?"
+
+	para "How the heck did I"
+	line "lose again?"
 	done
 
 ViridianGymGuideText:
