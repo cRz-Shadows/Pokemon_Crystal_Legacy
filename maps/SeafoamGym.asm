@@ -193,11 +193,12 @@ BlaineRematchText:
 	done
 
 Blaine_RematchDefeatText:
-	text "SABRINA: Your love"
-	line "for your #MON"
+	text "BLAINE: Your skills"
+	line "are truly fiery!"
 
-	para "again overwhelmed"
-	line "my psychic power…"
+	para "You've burned"
+	line "right through"
+	cont "my defenses."
 	done
 
 SeafoamGymGuideWinText:
