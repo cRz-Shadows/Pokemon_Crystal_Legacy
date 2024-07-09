@@ -467,6 +467,12 @@ Pokedex_DetailedArea_grass:
 .done
 	pop hl ; points to map group/num
 	pop bc ; line counter in c
+	
+	; no need to handle hving printed all 3 slots if we had already reached the end of the table
+	ld a, c
+	cp $6 ; 3 entries, 6 rows
+	jr z, .max_print
+
 	call DexArea_IncWildMonIndex
 	push bc ; line counter in c
 	ld b, 0
@@ -478,12 +484,6 @@ Pokedex_DetailedArea_grass:
 	call GetFarByte ; hl is preserved, also wont clobber print line counter in c
 	cp -1
 	jr z, .reached_end
-
-	; no need to handle hving printed all 3 slots if we had already reached the end of the table
-	ld a, c
-	cp $6 ; 3 entries, 6 rows
-	jr z, .max_print
-
 	push bc ; print line counter in c
 	push hl
 	jr .landmark_loop
