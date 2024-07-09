@@ -118,6 +118,7 @@ These videos also provide an overview of the hack and the ideology behind it:
     - [Nayru's Pokedex](https://github.com/Nayru62/pokecrystal/tree/Nayrus-Pokedex-Vanilla-TypeGFX-BETA)
     - [Ultimate Pokemon stats pages](https://github.com/Nayru62/pokecrystal/tree/stats-pages-utilities-vanilla)
     - [Move reminder and egg move reminder - (Adapted from Rangi42's Polished Crystal)](https://github.com/Nayru62/pokecrystal/tree/PC_Move_and_EggMove_Relearner)
+    - [Kurt Makes Pokeballs Instantly](https://github.com/pret/pokecrystal/wiki/Kurt-Makes-Pokeballs-Instantly)
 - Idain:
     - [Allow more trainer parties, with individual DVs, stat experience, nicknames, variable teams, etc](https://github.com/pret/pokecrystal/wiki/Allow-more-trainer-parties,-with-individual-DVs,-stat-experience,-nicknames,-variable-teams,-etc)
     - [Color Pokémon pictures shown in overworld](https://github.com/pret/pokecrystal/wiki/Color-Pok%C3%A9mon-pictures-shown-in-overworld)
