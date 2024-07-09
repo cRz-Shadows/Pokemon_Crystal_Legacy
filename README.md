@@ -76,6 +76,7 @@ These videos also provide an overview of the hack and the ideology behind it:
 ### Sprite Artists:
 - Pokemon overworld sprites
     - Katt
+    - Karlos
 - Pokemon party sprites
     - Chamber
     - Soloo993
