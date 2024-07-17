@@ -2340,10 +2340,13 @@ CyndaquilEvosAttacks:
 	db 1, LEER
 	db 6, SMOKESCREEN
 	db 7, EMBER
+	db 9, MUD_SLAP
+	db 18, DIG
 	db 19, QUICK_ATTACK
 	db 24, FLAME_WHEEL
 	db 35, FLAMETHROWER
 	db 36, SWIFT
+	db 40, EARTHQUAKE
 	db 0 ; no more level-up moves
 
 QuilavaEvosAttacks:
@@ -2353,11 +2356,14 @@ QuilavaEvosAttacks:
 	db 1, LEER
 	db 1, SMOKESCREEN
 	db 6, SMOKESCREEN
+	db 9, MUD_SLAP
 	db 12, EMBER
 	db 16, DEFENSE_CURL
+	db 18, DIG
 	db 21, QUICK_ATTACK
 	db 24, FLAME_WHEEL
 	db 37, FLAMETHROWER
+	db 40, EARTHQUAKE
 	db 42, SWIFT
 	db 0 ; no more level-up moves
 
@@ -2368,10 +2374,13 @@ TyphlosionEvosAttacks:
 	db 1, SMOKESCREEN
 	db 1, EMBER
 	db 6, SMOKESCREEN
+	db 9, MUD_SLAP
 	db 12, EMBER
+	db 18, DIG
 	db 21, QUICK_ATTACK
 	db 31, FLAME_WHEEL
 	db 38, FLAMETHROWER
+	db 40, EARTHQUAKE
 	db 45, SWIFT
 	db 50, FIRE_BLAST
 	db 0 ; no more level-up moves
