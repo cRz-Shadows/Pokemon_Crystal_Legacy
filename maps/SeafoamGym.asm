@@ -193,8 +193,9 @@ BlaineRematchText:
 	done
 
 Blaine_RematchDefeatText:
-	text "BLAINE: Your skills"
-	line "are truly fiery!"
+	text "BLAINE: Your"
+	line "skills are truly"
+	cont "fiery!"
 
 	para "You've burned"
 	line "right through"

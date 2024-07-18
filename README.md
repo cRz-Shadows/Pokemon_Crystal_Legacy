@@ -62,6 +62,7 @@ These videos also provide an overview of the hack and the ideology behind it:
 - ZuperZACH
 - Regi
 - Isona
+- Bricemck
 - Daily
 - Tiberios
 - Sable
@@ -71,6 +72,7 @@ These videos also provide an overview of the hack and the ideology behind it:
 - Half1sch
 - Talos
 - Wootonmajr
+- Obelisk
 
 
 ### Sprite Artists:
