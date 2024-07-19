@@ -432,9 +432,10 @@ EVO_stats:
 	cp ATK_EQ_DEF
 	jr z, .done
 	ld de, .atk_gt_def_text
-	cp ATK_LT_DEF
+	cp ATK_GT_DEF
 	jr z, .done
 	ld de, .atk_lt_def_text
+	cp ATK_LT_DEF
 .done
 	call EVO_inchlcoord
 	call PlaceString
