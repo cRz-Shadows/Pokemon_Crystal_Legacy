@@ -160,8 +160,8 @@ CyndaquilPokeBallScript:
 	iftrue LookAtElmPokeBallScript
 	turnobject ELMSLAB_ELM, DOWN
 	refreshscreen
-	pokepic TYROGUE
-	cry TYROGUE
+	pokepic CYNDAQUIL
+	cry CYNDAQUIL
 	waitbutton
 	closepokepic
 	opentext
@@ -173,13 +173,12 @@ CyndaquilPokeBallScript:
 	writetext ChoseStarterText
 	promptbutton
 	waitsfx
-	setflag ENGINE_POKEDEX
-	getmonname STRING_BUFFER_3, TYROGUE
+	getmonname STRING_BUFFER_3, CYNDAQUIL
 	writetext ReceivedStarterText
 	playsound SFX_CAUGHT_MON
 	waitsfx
 	promptbutton
-	givepoke TYROGUE, 5, BERRY
+	givepoke CYNDAQUIL, 5, BERRY
 	closetext
 	readvar VAR_FACING
 	ifequal RIGHT, ElmDirectionsScript
