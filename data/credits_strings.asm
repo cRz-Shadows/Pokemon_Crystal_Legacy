@@ -130,6 +130,7 @@ CreditsStringsPointers:
 	dw .Tester9
 	dw .Tester10
 	dw .Tester11
+	dw .Tester12
 	dw .SpriteArtists
 	dw .SpriteArtist1
 	dw .SpriteArtist2
@@ -153,6 +154,8 @@ CreditsStringsPointers:
 	dw .Pokecrystal10
 	dw .Pokecrystal11
 	dw .Pokecrystal12
+	dw .Pokecrystal13
+	dw .Pokecrystal14
 	dw .Pokecrystal
 	dw .NayruThanksText
 	assert_table_length NUM_CREDITS_STRINGS
@@ -289,6 +292,7 @@ CreditsStringsPointers:
 .Tester9:			  db "       ISONA@"
 .Tester10:			  db "      TALOS-8@"
 .Tester11:			  db "    WOOTONMAJR@"
+.Tester12:			  db "       BRICE@"
 .SpriteArtists:		  db "  SPRITE ARTISTS@"
 .SpriteArtist1:		  db "       KATT@"
 .SpriteArtist2:		  db "      CHAMBER@"
@@ -312,6 +316,8 @@ CreditsStringsPointers:
 .Pokecrystal10: 	  db "      NICK-PC@"
 .Pokecrystal11: 	  db "     XAEROCHILL@"
 .Pokecrystal12: 	  db "    NOBODYSOCIETY@"
+.Pokecrystal13: 	  db "     LUTHER7718@"
+.Pokecrystal14: 	  db "      MAUVRE@"
 .Pokecrystal:         db "  THANK YOU TO THE"
 					next " PRET TEAM FOR THE"
 					next "    POKECRYSTAL"

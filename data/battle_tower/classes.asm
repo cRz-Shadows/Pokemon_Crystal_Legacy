@@ -21,7 +21,7 @@ BattleTowerTrainers:
 	db "Idain@@@@@", POKEMANIAC
 	db "Regi@@@@@@", JUGGLER
 	db "Reader@@@@", POKEFANF
-	db "KBM@@@@@@@", BLACKBELT_T
+	db "Brice@@@@@", MYSTICALMAN
 	db "Luna@@@@@@", BEAUTY
 	db "ZAAACH@@@@", SCHOOLBOY
 	db "Cadmium@@@", BOARDER
@@ -45,7 +45,7 @@ BattleTowerTrainers:
 	db "Dabomstew@", SAGE
 	db "LuckyT@@@@", SCIENTIST
 	db "Opwith@@@@", POKEMANIAC
-	db "@@@@@@@@@@", CAL
+	db "KBM@@@@@@@", BLACKBELT_T
 	db "LVL 3@@@@@", CAMPER
 	db "Cam@@@@@@@", FIREBREATHER
 	db "KoH@@@@@@@", POKEFANM

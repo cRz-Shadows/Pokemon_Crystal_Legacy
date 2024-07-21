@@ -78,6 +78,8 @@ CreditsScript:
 	db             PLAYTESTERS, 0
 	db       TESTER9, 1
 	db       TESTER10, 2
+	db       TESTER11, 3
+	db       TESTER12, 4
 
 	db CREDITS_WAIT, 12
 
@@ -132,6 +134,12 @@ CreditsScript:
 	db       POKECRYSTAL10, 1
 	db       POKECRYSTAL11, 2
 	db       POKECRYSTAL12, 3
+	db       POKECRYSTAL13, 4
+
+	db CREDITS_WAIT, 12
+
+	db             TUTORIALS, 0
+	db       POKECRYSTAL14, 1
 
 	db CREDITS_WAIT, 12
 

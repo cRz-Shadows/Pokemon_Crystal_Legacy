@@ -3000,7 +3000,7 @@ wRegisteredItem:: db
 wPlayerState:: db
 
 wHallOfFameCount:: db
-wBattleTowerIsDecoration:: db
+	ds 1
 wTradeFlags:: flag_array NUM_NPC_TRADES
 	ds 1
 wMooMooBerries:: db
@@ -3133,7 +3133,8 @@ wEventFlags:: flag_array NUM_EVENTS
 
 wCurBox:: db
 
-	ds 2
+wBattleTowerIsDecoration:: db
+wBattleTowerReward:: db
 
 wBoxNames:: ds BOX_NAME_LENGTH * NUM_BOXES
 

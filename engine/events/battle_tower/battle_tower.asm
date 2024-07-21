@@ -904,24 +904,14 @@ ResetBattleTowerTrainersSRAM:
 	ret
 
 BattleTower_GiveReward:
-	push bc
-	ld b, a
-	ldh a, [rSVBK]
-	push af
 	ld a, BANK(wPartyMons)
 	ldh [rSVBK], a
 	ld a, [wBattleTowerIsDecoration] ; check if the prize is a decoration using wBattleTowerIsDecoration
 	cp 1
 	jr z, .IsDecoration
-	pop af
+	ld a, BANK(wPartyMons)
 	ldh [rSVBK], a
-	ld a, b
-	pop bc
-	; Give regular item reward
-	ld a, BANK(sBattleTowerReward)
-	call OpenSRAM
-	ld a, [sBattleTowerReward]
-	call CloseSRAM
+	ld a, [wBattleTowerReward]
 	ld [wScriptVar], a
 	ld hl, wNumItems
 	ld a, [hli]
@@ -945,15 +935,12 @@ BattleTower_GiveReward:
 	ld [wScriptVar], a
 	ret
 .IsDecoration
-	pop af
 	ldh [rSVBK], a
 	ld a, b
-	pop bc
 	; give decoration reward
-	ld a, BANK(sBattleTowerReward)
-	call OpenSRAM
-	ld a, [sBattleTowerReward]
-	call CloseSRAM
+	ld a, BANK(wPartyMons)
+	ldh [rSVBK], a
+	ld a, [wBattleTowerReward]
 	push de
 	push hl
 	push bc
@@ -998,6 +985,7 @@ Function170729:
 	ld a, BATTLETOWER_RECEIVED_REWARD
 	ld [sBattleTowerChallengeState], a
 	call CloseSRAM
+	farcall SaveGameData
 	ret
 
 BattleTower_SaveOptions:
@@ -1090,11 +1078,9 @@ BattleTower_RandomlyChooseReward:
 	pop bc
 	pop hl
 	push af
-	ld a, BANK(sBattleTowerReward)
-	call OpenSRAM
+	ld a, BANK(wPartyMons)
 	pop af
-	ld [sBattleTowerReward], a
-	call CloseSRAM
+	ld [wBattleTowerReward], a
 	ret
 
 BattleTowerAction_CheckExplanationRead:
