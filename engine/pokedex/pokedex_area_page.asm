@@ -756,6 +756,12 @@ Pokedex_DetailedArea_surf:
 .done
 	pop hl ; points to map group/num
 	pop bc ; line counter in c
+
+	; we dont need to handle having printed all 3 slots if we were at the end of the table
+	ld a, c
+	cp $6 ; 3 entries, 6 rows
+	jr z, .max_print
+
 	call DexArea_IncWildMonIndex
 	push bc ; line counter in c
 	ld b, 0
@@ -768,10 +774,6 @@ Pokedex_DetailedArea_surf:
 	cp -1 ; if we've printed a 3rd entry, this doesn't get checked
 	jr z, .reached_end
 
-	; we dont need to handle having printed all 3 slots if we were at the end of the table
-	ld a, c
-	cp $6 ; 3 entries, 6 rows
-	jr z, .max_print
 	push bc ; print counter
 	push hl
 	jr .landmark_loop
