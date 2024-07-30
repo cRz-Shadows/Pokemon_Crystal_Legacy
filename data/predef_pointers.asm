@@ -81,4 +81,5 @@ PredefPointers::
 	add_predef AnimateFrontpic
 	add_predef Unused_HOF_AnimateAlignedFrontpic
 	add_predef HOF_AnimateFrontpic
+	add_predef GetMonTypeIndex
 	dbw -1, DummyEndPredef ; pointless

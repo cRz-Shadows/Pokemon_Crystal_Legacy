@@ -170,14 +170,14 @@ Print_Trees_Rocksmash:
 ; map info in de, encounter % in wPokedexEvoStage3
 	farcall GetMapGroupNum_Name ; map info needs to be in de
 	; map name ptr is in de
-	hlcoord 2 , 10
+	hlcoord 2 , 9
 	ld a, [wPokedexEvoStage2] ; lines printed
 	ld c, a
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
 	ld a, BANK(MapGroupNum_Names)
 	call PlaceFarString
 
-	hlcoord 3, 11 ; same position regardless
+	hlcoord 2, 10 ; same position regardless
 	ld a, [wPokedexEvoStage2] ; lines printed
 	ld c, a	
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
@@ -187,7 +187,7 @@ Print_Trees_Rocksmash:
 	ld [hl], $6b ; day icon tile
 	add hl, de
 	ld [hl], $6c ; nite icon tile 
-	hlcoord 7, 11
+	hlcoord 6, 10
 	ld a, [wPokedexEvoStage2] ; lines printed
 	ld c, a		
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
@@ -199,21 +199,21 @@ Print_Trees_Rocksmash:
 	ld [hl], "<%>"
 
 	ld de, wPokedexEvoStage3 ; encounter %
-	hlcoord 4, 11
+	hlcoord 3, 10
 	ld a, [wPokedexEvoStage2] ; lines printed
 	ld c, a	
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
 	lb bc, 1, 3
 	call PrintNum
 
-	hlcoord 10, 11
+	hlcoord 9, 10
 	ld a, [wPokedexEvoStage2] ; lines printed
 	ld c, a		
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
 	lb bc, 1, 3
 	call PrintNum
 
-	hlcoord 16, 11
+	hlcoord 15, 10
 	ld a, [wPokedexEvoStage2] ; lines printed
 	ld c, a		
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
@@ -225,19 +225,20 @@ Print_TreeTitle:
 	ld a, [wPokedexEntryType]
 	cp DEXENTRY_AREA_TREES_COMMON
 	jr z, .common
-	hlcoord 1, 9
 	ld de, .headbutt_tree_rare_text
-	call PlaceString
-	ret	
+	jr .print
 .common
-	hlcoord 1, 9
 	ld de, .headbutt_tree_common_text
-	call PlaceString
+.print	
+	ld hl, .trees_text
+	call Print_Category_text
 	ret
 .headbutt_tree_common_text:
-	db "COMMON SHAKE-TREES@"
+	db " COMMON     @"
 .headbutt_tree_rare_text:
-	db "RARE SHAKE-TREES@"
+	db " RARE       @"
+.trees_text:	
+	db "  TREES     @"	
 
 inc_trees_rocksmash_map_index:
 	ld a, [wPokedexStatus]

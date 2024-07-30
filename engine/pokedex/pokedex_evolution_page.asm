@@ -13,6 +13,7 @@ DisplayDexMonEvos:
 	call ClearBox
 	call EVO_Draw_border
 	ld a, [wTempSpecies]
+	ld [wCurDamage + 2], a
 	callfar GetPreEvolution
 	callfar GetPreEvolution
 	ld a, [wCurPartySpecies]
@@ -23,6 +24,15 @@ DisplayDexMonEvos:
 	ld de, .stage1_text
 	hlcoord 6, 1
 	call PlaceString
+
+	ld a, [wCurDamage + 2]
+	ld b, a
+	ld a, [wCurPartySpecies]
+	cp b
+	jr nz, .dont_arrow_stage1
+	hlcoord 5, 2
+	ld [hl], "→"
+.dont_arrow_stage1	
 	hlcoord 6, 2
 	call EVO_sethlcoord
 	call GetPokemonName
@@ -54,6 +64,8 @@ DisplayDexMonEvos:
 	hlcoord 3, 6
 	ld de, .doesnt_evo_text
 	call PlaceString
+	hlcoord 5, 2
+	ld [hl], " "
 	ret ; no Evos
 .does_evo
 	push hl
@@ -110,6 +122,21 @@ DisplayDexMonEvos:
 	call GetPokemonName ; uses NamedObjectIndex
 	call EVO_gethlcoord
 	call PlaceString
+
+	push af ; manner of evo
+	push bc ; count and stage
+	ld a, [wCurDamage + 2]
+	ld b, a
+	ld a, [wNamedObjectIndex]
+	cp b
+	jr nz, .dont_print_arrow
+	dec hl
+	ld [hl], "→"
+	inc hl
+.dont_print_arrow
+	pop bc ; count and stage
+	pop af ; manner of evo
+
 	call EVO_DrawSpriteBox
 	call EVO_place_CaughtIcon
 	call EVO_place_Mon_Types
@@ -305,7 +332,7 @@ EVO_inchlcoord:
 EVO_level:
 	push hl ; pointing to lvl byte
 	call EVO_gethlcoord
-	ld [hl], $75 ; $5d
+	ld [hl], $74 ; lvl icon
 
 	pop hl ; pointing to lvl byte
 	ld a, BANK("Evolutions and Attacks")
@@ -369,14 +396,10 @@ EVO_trade:
 .trade_text:
 	db "TRADE@"
 .hold_text:
-	db " ", "<+>","@"
+	db " ", "+","@"
 
 EVO_happiness:
 	push hl ; time of day byte
-	; call EVO_inchlcoord
-	; ld de, .happiness_text
-	; call PlaceString ; mon species
-	
 	pop hl ; time of day byte
 	ld a, BANK("Evolutions and Attacks")
 	call GetFarByte
@@ -452,12 +475,9 @@ EVO_place_Mon_Types:
 	push af
 	push bc
 	push hl
-	ld a, [wTempMonSpecies]
-	ld a, [wTempSpecies]
 	ld a, [wCurSpecies]
 	push af
 	ld a, [wCurPartySpecies]
-	
 	ld a, [wTempSpecies]
 	ld [wCurSpecies], a	
 	call GetBaseData
@@ -684,11 +704,11 @@ EVO_DrawSpriteBox:
 	hlcoord 1, 1
 .start
 ; top left corner
-	ld [hl], $77
+	ld [hl], $7a ; 2x1 corner
 	push hl
 	inc hl
 ; top border
-	ld a, $7b
+	ld a, $79
 	ld bc, 2
 	push hl
 	call ByteFill
@@ -696,7 +716,7 @@ EVO_DrawSpriteBox:
 ; top right corner
 	inc hl
 	inc hl	
-	ld [hl], $78
+	ld [hl], $7b
 
 	pop hl
 	ld bc, SCREEN_WIDTH
@@ -705,7 +725,7 @@ EVO_DrawSpriteBox:
 ; left side	
 	push hl
 	lb bc, 2, 1
-	ld a, $7d
+	ld a, $7c
 	call FillBoxWithByte
 	pop hl
 	inc hl
@@ -719,7 +739,7 @@ EVO_DrawSpriteBox:
 	inc hl
 	inc hl
 	lb bc, 2, 1
-	ld a, $7e
+	ld a, $7d
 	call FillBoxWithByte
 
 ; bottom left corner
@@ -727,10 +747,10 @@ EVO_DrawSpriteBox:
 	ld bc, SCREEN_WIDTH
 	add hl, bc
 	add hl, bc
-	ld [hl], $79
+	ld [hl], $7a
 ; bottom border
 	inc hl
-	ld a, $7c
+	ld a, $79
 	ld bc, 2
 	push hl
 	call ByteFill
@@ -738,7 +758,7 @@ EVO_DrawSpriteBox:
 ; bottom right corner
 	inc hl
 	inc hl
-	ld [hl], $7a
+	ld [hl], $7b
 .notslot4
 	pop af
 	pop bc
@@ -833,18 +853,18 @@ EVO_place_CaughtIcon:
 	cp 2
 	jr z, .slot4
 ; slot 1
-	hlcoord 5, 5 ; 0, 4
+	hlcoord 5, 4 ; 5, 5
 	jr .start
 .slot3
-	hlcoord 5, 9 ; 0, 8
+	hlcoord 5, 8 ; 5, 9
 	jr .start
 .slot4
-	hlcoord 5, 13 ; 0, 12
+	hlcoord 5, 12 ; 5, 13
 	jr .start
 .stage1
-	hlcoord 5, 2 ; 0, 0
+	hlcoord 5, 1 ; 5, 2
 .start
-	ld [hl], $76 ; pokeball icon
+	ld [hl], $70 ; pokeball icon
 .done
 	pop af
 	pop bc
@@ -917,6 +937,13 @@ EVO_Draw_border:
 	hlcoord 16, 16
 	ld de, .back_page_text
 	call PlaceString
+
+	; print up/down arrows
+	hlcoord 19, 0
+	ld [hl], $3f
+	hlcoord 19, 17
+	ld [hl], $40
+
 	call WaitBGMap
 	ret
 .back_page_text:
