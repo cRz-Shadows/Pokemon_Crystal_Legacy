@@ -77,6 +77,10 @@ GoldenrodDeptStore4FGameboyKidText:
 	para "but they all"
 	line "evolve through"
 	cont "level up."
+
+	para "Your #DEX shows"
+	line "how #MON really"
+	cont "evolve!"
 	done
 
 GoldenrodDeptStore4FDirectoryText:

@@ -295,6 +295,10 @@ CatchingTutorialDeclinedText:
 	line "to find different"
 	cont "types of #MON."
 
+	para "Your #DEX shows"
+	line "where you can find"
+	cont "them too!"
+
 	para "If you want to"
 	line "learn more, go"
 

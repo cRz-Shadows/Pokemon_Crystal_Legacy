@@ -314,6 +314,12 @@ MrPokemonsHouse_OakText1:
 
 	para "It's a hi-tech"
 	line "encyclopedia!"
+
+	para "It shows their"
+    line "habitats,"
+
+    para "how they evolve,"
+    line "and their moves."
 	done
 
 MrPokemonsHouse_GetDexText:
