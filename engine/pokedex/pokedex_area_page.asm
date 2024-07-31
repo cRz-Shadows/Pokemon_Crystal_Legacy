@@ -475,31 +475,30 @@ Pokedex_DetailedArea_grass:
 .done
 	pop hl ; points to map group/num
 	pop bc ; line counter in c
-	
-	; no need to handle hving printed all 3 slots if we had already reached the end of the table
+	push bc ; line counter in c
+	ld b, 0
+	ld c, GRASS_WILDDATA_LENGTH
+	add hl, bc
+	; check to see if there is a next entry
+	ld a, BANK(JohtoGrassWildMons)
+	call GetFarByte ; ***hl is preserved***
+	pop bc ; line counter in c
+	cp -1 ; if we've printed a 3rd entry, this doesn't get checked
+	jr z, .reached_end ; end of data table 
+	; we dont need to handle having printed all 3 slots if we were at the end of the table
 	ld a, c
 	cp $6 ; 3 entries, 6 rows
 	jr z, .max_print
 
 	call DexArea_IncWildMonIndex
-	push bc ; line counter in c
-	ld b, 0
-	ld c, GRASS_WILDDATA_LENGTH
-	add hl, bc
-	pop bc ; print counter
-	; check to see if there is a next entry
-	ld a, BANK(JohtoGrassWildMons)
-	call GetFarByte ; hl is preserved, also wont clobber print line counter in c
-	cp -1
-	jr z, .reached_end
-	push bc ; print line counter in c
+	push bc ; print counter
 	push hl
 	jr .landmark_loop
 .reached_end
 	xor a
 	ld [wPokedexStatus], a ; wildmon entry index
 	ld [wPokedexEntryPageNum], a ; page num
-	ld a, [wPokedexEntryType] ; johto, janto, swarm
+	ld a, [wPokedexEntryType] ; johto, kanto, swarm
 	inc a
 	call DexEntry_NextCategory
 	xor a ; to ensure a isnt actually returned at -1. 0 is for normal
@@ -754,24 +753,22 @@ Pokedex_DetailedArea_surf:
 .done
 	pop hl ; points to map group/num
 	pop bc ; line counter in c
-
+	push bc ; line counter in c
+	ld b, 0
+	ld c, WATER_WILDDATA_LENGTH
+	add hl, bc
+	; check to see if there is a next entry
+	ld a, BANK(JohtoWaterWildMons)
+	call GetFarByte ; ***hl is preserved***
+	pop bc ; line counter in c
+	cp -1 ; if we've printed a 3rd entry, this doesn't get checked
+	jr z, .reached_end ; end of data table 
 	; we dont need to handle having printed all 3 slots if we were at the end of the table
 	ld a, c
 	cp $6 ; 3 entries, 6 rows
 	jr z, .max_print
 
 	call DexArea_IncWildMonIndex
-	push bc ; line counter in c
-	ld b, 0
-	ld c, WATER_WILDDATA_LENGTH
-	add hl, bc
-	pop bc ; print counter
-	; check to see if there is a next entry
-	ld a, BANK(JohtoWaterWildMons)
-	call GetFarByte ; hl is preserved
-	cp -1 ; if we've printed a 3rd entry, this doesn't get checked
-	jr z, .reached_end
-
 	push bc ; print counter
 	push hl
 	jr .landmark_loop
@@ -779,7 +776,7 @@ Pokedex_DetailedArea_surf:
 	xor a
 	ld [wPokedexStatus], a ; wildmon entry index
 	ld [wPokedexEntryPageNum], a ; page num
-	ld a, [wPokedexEntryType] ; johto, janto, swarm
+	ld a, [wPokedexEntryType] ; johto, kanto, swarm
 	inc a
 	call DexEntry_NextCategory
 	xor a ; to ensure a isnt actually returned at -1. 0 is for normal
