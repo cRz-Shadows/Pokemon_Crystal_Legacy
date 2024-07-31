@@ -52,7 +52,6 @@ EXPORT DEXENTRY_AREA_TREES_RARE
 EXPORT DEXENTRY_AREA_ROCKSMASH
 EXPORT DEXENTRY_AREA_CONTEST
 EXPORT DEXENTRY_AREA_ROAMING
-
 EXPORT DEXENTRY_AREA_CASINO
 EXPORT DEXENTRY_AREA_NPCTRADES
 EXPORT DEXENTRY_AREA_EVENTWILDMONS
@@ -155,37 +154,33 @@ HandlePageNumReset:
 DisplayDexEntry:
 	ld a, [wPokedexEntryType]
 	and a
-	jr nz, .check_caught
+	jr nz, .next
 	ld a, DEXENTRY_LORE
 	call HandlePageNumReset
-
-	hlcoord 8, 4
+	hlcoord 8, 1
 	ld a, [wPokedexShinyToggle]
 	bit 0, a
 	jr z, .not_shiny
 	ld [hl], "<DEX_⁂>"
-	jr .check_caught
+	jr .next
 .not_shiny
-	ld [hl], " "
-.check_caught
-; Check to see if we caught it.  Get out of here if we haven't.
-	ld a, [wTempSpecies]
-	dec a
-	call CheckCaughtMon
-	ret z
-
-	; xor a
-	; ldh [hBGMapMode], a 
-
+	ld [hl], " "	
+.next
 	ld a, DEXENTRY_LORE
 	call HandlePageNumReset
-
+; erase bottom half of page
+	hlcoord 1, 8
 	lb bc, 8, SCREEN_WIDTH - 1
-	hlcoord 1, 8
 	call ClearBox
-
+; take away page num and A press since we're assuming we haven't seen the mon
+; will re-print if we have, later
+	hlcoord 17, 5
+	ld bc, 3 ; box 2 tiles high, 9 wide
+	ld a, $4e ; category box horizontal line
+	call ByteFill
+; skinny horizontal line halfway down page
 	hlcoord 1, 8
-	ld bc, 19
+	ld bc, SCREEN_WIDTH - 1
 	ld a, $55
 	call ByteFill
 
@@ -194,29 +189,24 @@ DisplayDexEntry:
 	call GetDexEntryPointer
 	ld a, b
 	push af
-	hlcoord 2, 9
+	hlcoord 9, 6
 	call PlaceFarString ; dex species nickname
+	push bc ; bank?
+	push de ; dex entry ptr
+	hlcoord 8, 7
+	ld de, String_pokemon
+	call PlaceString
+	pop de ; dex entry ptr
+	pop bc ; bank?
 	ld h, b
 	ld l, c
-	push de
-	hlcoord 12, 9
-.check_tile
-	; this prints the "PKMN" symbols after the species nickname
-	ld a, [hld]
-	cp $e2
-	jr z, .cont
-	cp $7f ; empty tile
-	jr z, .check_tile
-	inc hl
-	inc hl
-	ld [hl], " "
-	inc hl
-	ld [hl], $e1
-	inc hl
-	ld [hl], $e2 
-.cont
-	pop hl
-	pop bc
+	push de ; dex entry ptr
+	ld a, [wTempSpecies]
+	dec a
+	call CheckCaughtMon
+	pop hl ; dex entry ptr
+	pop bc ; bank?
+
 ; Get the height of the Pokemon.
 	ld a, [wCurPartySpecies]
 	ld [wCurSpecies], a
@@ -235,27 +225,25 @@ DisplayDexEntry:
 	pop de
 	inc de
 	pop af
-	hlcoord 2, 11
+	hlcoord 2, 10
 	push af
 	call PlaceFarString
 	pop bc
 	call DexEntry_IncPageNum
-	; call WaitBGMap
 	ret
-
 ; Page 2
 .page2
 	pop de
 	inc de
 	pop af
-	hlcoord 2, 11
+	hlcoord 2, 10
 	push af
 	call PlaceFarString
 	pop bc
 	push bc
 	push de
 	lb bc, 5, SCREEN_WIDTH - 1
-	hlcoord 1, 11
+	hlcoord 1, 10
 	call ClearBox
 	hlcoord 1, 8
 	ld bc, 19
@@ -265,12 +253,13 @@ DisplayDexEntry:
 	pop de
 	inc de
 	pop af
-	hlcoord 2, 11
+	hlcoord 2, 10
 	call PlaceFarString
 	xor a
 	ld [wPokedexEntryPageNum], a
-	; call WaitBGMap
 	ret
+String_pokemon:
+	db "  #MON   @"
 
 GetDexEntryPointer:
 ; return dex entry pointer b:de
@@ -329,14 +318,10 @@ endr
 DisplayDexMonType_CustomGFX:
 	call GetBaseData
 	ld a, [wBaseType1]
-; Skip Bird
-	cp BIRD
-	jr c, .type1_adjust_done
-	cp UNUSED_TYPES
-	dec a
-	jr c, .type1_adjust_done
-	sub UNUSED_TYPES
-.type1_adjust_done
+
+	ld c, a ; farcall will clobber a for the bank
+	predef GetMonTypeIndex ; returns adjusted Type Index in 'c'
+	ld a, c
 ; load the tiles
 	ld hl, TypeLightIconGFX
 	ld bc, 4 * LEN_2BPP_TILE
@@ -350,7 +335,7 @@ DisplayDexMonType_CustomGFX:
 	lb bc, BANK(TypeLightIconGFX), 4
 	call Request2bpp
 
-	hlcoord 9, 6
+	hlcoord 9, 4
 	ld [hl], $77
 	inc hl
 	ld [hl], $78
@@ -367,14 +352,10 @@ DisplayDexMonType_CustomGFX:
 	ld a, [wBaseType2]
 	cp b
 	ret z
-; Skip Bird
-	cp BIRD
-	jr c, .type2_adjust_done
-	cp UNUSED_TYPES
-	dec a
-	jr c, .type2_adjust_done
-	sub UNUSED_TYPES
-.type2_adjust_done
+
+	ld c, a ; farcall will clobber a for the bank
+	predef GetMonTypeIndex ; returns adjusted Type Index in 'c'
+	ld a, c
 ; load type 2 tiles
 	ld hl, TypeDarkIconGFX
 	ld bc, 4 * LEN_2BPP_TILE
@@ -388,7 +369,7 @@ DisplayDexMonType_CustomGFX:
 	ld hl, vTiles2 tile $7b
 	lb bc, BANK(TypeDarkIconGFX), 4
 	call Request2bpp
-	hlcoord 13, 6
+	hlcoord 13, 4
 	ld [hl], $7b
 	inc hl
 	ld [hl], $7c
@@ -400,60 +381,54 @@ DisplayDexMonType_CustomGFX:
 	ldh [rVBK], a
 	ret
 
-DEX_PrintType_Short:
-; Print type a at hl.
-	; shouldnt need to double index
-	push hl
-	ld hl, .Types
-	ld bc, 4 ; since each entry is 4 bytes
-	call AddNTimes
-	ld d, h
-	ld e, l
-	pop hl
-	jp PlaceString
+; DEX_NO_CUSTOM_GFX_PrintType_Short:
+; ; Print type a at hl.
+; 	; shouldnt need to double index
+; 	push hl
+; 	ld hl, .Types
+; 	ld bc, 4 ; since each entry is 4 bytes
+; 	call AddNTimes
+; 	ld d, h
+; 	ld e, l
+; 	pop hl
+; 	jp PlaceString
 
-.Types
-	db "NRM@"
-	db "FGT@"
-	db "FLY@"
-	db "PSN@"
-	db "GRD@"
-	db "RCK@"
-	db "BUG@"
-	db "DRK@"
-	db "STL@"
-	db "FIR@"
-	db "WTR@"
-	db "GRS@"
-	db "ELC@"
-	db "PSY@"
-	db "ICE@"
-	db "DRG@"
-	db "GST@"
-	
+; .Types
+; 	db "NRM@"
+; 	db "FGT@"
+; 	db "FLY@"
+; 	db "PSN@"
+; 	db "GRD@"
+; 	db "RCK@"
+; 	db "BUG@"
+; 	db "GST@"
+; 	db "STL@"
+; 	db "FIR@"
+; 	db "WTR@"
+; 	db "GRS@"
+; 	db "ELC@"
+; 	db "PSY@"
+; 	db "ICE@"
+; 	db "DRG@"
+; 	db "DRK@"
 
 INCLUDE "data/pokemon/dex_entry_pointers.asm"
+INCLUDE "engine/pokedex/pokedex_evolution_page.asm"
 INCLUDE "engine/pokedex/pokedex_stats_page.asm"
+INCLUDE "engine/pokedex/pokedex_pics_page.asm"
 INCLUDE "engine/pokedex/pokedex_moves_page.asm"
 INCLUDE "engine/pokedex/pokedex_area_page.asm"
-INCLUDE "engine/pokedex/pokedex_evolution_page.asm"
 
-INCLUDE "engine/pokedex/pokedex_pics_page.asm"
 TypeLightIconGFX::
 INCBIN "gfx/pokedex/types_light.2bpp"
 
 TypeDarkIconGFX::
 INCBIN "gfx/pokedex/types_dark.2bpp"
 
-
 Pokedex_Clearbox:
-	;clear Area BC @ HL
-	; xor a
-	; ldh [hBGMapMode], a
 	lb bc, 7, SCREEN_WIDTH - 1
 	hlcoord 1, 9
 	call ClearBox
-	; call WaitBGMap
 	ret
 
 DexEntry_adjusthlcoord:
@@ -479,12 +454,15 @@ DexEntry_IncPageNum:
 
 Pokedex_PrintPageNum:
 	push hl
+; print A > indicator
+	hlcoord 19, 5
+	ld [hl], $60
+; print page num
 	ld a, [wPokedexEntryPageNum]
 	; a = page num, starting with 0 as page 1
-	hlcoord 18, 7
+	hlcoord 17, 5
 	ld [hl], $61 ; p. vram1
 	inc hl
-
 	cp 10 ; if we are past nine pages
 	jr c, .checkdone
 	ld a, 9
@@ -500,4 +478,16 @@ DexEntry_NextCategory:
 	xor a
 	ld [wPokedexEntryPageNum], a
 	ld [wPokedexStatus], a
+	ret
+
+Print_Category_text:
+	; given: hl is bottom str ptr, de is top string ptr
+	; they all go at 8,6 and 8,7, all strings are 12 chars
+	push hl ; bottom str ptr
+	hlcoord 8, 6
+	; de is already loaded
+	call PlaceString
+	hlcoord 8, 7
+	pop de ; bottom string ptr
+	call PlaceString
 	ret

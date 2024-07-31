@@ -2,6 +2,13 @@ INCLUDE "engine/pokedex/pokedex_area_page_trees_rocks.asm"
 INCLUDE "engine/pokedex/pokedex_area_page_fishing.asm"
 INCLUDE "data/wild/non_wildmon_locations.asm"
 
+String_johto_text:
+	db " JOHTO:     @"
+String_kanto_text:
+	db " KANTO:     @"
+String_swarm_text:
+	db " SWARM:     @"
+
 Pokedex_DetailedArea:
 	xor a
 	ld [wCurDamage], a
@@ -22,10 +29,10 @@ Pokedex_DetailedArea:
 
 	ld hl, JohtoGrassWildMons
 	cp DEXENTRY_AREA_GRASS_JOHTO
-	jr z, .grass ; _johto
+	jp z, .grass ; _johto
 	ld hl, KantoGrassWildMons
 	cp DEXENTRY_AREA_GRASS_KANTO
-	jr z, .grass ; _kanto
+	jp z, .grass ; _kanto
 	ld hl, SwarmGrassWildMons
 	cp DEXENTRY_AREA_GRASS_SWARM
 	jr z, .grass ; _swarm
@@ -77,13 +84,21 @@ Pokedex_DetailedArea:
 	jr nz, .found
 .none
 	ld [wPokedexEntryType], a
-	ld de, .none_wild_text
+	ld de, .none_found_text ; _wild_text
 	hlcoord 2, 9
 	call PlaceString
 	xor a
 	ld [wPokedexStatus], a ; wildmon entry index
 	ld [wPokedexEntryPageNum], a ; page num
-	call Pokedex_PrintPageNum
+
+; erase category banner, page number and A > indicator	
+	hlcoord 9, 6
+	lb bc, 2, 11 ; erase a box 2 tiles high, 9 wide
+	call ClearBox
+	hlcoord 17, 5
+	ld bc, 3
+	ld a, $4e ; category box border
+	call ByteFill
 	ret
 .found
 	ld [wPokedexEntryType], a
@@ -133,8 +148,8 @@ Pokedex_DetailedArea:
 ; .done
 	xor a
 	ret
-.none_wild_text:
-	db "NONE IN WILD@"
+.none_found_text:
+	db "NOT LOCATED@"
 
 Dex_FindFirstList:
 ; contest, trees(+rocks), grass swarm, grass, rods, water surf, surf
@@ -277,7 +292,7 @@ Print_area_entry:
 	push hl ; pointer to map groupnum/name
 	push bc ; b has morn encounter rate, c is current print line?
 	push de ; day (e) /nite (d) encounter rates
-	hlcoord 3, 11 ; same position regardless
+	hlcoord 2, 10 ; same position regardless
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
 	ld [hl], $65 ; day icon tile
 	ld de, 6
@@ -285,7 +300,7 @@ Print_area_entry:
 	ld [hl], $6b ; day icon tile
 	add hl, de
 	ld [hl], $6c ; nite icon tile 
-	hlcoord 7, 11
+	hlcoord 6, 10
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
 	ld [hl], "<%>"
 	ld de, 6
@@ -300,7 +315,7 @@ Print_area_entry:
 	ld a, d
 	ld [wTextDecimalByte], a
 	ld de, wTextDecimalByte
-	hlcoord 16, 11
+	hlcoord 15, 10
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
 	lb bc, 1, 3
 	call PrintNum
@@ -311,7 +326,7 @@ Print_area_entry:
 	ld a, e
 	ld [wTextDecimalByte], a
 	ld de, wTextDecimalByte
-	hlcoord 10, 11
+	hlcoord 9, 10
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
 	lb bc, 1, 3
 	call PrintNum
@@ -321,7 +336,7 @@ Print_area_entry:
 	ld a, b
 	ld [wTextDecimalByte], a
 	ld de, wTextDecimalByte
-	hlcoord 4, 11
+	hlcoord 3, 10
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
 	lb bc, 1, 3
 	call PrintNum
@@ -337,7 +352,7 @@ Print_area_entry:
 	ld e, l
 	farcall GetMapGroupNum_Name
 	; map name ptr is in de
-	hlcoord 2 , 10
+	hlcoord 2 , 9
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
 	ld a, BANK(MapGroupNum_Names)
 	push bc
@@ -379,28 +394,21 @@ Pokedex_DetailedArea_grass:
 	jp nz, Pokedex_Skip_Empty_Area_Category
 
 	push hl ; JohtoGrassWildMons, KantoGrassWildMons, or SwarmGrassWildMons
-	hlcoord 7, 9
-	ld de, .grass_walk_text
-	call PlaceString
 	ld a, [wPokedexEntryType]
 	cp DEXENTRY_AREA_GRASS_JOHTO
 	jr nz, .chk_kanto
-	hlcoord 1, 9
-	ld de, .johto_text
-	call PlaceString
+	ld de, String_johto_text
 	jr .title_done
 .chk_kanto
 	cp DEXENTRY_AREA_GRASS_KANTO
 	jr nz, .swarm
-	hlcoord 1, 9
-	ld de, .kanto_text
-	call PlaceString
+	ld de, String_kanto_text
 	jr .title_done
 .swarm
-	hlcoord 1, 9
-	ld de, .swarm_text
-	call PlaceString
+	ld de, String_swarm_text
 .title_done
+	ld hl, .grass_walk_text
+	call Print_Category_text
 
 	ld a, [wPokedexStatus] ; wildmon index
 	ldh [hMultiplicand + 2], a
@@ -506,13 +514,9 @@ Pokedex_DetailedArea_grass:
 	xor a ; to ensure a isnt actually returned at -1. 0 is for normal
 	ret
 .grass_walk_text:
-	db "GRASS/WALKING@"
-.johto_text:
-	db "JOHTO@"
-.kanto_text:
-	db "KANTO@"
-.swarm_text:
-	db "SWARM@"
+	; db "GRASS     @"
+	db "  WALKING   @"
+	; db "GRASS/WALKING@"
 
 Pokedex_Parse_grass:
 	push hl ; first species byte in morn
@@ -682,28 +686,22 @@ Pokedex_DetailedArea_surf:
 	jp nz, Pokedex_Skip_Empty_Area_Category
 
 	push hl ; JohtoWaterWildMons, KantoWaterWildMons, or SwarmWaterWildMons
-	hlcoord 7, 9
-	ld de, .surfing_text
-	call PlaceString
 	ld a, [wPokedexEntryType]
 	cp DEXENTRY_AREA_SURF_JOHTO
 	jr nz, .chk_kanto
-	hlcoord 1, 9
-	ld de, .johto_text
-	call PlaceString
+	ld de, String_johto_text
 	jr .title_done
 .chk_kanto
 	cp DEXENTRY_AREA_SURF_KANTO
 	jr nz, .swarm
-	hlcoord 1, 9
-	ld de, .kanto_text
-	call PlaceString
+	ld de, String_kanto_text
 	jr .title_done
 .swarm
-	hlcoord 1, 9
-	ld de, .swarm_text
-	call PlaceString
+	ld de, String_swarm_text
 .title_done
+	ld hl, .surfing_text
+	call Print_Category_text
+
 	ld a, [wPokedexStatus] ; wildmon index
 	ldh [hMultiplicand + 2], a
 	xor a
@@ -796,13 +794,7 @@ Pokedex_DetailedArea_surf:
 	xor a ; to ensure a isnt actually returned at -1. 0 is for normal
 	ret
 .surfing_text:
-	db "SURFING@"
-.johto_text:
-	db "JOHTO@"
-.kanto_text:
-	db "KANTO@"
-.swarm_text:
-	db "SWARM@"
+	db "  SURFING   @"
 
 Pokedex_Parse_surf:
 	push hl ; first species byte, surfing has no time of day
@@ -1115,12 +1107,22 @@ Pokedex_DetailedArea_bugcontest:
 	ld [wPokedexEvoStage3], a
 
 	; print the title, BUG CONTEST
-	hlcoord 1, 9
 	ld de, .bugcontest_text
-	call PlaceString
-	hlcoord 1, 10
+	ld hl, .contest_text
+	call Print_Category_text
+
+	hlcoord 1, 9
 	ld de, .park_text
 	call PlaceString
+	hlcoord 2, 10
+	ld de, .String_Tuesday
+	call PlaceString
+	hlcoord 2, 11
+	ld de, .String_Thursday
+	call PlaceString
+	hlcoord 2, 12
+	ld de, .String_Saturday
+	call PlaceString		
 
 	ld hl, ContestMons
 	ld e, 0
@@ -1162,20 +1164,28 @@ Pokedex_DetailedArea_bugcontest:
 	call DexEntry_NextCategory
 	ret
 .bugcontest_text:
-	db "BUG-CATCH CONTEST@"
+	db " BUG        @" ; CATCH CONTEST@"
+.contest_text:
+	db "  CONTEST   @"	
 .park_text:
-	db "-NATIONAL PARK@"
+	db " NATIONAL PARK@"
+.String_Tuesday:
+	db " Tuesdays@"
+.String_Thursday:
+	db " Thursdays@"
+.String_Saturday:
+	db " Saturdays@"
 
 BugContest_Print:
 	ld b, e ; encounter %
-	hlcoord 3, 11 ; same position regardless
+	hlcoord 2, 14 ; same position regardless
 	ld [hl], $65 ; day icon tile
 	ld de, 6
 	add hl, de
 	ld [hl], $6b ; day icon tile
 	add hl, de
 	ld [hl], $6c ; nite icon tile 
-	hlcoord 7, 11
+	hlcoord 6, 14
 	ld [hl], "<%>"
 	ld de, 6
 	add hl, de
@@ -1185,12 +1195,12 @@ BugContest_Print:
 	ld a, b ; encounter %
 	ld [wTextDecimalByte], a
 	ld de, wTextDecimalByte
-	hlcoord 16, 11
+	hlcoord 15, 14
 	lb bc, 1, 3
 	call PrintNum
-	hlcoord 10, 11
+	hlcoord 9, 14
 	call PrintNum
-	hlcoord 4, 11
+	hlcoord 3, 14
 	call PrintNum
 	ret
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; CONTEST END ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1240,11 +1250,11 @@ Pokedex_DetailedArea_roaming:
 	ld [wPokedexEvoStage3], a
 
 	; print the title, ROAMING
-	hlcoord 1, 9
 	ld de, .roaming_text
-	call PlaceString
-	ld bc, 0 ; print line counter for 'DexEntry_adjusthlcoord' in 'c'
+	ld hl, String_pokemon
+	call Print_Category_text
 
+	ld bc, 0 ; print line counter for 'DexEntry_adjusthlcoord' in 'c'
 	ld a, [wCurSpecies]
 	ld hl, wRoamMon1Species
 	cp [hl]
@@ -1270,7 +1280,7 @@ Pokedex_DetailedArea_roaming:
 	call DexEntry_NextCategory
 	ret
 .roaming_text:
-	db "ROAMING@"
+	db " ROAMING    @"
 
 Dex_Print_Roamer_Info:
 	; push bc ; line counter in c
@@ -1293,7 +1303,7 @@ Dex_Print_Roamer_Info:
 
 	farcall GetMapGroupNum_Name ; map info in 'de'
 	; map name ptr is in de
-	hlcoord 2 , 10
+	hlcoord 2 , 9
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
 	ld a, BANK(MapGroupNum_Names)
 	push bc ; current print line in c
@@ -1304,10 +1314,10 @@ Dex_Print_Roamer_Info:
 	ld a, [wPokedexEvoStage2]
 	cp 100
 	jr nz, .two_digits
-	hlcoord 4, 11
+	hlcoord 4, 10
 	jr .lvl_spot_decided
 .two_digits
-	hlcoord 3, 11
+	hlcoord 3, 10
 .lvl_spot_decided
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
 	push bc ; current print line in c
@@ -1316,7 +1326,7 @@ Dex_Print_Roamer_Info:
 	call PrintNum
 	pop bc ; current print line in c
 	; print lvl symbol
-	hlcoord 3, 11
+	hlcoord 3, 10
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
 	ld [hl], "<DEX_LV>" ; lvl symbol
 
@@ -1327,14 +1337,14 @@ Dex_Print_Roamer_Info:
 	and a
 	jr z, .not_initd
 ; HP string and /
-	hlcoord 8, 11
+	hlcoord 8, 10
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
 	ld de, .hp_text
 	call PlaceString
 	pop bc ; current print line in c
 	; current HP
 	
-	hlcoord 12, 11
+	hlcoord 12, 10
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
 	ld de, wPokedexEvoStage3 ; Roamer's HP
 	push bc ; current print line in c
@@ -1359,7 +1369,7 @@ Dex_Print_Roamer_Info:
 	; shiny tile is $64
 	pop bc ; current print line in c
 	push bc ; current print line in c
-	hlcoord 1, 11
+	hlcoord 1, 10
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
 	ld [hl], "<DEX_⁂>"
 ; shiny check done
@@ -1422,9 +1432,9 @@ Pokedex_DetailedArea_casino:
 	ld [wPokedexEvoStage3], a
 
 	; print the title, CASINO PRIZE
-	hlcoord 1, 9
 	ld de, .casino_text
-	call PlaceString
+	ld hl, .prize_text
+	call Print_Category_text
 
 ; johto casino
 	ld hl, CasinoMons + 2 ; ptr to 1st johto casinomon species
@@ -1464,8 +1474,6 @@ Pokedex_DetailedArea_casino:
 	ld de, 3 ; size of casinomon entry, 3 bytes
 	add hl, de
 	jr .kanto_loop
-
-
 .kanto_done
 	pop hl ; ptr to kanto casino map_id, clean stack
 .donedone
@@ -1474,7 +1482,9 @@ Pokedex_DetailedArea_casino:
 	call DexEntry_NextCategory
 	ret
 .casino_text:
-	db "CASINO PRIZE@"
+	db " CASINO     @"
+.prize_text:
+	db "  PRIZE     @"
 
 Print_casinomon:
 	; 'de' has casino map_id ptr
@@ -1490,10 +1500,10 @@ Print_casinomon:
 	ld a, [wPokedexEvoStage2]
 	and a
 	jr z, .first_print_map_id
-	hlcoord 2, 13
+	hlcoord 2, 12
 	jr .print_map_id
 .first_print_map_id
-	hlcoord 2, 10
+	hlcoord 2, 9
 .print_map_id
 	; map name ptr is in de
 	ld a, BANK(MapGroupNum_Names)
@@ -1515,10 +1525,10 @@ Print_casinomon:
 	ld a, [wPokedexEvoStage2]
 	and a
 	jr z, .first_print_coins
-	hlcoord 2, 14
+	hlcoord 2, 13
 	jr .print_map_id
 .first_print_coins
-	hlcoord 2, 11
+	hlcoord 2, 10
 .print_coins
 	lb bc, 2, 5 ; 2 byte number, up to 5 digits
 	push hl ; print location
@@ -1595,9 +1605,9 @@ Pokedex_DetailedArea_npctrades:
 	ld [wPokedexEvoStage3], a
 
 	; print the title, NPC Trade
-	hlcoord 1, 9
 	ld de, .npctrade_text
-	call PlaceString
+	ld hl, .trade_text
+	call Print_Category_text
 
 ; cannot assume there will be no species repeats
 	ld hl, NPCTrades
@@ -1651,7 +1661,9 @@ Pokedex_DetailedArea_npctrades:
 	jr .return
 
 .npctrade_text:
-	db "NPC TRADE@"
+	db " NPC        @" 
+.trade_text:
+	db "  TRADE     @"
 
 Dex_Print_TradeMon_Info:
 	; 'de': location: 		hlcoord 2, 10
@@ -1674,20 +1686,20 @@ Dex_Print_TradeMon_Info:
 	ld e, l	
 	farcall GetMapGroupNum_Name ; map info in 'de'
 	; map name ptr is in de
-	hlcoord 2 , 10
+	hlcoord 2 , 9
 	ld a, BANK(MapGroupNum_Names)
 	call PlaceFarString
 
-	hlcoord 2, 12
+	hlcoord 2, 11
 	ld de, .OT_Name_Text ; "OT/@"
 	call PlaceString
-	hlcoord 2, 13
+	hlcoord 2, 12
 	ld de, .Nickname_Text ; "NAME/@"
 	call PlaceString
-	hlcoord 2, 14
+	hlcoord 2, 13
 	ld de, .GivenItem_Text ; "HOLDING/@"
 	call PlaceString
-	hlcoord 2, 15
+	hlcoord 2, 14
 	ld de, .WantedMon_Text ; "FOR/@"
 	call PlaceString
 
@@ -1703,7 +1715,7 @@ Dex_Print_TradeMon_Info:
 	ld [wCurSpecies], a
 	ld [wTempSpecies], a
 	call GetPokemonName
-	hlcoord 8, 15
+	hlcoord 8, 14
 	call PlaceString
 	pop af ; real species
 	ld [wCurSpecies], a
@@ -1724,7 +1736,7 @@ Dex_Print_TradeMon_Info:
 	ld c, "♀"
 	; fallthrough
 .gender_done
-	hlcoord 7, 15
+	hlcoord 7, 14
 	ld [hl], c
 ; original trainer name
 	pop hl ; pointing to base of NPsCTrades entry, NPCTRADE_DIALOG
@@ -1733,7 +1745,7 @@ Dex_Print_TradeMon_Info:
 	add hl, bc
 	ld d, h 
 	ld e, l	
-	hlcoord 8, 12
+	hlcoord 8, 11
 	ld a, BANK(NPCTrades)
 	call PlaceFarString
 
@@ -1748,7 +1760,7 @@ Dex_Print_TradeMon_Info:
 	call GetFarByte
 	ld [wNamedObjectIndex], a
 	call GetItemName
-	hlcoord 8, 14
+	hlcoord 8, 13
 	call PlaceString
 	pop af ; real species
 	ld [wCurSpecies], a
@@ -1761,7 +1773,7 @@ Dex_Print_TradeMon_Info:
 	add hl, bc
 	ld d, h 
 	ld e, l	
-	hlcoord 8, 13
+	hlcoord 8, 12
 	ld a, BANK(NPCTrades)
 	call PlaceFarString
 
@@ -1893,7 +1905,7 @@ Dex_Print_EventMon_Info:
 
 	farcall GetMapGroupNum_Name ; map info in 'de'
 	; map name ptr is in de
-	hlcoord 2 , 10
+	hlcoord 2 , 9
 	ld a, BANK(MapGroupNum_Names)
 	call PlaceFarString
 
@@ -1915,15 +1927,17 @@ Pokedex_DetailedArea_eventwildmons:
 	ld [wPokedexEvoStage3], a
 
 	; print the title, SPECIAL ENCOUNTER
-	hlcoord 1, 9
 	ld de, .eventwildmon_text
-	call PlaceString
+	ld hl, .eventwildmon_text2
+	call Print_Category_text	
 
 	ld hl, EventWildMons
 	jp Pokedex_DetailedArea_eventmons
 	
 .eventwildmon_text:
-	db "SPECIAL ENCOUNTER@"
+	db " SPECIAL    @"
+.eventwildmon_text2:
+	db "  ENCOUNTER @"
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; EVENT WILD MONS END ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1939,15 +1953,15 @@ Pokedex_DetailedArea_giftmons:
 	ld [wPokedexEvoStage3], a
 
 	; print the title, GIFT POKEMON
-	hlcoord 1, 9
 	ld de, .giftmon_text
-	call PlaceString
+	ld hl, String_pokemon
+	call Print_Category_text	
 
 	ld hl, GiftMons
 	jp Pokedex_DetailedArea_eventmons
 
 .giftmon_text:
-	db "GIFT #MON@"
+	db " GIFT       @"
 	ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; GIFT MONS END ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

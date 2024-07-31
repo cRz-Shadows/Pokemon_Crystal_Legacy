@@ -304,7 +304,7 @@ _CGB_Pokedex:
 	call GetBaseData
 	ld a, [wBaseType1]
 	ld c, a ; farcall will clobber a for the bank
-	farcall GetMonTypeIndex
+	predef GetMonTypeIndex
 ; load the 1st type pal 
 	; type index is already in c
 	ld de, wBGPals1 palette 7 + 2 ; slot 2 of pal 7
@@ -314,8 +314,8 @@ _CGB_Pokedex:
 	ld c, a ; farcall will clobber a for the bank
 	ld a, [wBaseType1]
 	cp c
-	jr z, .same_type	
-	farcall GetMonTypeIndex
+	jr z, .same_type
+	predef GetMonTypeIndex
 ; load the 2nd type pal 
 	; type index is already in c
 	ld de, wBGPals1 palette 7 + 4 ; slot 3 of pal 7
@@ -323,7 +323,7 @@ _CGB_Pokedex:
 	jr .got_palette
 .same_type
 	ld de, wBGPals1 palette 7 + 4 ; slot 3 of pal 7
-	call LoadSingleBlackPal
+	call LoadSingleBlackPal	
 
 .got_palette
 	call WipeAttrmap
@@ -333,10 +333,9 @@ _CGB_Pokedex:
 	call FillBoxCGB
 
 ; mon base types
-	hlcoord 9, 6, wAttrmap
+	hlcoord 9, 4, wAttrmap
 	lb bc, 1, 8
-	ld a, $7 ; mon base type pals
-	set 3, a ; VRAM 1
+	ld a, 7 | VRAM_BANK_1 ; mon base type pals ; VRAM 1
 	call FillBoxCGB
 
 	call InitPartyMenuOBPals
@@ -346,11 +345,10 @@ _CGB_Pokedex:
 	ld a, BANK(wOBPals1)
 	call FarCopyWRAM
 
-	; page nums
-	hlcoord 18, 7, wAttrmap
-	lb bc, 1, 2
-	ld a, $0 ; dex pal
-	set 3, a ; vram1
+; category enclosure + page nums + A >
+	hlcoord 17, 5, wAttrmap
+	lb bc, 1, 3 ; 1 tile high, 3 tiles wide
+	ld a, 0 | VRAM_BANK_1 ; dex pal PREDEFPAL_POKEDEX, VRAM_BANK_1
 	call FillBoxCGB
 
 	call ApplyAttrmap
@@ -376,34 +374,43 @@ _CGB_Pokedex_EvoPage:
 ; main screen within border, vram 1
 	hlcoord 1, 1, wAttrmap
 	lb bc, 16, 19
-	ld a, 0
-	set 3, a
+	ld a, 0 | VRAM_BANK_1 ; VRAM 1
 	call FillBoxCGB
 
 ; mon slot 1 types
 	hlcoord 16, 2, wAttrmap
 	lb bc, 2, 4
-	ld a, 1
-	set 3, a
+	ld a, 1 | VRAM_BANK_1 ; VRAM 1
 	call FillBoxCGB
 ; mon slot 2 types
 	hlcoord 16, 5, wAttrmap
 	lb bc, 2, 4
-	ld a, 2
-	set 3, a
+	ld a, 2 | VRAM_BANK_1 ; VRAM 1
 	call FillBoxCGB
 ; mon slot 3 types
 	hlcoord 16, 8, wAttrmap
 	lb bc, 3, 4
-	ld a, 3
-	set 3, a
+	ld a, 3 | VRAM_BANK_1 ; VRAM 1
 	call FillBoxCGB
 ; mon slot 4 types
 	hlcoord 16, 12, wAttrmap
 	lb bc, 3, 4
-	ld a, 4
-	set 3, a
+	ld a, 4 | VRAM_BANK_1 ; VRAM 1
 	call FillBoxCGB
+; flip bottom row of sprite icon borders
+	hlcoord 1, 4, wAttrmap
+	ld bc, 4
+	ld a, 0 | Y_FLIP | VRAM_BANK_1 ; VRAM 1
+	call ByteFill
+	hlcoord 1, 8, wAttrmap
+	ld bc, 4
+	call ByteFill	
+	hlcoord 1, 12, wAttrmap
+	ld bc, 4
+	call ByteFill	
+	hlcoord 1, 16, wAttrmap
+	ld bc, 4
+	call ByteFill				
 
 	call InitPartyMenuOBPals
 	call ApplyAttrmap
@@ -443,38 +450,93 @@ _CGB_Pokedex_PicsPage:
 	ld de, wBGPals1 palette 7	
 	call LoadSingleBlackPal
 
-; animated front pic
+; animated front pic + border
 	hlcoord 0, 0, wAttrmap
 	lb bc, 9, 9
-	ld a, 0
-	set 3, a
+	ld a, 0 | VRAM_BANK_1 ; VRAM 1
 	call FillBoxCGB
 ; animated front pic
 	hlcoord 1, 1, wAttrmap
 	lb bc, 7, 7
-	ld a, 1
-	set 3, a
+	ld a, 1 | VRAM_BANK_1 ; VRAM 1
 	call FillBoxCGB
 
 ; back pic border
 	hlcoord 10, 0, wAttrmap
 	lb bc, 9, 9
-	ld a, 0
-	set 3, a
+	ld a, 0 | VRAM_BANK_1 ; VRAM 1
 	call FillBoxCGB
 ; ; back pic
 	hlcoord 11, 2, wAttrmap
 	lb bc, 6, 6
-	ld a, 1
-	set 3, a
+	ld a, 1 | VRAM_BANK_1 ; VRAM 1
 	call FillBoxCGB
-
 
 ; sprite box border
 	hlcoord 1, 13, wAttrmap
 	lb bc, 4, 4
-	ld a, 0
-	set 3, a
+	ld a, 0 | VRAM_BANK_1 ; VRAM 1
+	call FillBoxCGB
+
+; page/up down arrows
+	hlcoord 9, 0, wAttrmap
+	ld [hl], 0 ; remove VRAM 1 bit
+	hlcoord 18, 0, wAttrmap
+	ld [hl], 0 ; remove VRAM 1 bit
+
+; front/back pic bottom border fix
+	hlcoord 0, 8, wAttrmap
+	ld bc, SCREEN_WIDTH
+	ld a, 0 | Y_FLIP | VRAM_BANK_1
+	call ByteFill
+; lower right corner of front pic
+	hlcoord 8, 8, wAttrmap
+	ld [hl], 0 | Y_FLIP | X_FLIP | VRAM_BANK_1
+	inc hl
+	ld [hl], 0 ; remove VRAM 1 bit
+; lower right corner of back pic
+	hlcoord 18, 8, wAttrmap
+	ld [hl], 0 | X_FLIP | Y_FLIP | VRAM_BANK_1
+	inc hl
+	ld [hl], 0 ; remove VRAM 1 bit
+
+; upper right corner of front pic
+	hlcoord 8, 0, wAttrmap
+	ld [hl], 0 | X_FLIP | VRAM_BANK_1
+; front pic right vertical side fix
+	hlcoord 8, 1, wAttrmap
+	lb bc, 7, 1
+	ld a, 0 | X_FLIP | Y_FLIP | VRAM_BANK_1 ; VRAM 1
+	call FillBoxCGB
+; back pic right vertical side fix	
+	hlcoord 18, 1, wAttrmap
+	lb bc, 7, 1
+	ld a, 0 | X_FLIP | VRAM_BANK_1 ; VRAM 1
+	call FillBoxCGB	
+
+; animated icon, upper right corner fix
+	hlcoord 4, 13, wAttrmap
+	ld [hl], 0 | X_FLIP | VRAM_BANK_1
+; animated icon, lower right corner fix
+	hlcoord 4, 16, wAttrmap
+	ld [hl], 0 | X_FLIP | Y_FLIP | VRAM_BANK_1
+; animated icon, lower left corner fix
+	hlcoord 1, 16, wAttrmap
+	ld [hl], 0 | Y_FLIP | VRAM_BANK_1		
+; sprite border right side
+	hlcoord 4, 14, wAttrmap
+	ld [hl], 0 | X_FLIP | VRAM_BANK_1
+	hlcoord 4, 15, wAttrmap
+	ld [hl], 0 | X_FLIP | VRAM_BANK_1
+; page bottom border row, bottom of sprite border	
+	hlcoord 2, 16, wAttrmap
+	ld bc, 2
+	ld a, 0 | Y_FLIP | VRAM_BANK_1
+	call ByteFill
+; > CRY, set VRAM	
+	hlcoord 14, 17, wAttrmap
+	lb bc, 1, 2
+	ld a, 0 | VRAM_BANK_1 ; VRAM 1
 	call FillBoxCGB
 
 	call InitPartyMenuOBPals

@@ -73,6 +73,17 @@ PokeGear:
 .InitTilemap:
 	call ClearBGPalettes
 	call ClearTilemap
+; ; time of day icons
+; 	push af
+; 	xor a
+; 	ldh [hBGMapMode], a
+; 	ld de, Pokedex_ExtraTiles tile $f
+; 	ld hl, vTiles2 tile $63
+; 	lb bc, BANK(Pokedex_ExtraTiles), 3 ; tiles
+; 	call Request2bpp
+; 	pop af
+; 	ldh [hBGMapMode], a
+;
 	call ClearSprites
 	call DisableLCD
 	xor a
@@ -602,7 +613,7 @@ Pokegear_UpdateClock:
 	jr z, .Day
 	ld de, .NiteStr
 .got_tod		
-	hlcoord 11, 6
+	hlcoord 14, 6
 	call PlaceString
 
 	hlcoord 11, 0
@@ -624,7 +635,7 @@ Pokegear_UpdateClock:
 .MornStr:
 	db "MORN@"
 .DayStr:
-	db "DAYTIME@"
+	db "DAY@"
 .NiteStr:
 	db "NITE@"
 	; db "NIGHT@"
@@ -886,6 +897,7 @@ PokegearRadio_Joypad:
 	ld c, POKEGEARSTATE_PHONEINIT
 	ld b, POKEGEARCARD_PHONE
 	jr .switch_page
+.right
 
 .no_phone
 	ld a, [wPokegearFlags]
@@ -2466,12 +2478,12 @@ Pokedex_GetArea:
 	ld c, 4
 	call Request2bpp
 	call LoadTownMapGFX
-	call FillKantoMap
+	call Dex_FillKantoMap
 	call .PlaceString_MonsNest
 	call TownMapPals
 	hlbgcoord 0, 0, vBGMap1
 	call TownMapBGUpdate
-	call FillJohtoMap
+	call Dex_FillJohtoMap
 	call .PlaceString_MonsNest
 	call TownMapPals
 	hlbgcoord 0, 0
@@ -2536,9 +2548,9 @@ Pokedex_GetArea:
 
 .right
 ; only reveal Kanto map if beaten league: disabled
-	ld a, [wStatusFlags]
-	bit STATUSFLAGS_HALL_OF_FAME_F, a
-	ret z
+	; ld a, [wStatusFlags]
+	; bit STATUSFLAGS_HALL_OF_FAME_F, a
+	; ret z
 	ldh a, [hWY]
 	and a
 	ret z
@@ -2563,7 +2575,7 @@ Pokedex_GetArea:
 .copy_sprites
 	hlcoord 0, 0
 	ld de, wVirtualOAM
-	ld bc, wVirtualOAMEnd - wVirtualOAM
+	ld bc, wVirtualOAMEnd  - wVirtualOAM
 	call CopyBytes
 	ret
 
@@ -2586,6 +2598,21 @@ Pokedex_GetArea:
 	ld l, c
 	ld de, .String_SNest
 	call PlaceString
+; add blurb to let people know they can press select to see current location
+	hlcoord 1, 2
+	ld a, $48 ; part of SELECT >
+	ld [hli], a
+	ld a, $49 ; part of SELECT >
+	ld [hli], a
+	ld a, $4a ; part of SELECT >
+	ld [hli], a
+	ld a, $1d ; custom arrow cap + YOU
+	ld [hli], a ; $78
+	ld [hl], $1e
+
+; show player coords
+; ; show player
+; 	lb de, $28, $34
 	ret
 
 .String_SNest:
@@ -2756,6 +2783,14 @@ FillJohtoMap:
 	ld de, JohtoMap
 	jr FillTownMap
 
+Dex_FillJohtoMap:
+	ld de, DEX_JohtoMap
+	jr FillTownMap
+
+Dex_FillKantoMap:
+	ld de, DEX_KantoMap
+	jr FillTownMap
+
 FillKantoMap:
 	ld de, KantoMap
 FillTownMap:
@@ -2901,9 +2936,13 @@ LoadTownMapGFX:
 
 JohtoMap:
 INCBIN "gfx/pokegear/johto.bin"
+DEX_JohtoMap:
+INCBIN "gfx/pokegear/dex_johto.bin"
 
 KantoMap:
 INCBIN "gfx/pokegear/kanto.bin"
+DEX_KantoMap:
+INCBIN "gfx/pokegear/dex_kanto.bin"
 
 PokedexNestIconGFX:
 INCBIN "gfx/pokegear/dexmap_nest_icon.2bpp"

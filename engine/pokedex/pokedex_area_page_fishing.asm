@@ -17,9 +17,9 @@ Pokedex_DetailedArea_rods:
 	ld [wPokedexEvoStage3], a
 
 	; print the title, FISHING RODS
-	hlcoord 1, 9
 	ld de, .fishing_text
-	call PlaceString
+	ld hl, .rods_text
+	call Print_Category_text
 	; calculate where we left off
 
 	call Fishing_MonIndex_Addr ; clobbers bc, return addr in hl
@@ -66,10 +66,7 @@ Pokedex_DetailedArea_rods:
 	call Check_this_rod
 	and a
 	jr z, .good2super ; since we're on the good rod, we still need to check the super rod entry	
-	;
 	ld a, [wPokedexStatus] ; fish group starting at bit 3
-	; ld b,b
-	;
 	pop bc ; line counter, rod in b, maps in c
 	call Fishing_Print_Rod
 	push bc ; line counter, rod in b, maps in c, now has been inc'd
@@ -83,10 +80,7 @@ Pokedex_DetailedArea_rods:
 	call Check_this_rod
 	and a
 	jr z, .print_rods_done
-	;
 	ld a, [wPokedexStatus] ; fish group starting at bit 3
-	; ld b,b
-	;
 	pop bc ; line counter, rod in b, maps in c
 	call Fishing_Print_Rod
 	push bc ; line counter, rod in b, maps in c, now has been inc'd
@@ -97,17 +91,13 @@ Pokedex_DetailedArea_rods:
 	; do we fall through to prep loop or skip directly to max print?
 	; should probably fall through, so double check we dont double inc
 .print_rods_done
-	; pop hl ; points to fishgroup+rod table ; eventually get rid of the hl stack here?
-	; call Fishing_MonIndex_Addr ; eventually get rid of the hl stack here? 
 	; since we will be exiting since we printed a rod and finished checking the group
 	pop bc ; line counter, rod in b, maps in c
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; map name ;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 	ld hl, FishGroups_Names
-	; ld b,b
 	push bc ; line counter, rod in b, maps in c
-	; call GetFarWord
 	ld a, [wPokedexStatus]
 	sra a
 	sra a
@@ -120,18 +110,23 @@ Pokedex_DetailedArea_rods:
 	ld d, h 
 	ld e, l
 	ld a, BANK(FishGroups_Names)
-	hlcoord 1 , 11 ; we want allllll the chars we can have
+	hlcoord 8 , 9 ; we want allllll the chars we can have
 	pop bc ; line counter, rod in b, maps in c
-	call FishEntry_adjusthlcoord_map ; line counter, rod in b, maps in c
 	push bc
 	call PlaceFarString
 	pop bc
 	inc c ; since we printed a map name
 	push bc
+	push de
+	push hl
+	hlcoord 2, 9
+	ld de, .group_text
+	call PlaceString
+	pop hl
+	pop de
 
 	ld c, 4
 	call DelayFrames
-	; call WaitBGMap
 
 	pop bc ; line counter
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -151,11 +146,9 @@ Pokedex_DetailedArea_rods:
 	
 	ld a, b ; number of rods printed, anything over 0 means we want a new page
 	and a
-	; cp $1 ; experimental, since we're only printing FishGroup Name rn
 	jr nz, .max_print
 
 	push bc ; print counter
-	; push hl ; adjusted points to fishgroup+rod table
 	jp .landmark_loop
 .reached_end
 	xor a
@@ -167,7 +160,6 @@ Pokedex_DetailedArea_rods:
 	xor a ; to ensure a isnt actually returned at -1. 0 is for normal
 	ret
 .max_print
-	; ld b,b
 	call Fishing_MonIndex_Addr
 	call Rods_check_any_remaining ; if entries remaining for this species, will return 0
 	and a
@@ -178,8 +170,11 @@ Pokedex_DetailedArea_rods:
 	xor a ; to ensure a isnt actually returned at -1. 0 is for normal
 	ret
 .fishing_text:
-	db "FISHING RODS@"
-
+	db " FISHING    @"
+.rods_text:
+	db "  RODS      @"
+.group_text:
+	db "GROUP:@"
 Fishing_Print_Rod:
 	; day (e) /nite (d) encounter rates
 	ld a, [wPokedexEvoStage3]
@@ -196,14 +191,14 @@ Fishing_Print_Rod:
 
 ; time of day icons	
 	; ld b,b
-	hlcoord 9, 13 ; same position regardless
+	hlcoord 9, 11 ; same position regardless
 	call FishEntry_adjusthlcoord_rod ; current print line needs to be in c
 	ld [hl], $6b ; day icon tile
 	ld de, 6
 	add hl, de
 	ld [hl], $6c ; nite icon tile 
 ; % char	
-	hlcoord 13, 13
+	hlcoord 13, 11
 	call FishEntry_adjusthlcoord_rod ; current print line needs to be in c
 	ld [hl], "<%>"
 	ld de, 6 ; de should still be 6 since we push/pop de in adjust, check this
@@ -218,7 +213,7 @@ Fishing_Print_Rod:
 	ld a, d
 	ld [wTextDecimalByte], a
 	ld de, wTextDecimalByte
-	hlcoord 16, 13
+	hlcoord 16, 11
 	call FishEntry_adjusthlcoord_rod ; current print line needs to be in b
 	lb bc, 1, 3
 	call PrintNum
@@ -229,7 +224,7 @@ Fishing_Print_Rod:
 	ld a, e
 	ld [wTextDecimalByte], a
 	ld de, wTextDecimalByte
-	hlcoord 10, 13
+	hlcoord 10, 11
 	call FishEntry_adjusthlcoord_rod ; current print line needs to be in b
 	lb bc, 1, 3
 	call PrintNum
@@ -248,24 +243,22 @@ Fishing_Print_Rod:
 	jr z, .printrod
 	ld de, superrod_text
 .printrod
-	hlcoord 1 , 13
+	hlcoord 1 , 10
 	call FishEntry_adjusthlcoord_rod ; current print line needs to be in b
 	call PlaceString
 
 	ld c, 4
 	call DelayFrames
-	; call WaitBGMap
-	; ld b,b
 
 	pop bc ; line counter
 	inc b ; we've printed one rod
 	ret
 oldrod_text:
-	db "-OLD@"
+	db "  OLD ROD@"
 goodrod_text:
-	db "-GOOD@"
+	db "  GOOD ROD@"
 superrod_text:
-	db "-SUPER@"
+	db "  SUPER ROD@"
 
 FishEntry_adjusthlcoord_rod:
 	; NOTE, preserve bc before calling this
@@ -280,39 +273,11 @@ FishEntry_adjusthlcoord_rod:
 	; result in a
 	ld d, 0
 	ld e, a
-	add hl, de ; allows us to print on the proper row lol
+	add hl, de ; allows us to print on the proper row
+	add hl, de ; allows us to print on the proper row
 	pop de
 	pop af
 	pop bc
-	ret
-
-FishEntry_adjusthlcoord_map:
-; NOTE, preserve bc before calling this
-; given: current printed map lines in c, rod lines in b
-; given: set hl coords to baseline location SAME AS ROD, [[[10]]]
-	; push af
-	; push de	
-	; push bc
-	; ld c, b ; can be 1, 2, or 3, we wouldn't be here if we havent printed a rod
-	; ld a, 20
-	; call SimpleMultiply ; uses c as the other number
-	; ; result in a
-	; ld d, 0
-	; ld e, a
-	; add hl, de ; allows us to print on the proper row by adjusting the pre-calcd hlcoord
-	; pop bc ; now we need to add more lines depending on how many maps we've already printed
-	; push bc
-	; ; should always be 0 since we havent implemented that yet
-	; ld a, 10
-	; call SimpleMultiply ; uses c as the other number
-	; ; result in a
-	; ld d, 0
-	; ld e, a
-	; add hl, de ; allows us to print on the proper row by adjusting the pre-calcd hlcoord	
-	
-	; pop bc
-	; pop de
-	; pop af
 	ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; FISHING ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -372,7 +337,6 @@ Check_Rods:
 	; if a not 0, accumulate %
 	; b will now be this entry's coded %
 	push af
-	; call Fishing_Inc_Index
 	pop af
 	and a
 	jr z, .notfound ; check next rod type
@@ -514,8 +478,6 @@ Adjust_percent_fish:
 	; Divide hDividend length b (max 4 bytes) by hDivisor. Result in hQuotient.
 	; All values are big endian.
 	ld b, 2
-	; ldh a, [hProduct]
-	; ldh [hDividend], a
 	ld a, 255
 	ldh [hDivisor], a
 	call Divide
