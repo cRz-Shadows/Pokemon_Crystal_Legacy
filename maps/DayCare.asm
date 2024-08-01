@@ -120,10 +120,10 @@ DayCareManText_GiveOddEgg:
 
 	para "You know, your"
 	line "#DEX shows EGG"
-	cont "groups"
-
-	para "and how long they"
-	line "take to hatch!"
+	cont "groups, and how"
+	
+	para "long they take to"
+	line "hatch!"
 
 	para "Well, wouldn't you"
 	line "like this EGG?"

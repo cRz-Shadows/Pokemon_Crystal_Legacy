@@ -73,16 +73,16 @@ GaveGoodRodText:
 	cont "#MON."
 
 	para "Different spots"
-	line "share similar fish."
+	line "have similar fish."
 
-	para "Your #GEAR shows"
-    line "the fishing group"
-    cont "of where you are"
-    cont "currently."
+	para "The #GEAR shows"
+	line "the fishing group"
+	cont "of where you are"
+	cont "currently."
 
-	para "Check them out"
-	line "to know what"
-	cont "you might catch!"
+	para "Check them out to"
+	line "know what you"
+	cont "might catch!"
 	done
 
 DontWantGoodRodText:
