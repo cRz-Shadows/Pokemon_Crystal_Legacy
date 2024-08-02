@@ -346,10 +346,25 @@ _CGB_Pokedex:
 	call FarCopyWRAM
 
 ; category enclosure + page nums + A >
-	hlcoord 17, 5, wAttrmap
-	lb bc, 1, 3 ; 1 tile high, 3 tiles wide
-	ld a, 0 | VRAM_BANK_1 ; dex pal PREDEFPAL_POKEDEX, VRAM_BANK_1
-	call FillBoxCGB
+	hlcoord 18, 5, wAttrmap
+	ld bc, 2
+	ld a, 0 | VRAM_BANK_1 ; dex pal PREDEFPAL_POKEDEX
+	call ByteFill
+	hlcoord 18, 7, wAttrmap
+	ld bc, 2
+	ld a, 0 | VRAM_BANK_1 ; dex pal PREDEFPAL_POKEDEX
+	call ByteFill
+
+; ; category box lateral sides
+; 	hlcoord 8, 5, wAttrmap
+; 	lb bc, 3, 1
+; 	ld a, 0 | VRAM_BANK_1 ; dex pal PREDEFPAL_POKEDEX
+; 	call FillBoxCGB	
+	
+; 	hlcoord 19, 5, wAttrmap
+; 	lb bc, 2, 1
+; 	ld a, 0 | X_FLIP | VRAM_BANK_1 ; dex pal PREDEFPAL_POKEDEX
+; 	call FillBoxCGB
 
 	call ApplyAttrmap
 	call ApplyPals

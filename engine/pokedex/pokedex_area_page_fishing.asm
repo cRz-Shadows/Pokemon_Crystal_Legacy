@@ -170,9 +170,9 @@ Pokedex_DetailedArea_rods:
 	xor a ; to ensure a isnt actually returned at -1. 0 is for normal
 	ret
 .fishing_text:
-	db " FISHING    @"
+	db "FISHING    @"
 .rods_text:
-	db "  RODS      @"
+	db " RODS    @"
 .group_text:
 	db "GROUP:@"
 Fishing_Print_Rod:

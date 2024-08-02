@@ -193,7 +193,7 @@ DisplayDexEntry:
 	call PlaceFarString ; dex species nickname
 	push bc ; bank?
 	push de ; dex entry ptr
-	hlcoord 8, 7
+	hlcoord 9, 7
 	ld de, String_pokemon
 	call PlaceString
 	pop de ; dex entry ptr
@@ -259,7 +259,7 @@ DisplayDexEntry:
 	ld [wPokedexEntryPageNum], a
 	ret
 String_pokemon:
-	db "  #MON   @"
+	db " #MON @"
 
 GetDexEntryPointer:
 ; return dex entry pointer b:de
@@ -457,10 +457,16 @@ Pokedex_PrintPageNum:
 ; print A > indicator
 	hlcoord 19, 5
 	ld [hl], $60
+	dec hl
+	ld [hl], $6c
+; ; vertical line, right side	
+; 	hlcoord 19, 6
+; 	ld [hl], $6e
+
 ; print page num
 	ld a, [wPokedexEntryPageNum]
 	; a = page num, starting with 0 as page 1
-	hlcoord 17, 5
+	hlcoord 18, 7
 	ld [hl], $61 ; p. vram1
 	inc hl
 	cp 10 ; if we are past nine pages
@@ -484,10 +490,10 @@ Print_Category_text:
 	; given: hl is bottom str ptr, de is top string ptr
 	; they all go at 8,6 and 8,7, all strings are 12 chars
 	push hl ; bottom str ptr
-	hlcoord 8, 6
+	hlcoord 9, 6
 	; de is already loaded
 	call PlaceString
-	hlcoord 8, 7
+	hlcoord 9, 7
 	pop de ; bottom string ptr
 	call PlaceString
 	ret

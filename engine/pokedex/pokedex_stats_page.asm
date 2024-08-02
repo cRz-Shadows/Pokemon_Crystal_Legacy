@@ -1,7 +1,7 @@
 String_BASE_text:
-	db " BASE       @" ; @ 8, 6
+	db "BASE       @" ; @ 8, 6
 String_STATS_text:
-	db "  STATS     @" ; @ 8, 7
+	db " STATS     @" ; @ 8, 7
 DisplayDexMonStats::
 	ld a, [wTempSpecies]
 	ld [wCurSpecies], a

@@ -3,11 +3,11 @@ INCLUDE "engine/pokedex/pokedex_area_page_fishing.asm"
 INCLUDE "data/wild/non_wildmon_locations.asm"
 
 String_johto_text:
-	db " JOHTO:     @"
+	db "JOHTO:     @"
 String_kanto_text:
-	db " KANTO:     @"
+	db "KANTO:     @"
 String_swarm_text:
-	db " SWARM:     @"
+	db "SWARM:     @"
 
 Pokedex_DetailedArea:
 	xor a
@@ -35,45 +35,45 @@ Pokedex_DetailedArea:
 	jp z, .grass ; _kanto
 	ld hl, SwarmGrassWildMons
 	cp DEXENTRY_AREA_GRASS_SWARM
-	jr z, .grass ; _swarm
+	jp z, .grass ; _swarm
 	
 	ld hl,JohtoWaterWildMons
 	cp DEXENTRY_AREA_SURF_JOHTO
-	jr z, .surf
+	jp z, .surf
 	ld hl, KantoWaterWildMons
 	cp DEXENTRY_AREA_SURF_KANTO
-	jr z, .surf
+	jp z, .surf
 	ld hl, SwarmWaterWildMons
 	cp DEXENTRY_AREA_SURF_SWARM
-	jr z, .surf
+	jp z, .surf
 	
 	cp DEXENTRY_AREA_RODS
-	jr z, .rods
+	jp z, .rods
 
 	cp DEXENTRY_AREA_TREES_COMMON
-	jr z, .trees
+	jp z, .trees
 	cp DEXENTRY_AREA_TREES_RARE
-	jr z, .trees	
+	jp z, .trees	
 	cp DEXENTRY_AREA_ROCKSMASH
-	jr z, .rocksmash
+	jp z, .rocksmash
 
 	cp DEXENTRY_AREA_CONTEST
-	jr z, .bugcontest
+	jp z, .bugcontest
 
 	cp DEXENTRY_AREA_ROAMING
-	jr z, .roaming
+	jp z, .roaming
 
 	cp DEXENTRY_AREA_CASINO
-	jr z, .casino
+	jp z, .casino
 
 	cp DEXENTRY_AREA_NPCTRADES
-	jr z, .npctrades
+	jp z, .npctrades
 
 	cp DEXENTRY_AREA_EVENTWILDMONS
-	jr z, .eventwildmons
+	jp z, .eventwildmons
 
 	cp DEXENTRY_AREA_GIFTMONS
-	jr z, .giftmons
+	jp z, .giftmons
 	
 	; loop back around as if we are arriving for the first time, creating a closed-loop rotation
 .first
@@ -94,11 +94,21 @@ Pokedex_DetailedArea:
 ; erase category banner, page number and A > indicator	
 	hlcoord 9, 6
 	lb bc, 2, 11 ; erase a box 2 tiles high, 9 wide
+	; to 18, 7
 	call ClearBox
-	hlcoord 17, 5
-	ld bc, 3
+; overwrite the A button with plain line
+	hlcoord 18, 5
+	ld bc, 2
 	ld a, $4e ; category box border
 	call ByteFill
+
+; ; corners, lateral sides	
+; 	hlcoord 19, 5
+; 	ld [hl], $6f
+; 	hlcoord 19, 6
+; 	ld [hl], $6e
+; 	hlcoord 19, 7
+; 	ld [hl], $6e	
 	ret
 .found
 	ld [wPokedexEntryType], a
@@ -514,7 +524,7 @@ Pokedex_DetailedArea_grass:
 	ret
 .grass_walk_text:
 	; db "GRASS     @"
-	db "  WALKING   @"
+	db " WALKING @"
 	; db "GRASS/WALKING@"
 
 Pokedex_Parse_grass:
@@ -791,7 +801,7 @@ Pokedex_DetailedArea_surf:
 	xor a ; to ensure a isnt actually returned at -1. 0 is for normal
 	ret
 .surfing_text:
-	db "  SURFING   @"
+	db " SURFING @"
 
 Pokedex_Parse_surf:
 	push hl ; first species byte, surfing has no time of day
@@ -1161,9 +1171,9 @@ Pokedex_DetailedArea_bugcontest:
 	call DexEntry_NextCategory
 	ret
 .bugcontest_text:
-	db " BUG        @" ; CATCH CONTEST@"
+	db "BUG       @" ; CATCH CONTEST@"
 .contest_text:
-	db "  CONTEST   @"	
+	db " CONTEST @"	
 .park_text:
 	db " NATIONAL PARK@"
 .String_Tuesday:
@@ -1277,7 +1287,7 @@ Pokedex_DetailedArea_roaming:
 	call DexEntry_NextCategory
 	ret
 .roaming_text:
-	db " ROAMING    @"
+	db "ROAMING   @"
 
 Dex_Print_Roamer_Info:
 	; push bc ; line counter in c
@@ -1479,9 +1489,9 @@ Pokedex_DetailedArea_casino:
 	call DexEntry_NextCategory
 	ret
 .casino_text:
-	db " CASINO     @"
+	db "CASINO    @"
 .prize_text:
-	db "  PRIZE     @"
+	db " PRIZE   @"
 
 Print_casinomon:
 	; 'de' has casino map_id ptr
@@ -1525,7 +1535,7 @@ Print_casinomon:
 	hlcoord 2, 13
 	jr .print_map_id
 .first_print_coins
-	hlcoord 2, 10
+	hlcoord 2, 11
 .print_coins
 	lb bc, 2, 5 ; 2 byte number, up to 5 digits
 	push hl ; print location
@@ -1658,9 +1668,9 @@ Pokedex_DetailedArea_npctrades:
 	jr .return
 
 .npctrade_text:
-	db " NPC        @" 
+	db "NPC       @" 
 .trade_text:
-	db "  TRADE     @"
+	db " TRADE   @"
 
 Dex_Print_TradeMon_Info:
 	; 'de': location: 		hlcoord 2, 10
@@ -1932,9 +1942,9 @@ Pokedex_DetailedArea_eventwildmons:
 	jp Pokedex_DetailedArea_eventmons
 	
 .eventwildmon_text:
-	db " SPECIAL    @"
+	db "SPECIAL   @"
 .eventwildmon_text2:
-	db "  ENCOUNTER @"
+	db "ENCOUNTER@"
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; EVENT WILD MONS END ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1958,7 +1968,7 @@ Pokedex_DetailedArea_giftmons:
 	jp Pokedex_DetailedArea_eventmons
 
 .giftmon_text:
-	db " GIFT       @"
+	db "GIFT      @"
 	ret
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; GIFT MONS END ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

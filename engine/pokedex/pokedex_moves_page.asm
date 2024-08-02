@@ -5,21 +5,21 @@ DEF MAX_NUM_MOVES EQU 7
 ; must fill in spaces to erase other text already printed
 ; top string goes in 8, 6, bottom in 8, 7
 String_LVL_text:
-	db " LVL-UP     @"
+	db "LVL-UP     @"
 String_FIELD_text:
-	db " FIELD      @"
+	db "FIELD      @"
 String_EGG_text:
-	db " EGG        @"		
+	db "EGG        @"		
 String_MOVES_text:
-	db "  MOVES     @"
+	db " MOVES     @"
 String_TECH_text:
-	db " TECHNICAL  @"
+	db "TECHNICAL  @"
 String_MACHINES_text:
-	db "  MACHINES  @"
+	db " MACHINES  @"
 String_MOVE_text:
-	db " MOVE       @"
+	db "MOVE       @"
 String_TUTOR_text:
-	db "  TUTOR     @"
+	db " TUTOR     @"
 Print_Category_MOVES_text:
 	ld hl, String_MOVES_text
 	jp Print_Category_text
