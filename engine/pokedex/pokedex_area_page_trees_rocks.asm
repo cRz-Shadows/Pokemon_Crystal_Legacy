@@ -234,11 +234,11 @@ Print_TreeTitle:
 	call Print_Category_text
 	ret
 .headbutt_tree_common_text:
-	db " COMMON     @"
+	db "COMMON     @"
 .headbutt_tree_rare_text:
-	db " RARE       @"
+	db "RARE       @"
 .trees_text:	
-	db "  TREES     @"	
+	db " TREES   @"	
 
 inc_trees_rocksmash_map_index:
 	ld a, [wPokedexStatus]
