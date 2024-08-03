@@ -332,7 +332,7 @@ EVO_inchlcoord:
 EVO_level:
 	push hl ; pointing to lvl byte
 	call EVO_gethlcoord
-	ld [hl], $74 ; lvl icon
+	ld [hl], "<DEX_LV_VRAM1>" ; lvl icon
 
 	pop hl ; pointing to lvl byte
 	ld a, BANK("Evolutions and Attacks")
@@ -431,7 +431,7 @@ EVO_happiness:
 EVO_stats:
 	push hl ; level Needed byte
 	call EVO_gethlcoord
-	ld [hl], $75 ; for vram1 side
+	ld [hl], "<DEX_LV_VRAM1>" ; for vram1 side
 
 	pop hl ; level needed byte
 	ld a, BANK("Evolutions and Attacks")
