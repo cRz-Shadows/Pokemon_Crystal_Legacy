@@ -358,9 +358,9 @@ Pokedex_DetailedArea_rocksmash:
 	ld [wPokedexEvoStage2], a ; lines printed
 	ld [wPokedexEvoStage3], a ; encounter % total
 	; print the title, ROCK SMASH
-	hlcoord 1, 9
-	ld de, .rocksmash_text
-	call PlaceString
+	ld hl, .rocksmash_text2
+	ld de, .rocksmash_text1
+	call Print_Category_text
 	; using wPokedexStatus/RockMonMaps entry index, calculate ptr
 .map_loop	
 ; RockMonMaps::
@@ -421,8 +421,10 @@ Pokedex_DetailedArea_rocksmash:
 	jr nz, .donedone
 	call DexEntry_IncPageNum
 	ret
-.rocksmash_text:
-	db "ROCK SMASH ROCKS@"
+.rocksmash_text1:
+	db "ROCK      @"
+.rocksmash_text2:	
+	db " SMASH   @"
 
 Dex_Check_rocksmash:
 ; check for matching mons in RockSmashMons
