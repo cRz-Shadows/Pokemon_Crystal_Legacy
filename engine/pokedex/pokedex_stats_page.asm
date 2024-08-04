@@ -57,9 +57,7 @@ ELSE
 	call Pokedex_PrintHatchSteps ; 1 line
 	call Pokedex_Get_GenderRatio ; 1 line	
 ENDC ; done handling EVs/StatExp differences
-	xor a
-	ld [wPokedexEntryPageNum], a
-	ret
+	jp DexEntry_IncPageNum
 .Base_stats_text:
 	db "BASE STATS@"
 
