@@ -520,17 +520,16 @@ Pokedex_ReinitDexEntryScreen:
 	ld a, [wPokedexEntryPageNum]
 	dec a
 	ld b, a
-	ld a, $3 ; currently max supported possible pages [4] (we have tiles for up to 9 tho)
-	; by dec'ing the current page num, we could now have -1 (255)
-	cp b
-	jr nc, .basestats
-	; so if carry flag set, we know we had been on page 4, and after printing it became 4
-	ld b, $3 ; page index for page 4, our max page
+	cp $ff ; were we on the max page? would have page num turned to 0, -1 is $ff
+	jr z, .put_max_page
 .basestats
 	ld a, b
 	ld [wPokedexEntryPageNum], a
 	farcall DisplayDexMonStats
 	jr .cont
+.put_max_page
+	ld b, POKEDEX_STATSPAGE_MAX_PAGE_NUM - 1 ; 3 for vanilla, 4 for EVs.
+	jr .basestats	
 
 ; if not lore or base stats, it's moves
 .moves
