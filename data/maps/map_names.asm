@@ -729,7 +729,7 @@ Dungeons_Map_Name64: ; map_const ICE_PATH_B2F_BLACKTHORN_SIDE ; 64
 Dungeons_Map_Name65: ; map_const ICE_PATH_B3F,; 65
 	db "ICE PATH B3F@"
 Dungeons_Map_Name66: ; map_const WHIRL_ISLAND_NW ; 66
-	db "WHIRL ISL NW@"
+	db "WHIRL ISLANDS NW@"
 Dungeons_Map_Name67: ; map_const WHIRL_ISLAND_NE,; 67
 	db "WHIRL ISLANDS NE@"
 Dungeons_Map_Name68: ; map_const WHIRL_ISLAND_SW,; 68
