@@ -519,17 +519,13 @@ Pokedex_ReinitDexEntryScreen:
 	; dec page, since it's auto inc'd after printing
 	ld a, [wPokedexEntryPageNum]
 	dec a
-	ld b, a
 	cp $ff ; were we on the max page? would have page num turned to 0, -1 is $ff
-	jr z, .put_max_page
+	jr nz, .basestats
+	ld a, POKEDEX_STATSPAGE_MAX_PAGE_NUM - 1 ; 3 for vanilla, 4 for EVs.
 .basestats
-	ld a, b
 	ld [wPokedexEntryPageNum], a
 	farcall DisplayDexMonStats
 	jr .cont
-.put_max_page
-	ld b, POKEDEX_STATSPAGE_MAX_PAGE_NUM - 1 ; 3 for vanilla, 4 for EVs.
-	jr .basestats	
 
 ; if not lore or base stats, it's moves
 .moves
