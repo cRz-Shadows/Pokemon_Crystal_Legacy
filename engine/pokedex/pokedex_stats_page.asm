@@ -495,7 +495,7 @@ Pokedex_Get_GenderRatio::
 .GR_QuartM
 	db "4♀:1♂@"
 .GR_MostMale
-	db "8♂:1♀@"
+	db "7♂:1♀@"
 
 Pokedex_PrintHatchSteps:
 ; wBaseEggSteps
