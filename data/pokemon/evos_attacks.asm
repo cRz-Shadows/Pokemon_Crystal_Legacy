@@ -2421,10 +2421,11 @@ SentretEvosAttacks:
 
 FurretEvosAttacks:
 	db 0 ; no more evolutions
-	db 1, SCRATCH
-	db 1, DEFENSE_CURL
-	db 1, QUICK_ATTACK
 	db 1, THIEF
+	db 1, SCRATCH
+	db 1, TACKLE
+	db 1, DEFENSE_CURL
+	db 6, QUICK_ATTACK
 	db 12, FURY_SWIPES
 	db 16, HEADBUTT
 	db 20, DIG
