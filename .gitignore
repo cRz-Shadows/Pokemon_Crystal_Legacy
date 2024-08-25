@@ -57,6 +57,9 @@ used_space.png
 *.ss9
 *.cheats
 
+# rgbenv file
+.bashrc
+
 # vim configuration
 # http://www.vim.org/scripts/script.php?script_id=441
 .lvimrc
