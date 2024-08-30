@@ -60,6 +60,31 @@ HealPartyMon:
 	farcall RestoreAllPP
 	ret
 
+HealPartyMonDaycare: ; yes this suplicate code is inefficient but ehh, we're not using the extra space
+	ld a, MON_SPECIES
+	call GetPartyParamLocation
+	ld d, h
+	ld e, l
+	ld hl, MON_STATUS
+	add hl, de
+	xor a
+	ld [hli], a
+	ld [hl], a
+	ld hl, MON_MAXHP
+	add hl, de
+	; bc = MON_HP
+	ld b, h
+	ld c, l
+	dec bc
+	dec bc
+	ld a, [hli]
+	ld [bc], a
+	inc bc
+	ld a, [hl]
+	ld [bc], a
+	farcall RestoreAllPP
+	ret
+
 ComputeHPBarPixels:
 ; e = bc * (6 * 8) / de
 	ld a, b

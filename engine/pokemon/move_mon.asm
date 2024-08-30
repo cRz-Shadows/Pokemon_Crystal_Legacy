@@ -882,7 +882,7 @@ RetrieveBreedmon:
 	ld a, [wPartyCount]
 	dec a
 	ld [wCurPartyMon], a
-	farcall HealPartyMon
+	farcall HealPartyMonDaycare
 	ld d, MAX_LEVEL
 	callfar CalcExpAtLevel
 	pop bc
