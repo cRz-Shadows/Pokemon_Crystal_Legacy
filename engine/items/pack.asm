@@ -1253,7 +1253,7 @@ Pack_InterpretJoypad:
 	ld hl, wMenuJoypad
 	ld a, [wSwitchItem]
 	and a
-	jr nz, .switching_item
+	jp nz, .switching_item
 	ld a, [hl]
 	and A_BUTTON
 	jr nz, .a_button
@@ -1320,6 +1320,10 @@ Pack_InterpretJoypad:
 	ld c, 30
 	call DelayFrames
 	farcall SortItemsInBag
+	ld de, SFX_SWITCH_POKEMON
+	call WaitPlaySFX
+	ld de, SFX_SWITCH_POKEMON
+	call WaitPlaySFX
 	ld hl, Text_SortComplete
 	call PrintText
 	ld c, 30
