@@ -137,6 +137,7 @@ These videos also provide an overview of the hack and the ideology behind it:
 - NobodySociety - [Customizable Pokédex Color](https://github.com/pret/pokecrystal/wiki/Customizable-Pok%C3%A9dex-Color)
 - Luther7718 - [Text Suggestions/Fixes](https://github.com/luther7718/Pokemon_Crystal_Legacy_Gaiden)
 - Mauve - Soft reset on wipeout (used in hardcore mode)
+- towersvault [Adds Pack item sorting](https://github.com/cRz-Shadows/Pokemon_Crystal_Legacy/pull/18)
 
 
 [pokered]: https://github.com/pret/pokered
