@@ -270,3 +270,97 @@ ItemSwitch_BackwardsCopyBytes:
 	or c
 	jr nz, .loop
 	ret
+
+SortItemsInBag:
+; Save the current Menu Cursor Position to restore after sorting
+	ld a, [wScrollingMenuCursorPosition]
+	push af
+
+; Store current checking item index in B
+	ld b, 0
+.outerLoop
+; Checks if the current item at index B is "CANCEL" (stored as $FF in WRAM)
+	ld a, b
+	push bc
+	call ItemSwitch_GetNthItem
+	ld a, [hl]
+	inc a
+	pop bc
+	jr z, .done
+.innerLoop
+; Gets the current item in the list at index B
+	ld a, b
+	call GetSortingItemIndex
+	ld c, a
+; Check if the Item ID is "CANCEL", i.e. $FF 
+; If it's the case, jump to .done since there's nothing else to sort
+	inc a
+	jr z, .done
+
+; Get next item in the list at index A (B+1)
+	ld a, b
+	inc a
+	call GetSortingItemIndex
+
+; Check again if the Item ID is "CANCEL", i.e. $FF
+; If it's the case, jump to .done since there's nothing else to sort
+	inc a
+	jr z, .done
+
+; Item ID isn't "CANCEL", so we continue
+	dec a
+; Check if A is before or after C in the ItemNameOrder table
+	cp c
+	jr nc, .sortingOK
+
+; Swap items
+	push bc
+	ld a, b
+	ld [wScrollingMenuCursorPosition], a
+	call SwitchItemsInBag
+	ld [wScrollingMenuCursorPosition], a
+	call SwitchItemsInBag
+	pop bc
+
+; Check if list index B is 0, if not, it means the item might be able to move one slot up in the list
+	ld a, b
+	and a
+	jr z, .innerLoop
+
+	dec b
+	jr .innerLoop
+.sortingOK
+	inc b
+	jr .outerLoop
+.done
+; Sorting complete, restore Cursor Menu Position and return
+	pop af
+	ld [wScrollingMenuCursorPosition], a
+	ret 
+
+; @param a: Item index
+; @return a: Index in name_order.asm
+; @clobbers hl
+GetSortingItemIndex:
+	push bc
+	call ItemSwitch_GetNthItem
+; Check if the item is "CANCEL", if so, skip to .done
+	ld a, [hl]
+	ld b, a
+	inc a
+	jr z, .done
+	ld c, [hl]
+	ld b, 0
+	ld hl, ItemNameOrder
+.lookupLoop
+	ld a, [hli]
+	cp a, c
+	jr z, .done
+	inc b
+	jr .lookupLoop
+.done
+	ld a, b
+	pop bc
+	ret 
+
+INCLUDE "data/items/sorting_order.asm"
