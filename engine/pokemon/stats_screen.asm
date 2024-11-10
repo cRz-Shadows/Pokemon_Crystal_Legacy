@@ -1239,7 +1239,7 @@ StatsScreen_Print_HiddenPow_Info:
 .hp_50_text:
 	db "FIFTY@"
 .hp_40_text:
-	db "FOURTY@"
+	db "FORTY@"
 .hp_30_text:
 	db "THIRTY@"
 .hp_1_text:
