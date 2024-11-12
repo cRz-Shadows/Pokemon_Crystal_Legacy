@@ -4,14 +4,12 @@
 ; just add all the Pokemon in a list here as opposed to
 ; mapping each tiny change such as when OT ID's would change.
 ; The primary reason for this decision is to save space.
-; I've however opted for "grouping", i.e. the Distribution Man
-; will for example select only "Legendary Beasts".
 ;
 ; Data from
 ; https://bulbapedia.bulbagarden.net/wiki/List_of_PCNY_event_Pok%C3%A9mon_distributions_in_Generation_II
 
-DEF PCNY_OT_NAME EQUS "PCNY@@@@@@@"
-DEF PCNY_OT_ID EQU 00006
+DEF PCNY_OT_NAME EQUS "PCNYDISTMAN"
+DEF PCNY_OT_ID EQU 10020
 
 ; \1: Pokemon
 ; \2: Egg Status
