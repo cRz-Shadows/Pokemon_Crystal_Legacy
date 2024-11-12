@@ -1,7 +1,7 @@
 	object_const_def
 	const GOLDENRODMAGNETTRAINSTATION_OFFICER
 	const GOLDENRODMAGNETTRAINSTATION_GENTLEMAN
-	const GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAIN
+	const GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN
 
 GoldenrodMagnetTrainStation_MapScripts:
 	def_scene_scripts
@@ -139,21 +139,21 @@ DistributionManScript:
 	writetext DistributionManText_IncorrectDirections
 	waitbutton
 	closetext
-	turnobject GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAIN, RIGHT
+	turnobject GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN, RIGHT
 	end
 
 .FullParty:
 	writetext DistributionManText_PartyFull
 	waitbutton
 	closetext
-	turnobject GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAIN, RIGHT
+	turnobject GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN, RIGHT
 	end
 
 .OutOfGifts:
 	writetext DistributionManText_OutOfGifts
 	waitbutton
 	closetext
-	turnobject GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAIN, RIGHT
+	turnobject GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN, RIGHT
 	end
 
 GoldenrodMagnetTrainStationOfficerTheTrainHasntComeInText:
