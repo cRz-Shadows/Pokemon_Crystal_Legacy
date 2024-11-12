@@ -5,12 +5,24 @@
 
 GoldenrodMagnetTrainStation_MapScripts:
 	def_scene_scripts
-	scene_script .DummyScene ; SCENE_DEFAULT
 
 	def_callbacks
+	callback MAPCALLBACK_OBJECTS, .EventDistributionManTuesdayCheck
 
-.DummyScene:
-	end
+.EventDistributionManTuesdayCheck:
+	checktime DAY
+	iffalse .DateTimeCheckFailed
+	
+	readvar VAR_WEEKDAY
+	ifnotequal TUESDAY, .DateTimeCheckFailed
+
+	appear GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN
+	endcallback
+.DateTimeCheckFailed:
+	clearevent EVENT_POKEDISTRIBUTIONMAN_RECEIVEDGIFT
+
+	disappear GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN
+	endcallback
 
 GoldenrodMagnetTrainStationOfficerScript:
 	faceplayer
@@ -301,4 +313,4 @@ GoldenrodMagnetTrainStation_MapEvents:
 	def_object_events
 	object_event  9,  9, SPRITE_OFFICER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GoldenrodMagnetTrainStationOfficerScript, -1
 	object_event 11, 14, SPRITE_GENTLEMAN, SPRITEMOVEDATA_WANDER, 2, 2, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GoldenrodMagnetTrainStationGentlemanScript, EVENT_GOLDENROD_TRAIN_STATION_GENTLEMAN
-	object_event 12, 12, SPRITE_GENTLEMAN, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, DistributionManScript, -1
+	object_event 12, 12, SPRITE_GENTLEMAN, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, DistributionManScript, EVENT_POKEDISTRIBUTIONMAN_TUESDAY
