@@ -11,7 +11,7 @@
 ; https://bulbapedia.bulbagarden.net/wiki/List_of_PCNY_event_Pok%C3%A9mon_distributions_in_Generation_II
 
 DEF PCNY_OT_NAME EQUS "PCNY@@@@@@@"
-DEF PCNY_OT_ID EQU 000006
+DEF PCNY_OT_ID EQU 00006
 
 ; \1: Pokemon
 ; \2: Egg Status
