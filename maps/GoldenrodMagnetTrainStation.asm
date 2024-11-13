@@ -10,14 +10,14 @@ GoldenrodMagnetTrainStation_MapScripts:
 	callback MAPCALLBACK_OBJECTS, .EventDistributionManTuesdayCheck
 
 .EventDistributionManTuesdayCheck:
-	checkevent EVENT_RESTORED_POWER_TO_KANTO
-	iffalse .ChecksFailed
+	; checkevent EVENT_RESTORED_POWER_TO_KANTO
+	; iffalse .ChecksFailed
 
-	checktime DAY
-	iffalse .ChecksFailed
+	; checktime DAY
+	; iffalse .ChecksFailed
 	
-	readvar VAR_WEEKDAY
-	ifnotequal TUESDAY, .ChecksFailed
+	; readvar VAR_WEEKDAY
+	; ifnotequal TUESDAY, .ChecksFailed
 
 	appear GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN
 	endcallback
@@ -123,7 +123,7 @@ DistributionManScript:
     faceplayer
     opentext
 	checkevent EVENT_POKEDISTRIBUTIONMAN_METNPC
-	iffalse .ReggieIntroduction
+	iffalse .CliffIntroduction
 	
 	checkevent EVENT_POKEDISTRIBUTIONMAN_RECEIVEDGIFT
 	iftrue .OutOfGifts
@@ -132,7 +132,7 @@ DistributionManScript:
 	promptbutton
 	sjump .GiftingPlayer
 
-.ReggieIntroduction:
+.CliffIntroduction:
     writetext DistributionManText_Introduction
 	yesorno
 	iffalse .IncorrectDirection
@@ -250,10 +250,10 @@ DistributionManText_CorrectDirections:
 	line "Thank you for your"
 	cont "help!"
 
-	para "My name's REGGIE"
+	para "My name's CLIFF"
 	line "by the way."
 	
-	para "REGGIE: I work for"
+	para "CLIFF: I work for"
 	line "a #CENTER far"
 	cont "away from here."
 
@@ -268,7 +268,7 @@ DistributionManText_IncorrectDirections:
 	done
 
 DistributionManText_NewGift:
-	text "REGGIE: I'm back"
+	text "CLIFF: I'm back"
 	line "from the #-"
 	cont "CENTER far away."
 
@@ -277,7 +277,7 @@ DistributionManText_NewGift:
 	done
 
 DistributionManText_OutOfGifts:
-	text "REGGIE: I sadly"
+	text "CLIFF: I sadly"
 	line "have no more gifts"
 	cont "left."
 
