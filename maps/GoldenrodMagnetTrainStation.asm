@@ -10,14 +10,14 @@ GoldenrodMagnetTrainStation_MapScripts:
 	callback MAPCALLBACK_OBJECTS, .EventDistributionManTuesdayCheck
 
 .EventDistributionManTuesdayCheck:
-	; checkevent EVENT_RESTORED_POWER_TO_KANTO
-	; iffalse .ChecksFailed
+	checkevent EVENT_RESTORED_POWER_TO_KANTO
+	iffalse .ChecksFailed
 
-	; checktime DAY
-	; iffalse .ChecksFailed
+	checktime DAY
+	iffalse .ChecksFailed
 	
-	; readvar VAR_WEEKDAY
-	; ifnotequal TUESDAY, .ChecksFailed
+	readvar VAR_WEEKDAY
+	ifnotequal TUESDAY, .ChecksFailed
 
 	appear GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN
 	endcallback
