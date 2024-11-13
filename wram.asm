@@ -139,7 +139,10 @@ wUnusedScriptByte:: db
 
 wMapTimeOfDay:: db
 
-	ds 3
+wDistributionEventAddress:: dw
+
+	ds 1
+	; ds 3
 
 wPrinterConnectionOpen:: db
 wPrinterOpcode:: db

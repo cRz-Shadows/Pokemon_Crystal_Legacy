@@ -10,15 +10,18 @@ GoldenrodMagnetTrainStation_MapScripts:
 	callback MAPCALLBACK_OBJECTS, .EventDistributionManTuesdayCheck
 
 .EventDistributionManTuesdayCheck:
+	checkevent EVENT_RESTORED_POWER_TO_KANTO
+	iffalse .ChecksFailed
+
 	checktime DAY
-	iffalse .DateTimeCheckFailed
+	iffalse .ChecksFailed
 	
 	readvar VAR_WEEKDAY
-	ifnotequal TUESDAY, .DateTimeCheckFailed
+	ifnotequal TUESDAY, .ChecksFailed
 
 	appear GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN
 	endcallback
-.DateTimeCheckFailed:
+.ChecksFailed:
 	clearevent EVENT_POKEDISTRIBUTIONMAN_RECEIVEDGIFT
 
 	disappear GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN
@@ -144,6 +147,7 @@ DistributionManScript:
 	writetext DistributionManText_GiftGot
 	playsound SFX_CAUGHT_MON
 	waitsfx
+	callasm GiveEventDistribution
 	setevent EVENT_POKEDISTRIBUTIONMAN_RECEIVEDGIFT
 	sjump .OutOfGifts
 

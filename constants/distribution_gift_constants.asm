@@ -3,11 +3,6 @@
     const IS_EGG
     const NOT_EGG
 
-; Trainer Status
-    const_def
-    const OT_PCNY
-    const OT_TRAINER
-
 ; Distribution Pokemon
     const_def
 ; Johto Legendary
