@@ -35,12 +35,16 @@ GiveEventDistribution::
 
     call EventDistribution_GivePoke
     jp nc, .notGiven
-    ret
+    jr .finish
 .egg
     call EventDistribution_GiveEgg
     jp nc, .notGiven
-    ret
-.notGiven:
+.finish
+    ld a, 1
+    ld [wScriptVar], a
+    ret 
+
+.notGiven
     xor a
     ld [wScriptVar], a
     ret 
@@ -266,6 +270,11 @@ EventDistribution_GetCurrentPartyMember:
     ld d, h
     ld e, l
     ret 
+
+EventDistribution_ClearEvent::
+    ld de, EVENT_POKEDISTRIBUTIONMAN_RECEIVEDGIFT
+    ld b, RESET_FLAG
+    jp EventFlagAction
 
 String_EGG:
     db "EGG@"
