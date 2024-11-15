@@ -11,8 +11,7 @@ GiveEventDistribution::
 
 ; Get a random Pokemon from the Distribution Gifts list
 ; Save the address to WRAM for use later
-    ld a, NUM_DISTRIBUTION_GIFTS
-    call RandomRange
+    call GetRandomDistributionIndex
 
     ld bc, DISTRIBUTION_GIFT_VALUES
     ld hl, DistributionGifts
@@ -276,6 +275,29 @@ EventDistribution_ClearEvent::
     ld b, RESET_FLAG
     jp EventFlagAction
 
+; Performs a check to see if the player has completed the National Pokedex yet.
+; @return a: Index of the Distribution Gift
+GetRandomDistributionIndex:
+    ld hl, wPokedexCaught
+    ld b, wEndPokedexCaught - wPokedexCaught
+    call CountSetBits
+    
+    cp a, NUM_POKEMON
+    jr c, .incompleteDex
+    
+    ld a, NUM_DISTRIBUTION_GIFTS
+    call RandomRange
+    ret
+.incompleteDex
+    ld a, NUM_PRENATDEX_DISTRIBUTIONS
+    call RandomRange
+    
+    ld hl, DistributionPreNatDex
+    ld bc, 1
+    call AddNTimes
+    ld a, [hl]
+    ret 
+
 String_EGG:
     db "EGG@"
 
@@ -298,3 +320,4 @@ ShinyAttackDefenseDVTable:
     db %1111_1010 ; 15, 10
 
 INCLUDE "data/events/distribution_gifts.asm"
+INCLUDE "data/events/distribution_prenatdex.asm"
