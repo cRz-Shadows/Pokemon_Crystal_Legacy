@@ -19,6 +19,9 @@ GoldenrodMagnetTrainStation_MapScripts:
 	readvar VAR_WEEKDAY
 	ifnotequal TUESDAY, .ChecksFailed
 
+	checkevent EVENT_POKEDISTRIBUTIONMAN_RECEIVEDGIFT
+	iftrue .ChecksFailed
+
 	appear GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN
 	endcallback
 .ChecksFailed:
@@ -121,7 +124,7 @@ DistributionManScript:
     faceplayer
     opentext
 	checkevent EVENT_POKEDISTRIBUTIONMAN_METNPC
-	iffalse .CliffIntroduction
+	iffalse .DistributionManIntroduction
 	
 	checkevent EVENT_POKEDISTRIBUTIONMAN_RECEIVEDGIFT
 	iftrue .OutOfGifts
@@ -130,7 +133,7 @@ DistributionManScript:
 	promptbutton
 	sjump .GiftingPlayer
 
-.CliffIntroduction:
+.DistributionManIntroduction:
     writetext DistributionManText_Introduction
 	yesorno
 	iffalse .IncorrectDirection
@@ -167,8 +170,48 @@ DistributionManScript:
 	writetext DistributionManText_OutOfGifts
 	waitbutton
 	closetext
-	turnobject GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN, RIGHT
+	readvar VAR_FACING
+	ifequal UP, DistributionManLeavingJumpScriptLeft
+	ifequal DOWN, DistributionManLeavingJumpScriptLeft
+	ifequal RIGHT, DistributionManLeavingJumpScriptDown
 	end
+
+DistributionManLeavingJumpScriptLeft:
+	applymovement GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN, DistributionManLeavingMovementLeft
+	applymovement GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN, DistributionManLeavingMovementFinish
+	disappear GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN
+	end
+
+DistributionManLeavingMovementLeft:
+; Player is either above or below the Distribution Man
+	step LEFT
+	step LEFT
+	step LEFT
+	step DOWN
+	step_end
+
+DistributionManLeavingJumpScriptDown:
+	applymovement GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN, DistributionManLeavingMovementDown
+	applymovement GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN, DistributionManLeavingMovementFinish
+	disappear GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN
+	end
+
+DistributionManLeavingMovementDown:
+; Player is left of the Distribution Man
+	step DOWN
+	step LEFT
+	step LEFT
+	step LEFT
+	step_end
+
+DistributionManLeavingMovementFinish:
+; Finish the movement
+	step DOWN
+	step DOWN
+	step DOWN
+	step DOWN
+	step DOWN
+	step_end
 
 GoldenrodMagnetTrainStationOfficerTheTrainHasntComeInText:
 	text "The train hasn't"
@@ -275,13 +318,13 @@ DistributionManText_NewGift:
 	done
 
 DistributionManText_OutOfGifts:
-	text "CLIFF: I sadly"
-	line "have no more gifts"
-	cont "left."
+	text "Thank you again!"
+	line "I better be off"
+	cont "now."
 
-	para "Come back next"
-	line "TUESDAY when I'll"
-	cont "be back again!"
+	para "I'll be back next"
+	line "TUESDAY, so make"
+	cont "sure pass by!"
 	done
 
 DistributionManText_GiftGot:
