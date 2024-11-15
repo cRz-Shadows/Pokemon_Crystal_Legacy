@@ -104,6 +104,7 @@ CheckDailyResetTimer::
 	ld hl, wDailyResetTimer
 	call CheckDayDependentEventHL
 	ret nc
+	farcall EventDistribution_ClearEvent
 	xor a
 	ld hl, wDailyFlags1
 	ld [hli], a ; wDailyFlags1
