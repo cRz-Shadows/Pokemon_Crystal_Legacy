@@ -1,32 +1,15 @@
 	object_const_def
 	const GOLDENRODMAGNETTRAINSTATION_OFFICER
 	const GOLDENRODMAGNETTRAINSTATION_GENTLEMAN
-	const GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN
 
 GoldenrodMagnetTrainStation_MapScripts:
 	def_scene_scripts
+	scene_script .DummyScene ; SCENE_DEFAULT
 
 	def_callbacks
-	callback MAPCALLBACK_OBJECTS, .EventDistributionManTuesdayCheck
 
-.EventDistributionManTuesdayCheck:
-	checkevent EVENT_RESTORED_POWER_TO_KANTO
-	iffalse .ChecksFailed
-
-	checktime DAY
-	iffalse .ChecksFailed
-	
-	readvar VAR_WEEKDAY
-	ifnotequal TUESDAY, .ChecksFailed
-
-	checkevent EVENT_POKEDISTRIBUTIONMAN_RECEIVEDGIFT
-	iftrue .ChecksFailed
-
-	appear GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN
-	endcallback
-.ChecksFailed:
-	disappear GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN
-	endcallback
+.DummyScene:
+	end
 
 GoldenrodMagnetTrainStationOfficerScript:
 	faceplayer
@@ -120,99 +103,6 @@ GoldenrodMagnetTrainStationPlayerLeaveTrainAndEnterStationMovement:
 	turn_head UP
 	step_end
 
-DistributionManScript:
-    faceplayer
-    opentext
-	checkevent EVENT_POKEDISTRIBUTIONMAN_METNPC
-	iffalse .DistributionManIntroduction
-	
-	checkevent EVENT_POKEDISTRIBUTIONMAN_RECEIVEDGIFT
-	iftrue .OutOfGifts
-
-	writetext DistributionManText_NewGift
-	promptbutton
-	sjump .GiftingPlayer
-
-.DistributionManIntroduction:
-    writetext DistributionManText_Introduction
-	yesorno
-	iffalse .IncorrectDirection
-	setevent EVENT_POKEDISTRIBUTIONMAN_METNPC
-	writetext DistributionManText_CorrectDirections
-	promptbutton
-
-.GiftingPlayer:
-	readvar VAR_PARTYCOUNT
-	ifequal PARTY_LENGTH, .FullParty
-	waitsfx
-	writetext DistributionManText_GiftGot
-	playsound SFX_CAUGHT_MON
-	waitsfx
-	callasm GiveEventDistribution
-	setevent EVENT_POKEDISTRIBUTIONMAN_RECEIVEDGIFT
-	sjump .OutOfGifts
-
-.IncorrectDirection:
-	writetext DistributionManText_IncorrectDirections
-	waitbutton
-	closetext
-	turnobject GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN, RIGHT
-	end
-
-.FullParty:
-	writetext DistributionManText_PartyFull
-	waitbutton
-	closetext
-	turnobject GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN, RIGHT
-	end
-
-.OutOfGifts:
-	writetext DistributionManText_OutOfGifts
-	waitbutton
-	closetext
-	readvar VAR_FACING
-	ifequal UP, DistributionManLeavingJumpScriptLeft
-	ifequal DOWN, DistributionManLeavingJumpScriptLeft
-	ifequal RIGHT, DistributionManLeavingJumpScriptDown
-	end
-
-DistributionManLeavingJumpScriptLeft:
-	applymovement GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN, DistributionManLeavingMovementLeft
-	applymovement GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN, DistributionManLeavingMovementFinish
-	disappear GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN
-	end
-
-DistributionManLeavingMovementLeft:
-; Player is either above or below the Distribution Man
-	step LEFT
-	step LEFT
-	step LEFT
-	step DOWN
-	step_end
-
-DistributionManLeavingJumpScriptDown:
-	applymovement GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN, DistributionManLeavingMovementDown
-	applymovement GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN, DistributionManLeavingMovementFinish
-	disappear GOLDENRODMAGNETTRAINSTATION_EVENTDISTRIBUTIONMAN
-	end
-
-DistributionManLeavingMovementDown:
-; Player is left of the Distribution Man
-	step DOWN
-	step LEFT
-	step LEFT
-	step LEFT
-	step_end
-
-DistributionManLeavingMovementFinish:
-; Finish the movement
-	step DOWN
-	step DOWN
-	step DOWN
-	step DOWN
-	step DOWN
-	step_end
-
 GoldenrodMagnetTrainStationOfficerTheTrainHasntComeInText:
 	text "The train hasn't"
 	line "come in…"
@@ -272,75 +162,6 @@ GoldenrodMagnetTrainStationGentlemanText:
 	cont "to KANTO."
 	done
 
-DistributionManText_Introduction:
-	text "STRANGE MAN: Hi!"
-	
-	para "I'm sorry to be"
-	line "a bother. "
-	
-	para "I just arrived in"
-	line "GOLDEN ROD, but I"
-	cont "am a bit lost."
-
-	para "Is ECRUTEAK CITY"
-	line "north from here?"
-	done
-	
-DistributionManText_CorrectDirections:
-	text "Ah, of course!"
-	line "Thank you for your"
-	cont "help!"
-
-	para "My name's CLIFF"
-	line "by the way."
-	
-	para "CLIFF: I work for"
-	line "a #CENTER far"
-	cont "away from here."
-
-	para "I've got just the"
-	line "right gift for you"
-	cont "as thanks!"
-	done
-
-DistributionManText_IncorrectDirections:
-	text "Hmm, that doesn't"
-	line "sound right."
-	done
-
-DistributionManText_NewGift:
-	text "CLIFF: I'm back"
-	line "from the #-"
-	cont "CENTER far away."
-
-	para "I've got something"
-	line "new for you!"
-	done
-
-DistributionManText_OutOfGifts:
-	text "Thank you again!"
-	line "I better be off"
-	cont "now."
-
-	para "I'll be back next"
-	line "TUESDAY, so make"
-	cont "sure pass by!"
-	done
-
-DistributionManText_GiftGot:
-	text "<PLAYER> received"
-	line "#CENTER gift!"
-	done
-
-DistributionManText_PartyFull:
-	text "It looks like your"
-	line "party's full."
-	
-	para "Go make space for"
-	line "for one more"
-	cont "#MON."
-	done
-
 GoldenrodMagnetTrainStation_MapEvents:
 	db 0, 0 ; filler
 
@@ -358,4 +179,3 @@ GoldenrodMagnetTrainStation_MapEvents:
 	def_object_events
 	object_event  9,  9, SPRITE_OFFICER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GoldenrodMagnetTrainStationOfficerScript, -1
 	object_event 11, 14, SPRITE_GENTLEMAN, SPRITEMOVEDATA_WANDER, 2, 2, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, GoldenrodMagnetTrainStationGentlemanScript, EVENT_GOLDENROD_TRAIN_STATION_GENTLEMAN
-	object_event 12, 12, SPRITE_GENTLEMAN, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, DistributionManScript, EVENT_POKEDISTRIBUTIONMAN_TUESDAY
