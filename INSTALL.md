@@ -143,8 +143,8 @@ Now you're ready to [build **pokecrystal**](#build-pokecrystal).
 To download the **pokecrystal** source files:
 
 ```bash
-git clone https://github.com/pret/pokecrystal
-cd pokecrystal
+git clone https://github.com/cRz-Shadows/Pokemon_Crystal_Legacy
+cd Pokemon_Crystal_Legacy
 ```
 
 To build **pokecrystal.gbc**:
