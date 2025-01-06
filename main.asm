@@ -537,7 +537,6 @@ SECTION "bank5B", ROMX
 INCLUDE "mobile/mobile_5b.asm"
 INCLUDE "engine/link/link_trade.asm"
 
-
 SECTION "mobile5C", ROMX
 
 INCLUDE "mobile/mobile_5c.asm"
@@ -718,3 +717,7 @@ SECTION "Stadium 2 Checksums", ROMX[$7DE0], BANK[$7F]
 SECTION "Battle Weather Images", ROMX
 
 INCLUDE "gfx/weather_images.asm"
+
+SECTION "Destribution Gift Man", ROMX
+
+INCLUDE "engine/events/distribution.asm"
