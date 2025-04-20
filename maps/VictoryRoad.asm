@@ -59,6 +59,7 @@ VictoryRoadRivalNext:
 	showemote EMOTE_SHOCK, VICTORYROAD_SILVER, 15
 	special FadeOutMusic
 	pause 15
+	opentext
 	writetext VictoryRoadRivalEvolveText
 	waitbutton
 	closetext
