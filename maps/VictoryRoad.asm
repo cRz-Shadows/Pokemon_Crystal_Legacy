@@ -289,7 +289,7 @@ VictoryRoadRivalAfterText:
 	
 	para "he was once able"
 	line "to do the same"
-	cont "thing too."
+	cont "thing."
 
 	para "But it doesn't"
 	line "matter."
