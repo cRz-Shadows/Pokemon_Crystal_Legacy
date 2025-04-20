@@ -285,7 +285,7 @@ VictoryRoadRivalAfterText:
 	line "between him and"
 
 	para "his #MON"
-	line "is so strong,"
+	line "was so strong,"
 	
 	para "he was once able"
 	line "to do the same"
