@@ -262,6 +262,7 @@ VictoryRoadRivalEvolveText:
 	
 	para "My PUPITAR…"
 	line "It's evolving?!"
+	done
 
 VictoryRoadRivalDefeatText:
 	text "We gave it every-"
