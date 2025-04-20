@@ -271,7 +271,7 @@ VictoryRoadRivalDefeatText:
 	done
 
 VictoryRoadRivalAfterText:
-	text "My #MON"
+	text "My TYRANITAR"
 	line "evolved early…"
 
 	para "Perhaps it was"
