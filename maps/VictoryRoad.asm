@@ -242,12 +242,12 @@ VictoryRoadRivalBeforeText:
 	para "and I have treated"
 	line "them like pawns."
 	
-	para "But I promise!"
+	para "But I promise now,"
 	line "I will care for"
-	cont "all of you."
+	cont "all of them!"
 	
-	para "Together, we"
-	line "will become"
+	para "Because together,"
+	line "we will become"
 	cont "unstoppable."
 
 	para "<PLAYER>!"
