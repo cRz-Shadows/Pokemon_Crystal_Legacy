@@ -103,15 +103,18 @@ MountMoonSilverTextBefore:
 	para "It's been a while,"
 	line "<PLAYER>."
 
-	para "…Since I lost to"
-	line "you, I thought"
+	para "I've thought more"
+	line "about what I was"
 
-	para "about what I was"
-	line "lacking with my"
-	cont "#MON…"
+	para "lacking with my"
+	line "#MON…"
 
 	para "And we came up"
 	line "with an answer."
+
+	para "Since we lost to"
+	line "you, we've grown"
+	cont "stronger together."
 
 	para "<PLAYER>, now we'll"
 	line "show you!"

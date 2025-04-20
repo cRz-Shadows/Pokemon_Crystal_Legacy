@@ -239,11 +239,9 @@ PlateauRivalText1:
 	para "That's not going"
 	line "to happen."
 
-	para "My super-well-"
-	line "trained #MON"
-
-	para "are going to pound"
-	line "you."
+	para "Me and my team"
+	line "are going to pound"
+	cont "you."
 
 	para "<PLAYER>!"
 	line "I challenge you!"
