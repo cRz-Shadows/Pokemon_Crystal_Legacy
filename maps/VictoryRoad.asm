@@ -254,7 +254,7 @@ VictoryRoadRivalBeforeText:
 	done
 	
 VictoryRoadRivalEvolveText:
-	para ".....What?"
+	text ".....What?"
 	line "PUPITAR?"
 	
 	para "............"
@@ -264,12 +264,12 @@ VictoryRoadRivalEvolveText:
 	line "It's evolving?!"
 
 VictoryRoadRivalDefeatText:
-	para "We gave it every-"
+	text "We gave it every-"
 	line "thing we had…"
 	done
 
 VictoryRoadRivalAfterText:
-	para "My #MON"
+	text "My #MON"
 	line "evolved early…"
 
 	para "Perhaps it was"
@@ -315,7 +315,7 @@ VictoryRoadRivalAfterText:
 	done
 
 VictoryRoadRivalVictoryText:
-	para "When it comes down"
+	text "When it comes down"
 	line "to it, nothing can"
 	cont "beat friendhship."
 
