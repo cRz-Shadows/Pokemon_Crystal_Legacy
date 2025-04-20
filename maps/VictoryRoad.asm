@@ -276,16 +276,21 @@ VictoryRoadRivalAfterText:
 	line "the ROCKETs"
 	cont "radio signal?"
 
-	para "Or some say that"
-	line "through love,"
+	para "Or the dragon"
+	line "master…"
 	
-	para "the dragon"
-	line "master was able"
-	
-	para "to do such a"
-	line "thing too…"
+	para "It's said the bond"
+	line "between him and"
 
-	para "It matters not."
+	para "his #MON"
+	line "is so strong,"
+	
+	para "he was once able"
+	line "to do the same"
+	cont "thing too."
+
+	para "But it doesn't"
+	line "matter."
 
 	para "I can't give up"
 	line "on becoming the"
