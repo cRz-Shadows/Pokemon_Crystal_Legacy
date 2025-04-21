@@ -152,11 +152,15 @@ MountMoonSilverTextAfter:
 
 	para "…Listen, <PLAYER>."
 
-	para "One of these days"
-	line "I'm going to prove"
+	para "What you possess,"
+	line "and what I've"
+	cont "lacked…"
 
-	para "how good I am by"
-	line "beating you."
+	para "I understand now."
+
+	para "One of these days,"
+	line "I'm going to prove"
+	cont "that to you."
 	done
 
 MountMoonSilverTextLoss:

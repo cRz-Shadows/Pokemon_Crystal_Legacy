@@ -289,9 +289,9 @@ VictoryRoadRivalAfterText:
 	
 	para "he was once able"
 	line "to do the same"
-	cont "thing."
+	cont "thing…"
 
-	para "But it doesn't"
+	para "…But that doesn't"
 	line "matter."
 
 	para "I can't give up"
