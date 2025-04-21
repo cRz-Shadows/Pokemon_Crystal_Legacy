@@ -56,6 +56,13 @@ VictoryRoadRivalNext:
 	writetext VictoryRoadRivalBeforeText
 	waitbutton
 	closetext
+	showemote EMOTE_SHOCK, VICTORYROAD_SILVER, 15
+	special FadeOutMusic
+	pause 15
+	opentext
+	writetext VictoryRoadRivalEvolveText
+	waitbutton
+	closetext
 	setevent EVENT_RIVAL_VICTORY_ROAD
 	checkevent EVENT_GOT_TOTODILE_FROM_ELM
 	iftrue .GotTotodile
@@ -203,26 +210,29 @@ VictoryRoadRivalBeforeText:
 
 	para "You're so much"
 	line "weaker than I am."
+
+	para "Do you know"
+	line "why that is?"
 	
-	para "Even so, I've"
-	line "realized there"
+	para "Because I've"
+	line "realized there is"
 
-	para "is more to it"
-	line "than power."
-	
-	para "I've begun to"
-	line "understand what"
+	para "more to #MON"
+	line "than raw power."
 
-	para "that dragon master"
-	line "said to me…"
+	para "That dragon master"
+	line "was right…"
 
-	para "Love, friendship.."
-	line "it's what the"
-	cont "elders in the"
+	para "True strength can"
+	line "only come through"
+	cont "friendship."
+
+	para "It's what the"
+	line "elders in the"
 	
 	para "DRAGON'S DEN"
 	line "said too."
-	
+
 	para "I need to care"
 	line "for my team."
 	
@@ -232,99 +242,82 @@ VictoryRoadRivalBeforeText:
 	para "and I have treated"
 	line "them like pawns."
 	
-	para "But I promise!"
+	para "But I promise now,"
 	line "I will care for"
-	cont "all of you."
+	cont "all of them!"
 	
-	para "Together, we"
-	line "will become"
+	para "Because together,"
+	line "we will become"
 	cont "unstoppable."
+
+	para "<PLAYER>!"
+	line "I challenge you…"
+	done
 	
-	para "What? PUPITAR"
-	line "is evolving!"
+VictoryRoadRivalEvolveText:
+	text ".....What?"
+	line "PUPITAR?"
 	
 	para "............"
 	line "............"
 	
-	para "Congratulations!"
-	line "Your PUPITAR"
-
-	para "evolved into"
-	line "TYRANITAR?"
-	
-	para ".....What?"
-	line "TYRANITAR?"
-	
-	para "But......."
-	line "level....."
-	
-	para "Ah no, I see."
-	line "I've heard of"
-	
-	para "rare instances"
-	line "of early evol-"
-	cont "ution."
-	
-	para "Some say that"
-	line "through love,"
-	
-	para "the dragon"
-	line "master was able"
-	
-	para "to do such a"
-	line "thing too."
-	
-	para "Perhaps it was"
-	line "the ROCKETs"
-	cont "radio signal."
-	
-	para "It matters not."
-	line "Let's battle."
-	
-	para "My friends will"
-	line "beat you and then"
-	cont "the ELITE FOUR."
-
-	para "<PLAYER>!"
-	line "I challenge you!"
+	para "My PUPITAR…"
+	line "It's evolving?!"
 	done
 
 VictoryRoadRivalDefeatText:
-	text "…I couldn't win…"
-
-	para "I gave it every-"
-	line "thing I had…"
-
-	para "What you possess,"
-	line "and what I lack…"
+	text "We gave it every-"
+	line "thing we had…"
 	done
 
 VictoryRoadRivalAfterText:
-	text "…I haven't given up"
+	text "My TYRANITAR"
+	line "evolved early…"
+
+	para "Perhaps it was"
+	line "the ROCKETs"
+	cont "radio signal?"
+
+	para "Or the dragon"
+	line "master…"
+	
+	para "It's said the bond"
+	line "between him and"
+
+	para "his #MON"
+	line "was so strong,"
+	
+	para "he was once able"
+	line "to do the same"
+	cont "thing…"
+
+	para "…But that doesn't"
+	line "matter."
+
+	para "I can't give up"
 	line "on becoming the"
 	cont "greatest trainer…"
 
-	para "But that's okay,"
-	line "I will one day"
+	para "Not now."
+	line "Not with this team."
 
-	para "return and"
-	line "become stronger."
+	para "<PLAYER>!"
+	line "We will return"
+	cont "even stronger."
 
-	para "When I do, I will"
+	para "When we do, we'll"
 	line "challenge you."
 
-	para "And I'll beat you"
-	line "down with all my"
+	para "And we'll beat you"
+	line "down with all our"
 	cont "power."
 
-	para "Come on guys!"
-	line "let's go!"
+	para "Come on, guys."
+	line "Let's go."
 	done
 
 VictoryRoadRivalVictoryText:
-	text "What power!"
-
-	para "When it comes down"
+	text "When it comes down"
 	line "to it, nothing can"
 	cont "beat friendhship."
 

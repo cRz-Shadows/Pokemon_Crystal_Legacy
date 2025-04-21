@@ -103,15 +103,18 @@ MountMoonSilverTextBefore:
 	para "It's been a while,"
 	line "<PLAYER>."
 
-	para "…Since I lost to"
-	line "you, I thought"
+	para "I've thought more"
+	line "about what I was"
 
-	para "about what I was"
-	line "lacking with my"
-	cont "#MON…"
+	para "lacking with my"
+	line "#MON…"
 
 	para "And we came up"
 	line "with an answer."
+
+	para "Since we lost to"
+	line "you, we've grown"
+	cont "stronger together."
 
 	para "<PLAYER>, now we'll"
 	line "show you!"
@@ -149,11 +152,15 @@ MountMoonSilverTextAfter:
 
 	para "…Listen, <PLAYER>."
 
-	para "One of these days"
-	line "I'm going to prove"
+	para "What you possess,"
+	line "and what I've"
+	cont "lacked…"
 
-	para "how good I am by"
-	line "beating you."
+	para "I understand now."
+
+	para "One of these days,"
+	line "I'm going to prove"
+	cont "that to you."
 	done
 
 MountMoonSilverTextLoss:

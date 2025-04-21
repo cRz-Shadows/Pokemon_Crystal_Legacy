@@ -355,11 +355,17 @@ CooltrainerfJoyceAfterBattleText:
 	done
 
 CooltrainerfBeth1SeenText:
-	text "I lost to a train-"
-	line "er named <RIVAL>."
+	text "I once lost to a"
+	line "trainer named"
+	cont "<RIVAL>."
+
+	para "I think I saw him"
+	line "head into VICTORY"
+	cont "ROAD just now."
 
 	para "He was really"
-	line "strong, but…"
+	line "strong, but when"
+	cont "I battled him…"
 
 	para "It was as if he"
 	line "absolutely had to"
@@ -378,6 +384,10 @@ CooltrainerfBethAfterText:
 	text "#MON are in-"
 	line "valuable, lifelong"
 	cont "partners."
+
+	para "I hope that train-"
+	line "er understands"
+	cont "some day."
 	done
 
 PsychicRichardSeenText:
