@@ -71,6 +71,6 @@ BTTrainerClassGenders:
 	db FEMALE ; GRUNTF
 	db MALE   ; MYSTICALMAN
 	db MALE   ; BOSS
-	db MALE   ; ARCHER
+	db MALE   ; ROCKET_LEADER
 	db FEMALE ; PKMNTRAINERF
 	assert_table_length NUM_TRAINER_CLASSES
