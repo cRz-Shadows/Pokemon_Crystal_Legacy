@@ -70,7 +70,7 @@ LancesRoomLanceScript:
 	loadtrainer CHAMPION, LANCE
 	sjump .LoadtrainerEnd
 .Rematch:
-	loadtrainer CHAMPION, 2
+	loadtrainer CHAMPION, LANCE2
 .LoadtrainerEnd:
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_2

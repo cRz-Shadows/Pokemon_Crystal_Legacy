@@ -60,7 +60,7 @@ BrunoScript_Battle:
 	loadtrainer BRUNO, BRUNO1
 	sjump .LoadtrainerEnd
 .Rematch:
-	loadtrainer BRUNO, 2
+	loadtrainer BRUNO, BRUNO2
 .LoadtrainerEnd:
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_2

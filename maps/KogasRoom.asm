@@ -60,7 +60,7 @@ KogaScript_Battle:
 	loadtrainer KOGA, KOGA1
 	sjump .LoadtrainerEnd
 .Rematch:
-	loadtrainer KOGA, 2
+	loadtrainer KOGA, KOGA2
 .LoadtrainerEnd:
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_2

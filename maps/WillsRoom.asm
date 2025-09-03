@@ -60,7 +60,7 @@ WillScript_Battle:
 	loadtrainer WILL, WILL1
 	sjump .LoadtrainerEnd
 .Rematch:
-	loadtrainer WILL, 2
+	loadtrainer WILL, WILL2
 .LoadtrainerEnd:
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_2

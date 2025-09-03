@@ -25,10 +25,10 @@ OlivineGymJasmineScript:
 	loadtrainer JASMINE, JASMINE1
 	sjump .OlivineGymJasmineScriptEnd
 .SixBadges:
-	loadtrainer JASMINE, 2
+	loadtrainer JASMINE, JASMINE2
 	sjump .OlivineGymJasmineScriptEnd
 .SevenBadges:
-	loadtrainer JASMINE, 3
+	loadtrainer JASMINE, JASMINE3
 	sjump .OlivineGymJasmineScriptEnd
 .OlivineGymJasmineScriptEnd
 	checkflag ENGINE_HARD_MODE
@@ -95,7 +95,7 @@ OlivineGymJasmineScript:
 .JasmineRematch:
 	special HealParty
 	winlosstext Jasmine_RematchDefeatText, 0
-	loadtrainer JASMINE, 4
+	loadtrainer JASMINE, JASMINE4
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_4
 	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS

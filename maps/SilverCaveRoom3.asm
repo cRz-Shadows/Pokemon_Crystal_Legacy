@@ -28,7 +28,7 @@ Red:
 	loadtrainer RED, RED1
 	sjump .EndLoadTrainerRed
 .rematchteam
-	loadtrainer RED, 2
+	loadtrainer RED, RED2
 .EndLoadTrainerRed
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_2

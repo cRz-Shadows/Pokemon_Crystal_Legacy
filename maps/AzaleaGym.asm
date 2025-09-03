@@ -74,7 +74,7 @@ AzaleaGymBugsyScript:
 .BugsyRematch:
 	special HealParty
 	winlosstext Bugsy_RematchDefeatText, 0
-	loadtrainer BUGSY, 2
+	loadtrainer BUGSY, BUGSY2
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_2
 	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
