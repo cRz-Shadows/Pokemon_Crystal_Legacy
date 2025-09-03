@@ -27,7 +27,7 @@ MaleTrainers:
 	db BIKER
 	db SCIENTIST
 	db BOSS
-	db ARCHER
+	db ROCKET_LEADER
 .End
 
 FemaleTrainers:
