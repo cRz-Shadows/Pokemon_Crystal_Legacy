@@ -60,7 +60,7 @@ ViridianGymBlueScript:
 .BlueRematch:
 	special HealParty
 	winlosstext Blue_RematchDefeatText, 0
-	loadtrainer BLUE, BLUE1
+	loadtrainer BLUE, BLUE2
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_2
 	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
