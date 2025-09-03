@@ -102,7 +102,7 @@ RocketBaseBoss:
 	applymovement TEAMROCKETBASEB3F_ROCKET1, RocketBaseBossApproachesPlayerMovement
 	winlosstext ExecutiveM4BeatenText, 0
 	setlasttalked TEAMROCKETBASEB3F_ROCKET1
-	loadtrainer ROCKET_LEADER, 2
+	loadtrainer ROCKET_LEADER, ARCHER2
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_2
 	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS

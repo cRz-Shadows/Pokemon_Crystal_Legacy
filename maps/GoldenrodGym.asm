@@ -97,7 +97,7 @@ GoldenrodGymWhitneyScript:
 .WhitneyRematch:
 	special HealParty
 	winlosstext Whitney_RematchDefeatText, 0
-	loadtrainer WHITNEY, 2
+	loadtrainer WHITNEY, WHITNEY2
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_2
 	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS

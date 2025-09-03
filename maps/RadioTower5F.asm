@@ -91,7 +91,7 @@ RadioTower5FRocketBossScene:
 	closetext
 	winlosstext RadioTower5FRocketBossWinText, 0
 	setlasttalked RADIOTOWER5F_ROCKET
-	loadtrainer ROCKET_LEADER, 1
+	loadtrainer ROCKET_LEADER, ARCHER1
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_1
 	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS

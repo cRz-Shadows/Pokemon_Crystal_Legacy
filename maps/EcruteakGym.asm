@@ -86,7 +86,7 @@ EcruteakGymMortyScript:
 .MortyRematch:
 	special HealParty
 	winlosstext Morty_RematchDefeatText, 0
-	loadtrainer MORTY, 2
+	loadtrainer MORTY, MORTY2
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_2
 	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS

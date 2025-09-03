@@ -105,7 +105,7 @@ BlackthornGymClairScript:
 .ClairRematch:
 	special HealParty
 	winlosstext Clair_RematchDefeatText, 0
-	loadtrainer CLAIR, 2
+	loadtrainer CLAIR, CLAIR2
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_2
 	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS

@@ -47,10 +47,10 @@ CianwoodGymChuckScript:
 	loadtrainer CHUCK, CHUCK1
 	sjump .CianwoodGymChuckScriptEnd
 .SixBadges:
-	loadtrainer CHUCK, 2
+	loadtrainer CHUCK, CHUCK2
 	sjump .CianwoodGymChuckScriptEnd
 .SevenBadges:
-	loadtrainer CHUCK, 3
+	loadtrainer CHUCK, CHUCK3
 	sjump .CianwoodGymChuckScriptEnd
 .CianwoodGymChuckScriptEnd:
 	checkflag ENGINE_HARD_MODE
@@ -121,7 +121,7 @@ CianwoodGymChuckScript:
 .ChuckRematch:
 	special HealParty
 	winlosstext Chuck_RematchDefeatText, 0
-	loadtrainer CHUCK, 4
+	loadtrainer CHUCK, CHUCK4
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_4
 	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS

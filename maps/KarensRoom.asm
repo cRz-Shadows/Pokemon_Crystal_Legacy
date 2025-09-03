@@ -60,7 +60,7 @@ KarenScript_Battle:
 	loadtrainer KAREN, KAREN1
 	sjump .LoadtrainerEnd
 .Rematch:
-	loadtrainer KAREN, 2
+	loadtrainer KAREN, KAREN2
 .LoadtrainerEnd:
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_2

@@ -30,10 +30,10 @@ MahoganyGymPryceScript:
 	loadtrainer PRYCE, PRYCE1
 	sjump .MahoganyGymPryceScriptEnd
 .SixBadges:
-	loadtrainer PRYCE, 2
+	loadtrainer PRYCE, PRYCE2
 	sjump .MahoganyGymPryceScriptEnd
 .SevenBadges:
-	loadtrainer PRYCE, 3
+	loadtrainer PRYCE, PRYCE3
 	sjump .MahoganyGymPryceScriptEnd
 .MahoganyGymPryceScriptEnd:
 	checkflag ENGINE_HARD_MODE
@@ -105,7 +105,7 @@ PryceScript_Defeat:
 .PryceRematch:
 	special HealParty
 	winlosstext Pryce_RematchDefeatText, 0
-	loadtrainer PRYCE, 4
+	loadtrainer PRYCE, PRYCE4
 	checkflag ENGINE_HARD_MODE
 	iffalse .normalmode_4
 	loadvar VAR_BATTLETYPE, BATTLETYPE_SETNOITEMS
