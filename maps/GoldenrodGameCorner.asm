@@ -2,12 +2,12 @@ GOLDENRODGAMECORNER_TM25_COINS EQU 5500
 GOLDENRODGAMECORNER_TM14_COINS EQU 5500
 GOLDENRODGAMECORNER_TM38_COINS EQU 5500
 GOLDENRODGAMECORNER_ABRA_COINS      EQU 100
-GOLDENRODGAMECORNER_CUBONE_COINS    EQU 800
-GOLDENRODGAMECORNER_WOBBUFFET_COINS EQU 1500
+GOLDENRODGAMECORNER_PORYGON_COINS   EQU 800
+GOLDENRODGAMECORNER_DRATINI_COINS   EQU 1500
 
 EXPORT GOLDENRODGAMECORNER_ABRA_COINS
-EXPORT GOLDENRODGAMECORNER_CUBONE_COINS
-EXPORT GOLDENRODGAMECORNER_WOBBUFFET_COINS
+EXPORT GOLDENRODGAMECORNER_PORYGON_COINS
+EXPORT GOLDENRODGAMECORNER_DRATINI_COINS
 
 	object_const_def
 	const GOLDENRODGAMECORNER_CLERK
@@ -175,8 +175,8 @@ GoldenrodGameCornerPrizeMonVendorScript:
 	verticalmenu
 	closewindow
 	ifequal 1, .Abra
-	ifequal 2, .Cubone
-	ifequal 3, .Wobbuffet
+	ifequal 2, .Porygon
+	ifequal 3, .Dratini
 	sjump GoldenrodGameCornerPrizeVendor_CancelPurchaseScript
 
 .Abra:
@@ -197,8 +197,8 @@ GoldenrodGameCornerPrizeMonVendorScript:
 	takecoins GOLDENRODGAMECORNER_ABRA_COINS
 	sjump .loop
 
-.Cubone:
-	checkcoins GOLDENRODGAMECORNER_CUBONE_COINS
+.Porygon:
+	checkcoins GOLDENRODGAMECORNER_PORYGON_COINS
 	ifequal HAVE_LESS, GoldenrodGameCornerPrizeVendor_NotEnoughCoinsScript
 	readvar VAR_PARTYCOUNT
 	ifequal PARTY_LENGTH, GoldenrodGameCornerPrizeMonVendor_NoRoomForPrizeScript
@@ -212,11 +212,11 @@ GoldenrodGameCornerPrizeMonVendorScript:
 	setval PORYGON
 	special GameCornerPrizeMonCheckDex
 	givepoke PORYGON, 15
-	takecoins GOLDENRODGAMECORNER_CUBONE_COINS
+	takecoins GOLDENRODGAMECORNER_PORYGON_COINS
 	sjump .loop
 
-.Wobbuffet:
-	checkcoins GOLDENRODGAMECORNER_WOBBUFFET_COINS
+.Dratini:
+	checkcoins GOLDENRODGAMECORNER_DRATINI_COINS
 	ifequal HAVE_LESS, GoldenrodGameCornerPrizeVendor_NotEnoughCoinsScript
 	readvar VAR_PARTYCOUNT
 	ifequal PARTY_LENGTH, GoldenrodGameCornerPrizeMonVendor_NoRoomForPrizeScript
@@ -230,7 +230,7 @@ GoldenrodGameCornerPrizeMonVendorScript:
 	setval DRATINI
 	special GameCornerPrizeMonCheckDex
 	givepoke DRATINI, 15
-	takecoins GOLDENRODGAMECORNER_WOBBUFFET_COINS
+	takecoins GOLDENRODGAMECORNER_DRATINI_COINS
 	sjump .loop
 
 .MenuHeader:
