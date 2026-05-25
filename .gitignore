@@ -19,6 +19,9 @@ gfx/pokemon/*/frames.asm
 *.gb
 *.patch
 
+# local build artifacts (ROMs, saves, patches kept out of the repo)
+/builds/
+
 # rgbds extras
 *.map
 *.sym
