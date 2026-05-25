@@ -138,7 +138,9 @@ MoveTutorScript:
 	playsound SFX_ENTER_DOOR
 	disappear GOLDENRODCITY_MOVETUTOR
 	clearevent EVENT_GOLDENROD_GAME_CORNER_MOVE_TUTOR
-	setflag ENGINE_DAILY_MOVE_TUTOR
+	; No RTC: don't record the once-per-day flag, so the Move Tutor is always
+	; available again on the next visit without advancing the (manual) clock.
+	; setflag ENGINE_DAILY_MOVE_TUTOR
 	waitsfx
 	end
 
