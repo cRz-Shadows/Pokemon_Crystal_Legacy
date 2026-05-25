@@ -104,8 +104,9 @@ the daily/weekly cycle is simply driven by you.
 
 ### Your controls — the clock screen has three levers
 
-Open the clock screen from **New Game**, or any time after by holding **Down + B** on the
-title/continue flow ("reset the clock"). From there you control:
+Open the clock screen from **New Game**, or any time after by holding **Down + B** at the
+**title screen** (the one showing Suicune leaping over the water, before the "Continue / New
+Game" menu) — this is the vanilla "reset the clock" feature. From there you control:
 
 | Lever | What it affects |
 |---|---|
