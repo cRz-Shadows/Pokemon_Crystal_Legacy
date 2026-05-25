@@ -1,4 +1,17 @@
-# Pokémon Crystal Legacy
+# Crystal Legacy Timeless
+
+> **Crystal Legacy Timeless** is a fork of [Pokémon Crystal Legacy](https://github.com/cRz-Shadows/Pokemon_Crystal_Legacy)
+> that removes all dependence on the cartridge Real-Time Clock (RTC) and ships as an **MBC5**
+> cart, so it runs safely on RTC-less hardware (FPGA cores, flash carts, emulators) without
+> corrupting your save. The clock becomes a frozen value you set manually; time-based events
+> are driven by the day counter and your play time instead of a hardware clock.
+>
+> **→ See [TIMELESS.md](TIMELESS.md) for what this fork changes, why, and how it affects
+> time-based events.**
+>
+> Everything below is the original Crystal Legacy documentation, unchanged.
+
+---
 
 This is a Pokemon Rom Hack made by [TheSmithPlays](https://www.youtube.com/@TheSmithPlays) based on [the Pokémon Crystal Disassembly](https://github.com/pret/pokecrystal) with the intended purpose of fixing Pokemon Crystal into a more polished, balanced and overall engaging Crystal experience. Generation 2 is one of the most beloved sets of games in the franchise. It introduced tons of mechanics to the game that ended up becoming mainstays within the franchise even now. It also had fan favorite Pokemon, a diverse region, deep lore, nonlinearity, and an entire separate region as its postgame which allowed the player to rematch characters from Generation 1. This created an intoxicating and memorable experience that is still remembered by fans today. Unfortunately, it seems that for every good decision Gen 2 saw, there was a mistake made too, and this is why it sees a lot of criticism. Most often, players critique Gen 2 for failing in its representation of its own region’s Pokemon, its inconsistent level curve and a lackluster postgame. Furthermore, terrible learnsets inhibit the vast majority of Pokemon and questionable design choices make diverse party building incredibly difficult. It’s also been criticized for having a poorly written villainous group storyline with no enjoyable payoff. Ultimately, these and many other small features lead to this trio of games feeling incredibly underbaked, much to the dismay of its fans. Feeling as if it could be so much more, TSP (TheSmithPlays) set out to fix this game, and to turn it into the best possible version of itself, while still retaining the iconic Pokemon Crystal feel that fans have come to love. 
 
