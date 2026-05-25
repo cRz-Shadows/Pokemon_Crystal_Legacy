@@ -146,7 +146,9 @@ Buena:
 	writevar VAR_BLUECARDBALANCE
 	waitsfx
 	playsound SFX_TRANSACTION
-	setflag ENGINE_BUENAS_PASSWORD_2
+	; No RTC: don't record the once-per-day "played today" flag, so the password
+	; quiz stays repeatable (it's still night-only via the VAR_HOUR check above).
+	; setflag ENGINE_BUENAS_PASSWORD_2
 	pause 20
 	turnobject RADIOTOWER2F_BUENA, RIGHT
 	opentext
@@ -201,7 +203,8 @@ Buena:
 	end
 
 .WrongAnswer:
-	setflag ENGINE_BUENAS_PASSWORD_2
+	; No RTC: don't close the quiz for the day on a wrong answer either.
+	; setflag ENGINE_BUENAS_PASSWORD_2
 	opentext
 	writetext RadioTower2FBuenaDidYouForgetText
 	waitbutton
