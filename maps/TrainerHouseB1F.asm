@@ -66,7 +66,9 @@ TrainerHouseReceptionistScript:
 	writetext TrainerHouseB1FAskWantToBattleText
 	yesorno
 	iffalse .Declined
-	setflag ENGINE_FOUGHT_IN_TRAINER_HALL_TODAY
+	; No RTC: don't record the once-per-day flag, so Trainer House battles can be
+	; repeated without advancing the (manual) clock.
+	; setflag ENGINE_FOUGHT_IN_TRAINER_HALL_TODAY
 	writetext TrainerHouseB1FGoRightInText
 	waitbutton
 	closetext

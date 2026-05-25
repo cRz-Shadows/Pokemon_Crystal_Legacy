@@ -41,9 +41,8 @@ GetCurTreeFruit:
 	ret
 
 TryResetFruitTrees:
-	ld hl, wDailyFlags1
-	bit DAILYFLAGS1_ALL_FRUIT_TREES_F, [hl]
-	ret nz
+; Always refill every fruit tree: drop the once-per-day gate so berries are
+; available without advancing the (manually set) clock.
 	jp ResetFruitTrees
 
 CheckFruitTree:

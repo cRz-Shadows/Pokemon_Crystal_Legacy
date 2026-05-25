@@ -81,19 +81,84 @@ CheckDayDependentEventHL:
 	ret
 
 RestartReceiveCallDelay:
+; The in-game clock is frozen (no RTC), so the receive-call countdown is driven
+; by the play-time counter (wGameTime*), which keeps ticking while playing.
+; Snapshot the current play-time (in minutes) as the baseline.
 	ld hl, wReceiveCallDelay_MinsRemaining
 	ld [hl], a
-	call UpdateTime
-	ld hl, wReceiveCallDelay_StartTime
-	call CopyDayHourMinToHL
+	call GetPlaytimeMinutes ; hl = play time in minutes
+	ld a, l
+	ld [wReceiveCallDelay_StartTime], a
+	ld a, h
+	ld [wReceiveCallDelay_StartTime + 1], a
 	ret
 
 CheckReceiveCallDelay:
-	ld hl, wReceiveCallDelay_StartTime
-	call CalcMinsHoursDaysSince
-	call GetMinutesSinceIfLessThan60
+; Subtract the play-time minutes elapsed since the last check from the countdown.
+; Carry set (call allowed) once it reaches 0. Mirrors the original incremental
+; behaviour, but measured in play time instead of the frozen clock.
+	call GetPlaytimeMinutes ; hl = play time now (minutes)
+	ld a, [wReceiveCallDelay_StartTime]
+	ld e, a
+	ld a, [wReceiveCallDelay_StartTime + 1]
+	ld d, a
+; advance the baseline to now
+	ld a, l
+	ld [wReceiveCallDelay_StartTime], a
+	ld a, h
+	ld [wReceiveCallDelay_StartTime + 1], a
+; bc = now - baseline (minutes elapsed since last check)
+	ld a, l
+	sub e
+	ld c, a
+	ld a, h
+	sbc d
+	ld b, a
+; cap elapsed to 0-59; 60+ (or high byte set) -> -1 so the countdown fires now
+	and a ; a still holds b (elapsed high byte)
+	jr nz, .elapsed_capped
+	ld a, c
+	cp 60
+	jr c, .apply
+.elapsed_capped
+	ld a, -1
+.apply
 	ld hl, wReceiveCallDelay_MinsRemaining
 	call UpdateTimeRemaining
+	ret
+
+GetPlaytimeMinutes:
+; Return hl = total play time in minutes = wGameTimeHours * 60 + wGameTimeMinutes.
+; wGameTimeHours is a big-endian 16-bit value capped at 999, so the result
+; (<= 59999) always fits in 16 bits.
+	ld a, [wGameTimeHours]
+	ld h, a
+	ld a, [wGameTimeHours + 1]
+	ld l, a
+; hl = hours * 4, save into de
+	add hl, hl
+	add hl, hl
+	ld d, h
+	ld e, l
+; hl = hours * 64
+	add hl, hl
+	add hl, hl
+	add hl, hl
+	add hl, hl
+; hl = hours * 64 - hours * 4 = hours * 60
+	ld a, l
+	sub e
+	ld l, a
+	ld a, h
+	sbc d
+	ld h, a
+; hl += minutes
+	ld a, [wGameTimeMinutes]
+	add l
+	ld l, a
+	ld a, 0
+	adc h
+	ld h, a
 	ret
 
 RestartDailyResetTimer:

@@ -1,25 +1,10 @@
 StopRTC: ; unreferenced
-	ld a, SRAM_ENABLE
-	ld [MBC3SRamEnable], a
-	call LatchClock
-	ld a, RTC_DH
-	ld [MBC3SRamBank], a
-	ld a, [MBC3RTC]
-	set 6, a ; halt
-	ld [MBC3RTC], a
-	call CloseSRAM
+; No real-time clock on this hardware; nothing to halt.
 	ret
 
 StartRTC:
-	ld a, SRAM_ENABLE
-	ld [MBC3SRamEnable], a
-	call LatchClock
-	ld a, RTC_DH
-	ld [MBC3SRamBank], a
-	ld a, [MBC3RTC]
-	res 6, a ; halt
-	ld [MBC3RTC], a
-	call CloseSRAM
+; No real-time clock on this hardware; nothing to start. (Poking the RTC_DH
+; selector here would select an SRAM bank and write into save data.)
 	ret
 
 GetTimeOfDay::
@@ -74,15 +59,11 @@ StageRTCTimeForSave:
 	ret
 
 SaveRTC:
-	ld a, SRAM_ENABLE
-	ld [MBC3SRamEnable], a
-	call LatchClock
-	ld hl, MBC3RTC
-	ld a, RTC_DH
-	ld [MBC3SRamBank], a
-	res 7, [hl]
+; Originally cleared the RTC day-carry bit then reset sRTCStatusFlags. With no
+; real-time clock, only the flag reset remains; the day-carry poke is dropped
+; (it wrote to $a000 after an RTC_DH select -> SRAM bank -> save corruption).
 	ld a, BANK(sRTCStatusFlags)
-	ld [MBC3SRamBank], a
+	call OpenSRAM
 	xor a
 	ld [sRTCStatusFlags], a
 	call CloseSRAM
