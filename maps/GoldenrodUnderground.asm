@@ -204,7 +204,9 @@ OlderHaircutBrotherScript:
 	special OlderHaircutBrother
 	ifequal $0, .Refused
 	ifequal $1, .Refused
-	setflag ENGINE_GOLDENROD_UNDERGROUND_GOT_HAIRCUT
+	; No RTC: don't record the once-per-day flag, so haircuts can be repeated
+	; (the weekday still picks which brother is available).
+	; setflag ENGINE_GOLDENROD_UNDERGROUND_GOT_HAIRCUT
 	ifequal $2, .two
 	ifequal $3, .three
 	sjump .else
@@ -287,7 +289,9 @@ YoungerHaircutBrotherScript:
 	special YoungerHaircutBrother
 	ifequal $0, .Refused
 	ifequal $1, .Refused
-	setflag ENGINE_GOLDENROD_UNDERGROUND_GOT_HAIRCUT
+	; No RTC: don't record the once-per-day flag, so haircuts can be repeated
+	; (the weekday still picks which brother is available).
+	; setflag ENGINE_GOLDENROD_UNDERGROUND_GOT_HAIRCUT
 	ifequal $2, .two
 	ifequal $3, .three
 	sjump .else

@@ -54,8 +54,10 @@ BargainShop:
 	ld a, [hli]
 	or [hl]
 	jr z, .skip_set
-	ld hl, wDailyFlags1
-	set DAILYFLAGS1_GOLDENROD_UNDERGROUND_BARGAIN_F, [hl]
+	; No RTC: don't record the once-per-day "merchant closed" flag, so the bargain
+	; shop can be used repeatedly (it's still Monday-morning-only via the map script).
+	; ld hl, wDailyFlags1
+	; set DAILYFLAGS1_GOLDENROD_UNDERGROUND_BARGAIN_F, [hl]
 
 .skip_set
 	ld hl, BargainShopComeAgainText

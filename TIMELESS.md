@@ -91,60 +91,100 @@ The two existing in-game clock screens are now the single source of truth for ti
 
 ---
 
-## How this affects time-based events
+## Time-based events: what to expect
 
 Almost every daily/weekly event in Crystal is keyed off the **day counter** (`wCurDay`) and the
-**weekday** derived from it — not off the raw clock chip. Because the day counter is now under
-your manual control, those events still work; they simply advance **when you advance the day**
+**time of day / weekday** derived from it — not off the raw clock chip. Because the clock is now
+a value **you** set, these events still work; they just advance when **you** move the clock
 instead of in real time.
 
-### Daily events — advance the day yourself
+**The default rule:** unless it's listed in the "always available" table below, every event
+behaves **exactly like vanilla** — it just keys off your manually-set clock. Nothing is removed;
+the daily/weekly cycle is simply driven by you.
 
-When you bump `wCurDay` forward in the clock screen, the daily-reset logic
-(`CheckDailyResetTimer`) wipes all the "already did this today" flags at once, exactly as a real
-midnight rollover would. After advancing a day you'll see, refreshed:
+### Your controls — the clock screen has three levers
 
-- Daily gift / once-per-day NPCs reset
-- Swarms (the roaming/“outbreak” rolls) re-rolled
-- Phone rematch availability refreshed
-- All other `wDailyFlags`-gated events cleared
+Open the clock screen from **New Game**, or any time after by holding **Down + B** at the
+**title screen** (the one showing Suicune leaping over the water, before the "Continue / New
+Game" menu) — this is the vanilla "reset the clock" feature. From there you control:
 
-So: **to "wait a day", open the clock screen and move the day forward.**
+| Lever | What it affects |
+|---|---|
+| **Time of day** (Morn / Day / Nite, by hour) | Day/night wild encounters & palettes, and time-locked NPCs (Daisy at 3 PM, Buena at night, bargain shop in the morning) |
+| **Weekday** (Mon–Sun) | All weekday-locked events (see table) |
+| **Day counter** (advance the day) | Triggers the daily reset — refreshes **every** once-per-day event at once |
 
-### Weekday events — set the weekday yourself
+Plus one automatic lever you don't set: **play time** (the odometer on your save file) keeps
+ticking while you play and is what drives **incoming phone calls** (see the last section).
 
-Events tied to a specific day of the week read the weekday computed from `wCurDay`:
+> **"How do I wait a day?"** Open the clock screen and advance the day by one. The game runs its
+> normal midnight reset (`CheckDailyResetTimer`) and every "already did this today" flag clears.
 
-- Department-store sale
-- Weekly siblings (Monday Tuscany, etc.)
-- Trainer-House / weekly-rotation opponents
+---
 
-Set the weekday you want in the clock screen and the matching event becomes active.
+### 1. Always available — daily limit removed (CHANGED)
 
-### Always-available (no day-advance needed)
+These repeatable benefits no longer track a "did it today" flag, so the limit never closes.
+**Any weekday / time-of-day / selection gate they have is kept** — only the once-per-day cap is
+gone. No day-advance needed to reuse them.
 
-To make the hack pleasant on a frozen clock, a few normally once-per-day things were made
-**always available** so you don't have to fiddle with the clock to use them:
+| Event | What it does | Gate still in effect | How to use it |
+|---|---|---|---|
+| **Berry / fruit trees** | Give a held Berry | none | Pick a tree — it's refilled every time, instantly |
+| **Move Tutor** (Goldenrod, Game Corner) | Teaches a special move | none | Talk to him on any visit |
+| **Trainer House battle** | One battle vs. the rotating opponent | which opponent depends on the weekday | Battle as often as you like; set the weekday for a specific opponent |
+| **Haircut brothers** (Goldenrod Underground) | Raises a party Pokémon's happiness | **weekday picks the brother** — older: Tue/Thu/Sat, younger: Sun/Wed/Fri | Get a haircut, then talk again to repeat; set the weekday for older vs. younger |
+| **Buena's Password** (Radio Tower 2F) | +1 Blue Card point (toward prizes, cap 30) | **night only** | **Set the clock to night**, tune the radio for the password, then answer Buena — repeat to grind points |
+| **Goldenrod bargain shop** (Underground) | Sells discounted items | **Monday morning only** | **Set the clock to Monday + morning**, then buy as many times as you want |
+| **Indigo rival rematch** (Pokémon Center) | Battle Silver for XP/money | **appears Mon/Wed only** | **Set the weekday to Mon or Wed**, walk onto the trigger tile; re-enter the map to refight |
 
-| Feature | Original gate | In Timeless |
+### 2. Once-per-day events — refresh by advancing the day (UNTOUCHED)
+
+These keep their normal once-per-day behavior. To use them again, **advance the day** in the
+clock screen.
+
+| Event | What it does | How to trigger / refresh |
 |---|---|---|
-| **Fruit / berry trees** | Refill once per day | **Always refilled** — every tree always has fruit |
-| **Move Tutor** (Goldenrod) | Once per day | **Always available** on each visit |
-| **Trainer House battle** | Once per day | **Repeatable** without advancing the day |
+| **Kurt's Apricorn balls** | Hand Kurt Apricorns; he makes balls "by the next day" | Give Apricorns → **advance the day once** → collect finished balls |
+| **Daily-gift NPCs** | Various "here's something for today" givers | Receive once → **advance the day** to receive again |
+| **Daily swarms** (Dunsparce, Yanma, fishing swarms) | A species floods a route/water for the day | **Advance the day** to re-roll which swarm is active |
+| **Time Capsule** (once-a-day use) | Gen-1 trade link | **Advance the day** to use again |
 
-These work by **not recording** the "did it today" flag, so the gate never closes. (Berries
-additionally drop the daily refill check entirely and refill on every interaction.)
+### 3. Weekday-locked events — set the weekday (UNTOUCHED)
 
-### Deliberately left alone
+These appear/activate only on certain days. **Set the matching weekday** in the clock screen.
 
-- **Daisy's grooming** stays **3 PM-only** — it's a time-of-day check, and you can set the time
-  to 3 PM in the clock screen when you want it.
-- Haircut brothers, Lapras (Friday), Clefairy dance, weekly siblings, swarms, the Indigo rival
-  encounter, and other **weekday/encounter** events stay **manual** — set the appropriate day or
-  time and they trigger normally.
-- **Within-session countdowns that measured real elapsed minutes** (e.g. the Bug Catching
-  Contest's 20-minute timer) no longer tick down on their own, because the clock is frozen. This
-  is an accepted trade-off.
+| Event | Day(s) | Notes |
+|---|---|---|
+| **Dept. Store rooftop sale** (Goldenrod) | its sale day | Set that weekday to shop the sale |
+| **Lapras** (Union Cave B2F) | Friday | Set the weekday to Friday to encounter it |
+| **Bitter-herb merchant** (Underground) | Sat / Sun | Sells bitter healing items those days |
+| **Weekly sibling NPCs** (Tuscany, Frieda, etc.) | each a fixed day | Set the weekday to meet that day's sibling |
+| **Clefairy dance** (Mt. Moon Square) | its scheduled night | Set the matching day/time |
+| **Haircut brother / Trainer-House opponent** | rotate by weekday | (Service itself is repeatable — see table 1 — but *who* is present follows the weekday) |
+
+### 4. Time-of-day-locked events — set the time (UNTOUCHED)
+
+These check the hour. **Set the time of day** in the clock screen.
+
+| Event | Window | How to trigger |
+|---|---|---|
+| **Daisy's grooming** (Pallet, Kanto) | ~3–4 PM | Set the clock to 3 PM, then talk to Daisy |
+| **Buena's Password** | night | Set the clock to night (also see table 1) |
+| **Goldenrod bargain shop** | Monday morning | Set Monday + morning (also see table 1) |
+| **Day/night encounters & palettes** | Morn / Day / Nite | Set the time of day to find time-specific wild Pokémon and color palettes |
+
+### 5. Special cases & trade-offs
+
+- **Shuckie (Mania's loan)** — **not** a daily gift; it's a **one-time loan**, gated by permanent
+  event flags. Its "today" flag only controls the *"come back tomorrow before you can return
+  him"* timing, so it was **left untouched**. **Consequence:** after you receive Shuckie,
+  **advance the day once** before Mania will let you return him — exactly like vanilla.
+- **Kurt's Apricorn balls** — the "ready by the next day" delay was **kept on purpose** (see
+  table 2). Hand over Apricorns, advance the day, collect.
+- **Bug-Catching Contest timer** — the in-contest 20-minute countdown measured *real elapsed
+  minutes*, so with a frozen clock it **no longer ticks down on its own**. The contest still
+  runs; it just won't time you out. This is an accepted trade-off of freezing the clock.
 
 ### Phone calls still happen — driven by play time, not the clock
 
@@ -161,28 +201,13 @@ and you can set the period for time-specific callers.
 
 ---
 
-## Technical change list
+## Building & testing
 
-All changes live in one commit on top of upstream `main`.
+> The exact code changes aren't reproduced here — see the pull request / commit history if you
+> want the assembly-level diff.
 
-| File | Change |
-|---|---|
-| `Makefile` | Cartridge header byte `-m 0x10` (MBC3+TIMER+RAM+BATTERY) → `-m 0x1b` (MBC5+RAM+BATTERY) on all build targets |
-| `home/time.asm` | `GetClock` returns a frozen **zero** clock with **no** hardware access; `LatchClock` and `SetClock` reduced to no-ops (their RTC pokes were the write-corruption path) |
-| `engine/rtc/rtc.asm` | `StartRTC`/`StopRTC` → no-ops; `SaveRTC` keeps only the `sRTCStatusFlags` reset and drops the day-carry poke (which wrote into SRAM after an `RTC_DH` select) |
-| `engine/overworld/time.asm` | Incoming-call delay now measured against play time; new `GetPlaytimeMinutes` helper (`hours*60 + minutes` from `wGameTime*`) |
-| `engine/events/fruit_trees.asm` | `TryResetFruitTrees` drops the once-per-day gate → trees always refill |
-| `maps/GoldenrodCity.asm` | Move Tutor: daily flag no longer set → always available |
-| `maps/TrainerHouseB1F.asm` | Trainer House: daily flag no longer set → repeatable |
-
-What was intentionally **not** touched: `OpenSRAM`/`CloseSRAM` (normal bank 0–3 selection, valid
-and required on MBC5); the clock-setting UI; the save/box layout; the play-time counter.
-
-### Verifying the build
-
-After building with RGBDS **0.5.2** (`make`), confirm cartridge byte `$0147` of the `.gbc`
-reads `0x1B` (MBC5+RAM+BATTERY). In an emulator's cart-info view it should report **MBC5,
-RAM + battery, no RTC**.
+Build with RGBDS **0.5.2** (`make`). Confirm cartridge byte `$0147` of the `.gbc` reads `0x1B`
+(MBC5+RAM+BATTERY); an emulator's cart-info view should report **MBC5, RAM + battery, no RTC**.
 
 ### Recommended on-hardware / emulator checks
 
