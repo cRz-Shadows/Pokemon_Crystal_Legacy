@@ -1,0 +1,29 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential bison libpng-dev pkg-config
+
+      - name: Build and install rgbds 0.5.2
+        run: |
+          git clone --depth 1 --branch v0.5.2 https://github.com/gbdev/rgbds /tmp/rgbds
+          make -C /tmp/rgbds -j"$(nproc)"
+          sudo make -C /tmp/rgbds install
+
+      - name: Build pokecrystal.gbc
+        run: make
+
+      - name: Build pokecrystal11.gbc
+        run: make crystal11
