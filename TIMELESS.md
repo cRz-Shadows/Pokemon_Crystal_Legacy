@@ -82,12 +82,29 @@ clock UI, frozen there until you change it again**.
 
 ### Setting / changing the clock
 
-The two existing in-game clock screens are now the single source of truth for time:
+There are three ways to open the clock-setting screen. All three write the same `wStart*`
+offsets through the same routine, so the choice is purely about convenience:
 
 - **New Game** — the normal "set the time" prompt at the start of the game.
-- **Clock reset** — hold **Down + B** on the title/continue flow to re-open the clock screen
-  (the vanilla Crystal "reset the clock" feature). Use this any time you want to change the
-  time of day, the weekday, or bump the day forward.
+- **Title-screen clock reset** — hold **Down + B** on the title screen (the Suicune-leap
+  screen, before the "Continue / New Game" menu) to re-open the vanilla "reset the clock"
+  feature.
+- **Pokégear shortcut** *(Timeless addition)* — open the Pokégear, land on the **Clock**
+  card, then **hold SELECT and press UP**. The same clock-setting screen opens without
+  having to return to the title. Useful for mid-route adjustments (flip to night for a
+  Hoothoot, swap to Monday morning for the bargain shop, advance a day to collect Kurt's
+  balls, etc.). The combo is deliberately obscure so the time can't be changed by mistake,
+  and the screen still asks for YES/NO confirmation before applying.
+
+Use any of them any time you want to change the time of day, the weekday, or bump the day
+forward.
+
+> **Prefer moving time forward.** The once-per-day reset is driven by *day rolling over*,
+> not by *today's date being later than the last check*. If you set the clock **backward**
+> past midnight, some daily flags can stay in their "already did this today" state until
+> you advance forward through a midnight again. It isn't broken — just walk the day
+> counter forward (a full cycle, if you have to) and everything clears. This applies to
+> both the title-screen reset and the Pokégear shortcut.
 
 ---
 
@@ -104,9 +121,10 @@ the daily/weekly cycle is simply driven by you.
 
 ### Your controls — the clock screen has three levers
 
-Open the clock screen from **New Game**, or any time after by holding **Down + B** at the
-**title screen** (the one showing Suicune leaping over the water, before the "Continue / New
-Game" menu) — this is the vanilla "reset the clock" feature. From there you control:
+Open the clock screen from **New Game**, by holding **Down + B** at the **title screen** (the
+one showing Suicune leaping over the water, before the "Continue / New Game" menu), or — once
+the Pokégear is in your bag — by holding **SELECT + UP** on the Pokégear's **Clock** card.
+From there you control:
 
 | Lever | What it affects |
 |---|---|
@@ -117,8 +135,10 @@ Game" menu) — this is the vanilla "reset the clock" feature. From there you co
 Plus one automatic lever you don't set: **play time** (the odometer on your save file) keeps
 ticking while you play and is what drives **incoming phone calls** (see the last section).
 
-> **"How do I wait a day?"** Open the clock screen and advance the day by one. The game runs its
-> normal midnight reset (`CheckDailyResetTimer`) and every "already did this today" flag clears.
+> **"How do I wait a day?"** Open the clock screen (either entry point above) and advance
+> the day by one. The game runs its normal midnight reset (`CheckDailyResetTimer`) and every
+> "already did this today" flag clears. The Pokégear shortcut is the easiest way to do this
+> from anywhere — no need to head back to the title screen.
 
 ---
 

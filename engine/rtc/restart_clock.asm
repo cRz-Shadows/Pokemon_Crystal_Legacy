@@ -239,3 +239,21 @@ JPHourString: ; unreferenced
 
 JPMinuteString: ; unreferenced
 	db "ふん@" ; MIN
+
+PokegearClock_EditTime::
+; Same flow as RestartClock but without the "clock time may be wrong" warning.
+; Reached by holding SELECT + pressing UP on the Pokegear clock card.
+	ld hl, wOptions
+	ld a, [hl]
+	push af
+	set NO_TEXT_SCROLL, [hl]
+	call LoadStandardMenuHeader
+	call ClearTilemap
+	ld hl, RestartClock.ClockSetWithControlPadText
+	call PrintText
+	call RestartClock.SetClock
+	call ExitMenu
+	pop bc
+	ld hl, wOptions
+	ld [hl], b
+	ret
