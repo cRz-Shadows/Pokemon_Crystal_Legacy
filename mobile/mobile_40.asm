@@ -1501,7 +1501,7 @@ Function1009d2:
 	ldh [rVBK], a
 
 	ld hl, w3_d800
-	debgcoord 0, 0
+	debgcoord 0, 0 ; vBGMap2
 	lb bc, $03, $24
 	call Get2bpp
 
@@ -4561,7 +4561,7 @@ String_101fd2:
 	next "に　でんわを　かけています@"
 
 String_101fe1:
-	db   "でんわが　つながりました!@"
+	db   "でんわが　つながりました！@"
 
 String_101fef:
 	db   "つうわを"
@@ -6673,8 +6673,8 @@ Function102f85:
 	ret
 
 String_102fb2:
-	db   "あいてがわ<PKMN>えらんだ　"
-	next "いじょう<PKMN>あるようです！！"
+	db   "あいてがわ<GA>えらんだ　"
+	next "いじょう<GA>あるようです！！"
 	db   "@"
 
 String_102fcc:
@@ -6689,7 +6689,7 @@ Function102fce:
 
 String_102fdb:
 	db   "あいてがわ<NO>せんたくに"
-	next "いじょう<PKMN>あるようです！！"
+	next "いじょう<GA>あるようです！！"
 	done
 
 Function102ff5:
@@ -6700,7 +6700,7 @@ Function102ff5:
 	ret
 
 String_103002:
-	db   "その#を　こうかんすると"
+	db   "その<POKEMON>を　こうかんすると"
 	next "せんとう　できなく　なっちゃうよ！"
 	db   "@"
 

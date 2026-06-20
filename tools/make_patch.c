@@ -148,14 +148,14 @@ struct Symbol *parse_symbols(const char *filename) {
 				}
 				buffer->size = 0;
 			}
-			buffer_append(buffer, &c);
+			buffer_append(buffer, &(char){c});
 		} else if (state == SYM_VALUE) {
 			// The symbol value has ended; wait to see if a name comes after it
 			state = SYM_SPACE;
 		}
 	}
 
-	fclose(file);
+	xfclose(file);
 	buffer_free(buffer);
 	return symbols;
 }
@@ -228,7 +228,8 @@ void interpret_command(char *command, const struct Symbol *current_hook, const s
 	}
 
 	// Get the arguments
-	char *argv[argc]; // VLA
+	char *argv[argc + 1]; // VLA (cannot be zero-length)
+	argv[argc] = NULL;
 	char *arg = command;
 	for (int i = 0; i < argc; i++) {
 		while (*arg && !isspace((unsigned)*arg)) {
@@ -386,7 +387,7 @@ struct Buffer *process_template(
 			// "{...}" is a template command; buffer its contents
 			buffer->size = 0;
 			for (c = getc(input); c != EOF && c != '}'; c = getc(input)) {
-				buffer_append(buffer, &c);
+				buffer_append(buffer, &(char){c});
 			}
 			buffer_append(buffer, &(char){'\0'});
 			// Interpret the command in the context of the current patch
@@ -414,7 +415,7 @@ struct Buffer *process_template(
 							c = '_';
 						}
 					}
-					buffer_append(buffer, &c);
+					buffer_append(buffer, &(char){c});
 				}
 			}
 			buffer_append(buffer, &(char){'\0'});
@@ -431,8 +432,8 @@ struct Buffer *process_template(
 	rewind(orig_rom);
 	rewind(new_rom);
 
-	fclose(input);
-	fclose(output);
+	xfclose(input);
+	xfclose(output);
 	buffer_free(buffer);
 	return patches;
 }
@@ -514,6 +515,9 @@ int main(int argc, char *argv[]) {
 
 	FILE *new_rom = xfopen(argv[1], 'r');
 	FILE *orig_rom = xfopen(argv[2], 'r');
+	if (new_rom == stdin || orig_rom == stdin) {
+		error_exit("Error: Cannot read ROM file from stdin (not rewindable)\n");
+	}
 	struct Buffer *patches = process_template(argv[3], argv[4], new_rom, orig_rom, symbols, ignore_addr, ignore_size);
 
 	if (!verify_completeness(orig_rom, new_rom, patches)) {
@@ -521,8 +525,8 @@ int main(int argc, char *argv[]) {
 	}
 
 	symbol_free(symbols);
-	fclose(new_rom);
-	fclose(orig_rom);
+	xfclose(new_rom);
+	xfclose(orig_rom);
 	buffer_free(patches);
 	return 0;
 }

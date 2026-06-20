@@ -201,13 +201,13 @@ LoadMenuMonIcon:
 	dw Mobile_InitPartyMenuBGPal71      ; MONICON_MOBILE2
 	dw Pokedex_InitAnimatedMonIcon       ; MONICON_UNUSED
 
-Unused_GetPartyMenuMonIcon:
+Unused_InitFastAnimatedMonIcon:
 	call InitPartyMenuIcon
-	call .GetPartyMonItemGFX
+	call .SpawnItemIcon
 	call SetPartyMonIconAnimSpeed
 	ret
 
-.GetPartyMonItemGFX:
+.SpawnItemIcon:
 	push bc
 	ldh a, [hObjectStructIndex]
 	ld hl, wPartyMon1Item
@@ -223,16 +223,16 @@ Unused_GetPartyMenuMonIcon:
 	callfar ItemIsMail
 	pop bc
 	pop hl
-	jr c, .not_mail
-	ld a, $06
-	jr .got_tile
-.not_mail
-	ld a, $05
+	jr c, .mail
+	ld a, SPRITE_ANIM_FRAMESET_PARTY_MON_WITH_ITEM_FAST
+	jr .got_frameset
+.mail
+	ld a, SPRITE_ANIM_FRAMESET_PARTY_MON_WITH_MAIL_FAST
 	; fallthrough
 
 .no_item
-	ld a, $04
-.got_tile
+	ld a, SPRITE_ANIM_FRAMESET_PARTY_MON_FAST
+.got_frameset
 	ld hl, SPRITEANIMSTRUCT_FRAMESET_ID
 	add hl, bc
 	ld [hl], a
@@ -299,11 +299,11 @@ PartyMenu_InitAnimatedMonIcon:
 	pop hl
 	jr c, .mail
 	ld a, SPRITE_ANIM_FRAMESET_PARTY_MON_WITH_ITEM
-	jr .okay
+	jr .got_frameset
 
 .mail
 	ld a, SPRITE_ANIM_FRAMESET_PARTY_MON_WITH_MAIL
-.okay
+.got_frameset
 	ld hl, SPRITEANIMSTRUCT_FRAMESET_ID
 	add hl, bc
 	ld [hl], a
@@ -413,7 +413,7 @@ Pokedex_InitAnimatedMonIcon:
 	ld a, [wTempSpecies]
 	ld [wCurPartySpecies], a
 	call SetDexMonIconColor_NoShiny
-	
+
 	ld a, [wTempIconSpecies]
 	call ReadMonMenuIcon
 	ld [wCurIcon], a
@@ -451,7 +451,7 @@ Pokedex_InitAnimatedMonIcon:
 	ld hl, SPRITEANIMSTRUCT_ANIM_SEQ_ID
 	add hl, bc
 	ld [hl], SPRITE_ANIM_FUNC_NULL
-	
+
 	pop af
 	ld [wCurPartySpecies], a
 	ret

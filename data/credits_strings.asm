@@ -241,7 +241,7 @@ CreditsStringsPointers:
 .CoDirector:          db "    CO-DIRECTOR@"           ; "ディレクター@"
 .Programmers:         db "    PROGRAMMERS@"           ; "プログラム@"
 .GraphicsDirector:    db " GRAPHICS DIRECTOR@"        ; "グラフィック　ディレクター@"
-.MonsterDesign:       db "   MONSTER DESIGN@"         ; "#　デザイン@"
+.MonsterDesign:       db "   MONSTER DESIGN@"         ; "<POKEMON>　デザイン@"
 .GraphicsDesign:      db "  GRAPHICS DESIGN@"         ; "グラフィック　デザイン@"
 .Music:               db "       MUSIC@"              ; "おんがく@"
 .SoundEffects:        db "   SOUND EFFECTS@"          ; "サウンド　エフェクト@"
@@ -256,7 +256,7 @@ CreditsStringsPointers:
 .SpecialThanks:       db "   SPECIAL THANKS@"         ; "スぺシャルサンクス@"
 .Producers:           db "     PRODUCERS@"            ; "プロデューサー@"
 .ExecutiveProducer:   db " EXECUTIVE PRODUCER@"       ; "エグゼクティブ　プロデューサー@"
-.PokemonAnimation:    db " #MON ANIMATION@"           ; "#　アニメーション@"
+.PokemonAnimation:    db " #MON ANIMATION@"           ; "<POKEMON>　アニメーション@"
 .PokedexText:         db "    #DEX TEXT@"             ; "ずかん　テキスト@"
 .MobilePrjLeader:     db " MOBILE PRJ. LEADER@"       ; "モバイルプロジェクト　りーダー@"
 .MobileSystemAd:      db " MOBILE SYSTEM AD.@"        ; "モバイル　システムアドバイザー@"
@@ -327,10 +327,4 @@ CreditsStringsPointers:
 					next "      MADE BY@"
 
 .Copyright:
-	;    (C) 1  9  9  5 - 2  0  0  1     N  i  n  t  e  n  d  o
-	db   $60,$61,$62,$63,$64,$65,$66,$67,$68,$69,$6a,$6b,$6c
-	;    (C) 1  9  9  5 - 2  0  0  1    C  r  e  a  t  u  r  e  s     i  n  c .
-	next $60,$61,$62,$63,$64,$65,$66,$6d,$6e,$6f,$70,$71,$72,  $7a,$7b,$7c
-	;    (C) 1  9  9  5 - 2  0  0  1  G  A  M  E  F  R  E  A  K     i  n  c .
-	next $60,$61,$62,$63,$64,$65,$66,$73,$74,$75,$76,$77,$78,$79,  $7a,$7b,$7c
-	db "@"
+INCLUDE "data/copyright.asm"

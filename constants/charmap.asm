@@ -41,7 +41,7 @@
 	charmap "<LV>",      $6e
 	charmap "<DEX_LV>",  $5d
 	charmap "<DEX_LV_VRAM1>",$74
-	charmap "<DO>",      $70 ; hiragana small do, unused
+	charmap "<DO>",      $70 ; precomposed hiragana do (ど), unused
 	charmap "◀",         $71
 	charmap "『",         $72 ; Japanese opening quote, unused
 	charmap "<ID>",      $73
@@ -206,6 +206,7 @@
 	charmap "<WATASHI>", $36 ; "わたし"
 	charmap "<KOKO_WA>", $37 ; "ここは"
 	charmap "<GA>",      $4a ; "が　"
+	charmap "<POKEMON>", $54 ; "ポケモン"
 
 ; Japanese kana, for those bits of text that were not translated to English
 

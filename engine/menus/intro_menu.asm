@@ -274,7 +274,7 @@ SetDefaultBoxNames:
 	ld [hli], a
 	ld [hl], '@'
 	pop hl
-	ld de, 9
+	ld de, BOX_NAME_LENGTH
 	add hl, de
 	inc c
 	ld a, c
@@ -628,11 +628,7 @@ Continue_DisplayPokedexNumCaught:
 	ret z
 	push hl
 	ld hl, wPokedexCaught
-if NUM_POKEMON % 8
-	ld b, NUM_POKEMON / 8 + 1
-else
-	ld b, NUM_POKEMON / 8
-endc
+	ld b, (NUM_POKEMON + 7) / 8
 	call CountSetBits
 	pop hl
 	ld de, wNumSetBits
@@ -1333,19 +1329,7 @@ Copyright:
 	jp PlaceString
 
 CopyrightString:
-	; ©1995-2001 Nintendo
-	db   $60, $61, $62, $63, $64, $65, $66
-	db   $67, $68, $69, $6a, $6b, $6c
-
-	; ©1995-2001 Creatures inc.
-	next $60, $61, $62, $63, $64, $65, $66
-	db   $6d, $6e, $6f, $70, $71, $72, $7a, $7b, $7c
-
-	; ©1995-2001 GAME FREAK inc.
-	next $60, $61, $62, $63, $64, $65, $66
-	db   $73, $74, $75, $76, $77, $78, $79, $7a, $7b, $7c
-
-	db "@"
+INCLUDE "data/copyright.asm"
 
 GameInit::
 	farcall TryLoadSaveData

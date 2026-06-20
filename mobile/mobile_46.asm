@@ -6022,7 +6022,7 @@ MenuHeader_11afe8:
 
 String_11aff0:
 	db   "この　じょうけんで"
-	next "よろしいですか?@"
+	next "よろしいですか？@"
 
 String_11b003:
 	db   "こうかんを"
@@ -6549,10 +6549,10 @@ Function11b295:
 	ret
 
 String_11b2fe: ; unreferenced
-	db "あげる#@"
+	db "あげる<POKEMON>@"
 
 String_11b303: ; unreferenced
-	db "ほしい#@"
+	db "ほしい<POKEMON>@"
 
 String_11b308:
 	db "　　　　　@"

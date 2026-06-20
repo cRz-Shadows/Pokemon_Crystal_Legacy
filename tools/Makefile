@@ -1,12 +1,12 @@
 .PHONY: all clean
 
 CC := gcc
-CFLAGS := -O3 -flto -std=c11 -Wall -Wextra -pedantic
+CFLAGS := -O3 -std=c17 -Wall -Wextra -pedantic
 
 tools := \
 	gbcpal \
 	gfx \
-	lzcomp \
+	lzcompress \
 	make_patch \
 	png_dimensions \
 	pokemon_animation \
@@ -19,10 +19,6 @@ all: $(tools)
 
 clean:
 	$(RM) $(tools)
-
-lzcomp: CFLAGS += -Wno-strict-overflow -Wno-sign-compare
-lzcomp: $(wildcard lz/*.c) $(wildcard lz/*.h)
-	$(CC) $(CFLAGS) -o $@ lz/*.c
 
 %: %.c common.h
 	$(CC) $(CFLAGS) -o $@ $<
