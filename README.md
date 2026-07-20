@@ -16,7 +16,7 @@ We would also like to credit & thank Katt, Chamber, Soloo993, Blue Emerald, Lake
 
 
 ## A complete list of features can be found here:
-Full doc: https://docs.google.com/document/d/1nFzUWtrQm85oQlPp_cxL-b2-WB2Igs9E1PmJQ23SQwQ/edit#heading=h.p6q34xz4t90h
+Full doc: https://docs.google.com/document/d/1Zku4s049Sri266zr4BhF-riqecOOHjytfZPbQULmcYk/edit?usp=sharing
 
 These videos also provide an overview of the hack and the ideology behind it:
 - Release 1.0: https://www.youtube.com/watch?v=oeJBVY3z_uE&t=1s
