@@ -14,15 +14,15 @@
 
 FastShipB1F_MapScripts:
 	def_scene_scripts
-	scene_script .DummyScene0 ; SCENE_DEFAULT
-	scene_script .DummyScene1 ; SCENE_FINISHED
+	scene_script FastShipB1FNoop1Scene, SCENE_FASTSHIPB1F_SAILOR_BLOCKS
+	scene_script FastShipB1FNoop2Scene, SCENE_FASTSHIPB1F_NOOP
 
 	def_callbacks
 
-.DummyScene0:
+FastShipB1FNoop1Scene:
 	end
 
-.DummyScene1:
+FastShipB1FNoop2Scene:
 	end
 
 FastShipB1FSailorBlocksLeft:
@@ -454,8 +454,8 @@ FastShipB1F_MapEvents:
 	warp_event 31, 13, FAST_SHIP_1F, 12
 
 	def_coord_events
-	coord_event 30,  7, SCENE_DEFAULT, FastShipB1FSailorBlocksLeft
-	coord_event 31,  7, SCENE_DEFAULT, FastShipB1FSailorBlocksRight
+	coord_event 30,  7, SCENE_FASTSHIPB1F_SAILOR_BLOCKS, FastShipB1FSailorBlocksLeft
+	coord_event 31,  7, SCENE_FASTSHIPB1F_SAILOR_BLOCKS, FastShipB1FSailorBlocksRight
 
 	def_bg_events
 	bg_event 27,  9, BGEVENT_READ, FastShipB1FTrashcan

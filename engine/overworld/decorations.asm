@@ -49,7 +49,7 @@ _PlayerDecorationMenu:
 	dw .category_pointers
 
 .category_pointers:
-	table_width 2 + 2, _PlayerDecorationMenu.category_pointers
+	table_width 2 + 2
 	dw DecoBedMenu,      .bed
 	dw DecoCarpetMenu,   .carpet
 	dw DecoPlantMenu,    .plant
@@ -124,7 +124,7 @@ _PlayerDecorationMenu:
 	ret
 
 .owned_pointers:
-	table_width 3, _PlayerDecorationMenu.owned_pointers
+	table_width 3
 	dwb FindOwnedBeds,      0 ; bed
 	dwb FindOwnedCarpets,   1 ; carpet
 	dwb FindOwnedPlants,    2 ; plant
@@ -303,7 +303,7 @@ FindOwnedOrnaments:
 	db DECO_SQUIRTLE_DOLL ; 24
 	db DECO_POLIWAG_DOLL ; 25
 	db DECO_DIGLETT_DOLL ; 26
-	db DECO_STARMIE_DOLL ; 27
+	db DECO_STARYU_DOLL ; 27
 	db DECO_MAGIKARP_DOLL ; 28
 	db DECO_ODDISH_DOLL ; 29
 	db DECO_GENGAR_DOLL ; 2a
@@ -376,7 +376,7 @@ PopulateDecoCategoryMenu:
 	ld [wMenuScrollPosition], a
 	call ScrollingMenu
 	ld a, [wMenuJoypad]
-	cp B_BUTTON
+	cp PAD_B
 	jr z, .no_action_2
 	call DoDecorationAction2
 
@@ -455,7 +455,7 @@ DoDecorationAction2:
 	ret
 
 .DecoActions:
-	table_width 2, DoDecorationAction2.DecoActions
+	table_width 2
 	dw DecoAction_nothing
 	dw DecoAction_setupbed
 	dw DecoAction_putawaybed
@@ -513,7 +513,7 @@ GetDecoName:
 	ret
 
 .NameFunctions:
-	table_width 2, GetDecoName.NameFunctions
+	table_width 2
 	dw .invalid
 	dw .plant
 	dw .bed
@@ -976,7 +976,7 @@ DescribeDecoration::
 
 .Jumptable:
 ; entries correspond to DECODESC_* constants
-	table_width 2, DescribeDecoration.Jumptable
+	table_width 2
 	dw DecorationDesc_Poster
 	dw DecorationDesc_LeftOrnament
 	dw DecorationDesc_RightOrnament

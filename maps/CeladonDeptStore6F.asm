@@ -1,6 +1,6 @@
-CELADONDEPTSTORE6F_FRESH_WATER_PRICE EQU 200
-CELADONDEPTSTORE6F_SODA_POP_PRICE    EQU 300
-CELADONDEPTSTORE6F_LEMONADE_PRICE    EQU 350
+DEF CELADONDEPTSTORE6F_FRESH_WATER_PRICE EQU 200
+DEF CELADONDEPTSTORE6F_SODA_POP_PRICE    EQU 300
+DEF CELADONDEPTSTORE6F_LEMONADE_PRICE    EQU 350
 
 	object_const_def
 	const CELADONDEPTSTORE6F_SUPER_NERD
@@ -10,9 +10,9 @@ CeladonDeptStore6F_MapScripts:
 	def_scene_scripts
 
 	def_callbacks
-	callback MAPCALLBACK_TILES, .HideRooftopStairs
+	callback MAPCALLBACK_TILES, CeladonDeptStore6FHideRooftopStairsCallback
 
-.HideRooftopStairs:
+CeladonDeptStore6FHideRooftopStairsCallback:
 	changeblock 12, 0, $03 ; wall
 	endcallback
 

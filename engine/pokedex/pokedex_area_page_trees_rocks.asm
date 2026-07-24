@@ -191,12 +191,12 @@ Print_Trees_Rocksmash:
 	ld a, [wPokedexEvoStage2] ; lines printed
 	ld c, a		
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
-	ld [hl], "<%>"
+	ld [hl], '<%>'
 	ld de, 6
 	add hl, de
-	ld [hl], "<%>"
+	ld [hl], '<%>'
 	add hl, de
-	ld [hl], "<%>"
+	ld [hl], '<%>'
 
 	ld de, wPokedexEvoStage3 ; encounter %
 	hlcoord 3, 10

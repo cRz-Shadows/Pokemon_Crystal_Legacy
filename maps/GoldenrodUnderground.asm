@@ -1,5 +1,5 @@
-GOLDENRODUNDERGROUND_OLDER_HAIRCUT_PRICE   EQU 500
-GOLDENRODUNDERGROUND_YOUNGER_HAIRCUT_PRICE EQU 300
+DEF GOLDENRODUNDERGROUND_OLDER_HAIRCUT_PRICE   EQU 500
+DEF GOLDENRODUNDERGROUND_YOUNGER_HAIRCUT_PRICE EQU 300
 
 	object_const_def
 	const GOLDENRODUNDERGROUND_SUPER_NERD1
@@ -16,31 +16,31 @@ GoldenrodUnderground_MapScripts:
 	def_scene_scripts
 
 	def_callbacks
-	callback MAPCALLBACK_NEWMAP, .ResetSwitches
-	callback MAPCALLBACK_TILES, .CheckBasementKey
-	callback MAPCALLBACK_OBJECTS, .CheckDayOfWeek
+	callback MAPCALLBACK_NEWMAP, GoldenrodUndergroundResetSwitchesCallback
+	callback MAPCALLBACK_TILES, GoldenrodUndergroundCheckBasementKeyCallback
+	callback MAPCALLBACK_OBJECTS, GoldenrodUndergroundCheckDayOfWeekCallback
 
-.ResetSwitches:
+GoldenrodUndergroundResetSwitchesCallback:
 	clearevent EVENT_SWITCH_1
 	clearevent EVENT_SWITCH_2
 	clearevent EVENT_SWITCH_3
 	clearevent EVENT_EMERGENCY_SWITCH
-	clearevent EVENT_SWITCH_4
-	clearevent EVENT_SWITCH_5
-	clearevent EVENT_SWITCH_6
-	clearevent EVENT_SWITCH_7
-	clearevent EVENT_SWITCH_8
-	clearevent EVENT_SWITCH_9
-	clearevent EVENT_SWITCH_10
-	clearevent EVENT_SWITCH_11
-	clearevent EVENT_SWITCH_12
-	clearevent EVENT_SWITCH_13
-	clearevent EVENT_SWITCH_14
+	clearevent EVENT_DOOR_1_OPEN
+	clearevent EVENT_DOOR_2_OPEN
+	clearevent EVENT_DOOR_3_OPEN
+	clearevent EVENT_DOOR_4_OPEN
+	clearevent EVENT_DOOR_5_OPEN
+	clearevent EVENT_DOOR_6_OPEN
+	clearevent EVENT_DOOR_7_OPEN
+	clearevent EVENT_DOOR_8_OPEN
+	clearevent EVENT_DOOR_9_OPEN
+	clearevent EVENT_DOOR_10_OPEN
+	clearevent EVENT_DOOR_11_OPEN
 	setval 0
 	writemem wUndergroundSwitchPositions
 	endcallback
 
-.CheckBasementKey:
+GoldenrodUndergroundCheckBasementKeyCallback:
 	checkevent EVENT_USED_BASEMENT_KEY
 	iffalse .LockBasementDoor
 	endcallback
@@ -49,7 +49,7 @@ GoldenrodUnderground_MapScripts:
 	changeblock 18, 6, $3d ; locked door
 	endcallback
 
-.CheckDayOfWeek:
+GoldenrodUndergroundCheckDayOfWeekCallback:
 	readvar VAR_WEEKDAY
 	ifequal MONDAY, .Monday
 	ifequal TUESDAY, .Tuesday
@@ -233,10 +233,10 @@ OlderHaircutBrotherScript:
 	writetext GoldenrodUndergroundOlderHaircutBrotherWatchItBecomeBeautifulText
 	waitbutton
 	closetext
-	special FadeOutPalettes
+	special FadeOutToWhite
 	playmusic MUSIC_HEAL
 	pause 60
-	special FadeInPalettes
+	special FadeInFromWhite
 	special RestartMapMusic
 	opentext
 	writetext GoldenrodUndergroundOlderHaircutBrotherAllDoneText
@@ -316,10 +316,10 @@ YoungerHaircutBrotherScript:
 	writetext GoldenrodUndergroundYoungerHaircutBrotherIllMakeItLookCoolText
 	waitbutton
 	closetext
-	special FadeOutPalettes
+	special FadeOutToWhite
 	playmusic MUSIC_HEAL
 	pause 60
-	special FadeInPalettes
+	special FadeInFromWhite
 	special RestartMapMusic
 	opentext
 	writetext GoldenrodUndergroundYoungerHaircutBrotherAllDoneText
@@ -386,7 +386,7 @@ BasementDoorScript::
 	waitbutton
 	closetext
 	changeblock 18, 6, $2e ; unlocked door
-	reloadmappart
+	refreshmap
 	closetext
 	setevent EVENT_USED_BASEMENT_KEY
 	end
@@ -534,7 +534,7 @@ GoldenrodUndergroundOlderHaircutBrotherOfferHaircutText:
 
 	para "I can make your"
 	line "#MON beautiful"
-	cont "for just ¥500."
+	cont "for just ¥{d:GOLDENRODUNDERGROUND_OLDER_HAIRCUT_PRICE}."
 
 	para "Would you like me"
 	line "to do that?"
@@ -581,7 +581,7 @@ GoldenrodUndergroundYoungerHaircutBrotherOfferHaircutText:
 
 	para "I'll spiff up your"
 	line "#MON for just"
-	cont "¥300."
+	cont "¥{d:GOLDENRODUNDERGROUND_YOUNGER_HAIRCUT_PRICE}."
 
 	para "So? How about it?"
 	done

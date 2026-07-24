@@ -3,18 +3,19 @@
 
 BattleTowerElevator_MapScripts:
 	def_scene_scripts
-	scene_script .Scene0 ; SCENE_DEFAULT
-	scene_script .Scene1 ; SCENE_FINISHED
+	scene_script BattleTowerElevatorEnterScene, SCENE_BATTLETOWERELEVATOR_ENTER
+	scene_script BattleTowerElevatorNoopScene,  SCENE_BATTLETOWERELEVATOR_NOOP
 
 	def_callbacks
 
-.Scene0:
-	sdefer .RideElevator
-	setscene SCENE_FINISHED
-.Scene1:
+BattleTowerElevatorEnterScene:
+	sdefer BattleTowerElevatorRideElevatorScript
+	setscene SCENE_BATTLETOWERELEVATOR_NOOP
+	; fallthrough
+BattleTowerElevatorNoopScene:
 	end
 
-.RideElevator:
+BattleTowerElevatorRideElevatorScript:
 	follow BATTLETOWERELEVATOR_RECEPTIONIST, PLAYER
 	applymovement BATTLETOWERELEVATOR_RECEPTIONIST, MovementData_BattleTowerElevatorReceptionistWalksIn
 	applymovement PLAYER, MovementData_BattleTowerElevatorPlayerWalksIn

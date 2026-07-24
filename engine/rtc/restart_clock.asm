@@ -3,7 +3,7 @@
 	const RESTART_CLOCK_DAY
 	const RESTART_CLOCK_HOUR
 	const RESTART_CLOCK_MIN
-NUM_RESTART_CLOCK_DIVISIONS EQU const_value - 1
+DEF NUM_RESTART_CLOCK_DIVISIONS EQU const_value - 1
 
 RestartClock_GetWraparoundTime:
 	push hl
@@ -26,7 +26,7 @@ endr
 
 .WrapAroundTimes:
 ; entries correspond to RESTART_CLOCK_* constants
-wraparound_time: MACRO
+MACRO wraparound_time
 	dw \1 ; value pointer
 	db \2 ; maximum value
 	db \3 ; up/down arrow x coord (pairs with wRestartClockUpArrowYCoord)
@@ -121,17 +121,17 @@ RestartClock:
 	push af
 	call .PrintTime
 	pop af
-	bit 0, a
+	bit B_PAD_A, a
 	jr nz, .press_A
-	bit 1, a
+	bit B_PAD_B, a
 	jr nz, .press_B
-	bit 6, a
+	bit B_PAD_UP, a
 	jr nz, .pressed_up
-	bit 7, a
+	bit B_PAD_DOWN, a
 	jr nz, .pressed_down
-	bit 5, a
+	bit B_PAD_LEFT, a
 	jr nz, .pressed_left
-	bit 4, a
+	bit B_PAD_RIGHT, a
 	jr nz, .pressed_right
 	jr .joy_loop
 
@@ -205,10 +205,10 @@ RestartClock:
 	decoord 11, 8
 	farcall PrintHoursMins
 	ld a, [wRestartClockPrevDivision]
-	lb de, " ", " "
+	lb de, ' ', ' '
 	call .PlaceChars
 	ld a, [wRestartClockCurDivision]
-	lb de, "▲", "▼"
+	lb de, '▲', '▼'
 	call .PlaceChars
 	ld a, [wRestartClockCurDivision]
 	ld [wRestartClockPrevDivision], a

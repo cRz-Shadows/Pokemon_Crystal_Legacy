@@ -5,24 +5,24 @@
 
 VictoryRoadGate_MapScripts:
 	def_scene_scripts
-	scene_script .DummyScene0 ; SCENE_DEFAULT
-	scene_script .DummyScene1 ; SCENE_FINISHED
+	scene_script VictoryRoadGateNoop1Scene, SCENE_VICTORYROADGATE_BADGE_CHECK
+	scene_script VictoryRoadGateNoop2Scene, SCENE_VICTORYROADGATE_NOOP
 
 	def_callbacks
 
-.DummyScene0:
+VictoryRoadGateNoop1Scene:
 	end
 
-.DummyScene1:
+VictoryRoadGateNoop2Scene:
 	end
 
-VictoryRoadGateBadgeCheckScene:
+VictoryRoadGateBadgeCheckScript:
 	turnobject PLAYER, LEFT
-	sjump VictoryRoadGateBadgeCheckScript
+	sjump _VictoryRoadGateBadgeCheckScript
 
 VictoryRoadGateOfficerScript:
 	faceplayer
-VictoryRoadGateBadgeCheckScript:
+_VictoryRoadGateBadgeCheckScript:
 	opentext
 	writetext VictoryRoadGateOfficerText
 	promptbutton
@@ -38,7 +38,7 @@ VictoryRoadGateBadgeCheckScript:
 	writetext VictoryRoadGateEightBadgesText
 	waitbutton
 	closetext
-	setscene SCENE_FINISHED
+	setscene SCENE_VICTORYROADGATE_NOOP
 	end
 
 VictoryRoadGateLeftBlackBeltScript:
@@ -109,7 +109,7 @@ VictoryRoadGate_MapEvents:
 	warp_event  2,  7, ROUTE_28, 2
 
 	def_coord_events
-	coord_event 10, 11, SCENE_DEFAULT, VictoryRoadGateBadgeCheckScene
+	coord_event 10, 11, SCENE_VICTORYROADGATE_BADGE_CHECK, VictoryRoadGateBadgeCheckScript
 
 	def_bg_events
 

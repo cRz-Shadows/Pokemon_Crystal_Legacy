@@ -3,33 +3,34 @@
 
 BattleTowerHallway_MapScripts:
 	def_scene_scripts
-	scene_script .Scene0 ; SCENE_DEFAULT
-	scene_script .Scene1 ; SCENE_FINISHED
+	scene_script BattleTowerHallwayEnterScene, SCENE_BATTLETOWERHALLWAY_ENTER
+	scene_script BattleTowerHallwayNoopScene,  SCENE_BATTLETOWERHALLWAY_NOOP
 
 	def_callbacks
 
-.Scene0:
-	sdefer .ChooseBattleRoom
-	setscene SCENE_FINISHED
-.Scene1:
+BattleTowerHallwayEnterScene:
+	sdefer BattleTowerHallwayChooseBattleRoomScript
+	setscene SCENE_BATTLETOWERHALLWAY_NOOP
+	; fallthrough
+BattleTowerHallwayNoopScene:
 	end
 
-.ChooseBattleRoom:
+BattleTowerHallwayChooseBattleRoomScript:
 	follow BATTLETOWERHALLWAY_RECEPTIONIST, PLAYER
 	callasm .asm_load_battle_room
 	sjump .WalkToChosenBattleRoom
 
 .asm_load_battle_room
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 
 	ld a, BANK(wBTChoiceOfLvlGroup)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, [wBTChoiceOfLvlGroup]
 	ld [wScriptVar], a
 
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ret
 
 ; enter different rooms for different levels to battle against

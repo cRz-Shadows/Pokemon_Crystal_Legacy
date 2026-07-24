@@ -1,6 +1,6 @@
-FIELDMOVE_GRASS EQU $80
-FIELDMOVE_TREE EQU $84
-FIELDMOVE_FLY EQU $84
+DEF FIELDMOVE_GRASS EQU $80
+DEF FIELDMOVE_TREE  EQU $84
+DEF FIELDMOVE_FLY   EQU $84
 
 PlayWhirlpoolSound:
 	call WaitSFX
@@ -10,7 +10,7 @@ PlayWhirlpoolSound:
 	ret
 
 BlindingFlash:
-	farcall FadeOutPalettes
+	farcall FadeOutToWhite
 	ld hl, wStatusFlags
 	set STATUSFLAGS_FLASH_F, [hl]
 	farcall ReplaceTimeOfDayPals
@@ -18,7 +18,7 @@ BlindingFlash:
 	ld b, SCGB_MAPPALS
 	call GetSGBLayout
 	farcall LoadOW_BGPal7
-	farcall FadeInPalettes
+	farcall FadeInFromWhite
 	ret
 
 ShakeHeadbuttTree:
@@ -32,12 +32,12 @@ ShakeHeadbuttTree:
 	lb bc, BANK(HeadbuttTreeGFX), 8
 	call Request2bpp
 	call Cut_Headbutt_GetPixelFacing
-	ld a, SPRITE_ANIM_INDEX_HEADBUTT
+	ld a, SPRITE_ANIM_OBJ_HEADBUTT
 	call InitSpriteAnimStruct
 	ld hl, SPRITEANIMSTRUCT_TILE_ID
 	add hl, bc
 	ld [hl], FIELDMOVE_TREE
-	ld a, 36 * SPRITEOAMSTRUCT_LENGTH
+	ld a, 36 * OBJ_SIZE
 	ld [wCurSpriteOAMAddr], a
 	farcall DoNextFrameForAllSprites
 	call HideHeadbuttTree
@@ -52,20 +52,20 @@ ShakeHeadbuttTree:
 	and a
 	jr z, .done
 	dec [hl]
-	ld a, 36 * SPRITEOAMSTRUCT_LENGTH
+	ld a, 36 * OBJ_SIZE
 	ld [wCurSpriteOAMAddr], a
 	farcall DoNextFrameForAllSprites
 	call DelayFrame
 	jr .loop
 
 .done
-	call OverworldTextModeSwitch
+	call LoadOverworldTilemapAndAttrmapPals
 	call WaitBGMap
 	xor a
 	ldh [hBGMapMode], a
 	farcall ClearSpriteAnims
-	ld hl, wVirtualOAMSprite36
-	ld bc, wVirtualOAMEnd - wVirtualOAMSprite36
+	ld hl, wShadowOAMSprite36
+	ld bc, wShadowOAMEnd - wShadowOAMSprite36
 	xor a
 	call ByteFill
 	ld de, Font
@@ -79,6 +79,8 @@ HeadbuttTreeGFX:
 INCBIN "gfx/overworld/headbutt_tree.2bpp"
 
 HideHeadbuttTree:
+	; Replaces all four headbutted tree tiles with tile $05
+	; Assumes any tileset with headbutt trees has grass at tile $05
 	xor a
 	ldh [hBGMapMode], a
 	ld a, [wPlayerDirection]
@@ -92,7 +94,7 @@ HideHeadbuttTree:
 	ld h, [hl]
 	ld l, a
 
-	ld a, $05 ; grass block
+	ld a, $05 ; grass tile
 	ld [hli], a
 	ld [hld], a
 	ld bc, SCREEN_WIDTH
@@ -123,9 +125,9 @@ OWCutAnimation:
 	call PlaySFX
 .loop
 	ld a, [wJumptableIndex]
-	bit 7, a
+	bit JUMPTABLE_EXIT_F, a
 	jr nz, .finish
-	ld a, 36 * SPRITEOAMSTRUCT_LENGTH
+	ld a, 36 * OBJ_SIZE
 	ld [wCurSpriteOAMAddr], a
 	callfar DoNextFrameForAllSprites
 	call OWCutJumptable
@@ -164,7 +166,7 @@ OWCutJumptable:
 
 Cut_SpawnAnimateTree:
 	call Cut_Headbutt_GetPixelFacing
-	ld a, SPRITE_ANIM_INDEX_CUT_TREE ; cut tree
+	ld a, SPRITE_ANIM_OBJ_CUT_TREE ; cut tree
 	call InitSpriteAnimStruct
 	ld hl, SPRITEANIMSTRUCT_TILE_ID
 	add hl, bc
@@ -211,13 +213,13 @@ Cut_WaitAnimSFX:
 
 .finished
 	ld hl, wJumptableIndex
-	set 7, [hl]
+	set JUMPTABLE_EXIT_F, [hl]
 	ret
 
 Cut_SpawnLeaf:
 	push de
 	push af
-	ld a, SPRITE_ANIM_INDEX_LEAF ; leaf
+	ld a, SPRITE_ANIM_OBJ_LEAF ; leaf
 	call InitSpriteAnimStruct
 	ld hl, SPRITEANIMSTRUCT_TILE_ID
 	add hl, bc
@@ -232,17 +234,21 @@ Cut_SpawnLeaf:
 	pop de
 	ret
 
+; cut leaf spawn coords table bits
+DEF CUT_LEAF_SPAWN_RIGHT_F  EQU 0
+DEF CUT_LEAF_SPAWN_BOTTOM_F EQU 1
+
 Cut_GetLeafSpawnCoords:
 	ld de, 0
-	ld a, [wMetatileStandingX]
-	bit 0, a
+	ld a, [wPlayerMetatileX]
+	bit 0, a ; even or odd?
 	jr z, .left_side
-	set 0, e
+	set CUT_LEAF_SPAWN_RIGHT_F, e
 .left_side
-	ld a, [wMetatileStandingY]
-	bit 0, a
+	ld a, [wPlayerMetatileY]
+	bit 0, a ; even or odd?
 	jr z, .top_side
-	set 1, e
+	set CUT_LEAF_SPAWN_BOTTOM_F, e
 .top_side
 	ld a, [wPlayerDirection]
 	and %00001100
@@ -298,27 +304,27 @@ Cut_Headbutt_GetPixelFacing:
 
 FlyFromAnim:
 	call DelayFrame
-	ld a, [wVramState]
+	ld a, [wStateFlags]
 	push af
 	xor a
-	ld [wVramState], a
+	ld [wStateFlags], a
 	call FlyFunction_InitGFX
 	depixel 10, 10, 4, 0
-	ld a, SPRITE_ANIM_INDEX_RED_WALK
+	ld a, SPRITE_ANIM_OBJ_RED_WALK
 	call InitSpriteAnimStruct
 	ld hl, SPRITEANIMSTRUCT_TILE_ID
 	add hl, bc
 	ld [hl], FIELDMOVE_FLY
 	ld hl, SPRITEANIMSTRUCT_ANIM_SEQ_ID
 	add hl, bc
-	ld [hl], SPRITE_ANIM_SEQ_FLY_FROM
+	ld [hl], SPRITE_ANIM_FUNC_FLY_FROM
 	ld a, 128
 	ld [wFrameCounter], a
 .loop
 	ld a, [wJumptableIndex]
-	bit 7, a
+	bit JUMPTABLE_EXIT_F, a
 	jr nz, .exit
-	ld a, 0 * SPRITEOAMSTRUCT_LENGTH
+	ld a, 0 * OBJ_SIZE
 	ld [wCurSpriteOAMAddr], a
 	callfar DoNextFrameForAllSprites
 	call FlyFunction_FrameTimer
@@ -327,35 +333,35 @@ FlyFromAnim:
 
 .exit
 	pop af
-	ld [wVramState], a
+	ld [wStateFlags], a
 	ret
 
 FlyToAnim:
 	call DelayFrame
-	ld a, [wVramState]
+	ld a, [wStateFlags]
 	push af
 	xor a
-	ld [wVramState], a
+	ld [wStateFlags], a
 	call FlyFunction_InitGFX
 	depixel 31, 10, 4, 0
-	ld a, SPRITE_ANIM_INDEX_RED_WALK
+	ld a, SPRITE_ANIM_OBJ_RED_WALK
 	call InitSpriteAnimStruct
 	ld hl, SPRITEANIMSTRUCT_TILE_ID
 	add hl, bc
 	ld [hl], FIELDMOVE_FLY
 	ld hl, SPRITEANIMSTRUCT_ANIM_SEQ_ID
 	add hl, bc
-	ld [hl], SPRITE_ANIM_SEQ_FLY_TO
+	ld [hl], SPRITE_ANIM_FUNC_FLY_TO
 	ld hl, SPRITEANIMSTRUCT_VAR4
 	add hl, bc
-	ld [hl], 11 * 8
+	ld [hl], 11 * TILE_WIDTH
 	ld a, 64
 	ld [wFrameCounter], a
 .loop
 	ld a, [wJumptableIndex]
-	bit 7, a
+	bit JUMPTABLE_EXIT_F, a
 	jr nz, .exit
-	ld a, 0 * SPRITEOAMSTRUCT_LENGTH
+	ld a, 0 * OBJ_SIZE
 	ld [wCurSpriteOAMAddr], a
 	callfar DoNextFrameForAllSprites
 	call FlyFunction_FrameTimer
@@ -364,24 +370,24 @@ FlyToAnim:
 
 .exit
 	pop af
-	ld [wVramState], a
+	ld [wStateFlags], a
 	call .RestorePlayerSprite_DespawnLeaves
 	ret
 
 .RestorePlayerSprite_DespawnLeaves:
-	ld hl, wVirtualOAMSprite00TileID
+	ld hl, wShadowOAMSprite00TileID
 	xor a
 	ld c, 4
 .OAMloop
 	ld [hli], a ; tile id
-rept SPRITEOAMSTRUCT_LENGTH - 1
+rept OBJ_SIZE - 1
 	inc hl
 endr
 	inc a
 	dec c
 	jr nz, .OAMloop
-	ld hl, wVirtualOAMSprite04
-	ld bc, wVirtualOAMEnd - wVirtualOAMSprite04
+	ld hl, wShadowOAMSprite04
+	ld bc, wShadowOAMEnd - wShadowOAMSprite04
 	xor a
 	call ByteFill
 	ret
@@ -422,7 +428,7 @@ FlyFunction_FrameTimer:
 
 .exit
 	ld hl, wJumptableIndex
-	set 7, [hl]
+	set JUMPTABLE_EXIT_F, [hl]
 	ret
 
 .SpawnLeaf:
@@ -437,7 +443,7 @@ FlyFunction_FrameTimer:
 	add 8 * 8 ; gives a number in [$40, $50, $60, $70]
 	ld d, a
 	ld e, 0
-	ld a, SPRITE_ANIM_INDEX_FLY_LEAF
+	ld a, SPRITE_ANIM_OBJ_FLY_LEAF
 	call InitSpriteAnimStruct
 	ld hl, SPRITEANIMSTRUCT_TILE_ID
 	add hl, bc

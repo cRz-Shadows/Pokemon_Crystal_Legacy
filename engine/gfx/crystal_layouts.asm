@@ -46,7 +46,7 @@ Crystal_FillBoxCGB:
 Crystal_WipeAttrmap:
 ; This is a copy of WipeAttrmap.
 	hlcoord 0, 0, wAttrmap
-	ld bc, SCREEN_HEIGHT * SCREEN_WIDTH
+	ld bc, SCREEN_AREA
 	xor a
 	call ByteFill
 	ret
@@ -124,7 +124,7 @@ Palette_TextBG7:
 INCLUDE "gfx/font/bg_text.pal"
 
 Function49420::
-	ld hl, MansionPalette1 + 8 palettes
+	ld hl, MansionPalette1 palette 8
 	ld de, wBGPals1 palette PAL_BG_ROOF
 	ld bc, 1 palettes
 	ld a, BANK(wBGPals1)
@@ -140,7 +140,7 @@ _CrystalCGB_MobileLayout1:
 	call FarCopyWRAM
 	call Crystal_WipeAttrmap
 	hlcoord 0, 0, wAttrmap
-	ld bc, SCREEN_WIDTH * SCREEN_HEIGHT
+	ld bc, SCREEN_AREA
 	xor a
 	call ByteFill
 	hlcoord 0, 14, wAttrmap

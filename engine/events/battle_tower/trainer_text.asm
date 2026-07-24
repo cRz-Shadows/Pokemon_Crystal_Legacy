@@ -3,16 +3,15 @@ BattleTowerText::
 ; 1: Intro text
 ; 2: Player lost
 ; 3: Player won
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, BANK(wBT_OTTrainerClass)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld hl, wBT_OTTrainerClass ; load trainer class
 ; else
-; ; BUG ALERT
-; ; Instead of loading the Trainer Class, this routine
-; ; loads the 6th character in the Trainer's name, then
-; ; uses it to get the gender of the trainer.
+; ; BUG: Instead of loading the trainer class,
+; ; Crystal 1.0 loads the 6th character in the trainer's
+; ; name, then uses it to get the trainer's gender.
 ; ; As a consequence, the enemy trainer's dialog will
 ; ; always be sampled from the female array.
 ; 	ld hl, wBT_OTName + NAME_LENGTH_JAPANESE - 1
@@ -79,8 +78,8 @@ BattleTowerText::
 	ld h, a
 	bccoord 1, 14
 	pop af
-	ldh [rSVBK], a
-	call PlaceHLTextAtBC
+	ldh [rWBK], a
+	call PrintTextboxTextAt
 	ret
 
 INCLUDE "mobile/fixed_words.asm"

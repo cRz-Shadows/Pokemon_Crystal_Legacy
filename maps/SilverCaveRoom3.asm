@@ -48,25 +48,25 @@ Red:
 .defeated
 	pause 30
 	appear CERULEANCAVEB1F_MEWTWO
-	special FadeBlackQuickly
+	special FadeOutToBlack
 	special ReloadSpritesNoPalettes
 	applymovement CERULEANCAVEB1F_MEWTWO, MewtwoMovemenetScript
 	applymovement SILVERCAVEROOM3_RED, RedMovemenetScript
 	disappear SILVERCAVEROOM3_RED
 	special HealParty
-	special FadeInQuickly
+	special FadeInFromBlack
 	clearevent EVENT_RED_IN_MT_SILVER
 	end
 .RematchCredits
 	pause 30
-	special FadeBlackQuickly
+	special FadeOutToBlack
 	special ReloadSpritesNoPalettes
 	disappear SILVERCAVEROOM3_RED
 	pause 15
-	special FadeInQuickly
+	special FadeInFromBlack
 	pause 30
 	special HealParty
-	refreshscreen
+	reanchormap
 	checkflag ENGINE_HARD_MODE
 	iffalse .NotHardMode1
 	loadmem wLevelCap, 100 ; update level cap for hard mode

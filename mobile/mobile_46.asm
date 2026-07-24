@@ -15,10 +15,10 @@ asm_11800b:
 	ld [wcd34], a
 	ld a, $4
 	ld [wc3f0], a
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $3
-	ldh [rSVBK], a
+	ldh [rWBK], a
 .loop
 	call JoyTextDelay
 	call Function118473
@@ -39,7 +39,7 @@ asm_11800b:
 	cp [hl]
 	jr nz, .loop
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call BattleTowerRoomMenu_Cleanup
 	call ReturnToMapFromSubmenu
 BattleTowerRoomMenu_DoNothing:
@@ -55,10 +55,10 @@ Function11805f:
 	ld [wcd34], a
 	ld a, $4
 	ld [wc3f0], a
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $3
-	ldh [rSVBK], a
+	ldh [rWBK], a
 .asm_11807d
 	call JoyTextDelay
 	call Function118473
@@ -79,7 +79,7 @@ Function11805f:
 	cp [hl]
 	jr nz, .asm_11807d
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call BattleTowerRoomMenu_Cleanup
 	call ReturnToMapFromSubmenu
 	ret
@@ -92,10 +92,10 @@ Function1180b8:
 	ld [wcd34], a
 	ld a, $4
 	ld [wc3f0], a
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $3
-	ldh [rSVBK], a
+	ldh [rWBK], a
 .asm_1180d1
 	call JoyTextDelay
 	call Function118473
@@ -124,7 +124,7 @@ Function1180b8:
 	cp [hl]
 	jr nz, .asm_1180d1
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call BattleTowerRoomMenu_Cleanup
 	call ReturnToMapFromSubmenu
 	ret
@@ -145,10 +145,10 @@ Function118125:
 	ld [wcd34], a
 	ld a, $4
 	ld [wc3f0], a
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $3
-	ldh [rSVBK], a
+	ldh [rWBK], a
 .loop
 	call JoyTextDelay
 	call Function118473
@@ -170,7 +170,7 @@ Function118125:
 	xor a
 	ld [w3_d000], a
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call BattleTowerRoomMenu_Cleanup
 	call Function118180
 	call ReturnToMapFromSubmenu
@@ -190,10 +190,10 @@ Function118180:
 	ld bc, 22
 	call CopyBytes
 
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, BANK(w3_d202)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 
 	ld de, w3_d202
 	ld c, $96
@@ -211,7 +211,7 @@ Function118180:
 	call CopyBytes
 .reset_banks
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call CloseSRAM
 	ret
 
@@ -231,10 +231,10 @@ Function1181da:
 	ld [wcd34], a
 	ld a, $4
 	ld [wc3f0], a
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $3
-	ldh [rSVBK], a
+	ldh [rWBK], a
 .asm_1181f8
 	call JoyTextDelay
 	call Function118473
@@ -255,7 +255,7 @@ Function1181da:
 	cp [hl]
 	jr nz, .asm_1181f8
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call BattleTowerRoomMenu_Cleanup
 	call ReturnToMapFromSubmenu
 	ret
@@ -268,10 +268,10 @@ Function118233:
 	ld [wcd34], a
 	ld a, $6
 	ld [wc3f0], a
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $3
-	ldh [rSVBK], a
+	ldh [rWBK], a
 .asm_11824c
 	call JoyTextDelay
 	call Function118473
@@ -292,7 +292,7 @@ Function118233:
 	cp [hl]
 	jr nz, .asm_11824c
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call BattleTowerRoomMenu_Cleanup
 	ret
 
@@ -304,10 +304,10 @@ Function118284:
 	ld [wcd34], a
 	ld a, $5
 	ld [wc3f0], a
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $3
-	ldh [rSVBK], a
+	ldh [rWBK], a
 .asm_11829d
 	call JoyTextDelay
 	call Function118473
@@ -327,7 +327,7 @@ Function118284:
 	cp [hl]
 	jr nz, .asm_11829d
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call BattleTowerRoomMenu_Cleanup
 	ret
 
@@ -339,10 +339,10 @@ Function1182d5: ; unreferenced
 	ld [wcd34], a
 	ld a, $4
 	ld [wc3f0], a
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $3
-	ldh [rSVBK], a
+	ldh [rWBK], a
 .asm_1182ee
 	call JoyTextDelay
 	call Function118473
@@ -363,7 +363,7 @@ Function1182d5: ; unreferenced
 	cp [hl]
 	jr nz, .asm_1182ee
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call BattleTowerRoomMenu_Cleanup
 	call ReturnToMapFromSubmenu
 	ret
@@ -376,10 +376,10 @@ Function118329:
 	ld [wcd34], a
 	ld a, $6
 	ld [wc3f0], a
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $3
-	ldh [rSVBK], a
+	ldh [rWBK], a
 .asm_118342
 	call JoyTextDelay
 	call Function118473
@@ -400,7 +400,7 @@ Function118329:
 	cp [hl]
 	jr nz, .asm_118342
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call BattleTowerRoomMenu_Cleanup
 	ret
 
@@ -412,10 +412,10 @@ Function11837a:
 	ld [wcd34], a
 	ld a, $6
 	ld [wc3f0], a
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $3
-	ldh [rSVBK], a
+	ldh [rWBK], a
 .asm_118393
 	call JoyTextDelay
 	call Function118473
@@ -436,7 +436,7 @@ Function11837a:
 	cp [hl]
 	jr nz, .asm_118393
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call BattleTowerRoomMenu_Cleanup
 	ret
 
@@ -463,11 +463,11 @@ BattleTowerRoomMenu_InitRAM:
 	ld [wc3ed], a
 	ld [wc3ee], a
 	ld [wc3ef], a
-	ld hl, wVramState
+	ld hl, wStateFlags
 	ld a, [hl]
 	ld [wcd7f], a
-	set 1, [hl]
-	ld a, (1 << SERIAL) | (1 << TIMER) | (1 << LCD_STAT) | (1 << VBLANK)
+	set LAST_12_SPRITE_OAM_STRUCTS_RESERVED_F, [hl]
+	ld a, IE_SERIAL | IE_TIMER | IE_STAT | IE_VBLANK
 	ldh [rIE], a
 	ld a, $1
 	ldh [hMobileReceive], a
@@ -508,7 +508,7 @@ BattleTowerRoomMenu_Cleanup:
 	ldh [rIE], a
 	ei
 	ld a, [wcd7f]
-	ld [wVramState], a
+	ld [wStateFlags], a
 	ld a, [wMobileErrorCodeBuffer]
 	ld [wScriptVar], a
 	ret
@@ -559,7 +559,7 @@ Function1184a5:
 	dw Function1188c8
 	dw Function11878d
 	dw Function118903
-	dw Function118a8f
+	dw SetExchangeDownloadURL
 	dw Function11878d
 	dw Function118d80
 	dw Function118d9b
@@ -659,7 +659,7 @@ Function11857c:
 	dw Function1188c8
 	dw Function11878d
 	dw Function118903
-	dw Function118a7a
+	dw SetBattleDownloadURL
 	dw Function11878d
 	dw Function11891c
 	dw Function1198ee
@@ -692,7 +692,7 @@ Function1185c3:
 	dw Function1188c8
 	dw Function11878d
 	dw Function118903
-	dw Function118aa4
+	dw SetNewsDownloadURL
 	dw Function11878d
 	dw Function118e92
 	dw Function11878d
@@ -738,7 +738,7 @@ Function118624:
 	dw Function1188c8
 	dw Function11878d
 	dw Function118903
-	dw Function118aa4
+	dw SetNewsDownloadURL
 	dw Function11878d
 	dw Function118e92
 	dw Function11878d
@@ -835,7 +835,7 @@ Function1186f5:
 	dw Function1188c8
 	dw Function11878d
 	dw Function118903
-	dw Function118abc
+	dw SetStadiumDownloadURL
 	dw Function11878d
 	dw Function119451
 	dw Function1195f8
@@ -873,7 +873,7 @@ Function118746:
 	dw Function1188c8
 	dw Function11878d
 	dw Function118903
-	dw Function118ad0
+	dw SetOddEggDownloadURL
 	dw Function11878d
 	dw Function1196f2
 	dw Function1197c9
@@ -902,7 +902,7 @@ Function11878d:
 	and $1
 	jr z, .asm_1187a7
 	ld a, $3
-	ldh [rSVBK], a
+	ldh [rWBK], a
 .asm_1187a7
 	jp BattleTowerRoomMenu_IncrementJumptable
 .asm_1187aa
@@ -930,7 +930,7 @@ Function11878d:
 	jr nz, .asm_118803
 	set 0, [hl]
 	ld a, BANK(w6_d000)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld de, w6_d000
 	ld bc, $1000
 	ld a, [hl]
@@ -1067,7 +1067,7 @@ Function1188b8:
 	jp Function119e2b
 
 Function1188c0:
-	ld de, wc3cd
+	ld de, wEmailAddress
 	ld a, MOBILEAPI_08
 	jp Function119e2b
 
@@ -1152,7 +1152,7 @@ BattleTowerRoomMenu_PlacePickLevelMenu:
 	ld a, $1
 	ld [wcd4f], a
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, [wStatusFlags]
 	bit STATUSFLAGS_HALL_OF_FAME_F, a
 	jr nz, .asm_11896b
@@ -1171,7 +1171,7 @@ BattleTowerRoomMenu_PlacePickLevelMenu:
 	ld a, h
 	ld [wcd4c], a
 	ld a, $3
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call BattleTowerRoomMenu_IncrementJumptable
 
 BattleTowerRoomMenu_UpdatePickLevelMenu:
@@ -1197,10 +1197,10 @@ BattleTowerRoomMenu_UpdatePickLevelMenu:
 	ld e, a
 	ld a, h
 	ld d, a
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld bc, wStringBuffer3
 .asm_1189b5
 	ld a, [hli]
@@ -1218,21 +1218,21 @@ BattleTowerRoomMenu_UpdatePickLevelMenu:
 .asm_1189c4
 	ld [bc], a
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	hlcoord 13, 9
 	call PlaceString
 	ld hl, hJoyPressed
 	ld a, [hl]
-	and B_BUTTON
+	and PAD_B
 	jr nz, .b_button
 	ld a, [hl]
-	and A_BUTTON
+	and PAD_A
 	jr nz, .a_button
 	ld a, [hl]
-	and D_DOWN
+	and PAD_DOWN
 	jr nz, .d_down
 	ld a, [hl]
-	and D_UP
+	and PAD_UP
 	jr nz, .d_up
 .asm_1189e5
 	ret
@@ -1265,13 +1265,13 @@ BattleTowerRoomMenu_UpdatePickLevelMenu:
 	and $fe
 	srl a
 	ld [wcf65], a
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call CloseWindow
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, [wcd38]
 	and a
 	jr nz, .asm_118a30
@@ -1289,13 +1289,13 @@ BattleTowerRoomMenu_UpdatePickLevelMenu:
 	call PlayClickSFX
 
 .asm_118a3c
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call CloseWindow
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, $7
 	ld [wBattleTowerRoomMenuJumptableIndex], a
 	ld a, $0
@@ -1320,7 +1320,7 @@ Function118a65: ; unreferenced
 	ld bc, $1000
 	jp Function118b10
 
-Function118a7a:
+SetBattleDownloadURL:
 	ld hl, BattleDownloadURL
 	ld de, wcc60
 	ld bc, $80
@@ -1329,7 +1329,7 @@ Function118a7a:
 	ld bc, $1000
 	jp Function118b10
 
-Function118a8f:
+SetExchangeDownloadURL:
 	ld hl, ExchangeDownloadURL
 	ld de, wcc60
 	ld bc, $80
@@ -1338,19 +1338,19 @@ Function118a8f:
 	ld bc, $1000
 	jp Function118b10
 
-Function118aa4:
+SetNewsDownloadURL:
 	ld hl, NewsDownloadURL
 	ld de, wcc60
 	ld bc, $80
 	call CopyBytes
 	ld a, $5
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld de, w3_d100
 	ld bc, $e00
 	jr Function118b10
 
-Function118abc:
-	ld hl, MenuDownloadURL
+SetStadiumDownloadURL:
+	ld hl, StadiumDownloadURL
 	ld de, wcc60
 	ld bc, $80
 	call CopyBytes
@@ -1358,8 +1358,8 @@ Function118abc:
 	ld bc, $1000
 	jr Function118b10
 
-Function118ad0:
-	ld hl, IndexDownloadURL
+SetOddEggDownloadURL:
+	ld hl, OddEggDownloadURL
 	ld de, wcc60
 	ld bc, $80
 	call CopyBytes
@@ -1411,13 +1411,13 @@ Function118b10:
 
 Function118b24:
 	ld hl, wc346
-	ld a, $8
+	ld a, LOW(wc708)
 	ld [hli], a
-	ld a, $c7
+	ld a, HIGH(wc708)
 	ld [hli], a
-	ld a, $60
+	ld a, LOW(wcc60)
 	ld [hli], a
-	ld a, $cc
+	ld a, HIGH(wcc60)
 	ld [hli], a
 	call Function119eb4
 	call Function119ec2
@@ -1482,8 +1482,7 @@ Function118b9a:
 	and a
 	ret
 
-pushc
-setcharmap ascii
+pushc ascii
 
 ExchangeDownloadURL:
 	db "http://gameboy.datacenter.ne.jp/cgb/download?name=/01/CGB-BXTJ/exchange/index.txt", 0
@@ -1494,10 +1493,10 @@ BattleDownloadURL:
 NewsDownloadURL:
 	db "http://gameboy.datacenter.ne.jp/cgb/download?name=/01/CGB-BXTJ/news/index.txt", 0
 
-MenuDownloadURL:
+StadiumDownloadURL:
 	db "http://gameboy.datacenter.ne.jp/cgb/download?name=/01/CGB-BXTJ/POKESTA/menu.cgb", 0
 
-IndexDownloadURL:
+OddEggDownloadURL:
 	db "http://gameboy.datacenter.ne.jp/cgb/download?name=/01/CGB-BXTJ/tamago/index.txt", 0
 
 popc
@@ -1569,7 +1568,7 @@ asm_118d9f:
 	ld a, [wcd38]
 	and a
 	jr nz, .asm_118db2
-	ld a, $8f
+	ld a, TRADE_CORNER_REQUEST_LENGTH
 	ld [wcd3b], a
 	jr .asm_118db7
 
@@ -1579,17 +1578,17 @@ asm_118d9f:
 
 .asm_118db7
 	ld hl, w3_d800
-	ld a, $8
+	ld a, LOW(wc608)
 	ld [hli], a
-	ld a, $c6
+	ld a, HIGH(wc608)
 	ld [hli], a
 	ld a, [wcd3b]
 	ld [hli], a
 	xor a
 	ld [hli], a
-	ld a, $8
+	ld a, LOW(wc708)
 	ld [hli], a
-	ld a, $c7
+	ld a, HIGH(wc708)
 	ld [hli], a
 	ld a, [wcd39]
 	ld [hli], a
@@ -1609,13 +1608,13 @@ Function118ded:
 	ld a, [wcd38]
 	and a
 	jr z, .asm_118e03
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	farcall Function11b93b
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 
 .asm_118e03
 	jp BattleTowerRoomMenu_IncrementJumptable
@@ -1752,9 +1751,9 @@ Function118ec6:
 	call CopyBytes
 	xor a
 	ld [wc31f], a
-	ld a, $20
+	ld a, LOW(wc320)
 	ld [wc31b], a
-	ld a, $c3
+	ld a, HIGH(wc320)
 	ld [wc31c], a
 	hlcoord 1, 14
 	ld a, l
@@ -1834,21 +1833,21 @@ Function118f68:
 	and a
 	jr z, .asm_118fba
 	ld hl, wc346
-	ld a, LOW($c608)
+	ld a, LOW(wc608)
 	ld [hli], a
-	ld a, HIGH($c608)
+	ld a, HIGH(wc608)
 	ld [hli], a
 	ld a, [wcd4b]
 	ld [hli], a
 	ld a, [wcd4c]
 	ld [hli], a
-	ld a, LOW($c708)
+	ld a, LOW(wc708)
 	ld [hli], a
-	ld a, HIGH($c708)
+	ld a, HIGH(wc708)
 	ld [hli], a
-	ld a, $60
+	ld a, LOW(wcc60)
 	ld [hli], a
-	ld a, $cc
+	ld a, HIGH(wcc60)
 	ld [hli], a
 	call Function119eb4
 	call Function119ec2
@@ -1914,21 +1913,21 @@ Function119009:
 	call Function1191ad
 	ret c
 	ld hl, wc346
-	ld a, $8
+	ld a, LOW(wc608)
 	ld [hli], a
-	ld a, $c6
+	ld a, HIGH(wc608)
 	ld [hli], a
 	ld a, [wcd4b]
 	ld [hli], a
 	ld a, [wcd4c]
 	ld [hli], a
-	ld a, $8
+	ld a, LOW(wc708)
 	ld [hli], a
-	ld a, $c7
+	ld a, HIGH(wc708)
 	ld [hli], a
-	ld a, $60
+	ld a, LOW(wcc60)
 	ld [hli], a
-	ld a, $cc
+	ld a, HIGH(wcc60)
 	ld [hli], a
 	call Function119eb4
 	call Function119ec2
@@ -1958,7 +1957,7 @@ Function119054:
 	and $1
 	jr z, .asm_11908a
 	ld a, $6
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld hl, wd002
 	ld a, [w3_d000]
 	ld c, a
@@ -1970,7 +1969,7 @@ Function119054:
 .asm_11908a
 	call CloseSRAM
 	ld a, $3 ; ???
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, BANK(s5_b1b3) ; aka BANK(s5_b1b4) and BANK(s5_aa7f) and BANK(s5_b2f3) and BANK(s5_b2f4)
 	call OpenSRAM
 	ld a, [wcd4f]
@@ -1981,24 +1980,24 @@ Function119054:
 	ld de, s5_aa7f
 	ld bc, 12
 	call CopyBytes
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
-	ld a, BANK(wd474) ; aka BANK(wd475)
-	ldh [rSVBK], a
-	ld a, [wd474]
+	ld a, BANK(wPlayerPrefecture) ; aka BANK(wPlayerPostalCode)
+	ldh [rWBK], a
+	ld a, [wPlayerPrefecture]
 	ld [s5_b2f3], a
-	ld hl, wd475
+	ld hl, wPlayerPostalCode
 	ld de, s5_b2f4
 	ld bc, 4
 	call CopyBytes
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call CloseSRAM
 	jp BattleTowerRoomMenu_IncrementJumptable
 
 Function1190d0:
 	ld a, BANK(w3_d000)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, [wcd57]
 	ld l, a
 	ld a, [wcd58]
@@ -2037,7 +2036,7 @@ Function1190ec:
 	and $1
 	jr z, .asm_11913e
 	ld a, BANK(w6_d000)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, [w6_d000]
 	ld c, a
 	ld a, [w6_d000 + 1]
@@ -2048,7 +2047,7 @@ Function1190ec:
 
 .asm_11913e
 	ld a, BANK("Battle Tower RAM")
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call CloseSRAM
 	ld hl, Text_ReceivedNews
 	call BattleTowerRoomMenu_SetMessage
@@ -2125,7 +2124,7 @@ Function1191ad:
 	push bc
 	ld c, $0
 	ld a, $5
-	ldh [rSVBK], a
+	ldh [rWBK], a
 .asm_1191b4
 	ld a, [hli]
 	ld [de], a
@@ -2139,14 +2138,14 @@ Function1191ad:
 	ld a, $da
 	call SetMobileErrorCode
 	ld a, BANK("Battle Tower RAM")
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	pop bc
 	scf
 	ret
 
 .asm_1191cc
 	ld a, BANK("Battle Tower RAM")
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	pop bc
 	and a
 	ret
@@ -2202,7 +2201,7 @@ Function119223:
 	ld [wcd4c], a
 	ld a, BANK(s5_b092) ; aka BANK(s5_b1b1) and BANK(s5_b1b2) and BANK(s5_b1d3)
 	call OpenSRAM
-	ld hl, wc3cd
+	ld hl, wEmailAddress
 	ld de, s5_b092
 	ld bc, 31
 	call CopyBytes
@@ -2460,9 +2459,9 @@ Function1193a0:
 	ld [hli], a
 	ld a, HIGH(wc708)
 	ld [hli], a
-	ld a, $60
+	ld a, LOW(wcc60)
 	ld [hli], a
-	ld a, $cc
+	ld a, HIGH(wcc60)
 	ld [hli], a
 	call Function119eb4
 	call Function119ec2
@@ -2517,7 +2516,7 @@ Function119413:
 	and $1
 	jr z, .asm_119447
 	ld a, BANK(w6_d000)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, [w6_d000]
 	ld c, a
 	ld a, [w6_d000 + 1]
@@ -2528,7 +2527,7 @@ Function119413:
 
 .asm_119447
 	ld a, BANK("Battle Tower RAM")
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call CloseSRAM
 	jp BattleTowerRoomMenu_IncrementJumptable
 
@@ -2833,9 +2832,9 @@ Function119612:
 Function119629:
 	call BattleTowerRoomMenu2
 	ret c
-	ld a, $60
+	ld a, LOW(wcc60)
 	ld l, a
-	ld a, $cc
+	ld a, HIGH(wcc60)
 	ld h, a
 	call Function118e39
 	ld a, $9
@@ -2919,8 +2918,7 @@ Function119694:
 	jr nz, .asm_119699
 	ret
 
-pushc
-setcharmap ascii
+pushc ascii
 
 Unknown_1196b8:
 	db "Mon"
@@ -3165,13 +3163,13 @@ Function119800:
 	ld a, [wBattleTowerRoomMenuJumptableIndex]
 	push af
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call FadeToMenu
 	farcall Function10803d
 	call Function11a9ce
 	call RestartMapMusic
 	ld a, BANK("Battle Tower RAM")
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	pop af
 	ld [wBattleTowerRoomMenuJumptableIndex], a
 	pop af
@@ -3200,13 +3198,13 @@ Function11984e:
 	ld a, [wBattleTowerRoomMenuJumptableIndex]
 	push af
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call FadeToMenu
 	farcall MobileTradeAnimation_SendGivemonToGTS
 	call Function11a9ce
 	call RestartMapMusic
 	ld a, BANK("Battle Tower RAM")
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	pop af
 	ld [wBattleTowerRoomMenuJumptableIndex], a
 	pop af
@@ -3234,13 +3232,13 @@ Function11984e:
 	ld a, [wBattleTowerRoomMenuJumptableIndex]
 	push af
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call FadeToMenu
 	farcall MobileTradeAnimation_RetrieveGivemonFromGTS
 	call Function11a9ce
 	call RestartMapMusic
 	ld a, BANK("Battle Tower RAM")
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	pop af
 	ld [wBattleTowerRoomMenuJumptableIndex], a
 	pop af
@@ -3291,12 +3289,12 @@ Function1198f7:
 	jp Function119e2b
 
 Function119937:
-	farcall Function1707f4
+	farcall BattleTowerAction_06
 	jp BattleTowerRoomMenu_IncrementJumptable
 
 Function119940:
-	ld de, wc3cd
-	ld c, $1e
+	ld de, wEmailAddress
+	ld c, MOBILE_EMAIL_LENGTH
 .asm_119945
 	ld a, [de]
 	inc de
@@ -3319,7 +3317,7 @@ Function119954:
 	ld [wBattleTowerRoomMenu2JumptableIndex], a
 	call BattleTowerRoomMenu2
 	ld hl, wc608
-	ld de, wc3cd
+	ld de, wEmailAddress
 .asm_119962
 	ld a, [de]
 	inc de
@@ -3524,8 +3522,7 @@ Function119ac9:
 	ld [wBattleTowerRoomMenuJumptableIndex], a
 	ret
 
-pushc
-setcharmap ascii
+pushc ascii
 
 XGameCode:
 	db "CGB-BXTJ-00", $0
@@ -3718,30 +3715,29 @@ Function119b6b:
 	call CopyBytes
 	jp BattleTowerRoomMenu_IncrementJumptable
 
-pushc
-setcharmap ascii
+pushc ascii
 
 .decodeBase64Character
-	cp "+"
+	cp '+'
 	jr c, .asm_119c68
 	jr z, .asm_119c80
-	cp "/"
+	cp '/'
 	jr c, .asm_119c68
 	jr z, .asm_119c84
-	cp "0"
+	cp '0'
 	jr c, .asm_119c68
-	cp "9" + 1
+	cp '9' + 1
 	jr c, .asm_119c88
-	cp "="
+	cp '='
 	jr c, .asm_119c68
 	jr z, .asm_119c8c
-	cp "A"
+	cp 'A'
 	jr c, .asm_119c68
-	cp "Z" + 1
+	cp 'Z' + 1
 	jr c, .asm_119c8f
-	cp "a"
+	cp 'a'
 	jr c, .asm_119c68
-	cp "z" + 1
+	cp 'z' + 1
 	jr c, .asm_119c93
 
 popc
@@ -3894,10 +3890,10 @@ BattleTowerCancelString: ; unreferenced
 	db "CANCEL@"
 
 BattleTower_LevelCheck:
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, BANK(wPartyMons)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, [wcd4f]
 	ld c, 10
 	ld [wBTLevelGroup], a ; Save level group for prize selection
@@ -3925,7 +3921,7 @@ BattleTower_LevelCheck:
 	dec a
 	jr nz, .party_loop
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	and a
 	ret
 
@@ -3934,18 +3930,18 @@ BattleTower_LevelCheck:
 	ld a, $4
 	ld [wBattleTowerRoomMenuJumptableIndex], a
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	scf
 	ret
 
 BattleTower_UbersCheck:
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, [wcd4f]
 	cp 70 / 10
 	jr nc, .level_70_or_more
 	ld a, BANK(wPartyMons)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld hl, wPartyMon1Level
 	ld bc, PARTYMON_STRUCT_LENGTH
 	ld de, wPartySpecies
@@ -3973,7 +3969,7 @@ BattleTower_UbersCheck:
 	jr nz, .loop
 .level_70_or_more
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	and a
 	ret
 
@@ -3989,7 +3985,7 @@ BattleTower_UbersCheck:
 	ld a, $a
 	ld [wBattleTowerRoomMenuJumptableIndex], a
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	scf
 	ret
 
@@ -4001,8 +3997,7 @@ BattleTowerRoomMenu_IncrementJumptable:
 	inc [hl]
 	ret
 
-pushc
-setcharmap ascii
+pushc ascii
 
 XGameCodePrefix:
 	db "X-Game-code:\n"
@@ -4039,7 +4034,9 @@ Function119e4f:
 .loop2
 	ld a, [de]
 	inc de
-	cp "\n"
+pushc ascii
+	cp '\n'
+popc
 	jr z, .newline
 	cp [hl]
 	jr nz, .unequal
@@ -4064,7 +4061,9 @@ Function119e4f:
 	ld a, [hli]
 	ld [de], a
 	inc de
-	cp $d
+pushc ascii
+	cp '\r'
+popc
 	jr z, .finish
 	dec c
 	jr nz, .loop3
@@ -4138,15 +4137,15 @@ Function119ec2:
 	ret
 
 BattleTowerRoomMenu2:
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	ld [wcd8c], a
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 
 	call .RunJumptable
 
 	ld a, [wcd8c]
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, $1
 	ldh [hBGMapMode], a
 	ret
@@ -4254,7 +4253,7 @@ Function119f98:
 	and a
 	jr z, .asm_119fd4
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	farcall Function115dc3
 	ld a, [wcd33]
 	ld [wcf66], a
@@ -4271,14 +4270,14 @@ Function119f98:
 	ld [wc30d], a
 	ld a, $1
 	ld [wc314], a
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	and a
 	ret
 
 .asm_119fef
 	call ExitMenu
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	ld a, [wMobileInactivityTimerSeconds]
 	ld [wcf66], a
 	farcall Function115dc3
@@ -4313,24 +4312,24 @@ Function11a00e:
 
 .asm_11a039
 	ld a, BANK(w3_d800)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld hl, wc608
 	ld de, w3_d800
 	ld bc, 246
 	call CopyBytes
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call FadeToMenu
 	farcall Function11765d
 	call Function11a9ce
 	ld a, BANK(w3_d800)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld hl, w3_d800
 	ld de, wc608
 	ld bc, 246
 	call CopyBytes
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	farcall Function115d99
 	ld c, $0
 	farcall Function115e18
@@ -4352,7 +4351,7 @@ Function11a00e:
 	farcall Stubbed_Function106462
 	farcall Function106464
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	farcall Function115d99
 	ld c, $0
 	farcall Function115e18
@@ -4374,7 +4373,7 @@ Function11a0ca:
 	farcall Stubbed_Function106462
 	farcall Function106464
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	farcall Function115d99
 	ld c, $0
 	farcall Function115e18
@@ -4460,7 +4459,7 @@ Function11a192:
 	and a
 	jr nz, .asm_11a1b6
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	call Function11a63c
 	hlcoord 4, 2
 	ld de, String_11a6d2
@@ -4470,7 +4469,7 @@ Function11a192:
 
 .asm_11a1b6
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	ld a, [wMobileInactivityTimerSeconds]
 	ld [wcf66], a
 	ld [wcd80], a
@@ -4537,16 +4536,16 @@ BattleTowerRoomMenu2_PlaceYesNoMenu:
 BattleTowerRoomMenu2_UpdateYesNoMenu:
 	ld hl, hJoyPressed
 	ld a, [hl]
-	and A_BUTTON
+	and PAD_A
 	jr nz, .a_button
 	ld a, [hl]
-	and B_BUTTON
+	and PAD_B
 	jr nz, .b_button
 	ld a, [hl]
-	and D_UP
+	and PAD_UP
 	jr nz, .d_up
 	ld a, [hl]
-	and D_DOWN
+	and PAD_DOWN
 	jr nz, .d_down
 .asm_11a24c
 	call Function11a9f0
@@ -4596,7 +4595,7 @@ BattleTowerRoomMenu2_UpdateYesNoMenu:
 	and a
 	jr nz, .exit_no_carry
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	ld a, [wMobileInactivityTimerFrames]
 	cp $0
 	jr z, .asm_11a2b4
@@ -4618,7 +4617,7 @@ BattleTowerRoomMenu2_UpdateYesNoMenu:
 
 .exit_no_carry
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	and a
 	ret
 
@@ -4688,7 +4687,7 @@ Function11a33a:
 
 .asm_11a346
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	farcall Function115dc3
 	and a
 	ret
@@ -4729,7 +4728,7 @@ Function11a38d:
 	and a
 	jr nz, .asm_11a3b1
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	call Function11a63c
 	hlcoord 4, 2
 	ld de, String_11a6d2
@@ -4739,7 +4738,7 @@ Function11a38d:
 
 .asm_11a3b1
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	ld a, [wMobileInactivityTimerSeconds]
 	ld [wcf66], a
 	ld [wcd80], a
@@ -4800,7 +4799,7 @@ Function11a41b:
 	and a
 	jr nz, .asm_11a43f
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	call Function11a63c
 	hlcoord 4, 2
 	ld de, String_11a6d2
@@ -4810,7 +4809,7 @@ Function11a41b:
 
 .asm_11a43f
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	ld a, $1c
 	ld [wcf66], a
 	ld [wcd80], a
@@ -4866,7 +4865,7 @@ Function11a49e:
 	and a
 	jr nz, .asm_11a4c7
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	call Function11a63c
 	hlcoord 4, 2
 	ld de, String_11a6d2
@@ -4878,7 +4877,7 @@ Function11a49e:
 
 .asm_11a4c7
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	ld a, [wMobileInactivityTimerFrames]
 	ld [wcf66], a
 	ld [wcd80], a
@@ -4910,7 +4909,7 @@ Function11a4fe:
 	and a
 	jr nz, .asm_11a522
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	call Function11a63c
 	hlcoord 4, 2
 	ld de, String_11a6d2
@@ -4920,7 +4919,7 @@ Function11a4fe:
 
 .asm_11a522
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	ld a, [wMobileInactivityTimerSeconds]
 	ld [wcf66], a
 	ld [wcd80], a
@@ -4930,16 +4929,16 @@ Function11a4fe:
 Function11a536:
 	ld hl, hJoyPressed
 	ld a, [hl]
-	and A_BUTTON
+	and PAD_A
 	jr nz, .asm_11a5a7
 	ld a, [hl]
-	and B_BUTTON
+	and PAD_B
 	jr nz, .asm_11a5a2
 	ld a, [hl]
-	and D_UP
+	and PAD_UP
 	jr nz, .asm_11a564
 	ld a, [hl]
-	and D_DOWN
+	and PAD_DOWN
 	jr nz, .asm_11a583
 .asm_11a54d
 	ld a, [wBattleTowerRoomMenu2JumptableIndex]
@@ -4948,7 +4947,7 @@ Function11a536:
 	call Function11a9f0
 	jr nz, .asm_11a562
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 
 .asm_11a562
 	scf
@@ -5022,7 +5021,7 @@ Function11a5b9:
 	ld b, $4
 	ld c, $12
 	call Function3eea
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	call UpdateSprites
 	ld c, $0
 	farcall Function115e18
@@ -5056,7 +5055,7 @@ Function11a5f5:
 	hlcoord 15, 7
 	ld a, $ed
 	ld [hl], a
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	ret
 
 Function11a63c:
@@ -5265,7 +5264,7 @@ BattleTowerRoomMenu_WriteMessage:
 
 Function11a90f:
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call SpeechTextbox
 	ld a, $50
 	ld hl, wc320
@@ -5319,7 +5318,7 @@ Function11a90f:
 	ld hl, wc31a
 	inc [hl]
 	ld a, $3
-	ldh [rSVBK], a
+	ldh [rWBK], a
 
 BattleTowerRoomMenu_WriteMessage_DoNothing:
 	ret
@@ -5530,10 +5529,10 @@ Function11ac51:
 	ld a, [hl]
 	push af
 	set 4, [hl]
-	ld a, [wVramState]
+	ld a, [wStateFlags]
 	push af
 	xor a
-	ld [wVramState], a
+	ld [wStateFlags], a
 	ldh a, [hInMenu]
 	push af
 	ld a, $1
@@ -5550,15 +5549,15 @@ Function11ac51:
 .loop
 	call JoyTextDelay
 	ld a, [wJumptableIndex]
-	bit 7, a
+	bit JUMPTABLE_EXIT_F, a
 	jr nz, .asm_11aca8
 	call Function11b314
 	call Function11acb7
 	call Function11ad6e
-	ld a, 30 * SPRITEOAMSTRUCT_LENGTH
+	ld a, 30 * OBJ_SIZE
 	ld [wCurSpriteOAMAddr], a
 	farcall DoNextFrameForAllSprites
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	jr .loop
 
 .asm_11aca8
@@ -5566,7 +5565,7 @@ Function11ac51:
 	pop af
 	ldh [hInMenu], a
 	pop af
-	ld [wVramState], a
+	ld [wStateFlags], a
 	pop af
 	ld [wOptions], a
 	ret
@@ -5674,14 +5673,14 @@ Jumptable_11ad78:
 	dw Function11af04
 	dw Function11af4e
 
-Function11ad8a:
+MobileIncJumptableIndex:
 	ld hl, wJumptableIndex
 	inc [hl]
 	ret
 
 Function11ad8f:
 	ld hl, wJumptableIndex
-	set 7, [hl]
+	set JUMPTABLE_EXIT_F, [hl]
 	ret
 
 Function11ad95:
@@ -5694,8 +5693,8 @@ Function11ad95:
 	hlcoord 10, 10, wAttrmap
 	lb bc, 8, 8
 	call Function11afd6
-	farcall ReloadMapPart
-	call Function11ad8a
+	farcall HDMATransferTilemapAndAttrmap_Overworld
+	call MobileIncJumptableIndex
 	ld a, $1
 	ld [wMenuCursorY], a
 	ld hl, Unknown_11afcc
@@ -5707,16 +5706,16 @@ Function11adc4:
 	and a
 	ret z
 	ld a, [hl]
-	and D_UP
+	and PAD_UP
 	jr nz, .asm_11ade6
 	ld a, [hl]
-	and D_DOWN
+	and PAD_DOWN
 	jr nz, .asm_11aded
 	ld a, [hl]
-	and A_BUTTON
+	and PAD_A
 	jr nz, .asm_11ae06
 	ld a, [hl]
-	and B_BUTTON
+	and PAD_B
 	ret z
 	call PlayClickSFX
 	xor a
@@ -5769,11 +5768,11 @@ Function11adc4:
 	ld [hl], a
 
 .asm_11ae2b
-	call Function11ad8a
+	call MobileIncJumptableIndex
 
 .asm_11ae2e
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	ret
 
 MenuHeader_11ae38:
@@ -5807,8 +5806,8 @@ Function11ae4e:
 	hlcoord 9, 12, wAttrmap
 	lb bc, 6, 11
 	call Function11afd6
-	farcall ReloadMapPart
-	call Function11ad8a
+	farcall HDMATransferTilemapAndAttrmap_Overworld
+	call MobileIncJumptableIndex
 	ld a, $1
 	ld [wMenuCursorY], a
 	ld hl, Unknown_11afd2
@@ -5820,16 +5819,16 @@ Function11ae98:
 	and a
 	ret z
 	ld a, [hl]
-	and D_UP
+	and PAD_UP
 	jr nz, .asm_11aec1
 	ld a, [hl]
-	and D_DOWN
+	and PAD_DOWN
 	jr nz, .asm_11aec8
 	ld a, [hl]
-	and A_BUTTON
+	and PAD_A
 	jr nz, .asm_11aee1
 	ld a, [hl]
-	and B_BUTTON
+	and PAD_B
 	ret z
 	call PlayClickSFX
 .asm_11aeb4
@@ -5870,12 +5869,12 @@ Function11ae98:
 	ld a, [wcd4b]
 	ld [wScriptVar], a
 	call Function11b022
-	call Function11ad8a
+	call MobileIncJumptableIndex
 
 .asm_11aef7
 	call ExitMenu
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	ret
 
 Function11af04:
@@ -5897,8 +5896,8 @@ Function11af04:
 	hlcoord 9, 12, wAttrmap
 	lb bc, 6, 11
 	call Function11afd6
-	farcall ReloadMapPart
-	call Function11ad8a
+	farcall HDMATransferTilemapAndAttrmap_Overworld
+	call MobileIncJumptableIndex
 	ld a, $2
 	ld [wMenuCursorY], a
 	ld hl, Unknown_11afd2
@@ -5910,16 +5909,16 @@ Function11af4e:
 	and a
 	ret z
 	ld a, [hl]
-	and D_UP
+	and PAD_UP
 	jr nz, .asm_11af77
 	ld a, [hl]
-	and D_DOWN
+	and PAD_DOWN
 	jr nz, .asm_11af7e
 	ld a, [hl]
-	and A_BUTTON
+	and PAD_A
 	jr nz, .asm_11af97
 	ld a, [hl]
-	and B_BUTTON
+	and PAD_B
 	ret z
 	call PlayClickSFX
 .asm_11af6a
@@ -5965,7 +5964,7 @@ Function11af4e:
 .asm_11afaa
 	call ExitMenu
 	call ExitMenu
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	ret
 
 Function11afb7:
@@ -6023,7 +6022,7 @@ MenuHeader_11afe8:
 
 String_11aff0:
 	db   "この　じょうけんで"
-	next "よろしいですか?@"
+	next "よろしいですか？@"
 
 String_11b003:
 	db   "こうかんを"
@@ -6062,18 +6061,18 @@ Function11b03d:
 	ld c, $1
 .loop
 	ld a, [hli]
-	cp "♂"
+	cp '♂'
 	jr z, .gender
-	cp "♀"
+	cp '♀'
 	jr z, .gender
-	cp "@"
+	cp '@'
 	jr z, .done
 	inc c
 	jr .loop
 
 .gender
 	dec hl
-	ld a, "@"
+	ld a, '@'
 	ld [hli], a
 
 .done
@@ -6116,8 +6115,8 @@ Function11b082:
 	call Function11b099
 	call Function11b295
 	call Function11b275
-	call SetPalettes
-	jp Function11ad8a
+	call SetDefaultBGPAndOBP
+	jp MobileIncJumptableIndex
 
 Function11b099:
 	ld c, $6
@@ -6194,10 +6193,10 @@ Function11b099:
 Function11b0ff:
 	ld hl, hJoyPressed
 	ld a, [hl]
-	and B_BUTTON
+	and PAD_B
 	jr nz, .asm_11b141
 	ld a, [hl]
-	and A_BUTTON
+	and PAD_A
 	jr nz, .asm_11b131
 	call Function11b175
 	jr nc, .asm_11b125
@@ -6250,7 +6249,7 @@ Function11b0ff:
 	jr z, .asm_11b167
 	cp $ff
 	jr z, .asm_11b16b
-	jp Function11ad8a
+	jp MobileIncJumptableIndex
 
 .asm_11b163
 	ld a, $1
@@ -6276,19 +6275,19 @@ Function11b175:
 	ld e, a
 	ld hl, hJoyLast
 	ld a, [hl]
-	and D_UP
+	and PAD_UP
 	jr nz, .asm_11b19a
 	ld a, [hl]
-	and D_DOWN
+	and PAD_DOWN
 	jr nz, .asm_11b1ae
 	ld a, d
 	cp e
 	jr nc, .asm_11b1ed
 	ld a, [hl]
-	and D_LEFT
+	and PAD_LEFT
 	jr nz, .asm_11b1c6
 	ld a, [hl]
-	and D_RIGHT
+	and PAD_RIGHT
 	jr nz, .asm_11b1d8
 	jr .asm_11b1ed
 
@@ -6377,7 +6376,7 @@ Function11b175:
 FillScreenWithTile32: ; unreferenced
 	hlcoord 0, 0
 	ld a, $32
-	ld bc, SCREEN_WIDTH * SCREEN_HEIGHT
+	ld bc, SCREEN_AREA
 	call ByteFill
 	ret
 
@@ -6396,7 +6395,7 @@ Function11b20b:
 	add [hl]
 	ld e, a
 	ld d, 0
-	ld hl, $c6d0
+	ld hl, wc6d0
 	add hl, de
 	ld a, [hl]
 	ld [wTempSpecies], a
@@ -6501,9 +6500,9 @@ Function11b295:
 	call Function11b20b
 	call CheckSeenMemMon
 	jr z, .asm_11b2d1
-	ld a, [$c608]
+	ld a, [wc608]
 	ld c, a
-	ld a, [$c608 + 1]
+	ld a, [wc608 + 1]
 	ld b, a
 	ld hl, $0007
 	add hl, bc
@@ -6519,9 +6518,9 @@ Function11b295:
 	jr .asm_11b2e7
 
 .asm_11b2d1
-	ld a, [$c608]
+	ld a, [wc608]
 	ld c, a
-	ld a, [$c608 + 1]
+	ld a, [wc608 + 1]
 	ld b, a
 	ld hl, $0007
 	add hl, bc
@@ -6532,7 +6531,7 @@ Function11b295:
 	ld de, String_11b30e
 
 .asm_11b2e7
-	ld a, $6
+	ld a, NAME_LENGTH_JAPANESE
 	ld bc, wStringBuffer4
 .asm_11b2ec
 	push af
@@ -6550,10 +6549,10 @@ Function11b295:
 	ret
 
 String_11b2fe: ; unreferenced
-	db "あげる#@"
+	db "あげる<POKEMON>@"
 
 String_11b303: ; unreferenced
-	db "ほしい#@"
+	db "ほしい<POKEMON>@"
 
 String_11b308:
 	db "　　　　　@"
@@ -6664,7 +6663,7 @@ Function11b31b:
 	db $39 ; 13
 
 Function11b397:
-	ld de, wVirtualOAMSprite00
+	ld de, wShadowOAMSprite00
 .loop
 	ld a, [hl]
 	cp $ff
@@ -6720,7 +6719,7 @@ Function11b3b6: ; unreferenced
 	jr .loop
 
 Function11b3d9:
-	ld de, wVirtualOAMSprite28
+	ld de, wShadowOAMSprite28
 	push de
 	ld a, [wc7d2]
 	dec a
@@ -6753,10 +6752,10 @@ Function11b3d9:
 	jr .loop1
 
 .skip
-	ld b, 14 * 8
+	ld b, 14 * TILE_WIDTH
 
 .load_sprites
-	ld a, 2 * 8 + 5
+	ld a, 2 * TILE_WIDTH + 5
 	add b
 	pop hl
 	ld [hli], a
@@ -6773,7 +6772,7 @@ Function11b3d9:
 	jr z, .version2
 
 .version1
-	ld a, 19 * 8 + 3
+	ld a, 19 * TILE_WIDTH + 3
 	ld [hli], a
 	ld a, [wcd4c]
 	add $3c
@@ -6784,7 +6783,7 @@ Function11b3d9:
 	ret
 
 .version2
-	ld a, 19 * 8 + 3
+	ld a, 19 * TILE_WIDTH + 3
 	ld [hli], a
 	ld a, $39
 	ld [hli], a
@@ -6792,10 +6791,10 @@ Function11b3d9:
 	ld [hl], a
 	ret
 
-Function11b444:
+TradeCornerHoldMon:
 ; special
 	call Mobile46_InitJumptable
-	call Mobile46_RunJumptable
+	call TradeCornerHoldMon_RunJumptable
 	ret
 
 Mobile46_InitJumptable:
@@ -6807,7 +6806,7 @@ Mobile46_InitJumptable:
 	call UpdateTime
 	ret
 
-Mobile46_RunJumptable:
+TradeCornerHoldMon_RunJumptable:
 .loop
 	call .IterateJumptable
 	call DelayFrame
@@ -6820,17 +6819,17 @@ Mobile46_RunJumptable:
 	jumptable .Jumptable, wJumptableIndex
 
 .Jumptable:
-	dw Function11b483
+	dw TradeCornerHoldMon_PrepareForUpload
 	dw Function11b570
-	dw Function11b5c0
-	dw Function11b5e0
-	dw Function11b5e7 ; unused
+	dw TradeCornerHoldMon_RemoveFromParty
+	dw TradeCornerHoldMon_Success
+	dw TradeCornerHoldMon_Noop ; unused
 
-Function11b483:
+TradeCornerHoldMon_PrepareForUpload:
 	call .InitRAM
 	ld hl, wPlayerName
 	ld a, NAME_LENGTH_JAPANESE - 1
-.loop1
+.get_char
 	push af
 	ld a, [hli]
 	ld [bc], a
@@ -6838,24 +6837,26 @@ Function11b483:
 	pop af
 	dec a
 	and a
-	jr nz, .loop1
+	jr nz, .get_char
 
 	ld de, PARTYMON_STRUCT_LENGTH
 	ld hl, wPartyMon1Species
 	ld a, [wcd82]
 	dec a
 	push af
-.loop2
+
+.get_next_party_mon
 	and a
-	jr z, .okay
+	jr z, .got_selected_mon
 	add hl, de
 	dec a
-	jr .loop2
+	jr .get_next_party_mon
 
-.okay
+.got_selected_mon
 	push bc
 	ld a, PARTYMON_STRUCT_LENGTH
-.loop3
+.copy_mon_byte
+	; copies wPartyMon to bc.
 	push af
 	ld a, [hli]
 	ld [bc], a
@@ -6863,9 +6864,9 @@ Function11b483:
 	pop af
 	dec a
 	and a
-	jr nz, .loop3
+	jr nz, .copy_mon_byte
 
-	pop de
+	pop de ; pushed from bc
 	push bc
 	ld a, [de]
 	ld [wCurSpecies], a
@@ -6962,10 +6963,10 @@ Function11b483:
 	and a
 	jr nz, .loop9
 	call CloseSRAM
-	jp Function11ad8a
+	jp MobileIncJumptableIndex
 
 .InitRAM:
-	ld bc, $c626
+	ld bc, wOfferTrainerID
 	ld a, [wPlayerID]
 	ld [wcd2a], a
 	ld [bc], a
@@ -6986,19 +6987,19 @@ Function11b483:
 	ld [bc], a
 	inc bc
 
-	ld a, [wcd2e]
+	ld a, [wcd2e] ; offer gender
 	ld [bc], a
 	inc bc
 
-	ld a, [wcd2f]
+	ld a, [wcd2f] ; offer species
 	ld [bc], a
 	inc bc
 
-	ld a, [wcd30]
+	ld a, [wcd30] ; req gender
 	ld [bc], a
 	inc bc
 
-	ld a, [wd265]
+	ld a, [wd265] ; req species
 	ld [bc], a
 	inc bc
 	ret
@@ -7009,7 +7010,7 @@ Function11b570:
 	and a
 	jr nz, .exit
 	call .SaveData
-	jp Function11ad8a
+	jp MobileIncJumptableIndex
 
 .exit
 	ld a, $4
@@ -7018,15 +7019,15 @@ Function11b570:
 
 .SaveData:
 	ld a, $3
-	ldh [rSVBK], a
+	ldh [rWBK], a
 
 	ld hl, w3_d800
-	ld de, $c608
+	ld de, wc608
 	ld bc, w3_d88f - w3_d800
 	call CopyBytes
 
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, BANK(s5_a800)
 	call OpenSRAM
 
@@ -7034,7 +7035,7 @@ Function11b570:
 	ld a, $1
 	ld [de], a
 	inc de
-	ld hl, $c608
+	ld hl, wc608
 	ld bc, w3_d88f - w3_d800
 	call CopyBytes
 
@@ -7053,36 +7054,36 @@ Function11b570:
 	call CloseSRAM
 	ret
 
-Function11b5c0:
+TradeCornerHoldMon_RemoveFromParty:
 	ld a, [wcd82]
 	dec a
 	ld [wCurPartyMon], a
 	xor a ; REMOVE_PARTY
 	ld [wPokemonWithdrawDepositParameter], a
 	farcall RemoveMonFromPartyOrBox
-	farcall Function170807
+	farcall BattleTowerAction_16
 	farcall SaveAfterLinkTrade
-	jp Function11ad8a
+	jp MobileIncJumptableIndex
 
-Function11b5e0:
+TradeCornerHoldMon_Success:
 	xor a
 	ld [wScriptVar], a
-	jp Function11ad8a
+	jp MobileIncJumptableIndex
 
-Function11b5e7:
+TradeCornerHoldMon_Noop:
 	ret
 
 Function11b5e8:
 	ld a, $0
 	call OpenSRAM
 	ld hl, wRTC
-	ld de, $c608
+	ld de, wc608
 	ld bc, 4
 	call CopyBytes
 	call CloseSRAM
 	ld a, $5
 	call OpenSRAM
-	ld hl, $c608
+	ld hl, wc608
 	ld de, $b08c
 	ld bc, 4
 	call CopyBytes
@@ -7129,14 +7130,14 @@ Function11b66d:
 	ld a, [wScriptVar]
 	and a
 	jr nz, .asm_11b6b0
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $3
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, [w3_d090]
 	ld b, a
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, b
 	and a
 	jr z, .asm_11b691
@@ -7146,23 +7147,23 @@ Function11b66d:
 	jr .asm_11b6b0
 
 .asm_11b691
-	farcall Function17081d
+	farcall BattleTowerAction_17
 	ld a, [wScriptVar]
 	and a
 	jr z, .asm_11b6b0
 	xor a
 	ld [wScriptVar], a
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $3
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, $2
 	ld [w3_d090], a
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 
 .asm_11b6b0
-	jp Function11ad8a
+	jp MobileIncJumptableIndex
 
 Function11b6b3:
 	ret
@@ -7171,74 +7172,74 @@ Function11b6b4:
 	ld a, $5
 	call OpenSRAM
 	ld a, [wcd30]
-	ld [$c708], a
+	ld [wc708], a
 	ld a, [wcd31]
-	ld [$c709], a
+	ld [wc709], a
 
-	ld a, LOW($c708) ; Species
+	ld a, LOW(wc708)
 	ld [wMobileMonSpeciesPointer], a
-	ld a, HIGH($c708)
+	ld a, HIGH(wc708)
 	ld [wMobileMonSpeciesPointer + 1], a
 
-	ld a, LOW($c60d) ; Partymon Struct
+	ld a, LOW(wMobileMon)
 	ld [wMobileMonStructPointer], a
-	ld a, HIGH($c60d)
+	ld a, HIGH(wMobileMon)
 	ld [wMobileMonStructPointer + 1], a
 
-	ld a, LOW($c63d) ; OT
+	ld a, LOW(wMobileMonOT)
 	ld [wMobileMonOTPointer], a
-	ld a, HIGH($c63d)
+	ld a, HIGH(wMobileMonOT)
 	ld [wMobileMonOTPointer + 1], a
 
-	ld a, LOW($c642) ; Nickname
+	ld a, LOW(wMobileMonNick)
 	ld [wMobileMonNicknamePointer], a
-	ld a, HIGH($c642)
+	ld a, HIGH(wMobileMonNick)
 	ld [wMobileMonNicknamePointer + 1], a
 
-	ld a, LOW($c647) ; Mail
+	ld a, LOW(wMobileMonMail)
 	ld [wMobileMonMailPointer], a
-	ld a, HIGH($c647)
+	ld a, HIGH(wMobileMonMail)
 	ld [wMobileMonMailPointer + 1], a
 
-	ld a, $46
-	ld [$c628], a
+	ld a, BASE_HAPPINESS
+	ld [wMobileMonHappiness], a
 
-	ld de, $c63d
-	ld c, 5
+	ld de, wMobileMonOT
+	ld c, NAME_LENGTH_JAPANESE - 1
 	farcall CheckStringForErrors
 	jr nc, .length_check_OT
 	farcall Mobile_CopyDefaultOTName
 
 .length_check_OT
-	ld de, $c63d
-	lb bc, 1, 5
+	ld de, wMobileMonOT
+	lb bc, 1, NAME_LENGTH_JAPANESE - 1
 	farcall CheckStringContainsLessThanBNextCharacters
 	jr nc, .error_check_nick
 	farcall Mobile_CopyDefaultOTName
 
 .error_check_nick
-	ld de, $c642
-	ld c, 5
+	ld de, wMobileMonNick
+	ld c, NAME_LENGTH_JAPANESE - 1
 	farcall CheckStringForErrors
 	jr nc, .length_check_nick
 	farcall Mobile_CopyDefaultNickname
 
 .length_check_nick
-	ld de, $c642
-	lb bc, 1, 5
+	ld de, wMobileMonNick
+	lb bc, 1, NAME_LENGTH_JAPANESE - 1
 	farcall CheckStringContainsLessThanBNextCharacters
 	jr nc, .error_check_mail
 	farcall Mobile_CopyDefaultNickname
 
 .error_check_mail
-	ld de, $c647
+	ld de, wMobileMonMail
 	ld c, MAIL_MSG_LENGTH + 1
 	farcall CheckStringForErrors
 	jr nc, .length_check_mail
 	farcall Mobile_CopyDefaultMail
 
 .length_check_mail
-	ld de, $c647
+	ld de, wMobileMonMail
 	lb bc, 2, MAIL_MSG_LENGTH + 1
 	farcall CheckStringContainsLessThanBNextCharacters
 	jr c, .fix_mail
@@ -7250,33 +7251,33 @@ Function11b6b4:
 	farcall Mobile_CopyDefaultMail
 
 .mail_ok
-	ld de, $c668
-	ld c, $5
+	ld de, wMobileMonMailAuthor
+	ld c, NAME_LENGTH_JAPANESE - 1
 	farcall CheckStringForErrors
 	jr nc, .length_check_author
 	farcall Mobile_CopyDefaultMailAuthor
 
 .length_check_author
-	ld de, $c668
-	lb bc, 1, 5
+	ld de, wMobileMonMailAuthor
+	lb bc, 1, NAME_LENGTH_JAPANESE - 1
 	farcall CheckStringContainsLessThanBNextCharacters
 	jr nc, .author_okay
 	farcall Mobile_CopyDefaultMailAuthor
 
 .author_okay
-	ld a, [$c60e]
+	ld a, [wMobileMonItem]
 	cp -1
 	jr nz, .item_okay
 	xor a
-	ld [$c60e], a
+	ld [wMobileMonItem], a
 
 .item_okay
 	ld a, [wcd31]
-	ld [$c60d], a
+	ld [wMobileMonSpecies], a
 	ld [wCurSpecies], a
 	call GetBaseData
 
-	ld hl, $c60d + MON_LEVEL
+	ld hl, wMobileMonLevel
 	ld a, [hl]
 	cp MIN_LEVEL
 	ld a, MIN_LEVEL
@@ -7290,12 +7291,12 @@ Function11b6b4:
 .done_level
 	ld [wCurPartyLevel], a
 
-	ld hl, $c60d + MON_STAT_EXP - 1
-	ld de, $c60d + MON_MAXHP
+	ld hl, wMobileMonExp + 2
+	ld de, wMobileMonMaxHP
 	ld b, TRUE
 	predef CalcMonStats
-	ld de, $c60d + MON_MAXHP
-	ld hl, $c60d + MON_HP
+	ld de, wMobileMonMaxHP
+	ld hl, wMobileMonHP
 	ld a, [de]
 	ld [hli], a
 	inc de
@@ -7305,27 +7306,27 @@ Function11b6b4:
 	ret
 
 Function11b7e5:
-	ld a, [$c60d] ; species
+	ld a, [wMobileMonSpecies]
 	ld [wOTTrademonSpecies], a
 	ld [wCurPartySpecies], a
 	ld a, [wcd81]
 	ld [wc74e], a
-	ld hl, $c63d ; OT
+	ld hl, wMobileMonOT ; OT
 	ld de, wOTTrademonOTName
 	ld bc, 5
 	call CopyBytes
-	ld a, "@"
+	ld a, '@'
 	ld [de], a
-	ld a, [$c60d + MON_ID] ; id
+	ld a, [wMobileMonID]
 	ld [wOTTrademonID], a
-	ld a, [$c60d + MON_ID + 1]
+	ld a, [wMobileMonID + 1]
 	ld [wOTTrademonID + 1], a
-	ld hl, $c60d + MON_DVS ; dvs
+	ld hl, wMobileMonDVs
 	ld a, [hli]
 	ld [wOTTrademonDVs], a
 	ld a, [hl]
 	ld [wOTTrademonDVs + 1], a
-	ld bc, $c60d ; pokemon_data_start
+	ld bc, wMobileMon ; pokemon_data_start
 	farcall GetCaughtGender
 	ld a, c
 	ld [wOTTrademonCaughtData], a
@@ -7341,10 +7342,10 @@ Function11b7e5:
 	xor a
 	ld [wLinkMode], a
 	farcall SaveAfterLinkTrade
-	ld a, $5
+	ld a, BANK(s5_a800)
 	call OpenSRAM
 	ld a, $5
-	ld [$a800], a
+	ld [s5_a800], a
 	call CloseSRAM
 	ld a, [wMapGroup]
 	ld b, a
@@ -7367,17 +7368,17 @@ Function11b879:
 	ld a, [wScriptVar]
 	and a
 	ret z
-	ld a, $5
+	ld a, BANK(s5_a800)
 	call OpenSRAM
-	ld a, [$a800]
+	ld a, [s5_a800]
 	ld [wScriptVar], a
-	ld a, [$a890]
+	ld a, [s5_a890]
 	ld [wcd49], a
-	ld a, [$a891]
+	ld a, [s5_a891]
 	ld [wcd4a], a
-	ld a, [$a892]
+	ld a, [s5_a892]
 	ld [wcd4b], a
-	ld a, [$a893]
+	ld a, [s5_a893]
 	ld [wcd4c], a
 	call CloseSRAM
 	ld a, [wScriptVar]
@@ -7456,10 +7457,10 @@ Function11b879:
 
 Function11b920:
 	call Mobile46_InitJumptable
-	ld a, $5
+	ld a, BANK(sOfferTrainerID)
 	call OpenSRAM
-	ld hl, $a81f
-	ld de, $c626
+	ld hl, sOfferTrainerID
+	ld de, wOfferTrainerID
 	ld bc, 8
 	call CopyBytes
 	call CloseSRAM
@@ -7467,39 +7468,39 @@ Function11b920:
 	ret
 
 Function11b93b:
-	ld a, $5
+	ld a, BANK(s5_a800)
 	call OpenSRAM
 	xor a
-	ld [$a800], a
-	ld hl, $a823
-	ld de, $c608
-	ld bc, $008f
+	ld [s5_a800], a
+	ld hl, sOfferGender
+	ld de, wc608
+	ld bc, TRADE_CORNER_REQUEST_LENGTH
 	call CopyBytes
 	call CloseSRAM
 
-	ld a, LOW($c608)
+	ld a, LOW(wUnknownGender)
 	ld [wMobileMonSpeciesPointer], a
-	ld a, HIGH($c608)
+	ld a, HIGH(wUnknownGender)
 	ld [wMobileMonSpeciesPointer + 1], a
 
-	ld a, LOW($c611)
+	ld a, LOW(wUnknownMon)
 	ld [wMobileMonStructPointer], a
-	ld a, HIGH($c611)
+	ld a, HIGH(wUnknownMon)
 	ld [wMobileMonStructPointer + 1], a
 
-	ld a, LOW($c641)
+	ld a, LOW(wUnknownMonOT)
 	ld [wMobileMonOTPointer], a
-	ld a, HIGH($c641)
+	ld a, HIGH(wUnknownMonOT)
 	ld [wMobileMonOTPointer + 1], a
 
-	ld a, LOW($c646)
+	ld a, LOW(wUnknownMonNick)
 	ld [wMobileMonNicknamePointer], a
-	ld a, HIGH($c646)
+	ld a, HIGH(wUnknownMonNick)
 	ld [wMobileMonNicknamePointer + 1], a
 
-	ld a, LOW($c64b)
+	ld a, LOW(wUnknownMonMail)
 	ld [wMobileMonMailPointer], a
-	ld a, HIGH($c64b)
+	ld a, HIGH(wUnknownMonMail)
 	ld [wMobileMonMailPointer + 1], a
 	call AddMobileMonToParty
 	farcall SaveAfterLinkTrade
@@ -7533,7 +7534,7 @@ AddMobileMonToParty:
 	ld hl, wPartyMon1Species
 	ld bc, PARTYMON_STRUCT_LENGTH
 	ld a, e
-	ld [wMobileMonSpecies], a
+	ld [wMobileMonIndex], a
 .loop2
 	add hl, bc
 	dec a
@@ -7550,7 +7551,7 @@ AddMobileMonToParty:
 
 	ld hl, wPartyMonOTs
 	ld bc, NAME_LENGTH
-	ld a, [wMobileMonSpecies]
+	ld a, [wMobileMonIndex]
 .loop3
 	add hl, bc
 	dec a
@@ -7564,12 +7565,12 @@ AddMobileMonToParty:
 	ld h, a
 	ld bc, MON_NAME_LENGTH - 1
 	call CopyBytes
-	ld a, "@"
+	ld a, '@'
 	ld [de], a
 
 	ld hl, wPartyMonNicknames
 	ld bc, MON_NAME_LENGTH
-	ld a, [wMobileMonSpecies]
+	ld a, [wMobileMonIndex]
 .loop4
 	add hl, bc
 	dec a
@@ -7583,12 +7584,12 @@ AddMobileMonToParty:
 	ld h, a
 	ld bc, MON_NAME_LENGTH - 1
 	call CopyBytes
-	ld a, "@"
+	ld a, '@'
 	ld [de], a
 
 	ld hl, sPartyMail
 	ld bc, MAIL_STRUCT_LENGTH
-	ld a, [wMobileMonSpecies]
+	ld a, [wMobileMonIndex]
 .loop5
 	add hl, bc
 	dec a

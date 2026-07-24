@@ -6,7 +6,7 @@ GetNextTrainerDataByte:
 
 ReadTrainerParty:
 	ld a, [wInBattleTowerBattle]
-	bit 0, a
+	bit IN_BATTLE_TOWER_BATTLE_F, a
 	ret nz
 
 	ld a, [wLinkMode]
@@ -60,7 +60,7 @@ ReadTrainerParty:
 
 .skip_name
 	call GetNextTrainerDataByte
-	cp "@"
+	cp '@'
 	jr nz, .skip_name
 
 	call GetNextTrainerDataByte
@@ -142,7 +142,7 @@ ReadTrainerPartyPieces:
 
 	ld a, [hli]
 	call GetNextTrainerDataByte
- 	cp "@"
+ 	cp '@'
  	jr z, .no_nickname
 
 	push de
@@ -153,7 +153,7 @@ ReadTrainerPartyPieces:
 	call GetNextTrainerDataByte
 	ld [de], a
 	inc de
-	cp "@"
+	cp '@'
 	jr nz, .copy_nickname
 
 	push hl
@@ -414,7 +414,7 @@ ComputeTrainerReward:
 
 Battle_GetTrainerName::
 	ld a, [wInBattleTowerBattle]
-	bit 0, a
+	bit IN_BATTLE_TOWER_BATTLE_F, a
 	ld hl, wOTPlayerName
 	ld a, BANK(Battle_GetTrainerName)
 	ld [wTrainerGroupBank], a

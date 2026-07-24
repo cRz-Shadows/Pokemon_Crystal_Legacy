@@ -3,7 +3,7 @@
 
 TMHMMoves:
 ; entries correspond to *_TMNUM constants (see constants/item_constants.asm)
-	table_width 1, TMHMMoves
+	table_width 1
 
 ; TMs
 for n, 1, NUM_TMS + 1
@@ -18,7 +18,7 @@ endr
 	assert_table_length NUM_TMS + NUM_HMS
 
 ; Move tutors
-n = 1
+DEF n = 1
 for n, 1, NUM_TUTORS + 1
 	db MT{02d:n}_MOVE
 endr

@@ -1,6 +1,6 @@
 HappinessChanges:
 ; entries correspond to HAPPINESS_* constants
-	table_width 3, HappinessChanges
+	table_width 3
 	; change if happiness < 100, change if happiness < 200, change otherwise
 	db  +10, +6,  +4 ; Gained a level
 	db  +5,  +3,  +2 ; Vitamin

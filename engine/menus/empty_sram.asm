@@ -1,18 +1,14 @@
 EmptyAllSRAMBanks:
-	ld a, 0
+for x, NUM_SRAM_BANKS
+	ld a, x
 	call .EmptyBank
-	ld a, 1
-	call .EmptyBank
-	ld a, 2
-	call .EmptyBank
-	ld a, 3
-	call .EmptyBank
+endr
 	ret
 
 .EmptyBank:
 	call OpenSRAM
-	ld hl, SRAM_Begin
-	ld bc, SRAM_End - SRAM_Begin
+	ld hl, STARTOF(SRAM)
+	ld bc, SIZEOF(SRAM)
 	xor a
 	call ByteFill
 	call CloseSRAM

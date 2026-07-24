@@ -20,13 +20,13 @@ ShowPlayerMonsRemaining:
 	ld de, wPartyCount
 	call StageBallTilesData
 	; ldpixel wPlaceBallsX, 12, 12
-	ld a, 12 * 8
+	ld a, 12 * TILE_WIDTH
 	ld hl, wPlaceBallsX
 	ld [hli], a
 	ld [hl], a
-	ld a, 8
+	ld a, TILE_WIDTH
 	ld [wPlaceBallsDirection], a
-	ld hl, wVirtualOAMSprite00
+	ld hl, wShadowOAMSprite00
 	jp LoadTrainerHudOAM
 
 ShowOTTrainerMonsRemaining:
@@ -36,12 +36,12 @@ ShowOTTrainerMonsRemaining:
 	call StageBallTilesData
 	; ldpixel wPlaceBallsX, 9, 4
 	ld hl, wPlaceBallsX
-	ld a, 9 * 8
+	ld a, 9 * TILE_WIDTH
 	ld [hli], a
-	ld [hl], 4 * 8
-	ld a, -8
+	ld [hl], 4 * TILE_WIDTH
+	ld a, -TILE_WIDTH
 	ld [wPlaceBallsDirection], a
-	ld hl, wVirtualOAMSprite00 + PARTY_LENGTH * SPRITEOAMSTRUCT_LENGTH
+	ld hl, wShadowOAMSprite00 + PARTY_LENGTH * OBJ_SIZE
 	jp LoadTrainerHudOAM
 
 StageBallTilesData:
@@ -182,22 +182,22 @@ LinkBattle_TrainerHuds:
 	ld de, wPartyCount
 	call StageBallTilesData
 	ld hl, wPlaceBallsX
-	ld a, 10 * 8
+	ld a, 10 * TILE_WIDTH
 	ld [hli], a
-	ld [hl], 8 * 8
-	ld a, 8
+	ld [hl], 8 * TILE_WIDTH
+	ld a, TILE_WIDTH
 	ld [wPlaceBallsDirection], a
-	ld hl, wVirtualOAMSprite00
+	ld hl, wShadowOAMSprite00
 	call LoadTrainerHudOAM
 
 	ld hl, wOTPartyMon1HP
 	ld de, wOTPartyCount
 	call StageBallTilesData
 	ld hl, wPlaceBallsX
-	ld a, 10 * 8
+	ld a, 10 * TILE_WIDTH
 	ld [hli], a
-	ld [hl], 13 * 8
-	ld hl, wVirtualOAMSprite00 + PARTY_LENGTH * SPRITEOAMSTRUCT_LENGTH
+	ld [hl], 13 * TILE_WIDTH
+	ld hl, wShadowOAMSprite00 + PARTY_LENGTH * OBJ_SIZE
 	jp LoadTrainerHudOAM
 
 LoadTrainerHudOAM:
@@ -246,13 +246,13 @@ _ShowLinkBattleParticipants:
 	ld de, wOTPlayerName
 	call PlaceString
 	hlcoord 9, 8
-	ld a, "<BOLD_V>"
+	ld a, 'V'
 	ld [hli], a
-	ld [hl], "<BOLD_S>"
+	ld [hl], 'S'
 	farcall LinkBattle_TrainerHuds ; no need to farcall
 	ld b, SCGB_DIPLOMA
 	call GetSGBLayout
-	call SetPalettes
+	call SetDefaultBGPAndOBP
 	ld a, $e4
 	ldh [rOBP0], a
 	ret

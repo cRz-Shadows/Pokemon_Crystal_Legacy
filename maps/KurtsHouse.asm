@@ -9,9 +9,9 @@ KurtsHouse_MapScripts:
 	def_scene_scripts
 
 	def_callbacks
-	callback MAPCALLBACK_OBJECTS, .KurtCallback
+	callback MAPCALLBACK_OBJECTS, KurtsHouseKurtCallback
 
-.KurtCallback:
+KurtsHouseKurtCallback:
 	checkevent EVENT_CLEARED_SLOWPOKE_WELL
 	iffalse .Done
 	checkevent EVENT_FOREST_IS_RESTLESS
@@ -168,12 +168,12 @@ Kurt1:
 	writetext KurtsHouseKurtGetStartedText
 	waitbutton
 	closetext
-	special FadeBlackQuickly
+	special FadeOutToBlack
 	special ReloadSpritesNoPalettes
 	playsound SFX_WARP_TO
 	waitsfx
 	pause 35
-	special FadeInQuickly
+	special FadeInFromBlack
 	sjump Kurt1	
 	end
 
@@ -268,7 +268,7 @@ Kurt1:
 	checkitem GS_BALL
 	iffalse .NoGSBall
 	readvar VAR_BADGES
-	if_less_than 7, .NoGSBall
+	ifless 7, .NoGSBall
 	writetext KurtsHouseKurtWhatIsThatText
 	waitbutton
 	writetext KurtsHouseGSBallNoText
@@ -283,7 +283,7 @@ Kurt1:
 
 .GaveGSBallToKurt:
 	readvar VAR_BADGES
-	if_less_than 7, .NotGot7Badges
+	ifless 7, .NotGot7Badges
 	checkflag ENGINE_KURT_MAKING_BALLS
 	iffalse .NotMakingBalls
 .NotGot7Badges:

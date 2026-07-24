@@ -312,12 +312,12 @@ Print_area_entry:
 	ld [hl], $6c ; nite icon tile 
 	hlcoord 6, 10
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
-	ld [hl], "<%>"
+	ld [hl], '<%>'
 	ld de, 6
 	add hl, de
-	ld [hl], "<%>"
+	ld [hl], '<%>'
 	add hl, de
-	ld [hl], "<%>"
+	ld [hl], '<%>'
 .time_done
 	pop de ; nite encounter %
 	push de
@@ -1163,12 +1163,12 @@ BugContest_Print:
 	add hl, de
 	ld [hl], $6c ; nite icon tile 
 	hlcoord 6, 14
-	ld [hl], "<%>"
+	ld [hl], '<%>'
 	ld de, 6
 	add hl, de
-	ld [hl], "<%>"
+	ld [hl], '<%>'
 	add hl, de
-	ld [hl], "<%>"
+	ld [hl], '<%>'
 	ld a, b ; encounter %
 	ld [wTextDecimalByte], a
 	ld de, wTextDecimalByte
@@ -1305,7 +1305,7 @@ Dex_Print_Roamer_Info:
 	; print lvl symbol
 	hlcoord 3, 10
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
-	ld [hl], "<DEX_LV>" ; lvl symbol
+	ld [hl], '<DEX_LV>' ; lvl symbol
 
 ; if HP is 0, means the DVs havent been init'd yet upon seeing it in battle for the first time
 ; if HP is 0, don't print
@@ -1348,7 +1348,7 @@ Dex_Print_Roamer_Info:
 	push bc ; current print line in c
 	hlcoord 1, 10
 	call DexEntry_adjusthlcoord ; current print line needs to be in c
-	ld [hl], "<DEX_⁂>"
+	ld [hl], '<DEX_⁂>'
 ; shiny check done
 .not_shiny
 	pop bc ; line counter in c
@@ -1704,13 +1704,13 @@ Dex_Print_TradeMon_Info:
 	add hl, bc
 	ld a, BANK(NPCTrades)
 	call GetFarByte
-	ld c, " "
+	ld c, ' '
 	cp TRADE_GENDER_EITHER
 	jr z, .gender_done
-	ld c, "♂"
+	ld c, '♂'
 	cp TRADE_GENDER_MALE
 	jr z, .gender_done
-	ld c, "♀"
+	ld c, '♀'
 	; fallthrough
 .gender_done
 	hlcoord 7, 14

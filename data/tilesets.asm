@@ -1,4 +1,4 @@
-tileset: MACRO
+MACRO tileset
 	dba \1GFX, \1Meta, \1Coll
 	dw \1Anim
 	dw NULL
@@ -8,11 +8,11 @@ ENDM
 ; Associated data:
 ; - The *GFX, *Meta, and *Coll are defined in gfx/tilesets.asm
 ; - The *PalMap are defined in gfx/tileset_palette_maps.asm
-; - The *Anim are defined in engine/tilesets/tileset_anims.asm
+; - The *Anim are defined in data/tileset_anims.asm
 
 Tilesets::
 ; entries correspond to TILESET_* constants (see constants/tileset_constants.asm)
-	table_width TILESET_LENGTH, Tilesets
+	table_width TILESET_LENGTH
 	tileset Tileset0
 	tileset TilesetJohto
 	tileset TilesetJohtoModern

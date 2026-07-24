@@ -257,7 +257,9 @@
 	const ROCK_SMASH   ; f9
 	const WHIRLPOOL    ; fa
 	const BEAT_UP      ; fb
-NUM_ATTACKS EQU const_value - 1
+DEF NUM_ATTACKS EQU const_value - 1
+
+DEF CANNOT_MOVE EQU $ff
 
 ; Battle animations use the same constants as the moves up to this point
 	const_next $ff
@@ -276,7 +278,9 @@ NUM_ATTACKS EQU const_value - 1
 	const ANIM_IN_SANDSTORM      ; 10b
 	const ANIM_IN_NIGHTMARE      ; 10c
 	const ANIM_IN_WHIRLPOOL      ; 10d
-; battle anims
+
+; wBattleAfterAnim uses offsets from BATTLE_AFTERANIMS
+DEF BATTLE_AFTERANIMS EQU const_value
 	const ANIM_MISS              ; 10e
 	const ANIM_ENEMY_DAMAGE      ; 10f
 	const ANIM_ENEMY_STAT_DOWN   ; 110
@@ -285,15 +289,4 @@ NUM_ATTACKS EQU const_value - 1
 	const ANIM_WOBBLE            ; 113
 	const ANIM_SHAKE             ; 114
 	const ANIM_HIT_CONFUSION     ; 115
-NUM_BATTLE_ANIMS EQU const_value - 1
-
-; wNumHits uses offsets from ANIM_MISS
-	const_def
-	const BATTLEANIM_NONE
-	const BATTLEANIM_ENEMY_DAMAGE
-	const BATTLEANIM_ENEMY_STAT_DOWN
-	const BATTLEANIM_PLAYER_STAT_DOWN
-	const BATTLEANIM_PLAYER_DAMAGE
-	const BATTLEANIM_WOBBLE
-	const BATTLEANIM_SHAKE
-	const BATTLEANIM_HIT_CONFUSION
+DEF NUM_BATTLE_ANIMS EQU const_value - 1

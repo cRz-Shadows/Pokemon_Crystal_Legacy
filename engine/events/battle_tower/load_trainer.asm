@@ -1,8 +1,8 @@
 LoadOpponentTrainerAndPokemon:
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, BANK(wBT_OTTrainer)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 
 	; Fill wBT_OTTrainer with zeros
 	xor a
@@ -30,8 +30,8 @@ LoadOpponentTrainerAndPokemon:
 	maskbits BATTLETOWER_NUM_UNIQUE_TRAINERS
 	cp BATTLETOWER_NUM_UNIQUE_TRAINERS
 ; else
-; ; Crystal 1.0 used the wrong constant here, so only the first 21
-; ; trainers in BattleTowerTrainers can be sampled.
+; ; BUG: Crystal 1.0 used the wrong constant here, so only the first
+; ; 21 trainers in BattleTowerTrainers can be sampled.
 ; 	maskbits BATTLETOWER_NUM_UNIQUE_MON
 ; 	cp BATTLETOWER_NUM_UNIQUE_MON
 ; endc
@@ -87,7 +87,7 @@ LoadOpponentTrainerAndPokemon:
 	jr nz, .copy_bt_trainer_data_loop
 
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 
 	ret
 

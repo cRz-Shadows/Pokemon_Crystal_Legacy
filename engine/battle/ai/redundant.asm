@@ -102,7 +102,7 @@ AI_Redundant:
 .Snore:
 .SleepTalk:
 	ld a, [wEnemyMonStatus]
-	and SLP
+	and SLP_MASK
 	jr z, .Redundant
 	jr .NotRedundant
 
@@ -112,6 +112,7 @@ AI_Redundant:
 	ret
 
 .Nightmare:
+; BUG: AI does not discourage Nightmare if the player has any status condition (see docs/bugs_and_glitches.md)
 	ld a, [wBattleMonStatus]
 	and a
 	jr z, .Redundant
@@ -166,7 +167,7 @@ AI_Redundant:
 
 .DreamEater:
 	ld a, [wBattleMonStatus]
-	and SLP
+	and SLP_MASK
 	jr z, .Redundant
 	jr .NotRedundant
 

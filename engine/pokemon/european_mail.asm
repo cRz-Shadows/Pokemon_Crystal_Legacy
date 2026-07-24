@@ -1,29 +1,28 @@
-IsMailEuropean:
-; return 1 if French
-; return 2 if German
-; return 3 if Italian
-; return 4 if Spanish
-; return 0 if none of the above
-	ld c, $0
+ParseMailLanguage:
+	ld c, MAIL_LANG_ENGLISH
 	ld hl, sPartyMon1MailNationality - sPartyMon1Mail
 	add hl, de
 	ld a, [hli]
-	cp "E"
+	cp 'E'
 	ret nz
 	ld a, [hli]
+	assert MAIL_LANG_ENGLISH + 1 == MAIL_LANG_FRENCH
 	inc c
-	cp "F"
+	cp 'F'
 	ret z
+	assert MAIL_LANG_FRENCH + 1 == MAIL_LANG_GERMAN
 	inc c
-	cp "G"
+	cp 'G'
 	ret z
+	assert MAIL_LANG_GERMAN + 1 == MAIL_LANG_ITALIAN
 	inc c
-	cp "I"
+	cp 'I'
 	ret z
+	assert MAIL_LANG_ITALIAN + 1 == MAIL_LANG_SPANISH
 	inc c
-	cp "S"
+	cp 'S'
 	ret z
-	ld c, $0
+	ld c, MAIL_LANG_ENGLISH
 	ret
 
 ; The regular font.
@@ -39,8 +38,9 @@ SpanishItalianFont:
 INCBIN "gfx/font/spanish_italian.1bpp"
 
 ConvertFrenchGermanMailToEnglish:
-; Called if mail is French or German
-; Converts 's 't 'v from French/German character set to English
+; Called when sending French or German mail
+; Remaps 's from French/German character set to English 
+; Converts c' d' j' from French/German character set to unused values in English
 	ld b, sPartyMon1MailAuthor - sPartyMon1Mail
 	ld h, d
 	ld l, e
@@ -48,13 +48,13 @@ ConvertFrenchGermanMailToEnglish:
 	ld a, [hl]
 	cp $dc ; 's in French/German font
 	jr nz, .check_intermediate_chars
-	ld a, "'s"
+	ld a, '\'s'
 	jr .replace
 
 .check_intermediate_chars
-	sub "'s"
+	sub '\'s'
 	jr c, .dont_replace
-	cp "'v" - "'s" + 1
+	cp '\'v' - '\'s' + 1
 	jr nc, .dont_replace
 	add $cd
 
@@ -68,14 +68,15 @@ ConvertFrenchGermanMailToEnglish:
 	ret
 
 ConvertEnglishMailToFrenchGerman:
-; Called if mail is English and game is French or German
-; Converts 's 't 'v from English character set to French/German
+; Called when receiving French or German mail
+; Remaps 's from English character set to French/German 
+; Converts unused values from English character set back to c' d' j' in French/German
 	ld b, sPartyMon1MailAuthor - sPartyMon1Mail
 	ld h, d
 	ld l, e
 .loop
 	ld a, [hl]
-	cp "'s"
+	cp '\'s'
 	jr nz, .check_intermediate_chars
 	ld a, $dc ; 's in French/German font
 	jr .replace
@@ -83,9 +84,9 @@ ConvertEnglishMailToFrenchGerman:
 .check_intermediate_chars
 	sub $cd
 	jr c, .dont_replace
-	cp "'v" - "'s" + 1
+	cp '\'v' - '\'s' + 1
 	jr nc, .dont_replace
-	add "'s"
+	add '\'s'
 
 .replace
 	ld [hl], a
@@ -97,11 +98,13 @@ ConvertEnglishMailToFrenchGerman:
 	ret
 
 ConvertSpanishItalianMailToEnglish:
-; Called if mail is Spanish or Italian
+; Called when sending Spanish or Italian mail
 ; Converts 'd 'l 'm 'r 's 't 'v from Spanish/Italian character set to English
+; Converts ì í ñ ò ó ú º from Spanish/Italian character set to unused values in English
 ConvertEnglishMailToSpanishItalian:
-; Called if mail is English and game is Spanish or Italian
+; Called when receiving Spanish or Italian mail
 ; Converts 'd 'l 'm 'r 's 't 'v from English character set to Spanish/Italian
+; Converts unused values from English character set back to ì í ñ ò ó ú º in Spanish/Italian
 	ld b, sPartyMon1MailAuthor - sPartyMon1Mail
 	ld h, d
 	ld l, e

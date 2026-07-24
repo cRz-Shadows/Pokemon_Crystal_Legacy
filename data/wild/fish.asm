@@ -1,6 +1,6 @@
-time_group EQUS "0," ; use the nth TimeFishGroups entry
+DEF time_group EQUS "0," ; use the nth TimeFishGroups entry
 
-fishgroup: MACRO
+MACRO fishgroup
 ; chance, old rod, good rod, super rod
 	db \1
 	dw \2, \3, \4
@@ -8,7 +8,7 @@ ENDM
 
 FishGroups:
 ; entries correspond to FISHGROUP_* constants
-	table_width FISHGROUP_DATA_LENGTH, FishGroups
+	table_width FISHGROUP_DATA_LENGTH
 	fishgroup 50 percent + 1, .Shore_Old,            .Shore_Good,            .Shore_Super
 	fishgroup 50 percent + 1, .Ocean_Old,            .Ocean_Good,            .Ocean_Super
 	fishgroup 50 percent + 1, .Lake_Old,             .Lake_Good,             .Lake_Super

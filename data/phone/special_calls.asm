@@ -1,4 +1,4 @@
-specialcall: MACRO
+MACRO specialcall
 ; condition, contact, script
 	dw \1
 	db \2
@@ -7,7 +7,7 @@ ENDM
 
 SpecialPhoneCallList:
 ; entries correspond to SPECIALCALL_* constants
-	table_width SPECIALCALL_SIZE, SpecialPhoneCallList
+	table_width SPECIALCALL_SIZE
 	specialcall SpecialCallOnlyWhenOutside, PHONECONTACT_ELM,      ElmPhoneCallerScript
 	specialcall SpecialCallOnlyWhenOutside, PHONECONTACT_ELM,      ElmPhoneCallerScript
 	specialcall SpecialCallOnlyWhenOutside, PHONECONTACT_ELM,      ElmPhoneCallerScript

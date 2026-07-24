@@ -5,20 +5,20 @@
 
 LancesRoom_MapScripts:
 	def_scene_scripts
-	scene_script .LockDoor ; SCENE_DEFAULT
-	scene_script .DummyScene ; SCENE_LANCESROOM_APPROACH_LANCE
+	scene_script LancesRoomLockDoorScene, SCENE_LANCESROOM_LOCK_DOOR
+	scene_script LancesRoomNoopScene,     SCENE_LANCESROOM_APPROACH_LANCE
 
 	def_callbacks
-	callback MAPCALLBACK_TILES, .LancesRoomDoors
+	callback MAPCALLBACK_TILES, LancesRoomDoorsCallback
 
-.LockDoor:
-	sdefer .LancesDoorLocksBehindYou
+LancesRoomLockDoorScene:
+	sdefer LancesRoomDoorLocksBehindYouScript
 	end
 
-.DummyScene:
+LancesRoomNoopScene:
 	end
 
-.LancesRoomDoors:
+LancesRoomDoorsCallback:
 	checkevent EVENT_LANCES_ROOM_ENTRANCE_CLOSED
 	iffalse .KeepEntranceOpen
 	changeblock 4, 22, $34 ; wall
@@ -29,13 +29,13 @@ LancesRoom_MapScripts:
 .KeepExitClosed:
 	endcallback
 
-.LancesDoorLocksBehindYou:
+LancesRoomDoorLocksBehindYouScript:
 	applymovement PLAYER, LancesRoom_EnterMovement
-	refreshscreen $86
+	reanchormap $86
 	playsound SFX_STRENGTH
 	earthquake 80
 	changeblock 4, 22, $34 ; wall
-	reloadmappart
+	refreshmap
 	closetext
 	setscene SCENE_LANCESROOM_APPROACH_LANCE
 	setevent EVENT_LANCES_ROOM_ENTRANCE_CLOSED
@@ -54,7 +54,7 @@ LancesRoomLanceScript:
 	opentext
 	
 	readvar VAR_BADGES
-	if_less_than 16, .OriginalText1
+	ifless 16, .OriginalText1
 	writetext LanceRematchBattleIntroText
 	sjump .EndText1
 .OriginalText1
@@ -66,7 +66,7 @@ LancesRoomLanceScript:
 	winlosstext LanceBattleWinText, 0
 	setlasttalked LANCESROOM_LANCE
 	readvar VAR_BADGES
-	if_greater_than 15, .Rematch
+	ifgreater 15, .Rematch
 	loadtrainer CHAMPION, LANCE
 	sjump .LoadtrainerEnd
 .Rematch:
@@ -80,15 +80,15 @@ LancesRoomLanceScript:
 	dontrestartmapmusic
 	reloadmapafterbattle
 	readvar VAR_BADGES
-	if_less_than 16, .NoRed
+	ifless 16, .NoRed
 	setevent EVENT_ELITE_4_REMATCH
 .NoRed
 	
 	checkflag ENGINE_HARD_MODE
 	iffalse .DontUpdateBadge
 	readvar VAR_BADGES
-	if_less_than 9, .BaseCap
-	if_not_equal 16, .DontUpdateBadge
+	ifless 9, .BaseCap
+	ifnotequal 16, .DontUpdateBadge
 	checkevent EVENT_CERULEAN_CAVE_B1F_MEWTWO
 	iftrue .DontUpdateBadge
 	loadmem wLevelCap, 77 ; update level cap for hard mode
@@ -112,7 +112,7 @@ LancesRoomLanceScript:
 	setevent EVENT_BEAT_CHAMPION_LANCE
 	playsound SFX_ENTER_DOOR
 	changeblock 4, 0, $0b ; open door
-	reloadmappart
+	refreshmap
 	closetext
 	setevent EVENT_LANCES_ROOM_ENTRANCE_CLOSED
 	musicfadeout MUSIC_BEAUTY_ENCOUNTER, 16
@@ -137,7 +137,7 @@ LancesRoomLanceScript:
 	opentext
 
 	readvar VAR_BADGES
-	if_less_than 16, .OriginalText2
+	ifless 16, .OriginalText2
 	writetext LancesRoomRematchOakCongratulationsText
 	sjump .EndText2
 .OriginalText2
@@ -151,7 +151,7 @@ LancesRoomLanceScript:
 	opentext
 
 	readvar VAR_BADGES
-	if_less_than 16, .OriginalText3
+	ifless 16, .OriginalText3
 	writetext LancesRoomRematchMaryInterviewText
 	sjump .EndText3
 .OriginalText3
@@ -181,7 +181,7 @@ LancesRoomLanceScript:
 	opentext
 
 	readvar VAR_BADGES
-	if_less_than 16, .OriginalText4
+	ifless 16, .OriginalText4
 	writetext LancesRoomRematchMaryNoInterviewText
 	sjump .EndText4
 .OriginalText4
@@ -191,7 +191,7 @@ LancesRoomLanceScript:
 	pause 30
 	closetext
 	applymovement LANCESROOM_MARY, LancesRoomMovementData_MaryRunsBackAndForth
-	special FadeOutPalettes
+	special FadeOutToWhite
 	pause 15
 	warpfacing UP, HALL_OF_FAME, 4, 13
 	end

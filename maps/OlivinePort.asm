@@ -9,22 +9,22 @@
 
 OlivinePort_MapScripts:
 	def_scene_scripts
-	scene_script .DummyScene0 ; SCENE_DEFAULT
-	scene_script .LeaveFastShip ; SCENE_OLIVINEPORT_LEAVE_SHIP
+	scene_script OlivinePortNoopScene,      SCENE_OLIVINEPORT_ASK_ENTER_SHIP
+	scene_script OlivinePortLeaveShipScene, SCENE_OLIVINEPORT_LEAVE_SHIP
 
 	def_callbacks
 
-.DummyScene0:
+OlivinePortNoopScene:
 	end
 
-.LeaveFastShip:
-	sdefer .LeaveFastShipScript
+OlivinePortLeaveShipScene:
+	sdefer OlivinePortLeaveShipScript
 	end
 
-.LeaveFastShipScript:
+OlivinePortLeaveShipScript:
 	applymovement PLAYER, OlivinePortLeaveFastShipMovement
 	appear OLIVINEPORT_SAILOR1
-	setscene SCENE_DEFAULT
+	setscene SCENE_OLIVINEPORT_ASK_ENTER_SHIP
 	setevent EVENT_TEMPORARY_UNTIL_MAP_RELOAD_1
 	blackoutmod OLIVINE_CITY
 	end
@@ -44,7 +44,7 @@ OlivinePortSailorAtGangwayScript:
 	waitsfx
 	applymovement PLAYER, OlivinePortEnterFastShipMovement
 	playsound SFX_EXIT_BUILDING
-	special FadeOutPalettes
+	special FadeOutToWhite
 	waitsfx
 	checkevent EVENT_FAST_SHIP_FIRST_TIME
 	iffalse .FirstTime
@@ -390,7 +390,7 @@ OlivinePort_MapEvents:
 	warp_event  7, 23, FAST_SHIP_1F, 1
 
 	def_coord_events
-	coord_event  7, 15, SCENE_DEFAULT, OlivinePortWalkUpToShipScript
+	coord_event  7, 15, SCENE_OLIVINEPORT_ASK_ENTER_SHIP, OlivinePortWalkUpToShipScript
 
 	def_bg_events
 	bg_event  1, 22, BGEVENT_ITEM, OlivinePortHiddenProtein

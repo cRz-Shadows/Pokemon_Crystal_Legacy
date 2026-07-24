@@ -1,23 +1,23 @@
 	object_const_def
 	const NEWBARKTOWN_TEACHER
 	const NEWBARKTOWN_FISHER
-	const NEWBARKTOWN_SILVER
+	const NEWBARKTOWN_RIVAL
 
 NewBarkTown_MapScripts:
 	def_scene_scripts
-	scene_script .DummyScene0 ; SCENE_DEFAULT
-	scene_script .DummyScene1 ; SCENE_FINISHED
+	scene_script NewBarkTownNoop1Scene, SCENE_NEWBARKTOWN_TEACHER_STOPS_YOU
+	scene_script NewBarkTownNoop2Scene, SCENE_NEWBARKTOWN_NOOP
 
 	def_callbacks
-	callback MAPCALLBACK_NEWMAP, .FlyPoint
+	callback MAPCALLBACK_NEWMAP, NewBarkTownFlypointCallback
 
-.DummyScene0:
+NewBarkTownNoop1Scene:
 	end
 
-.DummyScene1:
+NewBarkTownNoop2Scene:
 	end
 
-.FlyPoint:
+NewBarkTownFlypointCallback:
 	setflag ENGINE_FLYPOINT_NEW_BARK
 	clearevent EVENT_FIRST_TIME_BANKING_WITH_MOM
 	endcallback
@@ -104,25 +104,25 @@ NewBarkTownTeacherScript:
 NewBarkTownFisherScript:
 	jumptextfaceplayer Text_ElmDiscoveredNewMon
 
-NewBarkTownSilverScript:
+NewBarkTownRivalScript:
 	opentext
 	writetext NewBarkTownRivalText1
 	waitbutton
 	closetext
-	turnobject NEWBARKTOWN_SILVER, LEFT
+	turnobject NEWBARKTOWN_RIVAL, LEFT
 	opentext
 	writetext NewBarkTownRivalText2
 	waitbutton
 	closetext
-	follow PLAYER, NEWBARKTOWN_SILVER
-	applymovement PLAYER, NewBarkTown_SilverPushesYouAwayMovement
+	follow PLAYER, NEWBARKTOWN_RIVAL
+	applymovement PLAYER, NewBarkTown_RivalPushesYouAwayMovement
 	stopfollow
 	pause 5
-	turnobject NEWBARKTOWN_SILVER, DOWN
+	turnobject NEWBARKTOWN_RIVAL, DOWN
 	pause 5
 	playsound SFX_TACKLE
-	applymovement PLAYER, NewBarkTown_SilverShovesYouOutMovement
-	applymovement NEWBARKTOWN_SILVER, NewBarkTown_SilverReturnsToTheShadowsMovement
+	applymovement PLAYER, NewBarkTown_RivalShovesYouOutMovement
+	applymovement NEWBARKTOWN_RIVAL, NewBarkTown_RivalReturnsToTheShadowsMovement
 	end
 
 NewBarkTownSign:
@@ -170,19 +170,19 @@ NewBarkTown_TeacherBringsYouBackMovement2:
 	turn_head LEFT
 	step_end
 
-NewBarkTown_SilverPushesYouAwayMovement:
+NewBarkTown_RivalPushesYouAwayMovement:
 	turn_head UP
 	step DOWN
 	step_end
 
-NewBarkTown_SilverShovesYouOutMovement:
+NewBarkTown_RivalShovesYouOutMovement:
 	turn_head UP
 	fix_facing
 	jump_step DOWN
 	remove_fixed_facing
 	step_end
 
-NewBarkTown_SilverReturnsToTheShadowsMovement:
+NewBarkTown_RivalReturnsToTheShadowsMovement:
 	step RIGHT
 	step_end
 
@@ -289,8 +289,8 @@ NewBarkTown_MapEvents:
 	warp_event 11, 13, ELMS_HOUSE, 1
 
 	def_coord_events
-	coord_event  1,  8, SCENE_DEFAULT, NewBarkTown_TeacherStopsYouScene1
-	coord_event  1,  9, SCENE_DEFAULT, NewBarkTown_TeacherStopsYouScene2
+	coord_event  1,  8, SCENE_NEWBARKTOWN_TEACHER_STOPS_YOU, NewBarkTown_TeacherStopsYouScene1
+	coord_event  1,  9, SCENE_NEWBARKTOWN_TEACHER_STOPS_YOU, NewBarkTown_TeacherStopsYouScene2
 
 	def_bg_events
 	bg_event  8,  8, BGEVENT_READ, NewBarkTownSign
@@ -301,4 +301,4 @@ NewBarkTown_MapEvents:
 	def_object_events
 	object_event  6,  8, SPRITE_TEACHER, SPRITEMOVEDATA_SPINRANDOM_SLOW, 1, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, NewBarkTownTeacherScript, -1
 	object_event 12,  9, SPRITE_FISHER, SPRITEMOVEDATA_WALK_UP_DOWN, 0, 1, -1, -1, PAL_NPC_GREEN, OBJECTTYPE_SCRIPT, 0, NewBarkTownFisherScript, -1
-	object_event  3,  2, SPRITE_SILVER, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, NewBarkTownSilverScript, EVENT_RIVAL_NEW_BARK_TOWN
+	object_event  3,  2, SPRITE_RIVAL, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, NewBarkTownRivalScript, EVENT_RIVAL_NEW_BARK_TOWN

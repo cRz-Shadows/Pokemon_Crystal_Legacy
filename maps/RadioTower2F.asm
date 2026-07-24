@@ -1,4 +1,4 @@
-BLUE_CARD_POINT_CAP EQU 30
+DEF BLUE_CARD_POINT_CAP EQU 30
 
 	object_const_def
 	const RADIOTOWER2F_SUPER_NERD
@@ -18,7 +18,7 @@ RadioTower2F_MapScripts:
 
 	def_callbacks
 
-RadioTower2FUnusedDummyScene: ; unreferenced
+RadioTower2FNoopScene: ; unreferenced
 	end
 
 RadioTower2FSuperNerdScript:
@@ -133,7 +133,7 @@ Buena:
 	waitbutton
 	closetext
 	turnobject RADIOTOWER2F_BUENA, DOWN
-	refreshscreen
+	reanchormap
 	special BuenasPassword
 	closetext
 	iffalse .WrongAnswer

@@ -1,4 +1,4 @@
-growth_rate: MACRO
+MACRO growth_rate
 ; [1]/[2]*n**3 + [3]*n**2 + [4]*n - [5]
 	dn \1, \2
 	if \3 < 0
@@ -11,7 +11,7 @@ ENDM
 
 GrowthRates:
 ; entries correspond to GROWTH_* (see constants/pokemon_data_constants.asm)
-	table_width 4, GrowthRates
+	table_width 4
 	growth_rate 1, 1,   0,   0,   0 ; Medium Fast
 	growth_rate 3, 4,  10,   0,  30 ; Slightly Fast
 	growth_rate 3, 4,  20,   0,  70 ; Slightly Slow

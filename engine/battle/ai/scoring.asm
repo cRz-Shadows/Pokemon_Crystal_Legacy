@@ -54,7 +54,7 @@ AI_Basic:
 	and a
 	jr nz, .discourage
 
-; Dismiss Safeguard if it's already active.
+; Dismiss status moves if the player is Safeguarded.
 	ld a, [wPlayerScreens]
 	bit SCREENS_SAFEGUARD, a
 	jr z, .checkmove
@@ -904,7 +904,7 @@ AI_Smart_ResetStats:
 	ret
 
 ; Discourage this move if neither:
-; Any of enemy's stat levels is	lower than -2.
+; Any of enemy's stat levels is lower than -2.
 ; Any of player's stat levels is higher than +2.
 .discourage
 	pop hl
@@ -1094,10 +1094,10 @@ AI_Smart_Confuse:
 	ret c
 	call Random
 	cp 10 percent
-	jr c, .skipdiscourage
+	jr c, .discourage
 	inc [hl]
 
-.skipdiscourage
+.discourage
 ; Discourage again if player's HP is below 25%.
 	call AICheckPlayerQuarterHP
 	ret c
@@ -1252,12 +1252,12 @@ AI_Smart_Rage:
 
 ; If enemy's Rage is building, 50% chance to encourage this move.
 	call AI_50_50
-	jr c, .skipencourage
+	jr c, .encourage
 
 	dec [hl]
 
 ; Encourage this move based on Rage's counter.
-.skipencourage
+.encourage
 	ld a, [wEnemyRageCounter]
 	cp 2
 	ret c
@@ -1273,7 +1273,7 @@ AI_Smart_Rage:
 	call AICheckEnemyHalfHP
 	jr nc, .discourage
 
-; 50% chance to encourage this move otherwise.
+; 20% chance to encourage this move otherwise.
 	call AI_80_20
 	ret nc
 	dec [hl]
@@ -1304,14 +1304,14 @@ AI_Smart_Mimic:
 	cp EFFECTIVE
 	pop hl
 	jr c, .discourage
-	jr z, .skip_encourage
+	jr z, .encourage
 
 	call AI_50_50
-	jr c, .skip_encourage
+	jr c, .encourage
 
 	dec [hl]
 
-.skip_encourage
+.encourage
 	ld a, [wLastPlayerCounterMove]
 	push hl
 	ld hl, UsefulMoves
@@ -1485,7 +1485,7 @@ AI_Smart_SleepTalk:
 ; Greatly discourage this move otherwise.
 
 	ld a, [wEnemyMonStatus]
-	and SLP
+	and SLP_MASK
 	cp 1
 	jr z, .discourage
 
@@ -1623,7 +1623,7 @@ AI_Smart_HealBell:
 	jr z, .ok
 	dec [hl]
 .ok
-	and 1 << FRZ | SLP
+	and 1 << FRZ | SLP_MASK
 	ret z
 	call AI_50_50
 	ret c
@@ -1841,17 +1841,17 @@ AI_Smart_Curse:
 	jr z, .ghost_curse
 
 	call AICheckEnemyHalfHP
-	jr nc, .encourage
+	jr nc, .discourage
 
 	ld a, [wEnemyAtkLevel]
 	cp BASE_STAT_LEVEL + 4
-	jr nc, .encourage
+	jr nc, .discourage
 	cp BASE_STAT_LEVEL + 2
 	ret nc
 
 	ld a, [wBattleMonType1]
 	cp GHOST
-	jr z, .greatly_encourage
+	jr z, .greatly_discourage
 	cp DARK
 	jr z, .physical1
 	cp SPECIAL
@@ -1869,12 +1869,12 @@ AI_Smart_Curse:
 	dec [hl]
 	ret
 
-.approve
+.highly_discourage
 	inc [hl]
 	inc [hl]
-.greatly_encourage
+.greatly_discourage
 	inc [hl]
-.encourage
+.discourage
 	inc [hl]
 	ret
 
@@ -1891,7 +1891,7 @@ AI_Smart_Curse:
 	push hl
 	call AICheckLastPlayerMon
 	pop hl
-	jr nz, .approve
+	jr nz, .highly_discourage
 
 	jr .ghost_continue
 
@@ -1903,10 +1903,10 @@ AI_Smart_Curse:
 
 .ghost_continue
 	call AICheckEnemyQuarterHP
-	jp nc, .approve
+	jp nc, .highly_discourage
 
 	call AICheckEnemyHalfHP
-	jr nc, .greatly_encourage
+	jr nc, .greatly_discourage
 
 	call AICheckEnemyMaxHP
 	ret nc
@@ -2337,7 +2337,7 @@ AI_Smart_HiddenPower:
 	cp EFFECTIVE
 	jr c, .bad
 
-; Discourage Hidden Power if its base power	is lower than 50.
+; Discourage Hidden Power if its base power is lower than 50.
 	ld a, d
 	cp 50
 	jr c, .bad
@@ -3111,6 +3111,7 @@ AI_Cautious:
 	pop hl
 	jr nc, .loop
 
+; BUG: "Cautious" AI may fail to discourage residual moves (see docs/bugs_and_glitches.md)
 	call Random
 	cp 90 percent + 1
 	ret nc

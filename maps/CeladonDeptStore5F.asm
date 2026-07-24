@@ -14,7 +14,7 @@ CeladonDeptStore5FClerk1Script:
 	faceplayer
 	opentext
 	readvar VAR_BADGES
-	if_less_than 16, .NotSixteenBadges
+	ifless 16, .NotSixteenBadges
 	sjump .SixteenBadges
 .NotSixteenBadges
 	pokemart MARTTYPE_STANDARD, MART_CELADON_5F_1
@@ -29,7 +29,7 @@ CeladonDeptStore5FClerk2Script:
 	faceplayer
 	opentext
 	readvar VAR_BADGES
-	if_less_than 16, .NotSixteenBadges
+	ifless 16, .NotSixteenBadges
 	sjump .SixteenBadges
 .NotSixteenBadges
 	pokemart MARTTYPE_STANDARD, MART_CELADON_5F_2

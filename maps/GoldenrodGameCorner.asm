@@ -1,9 +1,9 @@
-GOLDENRODGAMECORNER_TM25_COINS EQU 5500
-GOLDENRODGAMECORNER_TM14_COINS EQU 5500
-GOLDENRODGAMECORNER_TM38_COINS EQU 5500
-GOLDENRODGAMECORNER_ABRA_COINS      EQU 100
-GOLDENRODGAMECORNER_CUBONE_COINS    EQU 800
-GOLDENRODGAMECORNER_WOBBUFFET_COINS EQU 1500
+DEF GOLDENRODGAMECORNER_TM25_COINS      EQU 5500
+DEF GOLDENRODGAMECORNER_TM14_COINS      EQU 5500
+DEF GOLDENRODGAMECORNER_TM38_COINS      EQU 5500
+DEF GOLDENRODGAMECORNER_ABRA_COINS      EQU 100
+DEF GOLDENRODGAMECORNER_CUBONE_COINS    EQU 800
+DEF GOLDENRODGAMECORNER_WOBBUFFET_COINS EQU 1500
 
 EXPORT GOLDENRODGAMECORNER_ABRA_COINS
 EXPORT GOLDENRODGAMECORNER_CUBONE_COINS
@@ -27,9 +27,9 @@ GoldenrodGameCorner_MapScripts:
 	def_scene_scripts
 
 	def_callbacks
-	callback MAPCALLBACK_OBJECTS, .MoveTutor
+	callback MAPCALLBACK_OBJECTS, GoldenrodGameCornerMoveTutorCallback
 
-.MoveTutor:
+GoldenrodGameCornerMoveTutorCallback:
 	checkevent EVENT_BEAT_ELITE_FOUR
 	iffalse .finish
 	checkitem COIN_CASE
@@ -304,21 +304,21 @@ GoldenrodGameCornerLeftTheirDrinkScript:
 GoldenrodGameCornerSlotsMachineScript:
 	random 6
 	ifequal 0, GoldenrodGameCornerLuckySlotsMachineScript
-	refreshscreen
+	reanchormap
 	setval FALSE
 	special SlotMachine
 	closetext
 	end
 
 GoldenrodGameCornerLuckySlotsMachineScript:
-	refreshscreen
+	reanchormap
 	setval TRUE
 	special SlotMachine
 	closetext
 	end
 
 GoldenrodGameCornerCardFlipMachineScript:
-	refreshscreen
+	reanchormap
 	special CardFlip
 	closetext
 	end

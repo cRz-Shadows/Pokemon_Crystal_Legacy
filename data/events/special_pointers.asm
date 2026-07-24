@@ -1,7 +1,7 @@
 ; Special routines can be used with the "special" map script command.
 ; They often use wScriptVar for arguments and return values.
 
-add_special: MACRO
+MACRO add_special
 \1Special::
 	dba \1
 ENDM
@@ -59,11 +59,11 @@ SpecialsPointers::
 	add_special CardFlip
 	add_special UnusedMemoryGame ; unused
 	add_special ClearBGPalettesBufferScreen ; unused
-	add_special FadeOutPalettes
+	add_special FadeOutToWhite
 	add_special BattleTowerFade
-	add_special FadeBlackQuickly
-	add_special FadeInPalettes
-	add_special FadeInQuickly
+	add_special FadeOutToBlack
+	add_special FadeInFromWhite
+	add_special FadeInFromBlack
 	add_special ReloadSpritesNoPalettes ; bank 0
 	add_special ClearBGPalettes ; bank 0
 	add_special UpdateTimePals ; bank 0
@@ -125,7 +125,7 @@ SpecialsPointers::
 
 ; Crystal only
 	add_special Function11ac3e
-	add_special Function11b444
+	add_special TradeCornerHoldMon
 	add_special Function11b5e8
 	add_special Function11b7e5
 	add_special Function11b879
@@ -175,7 +175,7 @@ SpecialsPointers::
 	add_special StubbedTrainerRankings_Healings
 	add_special RefreshSprites
 	add_special Function1037c2
-	add_special Mobile_DummyReturnFalse
+	add_special CheckMobileAdapterStatusSpecial
 	add_special Function103780
 	add_special Function10387b
 	add_special AskRememberPassword

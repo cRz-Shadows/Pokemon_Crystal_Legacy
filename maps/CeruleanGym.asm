@@ -8,19 +8,19 @@
 
 CeruleanGym_MapScripts:
 	def_scene_scripts
-	scene_script .DummyScene0 ; SCENE_CERULEANGYM_NOTHING
-	scene_script .GruntRunsOut ; SCENE_CERULEANGYM_GRUNT_RUNS_OUT
+	scene_script CeruleanGymNoopScene,         SCENE_CERULEANGYM_NOOP
+	scene_script CeruleanGymGruntRunsOutScene, SCENE_CERULEANGYM_GRUNT_RUNS_OUT
 
 	def_callbacks
 
-.DummyScene0:
+CeruleanGymNoopScene:
 	end
 
-.GruntRunsOut:
-	sdefer .GruntRunsOutScript
+CeruleanGymGruntRunsOutScene:
+	sdefer CeruleanGymGruntRunsOutScript
 	end
 
-.GruntRunsOutScript:
+CeruleanGymGruntRunsOutScript:
 	applymovement CERULEANGYM_ROCKET, CeruleanGymGruntRunsDownMovement
 	playsound SFX_TACKLE
 	applymovement CERULEANGYM_ROCKET, CeruleanGymGruntRunsIntoYouMovement
@@ -46,9 +46,9 @@ CeruleanGym_MapScripts:
 	setevent EVENT_MET_ROCKET_GRUNT_AT_CERULEAN_GYM
 	clearevent EVENT_ROUTE_24_ROCKET
 	clearevent EVENT_ROUTE_25_MISTY_BOYFRIEND
-	setscene SCENE_CERULEANGYM_NOTHING
+	setscene SCENE_CERULEANGYM_NOOP
 	setmapscene ROUTE_25, SCENE_ROUTE25_MISTYS_DATE
-	setmapscene POWER_PLANT, SCENE_POWERPLANT_NOTHING
+	setmapscene POWER_PLANT, SCENE_POWERPLANT_NOOP
 	waitsfx
 	special RestartMapMusic
 	pause 15

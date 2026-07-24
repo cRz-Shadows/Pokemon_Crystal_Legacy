@@ -174,7 +174,7 @@ VermilionDiglettsCaveSpeechHouse_Blocks:
 BluesHouse_Blocks:
 PewterNidoranSpeechHouse_Blocks:
 PewterSnoozeSpeechHouse_Blocks:
-BillsBrothersHouse_Blocks:
+BillsOlderSistersHouse_Blocks:
 LavenderSpeechHouse_Blocks:
 LavenderNameRater_Blocks:
 Route12SuperRodHouse_Blocks:
@@ -805,8 +805,8 @@ RuinsOfAlphResearchCenter_Blocks:
 GoldenrodBikeShop_Blocks:
 	INCBIN "maps/GoldenrodBikeShop.blk"
 
-DanceTheatre_Blocks:
-	INCBIN "maps/DanceTheatre.blk"
+DanceTheater_Blocks:
+	INCBIN "maps/DanceTheater.blk"
 
 EcruteakTinTowerEntrance_Blocks:
 	INCBIN "maps/EcruteakTinTowerEntrance.blk"
@@ -1047,3 +1047,5 @@ BetaBlank_Blocks: ; unreferenced
 
 GoldenrodDeptStoreRoof_Blocks:
 	INCBIN "maps/GoldenrodDeptStoreRoof.blk"
+
+ENDSECTION

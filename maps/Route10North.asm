@@ -9,7 +9,7 @@ Route10North_MapScripts:
 
 .Flypoint:
 	setflag ENGINE_FLYPOINT_ROCK_TUNNEL
-	return
+	endcallback
 
 PowerPlantSign:
 	jumptext PowerPlantSignText

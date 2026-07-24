@@ -1,6 +1,6 @@
 ; Characteristics of each move.
 
-move: MACRO
+MACRO move
 	db \1 ; animation
 	db \2 ; effect
 	db \3 ; power
@@ -8,11 +8,12 @@ move: MACRO
 	db \5 percent ; accuracy
 	db \6 ; pp
 	db \7 percent ; effect chance
+	assert \6 <= 40, "PP must be 40 or less"
 ENDM
 
 Moves:
 ; entries correspond to move ids (see constants/move_constants.asm)
-	table_width MOVE_LENGTH, Moves
+	table_width MOVE_LENGTH
 	move POUND,        EFFECT_NORMAL_HIT,         40, NORMAL,       100, 35,   0
 	move KARATE_CHOP,  EFFECT_NORMAL_HIT,         50, FIGHTING,     100, 25,   0
 	move DOUBLESLAP,   EFFECT_MULTI_HIT,          20, NORMAL,       100, 35,   0

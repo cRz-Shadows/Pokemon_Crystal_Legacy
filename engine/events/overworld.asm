@@ -9,13 +9,13 @@ FieldMoveJumptable:
 	ld a, [wFieldMoveJumptableIndex]
 	rst JumpTable
 	ld [wFieldMoveJumptableIndex], a
-	bit 7, a
+	bit JUMPTABLE_EXIT_F, a
 	jr nz, .okay
 	and a
 	ret
 
 .okay
-	and $7f
+	and JUMPTABLE_INDEX_MASK
 	scf
 	ret
 
@@ -120,7 +120,7 @@ CutFunction:
 	ld hl, .Jumptable
 	call FieldMoveJumptable
 	jr nc, .loop
-	and $7f
+	and JUMPTABLE_INDEX_MASK
 	ld [wFieldMoveSucceeded], a
 	ret
 
@@ -139,7 +139,7 @@ CutFunction:
 	ret
 
 .nohivebadge
-	ld a, $80
+	ld a, JUMPTABLE_EXIT
 	ret
 
 .nothingtocut
@@ -149,13 +149,13 @@ CutFunction:
 .DoCut:
 	ld hl, Script_CutFromMenu
 	call QueueScript
-	ld a, $81
+	ld a, JUMPTABLE_EXIT | $1
 	ret
 
 .FailCut:
 	ld hl, CutNothingText
 	call MenuTextboxBackup
-	ld a, $80
+	ld a, JUMPTABLE_EXIT
 	ret
 
 UseCutText:
@@ -200,13 +200,13 @@ CheckMapForSomethingToCut:
 	ret
 
 Script_CutFromMenu:
-	reloadmappart
+	refreshmap
 	special UpdateTimePals
 
 Script_Cut:
 	callasm GetPartyNickname
 	writetext UseCutText
-	reloadmappart
+	refreshmap
 	callasm CutDownTreeOrGrass
 	closetext
 	end
@@ -220,7 +220,7 @@ CutDownTreeOrGrass:
 	ld [hl], a
 	xor a
 	ldh [hBGMapMode], a
-	call OverworldTextModeSwitch
+	call LoadOverworldTilemapAndAttrmapPals
 	call UpdateSprites
 	call DelayFrame
 	ld a, [wCutWhirlpoolAnimationType]
@@ -273,12 +273,11 @@ INCLUDE "data/collision/field_move_blocks.asm"
 
 FlashFunction:
 	call .CheckUseFlash
-	and $7f
+	and JUMPTABLE_INDEX_MASK
 	ld [wFieldMoveSucceeded], a
 	ret
 
 .CheckUseFlash:
-; Flash
 	ld de, ENGINE_ZEPHYRBADGE
 	farcall CheckBadge
 	jr c, .nozephyrbadge
@@ -291,16 +290,16 @@ FlashFunction:
 	jr nz, .notadarkcave
 .useflash
 	call UseFlash
-	ld a, $81
+	ld a, JUMPTABLE_EXIT | $1
 	ret
 
 .notadarkcave
 	call FieldMoveFailed
-	ld a, $80
+	ld a, JUMPTABLE_EXIT
 	ret
 
 .nozephyrbadge
-	ld a, $80
+	ld a, JUMPTABLE_EXIT
 	ret
 
 UseFlash:
@@ -308,7 +307,7 @@ UseFlash:
 	jp QueueScript
 
 Script_UseFlash:
-	reloadmappart
+	refreshmap
 	special UpdateTimePals
 	writetext UseFlashTextScript
 	callasm BlindingFlash
@@ -334,7 +333,7 @@ SurfFunction:
 	ld hl, .Jumptable
 	call FieldMoveJumptable
 	jr nc, .loop
-	and $7f
+	and JUMPTABLE_INDEX_MASK
 	ld [wFieldMoveSucceeded], a
 	ret
 
@@ -357,7 +356,7 @@ SurfFunction:
 	cp PLAYER_SURF_PIKA
 	jr z, .alreadyfail
 	call GetFacingTileCoord
-	call GetTileCollision
+	call GetTilePermission
 	cp WATER_TILE
 	jr nz, .cannotsurf
 	call CheckDirection
@@ -367,7 +366,7 @@ SurfFunction:
 	ld a, $1
 	ret
 .nofogbadge
-	ld a, $80
+	ld a, JUMPTABLE_EXIT
 	ret
 .alreadyfail
 	ld a, $3
@@ -382,25 +381,26 @@ SurfFunction:
 	call GetPartyNickname
 	ld hl, SurfFromMenuScript
 	call QueueScript
-	ld a, $81
+	ld a, JUMPTABLE_EXIT | $1
 	ret
 
 .FailSurf:
 	ld hl, CantSurfText
 	call MenuTextboxBackup
-	ld a, $80
+	ld a, JUMPTABLE_EXIT
 	ret
 
 .AlreadySurfing:
 	ld hl, AlreadySurfingText
 	call MenuTextboxBackup
-	ld a, $80
+	ld a, JUMPTABLE_EXIT
 	ret
 
 SurfFromMenuScript:
 	special UpdateTimePals
 
 UsedSurfScript:
+; BUG: Surfing directly across a map connection does not load the new map (see docs/bugs_and_glitches.md)
 	writetext UsedSurfText ; "used SURF!"
 	waitbutton
 	closetext
@@ -492,7 +492,7 @@ TrySurfOW::
 
 ; Must be facing water.
 	ld a, [wFacingTileID]
-	call GetTileCollision
+	call GetTilePermission
 	cp WATER_TILE
 	jr nz, .quit
 
@@ -545,17 +545,16 @@ FlyFunction:
 	ld hl, .Jumptable
 	call FieldMoveJumptable
 	jr nc, .loop
-	and $7f
+	and JUMPTABLE_INDEX_MASK
 	ld [wFieldMoveSucceeded], a
 	ret
 
 .Jumptable:
- 	dw .TryFly
- 	dw .DoFly
- 	dw .FailFly
+	dw .TryFly
+	dw .DoFly
+	dw .FailFly
 
 .TryFly:
-; Fly
 	ld de, ENGINE_STORMBADGE
 	call CheckBadge
 	jr c, .nostormbadge
@@ -582,7 +581,7 @@ FlyFunction:
 	ret
 
 .nostormbadge
-	ld a, $82
+	ld a, JUMPTABLE_EXIT | $2
 	ret
 
 .indoors
@@ -592,22 +591,22 @@ FlyFunction:
 .illegal
 	call CloseWindow
 	call WaitBGMap
-	ld a, $80
+	ld a, JUMPTABLE_EXIT
 	ret
 
 .DoFly:
 	ld hl, .FlyScript
 	call QueueScript
-	ld a, $81
+	ld a, JUMPTABLE_EXIT | $1
 	ret
 
 .FailFly:
 	call FieldMoveFailed
-	ld a, $82
+	ld a, JUMPTABLE_EXIT | $2
 	ret
 
 .FlyScript:
-	reloadmappart
+	refreshmap
 	callasm HideSprites
 	special UpdateTimePals
 	callasm FlyFromAnim
@@ -632,26 +631,25 @@ FlyFunction:
 
 WaterfallFunction:
 	call .TryWaterfall
-	and $7f
+	and JUMPTABLE_INDEX_MASK
 	ld [wFieldMoveSucceeded], a
 	ret
 
 .TryWaterfall:
-; Waterfall
 	ld de, ENGINE_RISINGBADGE
 	farcall CheckBadge
-	ld a, $80
+	ld a, JUMPTABLE_EXIT
 	ret c
 	call CheckMapCanWaterfall
 	jr c, .failed
 	ld hl, Script_WaterfallFromMenu
 	call QueueScript
-	ld a, $81
+	ld a, JUMPTABLE_EXIT | $1
 	ret
 
 .failed
 	call FieldMoveFailed
-	ld a, $80
+	ld a, JUMPTABLE_EXIT
 	ret
 
 CheckMapCanWaterfall:
@@ -670,7 +668,7 @@ CheckMapCanWaterfall:
 	ret
 
 Script_WaterfallFromMenu:
-	reloadmappart
+	refreshmap
 	special UpdateTimePals
 
 Script_UsedWaterfall:
@@ -688,7 +686,7 @@ Script_UsedWaterfall:
 .CheckContinueWaterfall:
 	xor a
 	ld [wScriptVar], a
-	ld a, [wPlayerStandingTile]
+	ld a, [wPlayerTileCollision]
 	call CheckWaterfallTile
 	ret z
 	farcall StubbedTrainerRankings_Waterfall
@@ -760,7 +758,7 @@ EscapeRopeOrDig:
 	ld hl, .DigTable
 	call FieldMoveJumptable
 	jr nc, .loop
-	and $7f
+	and JUMPTABLE_INDEX_MASK
 	ld [wFieldMoveSucceeded], a
 	ret
 
@@ -804,14 +802,14 @@ EscapeRopeOrDig:
 	jr nz, .escaperope
 	ld hl, .UsedDigScript
 	call QueueScript
-	ld a, $81
+	ld a, JUMPTABLE_EXIT | $1
 	ret
 
 .escaperope
 	farcall SpecialKabutoChamber
 	ld hl, .UsedEscapeRopeScript
 	call QueueScript
-	ld a, $81
+	ld a, JUMPTABLE_EXIT | $1
 	ret
 
 .FailDig:
@@ -824,7 +822,7 @@ EscapeRopeOrDig:
 	call CloseWindow
 
 .failescaperope
-	ld a, $80
+	ld a, JUMPTABLE_EXIT
 	ret
 
 .UseDigText:
@@ -840,13 +838,13 @@ EscapeRopeOrDig:
 	text_end
 
 .UsedEscapeRopeScript:
-	reloadmappart
+	refreshmap
 	special UpdateTimePals
 	writetext .UseEscapeRopeText
 	sjump .UsedDigOrEscapeRopeScript
 
 .UsedDigScript:
-	reloadmappart
+	refreshmap
 	special UpdateTimePals
 	writetext .UseDigText
 
@@ -879,7 +877,7 @@ TeleportFunction:
 	ld hl, .Jumptable
 	call FieldMoveJumptable
 	jr nc, .loop
-	and $7f
+	and JUMPTABLE_INDEX_MASK
 	ld [wFieldMoveSucceeded], a
 	ret
 
@@ -914,13 +912,13 @@ TeleportFunction:
 	call GetPartyNickname
 	ld hl, .TeleportScript
 	call QueueScript
-	ld a, $81
+	ld a, JUMPTABLE_EXIT | $1
 	ret
 
 .FailTeleport:
 	ld hl, .CantUseTeleportText
 	call MenuTextboxBackup
-	ld a, $80
+	ld a, JUMPTABLE_EXIT
 	ret
 
 .TeleportReturnText:
@@ -932,11 +930,11 @@ TeleportFunction:
 	text_end
 
 .TeleportScript:
-	reloadmappart
+	refreshmap
 	special UpdateTimePals
 	writetext .TeleportReturnText
 	pause 60
-	reloadmappart
+	refreshmap
 	closetext
 	playsound SFX_WARP_TO
 	applymovement PLAYER, .TeleportFrom
@@ -958,12 +956,11 @@ TeleportFunction:
 
 StrengthFunction:
 	call .TryStrength
-	and $7f
+	and JUMPTABLE_INDEX_MASK
 	ld [wFieldMoveSucceeded], a
 	ret
 
 .TryStrength:
-; Strength
 	ld de, ENGINE_PLAINBADGE
 	call CheckBadge
 	jr c, .Failed
@@ -972,7 +969,7 @@ StrengthFunction:
 .AlreadyUsingStrength: ; unreferenced
 	ld hl, .AlreadyUsingStrengthText
 	call MenuTextboxBackup
-	ld a, $80
+	ld a, JUMPTABLE_EXIT
 	ret
 
 .AlreadyUsingStrengthText:
@@ -980,13 +977,13 @@ StrengthFunction:
 	text_end
 
 .Failed:
-	ld a, $80
+	ld a, JUMPTABLE_EXIT
 	ret
 
 .UseStrength:
 	ld hl, Script_StrengthFromMenu
 	call QueueScript
-	ld a, $81
+	ld a, JUMPTABLE_EXIT | $1
 	ret
 
 SetStrengthFlag:
@@ -1003,7 +1000,7 @@ SetStrengthFlag:
 	ret
 
 Script_StrengthFromMenu:
-	reloadmappart
+	refreshmap
 	special UpdateTimePals
 
 Script_UsedStrength:
@@ -1090,7 +1087,7 @@ WhirlpoolFunction:
 	ld hl, .Jumptable
 	call FieldMoveJumptable
 	jr nc, .loop
-	and $7f
+	and JUMPTABLE_INDEX_MASK
 	ld [wFieldMoveSucceeded], a
 	ret
 
@@ -1113,18 +1110,18 @@ WhirlpoolFunction:
 	ret
 
 .noglacierbadge
-	ld a, $80
+	ld a, JUMPTABLE_EXIT
 	ret
 
 .DoWhirlpool:
 	ld hl, Script_WhirlpoolFromMenu
 	call QueueScript
-	ld a, $81
+	ld a, JUMPTABLE_EXIT | $1
 	ret
 
 .FailWhirlpool:
 	call FieldMoveFailed
-	ld a, $80
+	ld a, JUMPTABLE_EXIT
 	ret
 
 UseWhirlpoolText:
@@ -1162,13 +1159,13 @@ TryWhirlpoolMenu:
 	ret
 
 Script_WhirlpoolFromMenu:
-	reloadmappart
+	refreshmap
 	special UpdateTimePals
 
 Script_UsedWhirlpool:
 	callasm GetPartyNickname
 	writetext UseWhirlpoolText
-	reloadmappart
+	refreshmap
 	callasm DisappearWhirlpool
 	closetext
 	end
@@ -1182,7 +1179,7 @@ DisappearWhirlpool:
 	ld [hl], a
 	xor a
 	ldh [hBGMapMode], a
-	call OverworldTextModeSwitch
+	call LoadOverworldTilemapAndAttrmapPals
 	ld a, [wCutWhirlpoolAnimationType]
 	ld e, a
 	farcall PlayWhirlpoolSound
@@ -1233,7 +1230,7 @@ AskWhirlpoolText:
 
 HeadbuttFunction:
 	call TryHeadbuttFromMenu
-	and $7f
+	and JUMPTABLE_INDEX_MASK
 	ld [wFieldMoveSucceeded], a
 	ret
 
@@ -1244,12 +1241,12 @@ TryHeadbuttFromMenu:
 
 	ld hl, HeadbuttFromMenuScript
 	call QueueScript
-	ld a, $81
+	ld a, JUMPTABLE_EXIT | $1
 	ret
 
 .no_tree
 	call FieldMoveFailed
-	ld a, $80
+	ld a, JUMPTABLE_EXIT
 	ret
 
 UseHeadbuttText:
@@ -1261,14 +1258,14 @@ HeadbuttNothingText:
 	text_end
 
 HeadbuttFromMenuScript:
-	reloadmappart
+	refreshmap
 	special UpdateTimePals
 
 HeadbuttScript:
 	callasm GetPartyNickname
 	writetext UseHeadbuttText
 
-	reloadmappart
+	refreshmap
 	callasm ShakeHeadbuttTree
 
 	callasm TreeMonEncounter
@@ -1314,7 +1311,7 @@ AskHeadbuttText:
 
 RockSmashFunction:
 	call TryRockSmashFromMenu
-	and $7f
+	and JUMPTABLE_INDEX_MASK
 	ld [wFieldMoveSucceeded], a
 	ret
 
@@ -1327,12 +1324,12 @@ TryRockSmashFromMenu:
 
 	ld hl, RockSmashFromMenuScript
 	call QueueScript
-	ld a, $81
+	ld a, JUMPTABLE_EXIT | $1
 	ret
 
 .no_rock
 	call FieldMoveFailed
-	ld a, $80
+	ld a, JUMPTABLE_EXIT
 	ret
 
 GetFacingObject:
@@ -1358,7 +1355,7 @@ GetFacingObject:
 	ret
 
 RockSmashFromMenuScript:
-	reloadmappart
+	refreshmap
 	special UpdateTimePals
 
 RockSmashScript:
@@ -1369,7 +1366,7 @@ RockSmashScript:
 	playsound SFX_STRENGTH
 	earthquake 84
 	applymovementlasttalked MovementData_RockSmash
-	disappear -2
+	disappear LAST_TALKED
 
 	callasm RockMonEncounter
 	readmem wTempWildMonSpecies
@@ -1433,7 +1430,7 @@ FishFunction:
 	ld hl, .FishTable
 	call FieldMoveJumptable
 	jr nc, .loop
-	and $7f
+	and JUMPTABLE_INDEX_MASK
 	ld [wFieldMoveSucceeded], a
 	ret
 
@@ -1445,13 +1442,14 @@ FishFunction:
 	dw .FishNoFish
 
 .TryFish:
+; BUG: You can fish on top of NPCs (see docs/bugs_and_glitches.md)
 	ld a, [wPlayerState]
 	cp PLAYER_SURF
 	jr z, .fail
 	cp PLAYER_SURF_PIKA
 	jr z, .fail
 	call GetFacingTileCoord
-	call GetTileCollision
+	call GetTilePermission
 	cp WATER_TILE
 	jr nz, .fail
 	farcall CheckFacingObject
@@ -1488,7 +1486,7 @@ FishFunction:
 	ret
 
 .FailFish:
-	ld a, $80
+	ld a, JUMPTABLE_EXIT
 	ret
 
 .FishGotSomething:
@@ -1496,7 +1494,7 @@ FishFunction:
 	ld [wFishingResult], a
 	ld hl, Script_GotABite
 	call QueueScript
-	ld a, $81
+	ld a, JUMPTABLE_EXIT | $1
 	ret
 
 .FishNoBite:
@@ -1504,7 +1502,7 @@ FishFunction:
 	ld [wFishingResult], a
 	ld hl, Script_NotEvenANibble
 	call QueueScript
-	ld a, $81
+	ld a, JUMPTABLE_EXIT | $1
 	ret
 
 .FishNoFish:
@@ -1512,7 +1510,7 @@ FishFunction:
 	ld [wFishingResult], a
 	ld hl, Script_NotEvenANibble2
 	call QueueScript
-	ld a, $81
+	ld a, JUMPTABLE_EXIT | $1
 	ret
 
 Script_NotEvenANibble:
@@ -1586,7 +1584,7 @@ Fishing_CheckFacingUp:
 	ret
 
 Script_FishCastRod:
-	reloadmappart
+	refreshmap
 	loadmem hBGMapMode, $0
 	special UpdateTimePals
 	loademote EMOTE_ROD
@@ -1623,7 +1621,7 @@ UnusedNothingHereText: ; unreferenced
 
 BikeFunction:
 	call .TryBike
-	and $7f
+	and JUMPTABLE_INDEX_MASK
 	ld [wFieldMoveSucceeded], a
 	ret
 
@@ -1697,7 +1695,7 @@ BikeFunction:
 	jr .nope
 
 .ok
-	call GetPlayerStandingTile
+	call GetPlayerTilePermission
 	and $f ; lo nybble only
 	jr nz, .nope ; not FLOOR_TILE
 	xor a
@@ -1708,7 +1706,7 @@ BikeFunction:
 	ret
 
 Script_GetOnBike:
-	reloadmappart
+	refreshmap
 	special UpdateTimePals
 	loadvar VAR_MOVEMENT, PLAYER_BIKE
 	writetext GotOnBikeText
@@ -1728,7 +1726,7 @@ Overworld_DummyFunction: ; unreferenced
 	ret
 
 Script_GetOffBike:
-	reloadmappart
+	refreshmap
 	special UpdateTimePals
 	loadvar VAR_MOVEMENT, PLAYER_NORMAL
 	writetext GotOffBikeText

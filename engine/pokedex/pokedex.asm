@@ -17,8 +17,7 @@
 	const DEXSTATE_UPDATE_COLOR_OPTION
 	const DEXSTATE_EXIT
 
-POKEDEX_SCX EQU 5
-EXPORT POKEDEX_SCX
+EXPORT DEF POKEDEX_SCX EQU 5
 
 Pokedex:
 	ldh a, [hWX]
@@ -32,10 +31,10 @@ Pokedex:
 	ld a, [hl]
 	push af
 	set NO_TEXT_SCROLL, [hl]
-	ld a, [wVramState]
+	ld a, [wStateFlags]
 	push af
 	xor a
-	ld [wVramState], a
+	ld [wStateFlags], a
 	ldh a, [hInMenu]
 	push af
 	ld a, $1
@@ -49,7 +48,7 @@ Pokedex:
 .main
 	call JoyTextDelay
 	ld a, [wJumptableIndex]
-	bit 7, a
+	bit JUMPTABLE_EXIT_F, a
 	jr nz, .exit
 	call Pokedex_RunJumptable
 	call DelayFrame
@@ -69,7 +68,7 @@ Pokedex:
 	pop af
 	ldh [hInMenu], a
 	pop af
-	ld [wVramState], a
+	ld [wStateFlags], a
 	pop af
 	ld [wOptions], a
 	pop af
@@ -218,7 +217,7 @@ Pokedex_IncrementDexPointer:
 
 Pokedex_Exit:
 	ld hl, wJumptableIndex
-	set 7, [hl]
+	set JUMPTABLE_EXIT_F, [hl]
 	ret
 
 Pokedex_InitMainScreen:
@@ -227,7 +226,7 @@ Pokedex_InitMainScreen:
 	call ClearSprites
 	xor a
 	hlcoord 0, 0, wAttrmap
-	ld bc, SCREEN_HEIGHT * SCREEN_WIDTH
+	ld bc, SCREEN_AREA
 	call ByteFill
 	farcall DrawPokedexListWindow
 	hlcoord 0, 17
@@ -272,16 +271,16 @@ Pokedex_InitMainScreen:
 Pokedex_UpdateMainScreen:
 	ld hl, hJoyPressed
 	ld a, [hl]
-	and B_BUTTON
+	and PAD_B
 	jr nz, .b
 	ld a, [hl]
-	and A_BUTTON
+	and PAD_A
 	jr nz, .a
 	ld a, [hl]
-	and SELECT
+	and PAD_SELECT
 	jr nz, .select
 	ld a, [hl]
-	and START
+	and PAD_START
 	jr nz, .start
 	call Pokedex_ListingHandleDPadInput
 	ret nc
@@ -364,17 +363,17 @@ Pokedex_UpdateDexEntryScreen:
 	call Pokedex_MoveArrowCursor
 	ld hl, hJoyPressed
 	ld a, [hl]
-	and B_BUTTON
+	and PAD_B
 	jr nz, .return_to_prev_screen
-	vc_hook print_forbid_5
+	vc_hook Forbid_printing_Pokedex
 	ld a, [hl]
-	and A_BUTTON
+	and PAD_A
 	jr nz, .do_menu_action
 	ld a, [hl] ;
-	and START ;
+	and PAD_START ;
 	jp nz, Area_Page_map ; .toCry ;
 	ld a, [hl]
-	and SELECT ;
+	and PAD_SELECT ;
 	call nz, Pokedex_toggle_shininess_Entry
 	call Pokedex_NextOrPreviousDexEntry
 	ret nc
@@ -415,12 +414,12 @@ Pokedex_toggle_shininess_Entry:
 	; add or remove shiny icon
 	hlcoord 8, 1
 	ld a, [hl]
-	cp "<DEX_⁂>"
+	cp '<DEX_⁂>'
 	jr z, .shinyicon_set
-	ld [hl], "<DEX_⁂>"
+	ld [hl], '<DEX_⁂>'
 	jr .done
 .shinyicon_set
-	ld [hl], " "
+	ld [hl], ' '
 .done
 	call Pokedex_toggle_shininess2
 	ret
@@ -433,12 +432,12 @@ Pokedex_toggle_shininess_Pics:
 	; add or remove shiny icon
 	hlcoord 3, 11
 	ld a, [hl]
-	cp "<DEX_⁂>"
+	cp '<DEX_⁂>'
 	jr z, .shinyicon_set
-	ld [hl], "<DEX_⁂>"
+	ld [hl], '<DEX_⁂>'
 	jr .done
 .shinyicon_set
-	ld [hl], " "
+	ld [hl], ' '
 .done	
 	call Pokedex_toggle_shininess2
 	ret
@@ -558,10 +557,10 @@ Pokedex_ReinitDexEntryScreen:
 	ld a, [wPokedexShinyToggle]
 	bit 0, a
 	jr z, .not_shiny
-	ld [hl], "<DEX_⁂>"
+	ld [hl], '<DEX_⁂>'
 	jr .shiny_done
 .not_shiny
-	ld [hl], " "
+	ld [hl], ' '
 .shiny_done
 	call WaitBGMap
 	call Pokedex_GetSelectedMon
@@ -584,7 +583,7 @@ Pokedex_Handle_Reinit_Evo:
 	ret
 
 DexEntryScreen_ArrowCursorData:
-	db D_RIGHT | D_LEFT, 6
+	db PAD_RIGHT | PAD_LEFT, 6
 	dwcoord 1, 17  ; INFO
 	dwcoord 4, 17  ; STAT
 	dwcoord 7, 17  ; MOVES
@@ -777,27 +776,27 @@ Evos_Page:
 	call JoyTextDelay
 	ld hl, hJoyPressed
 	ld a, [hl]
-	bit B_BUTTON_F, a
+	bit B_PAD_B, a
 	jr nz, .evo_exit
 	ld a, [wStatsScreenFlags] ; page/continue evo line flag
 	and a
 	jr z, .no_second_page
 	ld hl, hJoyPressed
 	ld a, [hl]
-	bit A_BUTTON_F, a
+	bit B_PAD_A, a
 	jp nz, .right_dpad
 	ld hl, hJoyLast
 	ld a, [hl]
-	and D_RIGHT
+	and PAD_RIGHT
 	jp nz, .right_dpad
 	ld a, [hl]
 .no_second_page
 	ld hl, hJoyLast
 	ld a, [hl]
-	and D_UP
+	and PAD_UP
 	jr nz, .up_or_down_pressed
 	ld a, [hl]
-	and D_DOWN
+	and PAD_DOWN
 	jr nz, .up_or_down_pressed
 	call DelayFrame
 	jr .evopage_loop
@@ -846,10 +845,10 @@ Evos_Page:
 	ld a, [wPokedexShinyToggle]
 	bit 0, a
 	jr z, .not_shiny
-	ld [hl], "<DEX_⁂>"
+	ld [hl], '<DEX_⁂>'
 	jr .shiny_done
 .not_shiny
-	ld [hl], " "
+	ld [hl], ' '
 .shiny_done	
 	call WaitBGMap
 	ret
@@ -957,20 +956,20 @@ Pics_Page:
 	call JoyTextDelay
 	ld hl, hJoyPressed
 	ld a, [hl]
-	and SELECT ; toggle shininess
+	and PAD_SELECT ; toggle shininess
 	jp nz, .toggle_shininess
 	ld a, [hl]
-	and START
+	and PAD_START
 	call nz, .toCry
 	ld a, [hl]
-	bit B_BUTTON_F, a
+	bit B_PAD_B, a
 	jr nz, .sprite_b
 	ld hl, hJoyLast
 	ld a, [hl]
-	and D_UP
+	and PAD_UP
 	jr nz, .up_or_down_pressed
 	ld a, [hl]
-	and D_DOWN
+	and PAD_DOWN
 	jr nz, .up_or_down_pressed
 	call DelayFrame
 	jr .spritepage_loop
@@ -1025,10 +1024,10 @@ Pics_Page:
 	ld a, [wPokedexShinyToggle]
 	bit 0, a
 	jr z, .not_shiny
-	ld [hl], "<DEX_⁂>"
+	ld [hl], '<DEX_⁂>'
 	jr .shiny_done
 .not_shiny
-	ld [hl], " "
+	ld [hl], ' '
 .shiny_done
 	call WaitBGMap
 	ret
@@ -1043,6 +1042,7 @@ Pics_Page:
 	jp .spritepage_loop
 
 .toCry:
+; BUG: Playing Entei's Pokédex cry can distort Raikou's and Suicune's (see docs/bugs_and_glitches.md)
 	call Pokedex_GetSelectedMon
 	ld a, [wTempSpecies]
 	call GetCryIndex
@@ -1085,10 +1085,10 @@ Pokedex_UpdateOptionScreen:
 	call c, Pokedex_DisplayModeDescription
 	ld hl, hJoyPressed
 	ld a, [hl]
-	and SELECT | B_BUTTON
+	and PAD_SELECT | PAD_B
 	jr nz, .return_to_main_screen
 	ld a, [hl]
-	and A_BUTTON
+	and PAD_A
 	jr nz, .do_menu_action
 	ret
 
@@ -1105,7 +1105,7 @@ Pokedex_UpdateOptionScreen:
 	ret
 
 .NoUnownModeArrowCursorData:
-	db D_UP | D_DOWN, 5
+	db PAD_UP | PAD_DOWN, 5
 	dwcoord 2,  3 ; NAYRU'S DEX INFO PAGE
 	dwcoord 2,  4 ; NEW
 	dwcoord 2,  5 ; OLD
@@ -1113,7 +1113,7 @@ Pokedex_UpdateOptionScreen:
 	dwcoord 2,  7 ; COLOR
 
 .ArrowCursorData:
-	db D_UP | D_DOWN, 6
+	db PAD_UP | PAD_DOWN, 6
 	dwcoord 2,  3 ; NAYRU'S DEX INFO PAGE
 	dwcoord 2,  4 ; NEW
 	dwcoord 2,  5 ; OLD
@@ -1203,10 +1203,10 @@ Pokedex_UpdateSearchScreen:
 	call c, Pokedex_PlaceSearchScreenTypeStrings
 	ld hl, hJoyPressed
 	ld a, [hl]
-	and START | B_BUTTON
+	and PAD_START | PAD_B
 	jr nz, .cancel
 	ld a, [hl]
-	and A_BUTTON
+	and PAD_A
 	jr nz, .do_menu_action
 	ret
 
@@ -1223,7 +1223,7 @@ Pokedex_UpdateSearchScreen:
 	ret
 
 .ArrowCursorData:
-	db D_UP | D_DOWN, 4
+	db PAD_UP | PAD_DOWN, 4
 	dwcoord 2, 4  ; TYPE 1
 	dwcoord 2, 6  ; TYPE 2
 	dwcoord 2, 13 ; BEGIN SEARCH
@@ -1285,7 +1285,7 @@ Pokedex_InitSearchResultsScreen:
 	ldh [hBGMapMode], a
 	xor a
 	hlcoord 0, 0, wAttrmap
-	ld bc, SCREEN_WIDTH * SCREEN_HEIGHT
+	ld bc, SCREEN_AREA
 	call ByteFill
 	call Pokedex_SetBGMapMode4
 	call Pokedex_ResetBGMapMode
@@ -1318,10 +1318,10 @@ Pokedex_InitSearchResultsScreen:
 Pokedex_UpdateSearchResultsScreen:
 	ld hl, hJoyPressed
 	ld a, [hl]
-	and B_BUTTON
+	and PAD_B
 	jr nz, .return_to_search_screen
 	ld a, [hl]
-	and A_BUTTON
+	and PAD_A
 	jr nz, .go_to_dex_entry
 	call Pokedex_ListingHandleDPadInput
 	ret nc
@@ -1378,7 +1378,7 @@ Pokedex_InitUnownMode:
 Pokedex_UpdateUnownMode:
 	ld hl, hJoyPressed
 	ld a, [hl]
-	and A_BUTTON | B_BUTTON
+	and PAD_A | PAD_B
 	jr nz, .a_b
 	call Pokedex_UnownModeHandleDPadInput
 	ret
@@ -1404,10 +1404,10 @@ Pokedex_UpdateUnownMode:
 Pokedex_UnownModeHandleDPadInput:
 	ld hl, hJoyLast
 	ld a, [hl]
-	and D_RIGHT
+	and PAD_RIGHT
 	jr nz, .right
 	ld a, [hl]
-	and D_LEFT
+	and PAD_LEFT
 	jr nz, .left
 	ret
 
@@ -1447,7 +1447,7 @@ Pokedex_UnownModeHandleDPadInput:
 	ret
 
 Pokedex_UnownModeEraseCursor:
-	ld c, " "
+	ld c, ' '
 	jr Pokedex_UnownModeUpdateCursorGfx
 
 Pokedex_UnownModePlaceCursor:
@@ -1474,10 +1474,10 @@ Pokedex_NextOrPreviousDexEntry:
 	ld [wBackupDexListingPage], a
 	ld hl, hJoyLast
 	ld a, [hl]
-	and D_UP
+	and PAD_UP
 	jr nz, .up
 	ld a, [hl]
-	and D_DOWN
+	and PAD_DOWN
 	jr nz, .down
 	and a
 	ret
@@ -1526,19 +1526,19 @@ Pokedex_ListingHandleDPadInput:
 	ld e, a
 	ld hl, hJoyLast
 	ld a, [hl]
-	and D_UP
+	and PAD_UP
 	jr nz, Pokedex_ListingMoveCursorUp
 	ld a, [hl]
-	and D_DOWN
+	and PAD_DOWN
 	jr nz, Pokedex_ListingMoveCursorDown
 	ld a, d
 	cp e
 	jr nc, Pokedex_ListingPosStayedSame
 	ld a, [hl]
-	and D_LEFT
+	and PAD_LEFT
 	jr nz, Pokedex_ListingMoveUpOnePage
 	ld a, [hl]
-	and D_RIGHT
+	and PAD_RIGHT
 	jr nz, Pokedex_ListingMoveDownOnePage
 	jr Pokedex_ListingPosStayedSame
 
@@ -1639,7 +1639,7 @@ Pokedex_DrawMainScreenBG:
 	call Pokedex_PlaceString
 	ld a, $32
 	hlcoord 0, 0
-	ld bc, SCREEN_WIDTH * SCREEN_HEIGHT
+	ld bc, SCREEN_AREA
 	call ByteFill
 	hlcoord 0, 0
 	lb bc, 7, 7
@@ -1706,7 +1706,7 @@ Pokedex_DrawDexEntryScreenBG:
 	hlcoord 19, 0
 	ld [hl], $34
 	hlcoord 19, 1
-	ld a, " "
+	ld a, ' '
 	ld b, 15
 	call Pokedex_FillColumn
 	ld [hl], $39
@@ -1733,7 +1733,7 @@ Pokedex_DrawDexEntryScreenBG:
 ; clear the row for bottom menu
 	hlcoord 1, 17
 	ld bc, SCREEN_WIDTH - 2
-	ld a, " "
+	ld a, ' '
 	call ByteFill
 	ld c, 4
 	call DelayFrames
@@ -1817,7 +1817,7 @@ Pokedex_LoadTextboxSpaceGFX:
 	ldh [rVBK], a
 	ld de, TextboxSpaceGFX
 	lb bc, BANK(TextboxSpaceGFX), 1
-	ld hl, vTiles2 tile " "
+	ld hl, vTiles2 tile ' '
 	call Get2bpp
 	pop af
 	ldh [rVBK], a
@@ -1959,15 +1959,15 @@ Pokedex_DrawColorScreenBG:
 	call Pokedex_MoveArrowCursor
 	ld hl, hJoyPressed
 	ld a, [hl]
-	and SELECT | B_BUTTON
+	and PAD_SELECT | PAD_B
 	jr nz, .return_to_main_screen
 	ld a, [hl]
-	and A_BUTTON
+	and PAD_A
 	jr nz, .do_menu_action
 	ret
 	
  .ArrowCursorData:
-	db D_UP | D_DOWN, 9
+	db PAD_UP | PAD_DOWN, 9
 	dwcoord 2,  3  ; Red
 	dwcoord 2,  4  ; Blue
 	dwcoord 2,  5  ; Purple
@@ -2143,7 +2143,7 @@ Pokedex_PlaceSearchResultsTypeStrings:
 	hlcoord 2, 15
 	call Pokedex_PlaceTypeString
 	hlcoord 1, 15
-	ld [hl], "/"
+	ld [hl], '/'
 .done
 	ret
 
@@ -2223,7 +2223,7 @@ UnownModeLetterAndCursorCoords:
 Pokedex_FillBackgroundColor2:
 	hlcoord 0, 0
 	ld a, $32
-	ld bc, SCREEN_WIDTH * SCREEN_HEIGHT
+	ld bc, SCREEN_AREA
 	call ByteFill
 	ret
 
@@ -2323,7 +2323,7 @@ Pokedex_PrintListing:
 	add a
 	inc a
 	ld b, a
-	ld a, " "
+	ld a, ' '
 	call Pokedex_FillBox
 
 ; Load de with wPokedexOrder + [wDexListingScrollOffset]
@@ -2639,10 +2639,10 @@ Pokedex_UpdateSearchMonType:
 	jr nc, .no_change
 	ld hl, hJoyLast
 	ld a, [hl]
-	and D_LEFT
+	and PAD_LEFT
 	jr nz, Pokedex_PrevSearchMonType
 	ld a, [hl]
-	and D_RIGHT
+	and PAD_RIGHT
 	jr nz, Pokedex_NextSearchMonType
 .no_change
 	and a
@@ -2709,7 +2709,7 @@ Pokedex_PlaceSearchScreenTypeStrings:
 	ldh [hBGMapMode], a
 	hlcoord 9, 3
 	lb bc, 4, 8
-	ld a, " "
+	ld a, ' '
 	call Pokedex_FillBox
 	ld a, [wDexSearchMonType1]
 	hlcoord 9, 4
@@ -2859,24 +2859,24 @@ Pokedex_PutOldModeCursorOAM:
 	dbsprite 11,  2, -1,  0, $32, 7
 	dbsprite 12,  2, -1,  0, $32, 7
 	dbsprite 13,  2, -1,  0, $33, 7
-	dbsprite 16,  2, -2,  0, $33, 7 | X_FLIP
-	dbsprite 17,  2, -2,  0, $32, 7 | X_FLIP
-	dbsprite 18,  2, -2,  0, $32, 7 | X_FLIP
-	dbsprite 19,  2, -2,  0, $32, 7 | X_FLIP
-	dbsprite 20,  2, -2,  0, $31, 7 | X_FLIP
-	dbsprite 20,  3, -2,  0, $30, 7 | X_FLIP
-	dbsprite  9,  4, -1,  0, $30, 7 | Y_FLIP
-	dbsprite  9,  5, -1,  0, $31, 7 | Y_FLIP
-	dbsprite 10,  5, -1,  0, $32, 7 | Y_FLIP
-	dbsprite 11,  5, -1,  0, $32, 7 | Y_FLIP
-	dbsprite 12,  5, -1,  0, $32, 7 | Y_FLIP
-	dbsprite 13,  5, -1,  0, $33, 7 | Y_FLIP
-	dbsprite 16,  5, -2,  0, $33, 7 | X_FLIP | Y_FLIP
-	dbsprite 17,  5, -2,  0, $32, 7 | X_FLIP | Y_FLIP
-	dbsprite 18,  5, -2,  0, $32, 7 | X_FLIP | Y_FLIP
-	dbsprite 19,  5, -2,  0, $32, 7 | X_FLIP | Y_FLIP
-	dbsprite 20,  5, -2,  0, $31, 7 | X_FLIP | Y_FLIP
-	dbsprite 20,  4, -2,  0, $30, 7 | X_FLIP | Y_FLIP
+	dbsprite 16,  2, -2,  0, $33, 7 | OAM_XFLIP
+	dbsprite 17,  2, -2,  0, $32, 7 | OAM_XFLIP
+	dbsprite 18,  2, -2,  0, $32, 7 | OAM_XFLIP
+	dbsprite 19,  2, -2,  0, $32, 7 | OAM_XFLIP
+	dbsprite 20,  2, -2,  0, $31, 7 | OAM_XFLIP
+	dbsprite 20,  3, -2,  0, $30, 7 | OAM_XFLIP
+	dbsprite  9,  4, -1,  0, $30, 7 | OAM_YFLIP
+	dbsprite  9,  5, -1,  0, $31, 7 | OAM_YFLIP
+	dbsprite 10,  5, -1,  0, $32, 7 | OAM_YFLIP
+	dbsprite 11,  5, -1,  0, $32, 7 | OAM_YFLIP
+	dbsprite 12,  5, -1,  0, $32, 7 | OAM_YFLIP
+	dbsprite 13,  5, -1,  0, $33, 7 | OAM_YFLIP
+	dbsprite 16,  5, -2,  0, $33, 7 | OAM_XFLIP | OAM_YFLIP
+	dbsprite 17,  5, -2,  0, $32, 7 | OAM_XFLIP | OAM_YFLIP
+	dbsprite 18,  5, -2,  0, $32, 7 | OAM_XFLIP | OAM_YFLIP
+	dbsprite 19,  5, -2,  0, $32, 7 | OAM_XFLIP | OAM_YFLIP
+	dbsprite 20,  5, -2,  0, $31, 7 | OAM_XFLIP | OAM_YFLIP
+	dbsprite 20,  4, -2,  0, $30, 7 | OAM_XFLIP | OAM_YFLIP
 	db -1
 
 .CursorAtTopOAM:
@@ -2888,24 +2888,24 @@ Pokedex_PutOldModeCursorOAM:
 	dbsprite 11,  2, -1,  0, $35, 7
 	dbsprite 12,  2, -1,  0, $35, 7
 	dbsprite 13,  2, -1,  0, $36, 7
-	dbsprite 16,  2, -2,  0, $36, 7 | X_FLIP
-	dbsprite 17,  2, -2,  0, $35, 7 | X_FLIP
-	dbsprite 18,  2, -2,  0, $35, 7 | X_FLIP
-	dbsprite 19,  2, -2,  0, $35, 7 | X_FLIP
-	dbsprite 20,  2, -2,  0, $34, 7 | X_FLIP
-	dbsprite 20,  3, -2,  0, $30, 7 | X_FLIP
-	dbsprite  9,  4, -1,  0, $30, 7 | Y_FLIP
-	dbsprite  9,  5, -1,  0, $31, 7 | Y_FLIP
-	dbsprite 10,  5, -1,  0, $32, 7 | Y_FLIP
-	dbsprite 11,  5, -1,  0, $32, 7 | Y_FLIP
-	dbsprite 12,  5, -1,  0, $32, 7 | Y_FLIP
-	dbsprite 13,  5, -1,  0, $33, 7 | Y_FLIP
-	dbsprite 16,  5, -2,  0, $33, 7 | X_FLIP | Y_FLIP
-	dbsprite 17,  5, -2,  0, $32, 7 | X_FLIP | Y_FLIP
-	dbsprite 18,  5, -2,  0, $32, 7 | X_FLIP | Y_FLIP
-	dbsprite 19,  5, -2,  0, $32, 7 | X_FLIP | Y_FLIP
-	dbsprite 20,  5, -2,  0, $31, 7 | X_FLIP | Y_FLIP
-	dbsprite 20,  4, -2,  0, $30, 7 | X_FLIP | Y_FLIP
+	dbsprite 16,  2, -2,  0, $36, 7 | OAM_XFLIP
+	dbsprite 17,  2, -2,  0, $35, 7 | OAM_XFLIP
+	dbsprite 18,  2, -2,  0, $35, 7 | OAM_XFLIP
+	dbsprite 19,  2, -2,  0, $35, 7 | OAM_XFLIP
+	dbsprite 20,  2, -2,  0, $34, 7 | OAM_XFLIP
+	dbsprite 20,  3, -2,  0, $30, 7 | OAM_XFLIP
+	dbsprite  9,  4, -1,  0, $30, 7 | OAM_YFLIP
+	dbsprite  9,  5, -1,  0, $31, 7 | OAM_YFLIP
+	dbsprite 10,  5, -1,  0, $32, 7 | OAM_YFLIP
+	dbsprite 11,  5, -1,  0, $32, 7 | OAM_YFLIP
+	dbsprite 12,  5, -1,  0, $32, 7 | OAM_YFLIP
+	dbsprite 13,  5, -1,  0, $33, 7 | OAM_YFLIP
+	dbsprite 16,  5, -2,  0, $33, 7 | OAM_XFLIP | OAM_YFLIP
+	dbsprite 17,  5, -2,  0, $32, 7 | OAM_XFLIP | OAM_YFLIP
+	dbsprite 18,  5, -2,  0, $32, 7 | OAM_XFLIP | OAM_YFLIP
+	dbsprite 19,  5, -2,  0, $32, 7 | OAM_XFLIP | OAM_YFLIP
+	dbsprite 20,  5, -2,  0, $31, 7 | OAM_XFLIP | OAM_YFLIP
+	dbsprite 20,  4, -2,  0, $30, 7 | OAM_XFLIP | OAM_YFLIP
 	db -1
 
 Pokedex_PutNewModeABCModeCursorOAM:
@@ -2919,21 +2919,21 @@ Pokedex_PutNewModeABCModeCursorOAM:
 	dbsprite 10,  2, -1,  3, $32, 7
 	dbsprite 11,  2, -1,  3, $32, 7
 	dbsprite 12,  2, -1,  3, $33, 7
-	dbsprite 16,  2,  0,  3, $33, 7 | X_FLIP
-	dbsprite 17,  2,  0,  3, $32, 7 | X_FLIP
-	dbsprite 18,  2,  0,  3, $32, 7 | X_FLIP
-	dbsprite 19,  2,  0,  3, $31, 7 | X_FLIP
-	dbsprite 19,  3,  0,  3, $30, 7 | X_FLIP
-	dbsprite  9,  4, -1,  3, $30, 7 | Y_FLIP
-	dbsprite  9,  5, -1,  3, $31, 7 | Y_FLIP
-	dbsprite 10,  5, -1,  3, $32, 7 | Y_FLIP
-	dbsprite 11,  5, -1,  3, $32, 7 | Y_FLIP
-	dbsprite 12,  5, -1,  3, $33, 7 | Y_FLIP
-	dbsprite 16,  5,  0,  3, $33, 7 | X_FLIP | Y_FLIP
-	dbsprite 17,  5,  0,  3, $32, 7 | X_FLIP | Y_FLIP
-	dbsprite 18,  5,  0,  3, $32, 7 | X_FLIP | Y_FLIP
-	dbsprite 19,  5,  0,  3, $31, 7 | X_FLIP | Y_FLIP
-	dbsprite 19,  4,  0,  3, $30, 7 | X_FLIP | Y_FLIP
+	dbsprite 16,  2,  0,  3, $33, 7 | OAM_XFLIP
+	dbsprite 17,  2,  0,  3, $32, 7 | OAM_XFLIP
+	dbsprite 18,  2,  0,  3, $32, 7 | OAM_XFLIP
+	dbsprite 19,  2,  0,  3, $31, 7 | OAM_XFLIP
+	dbsprite 19,  3,  0,  3, $30, 7 | OAM_XFLIP
+	dbsprite  9,  4, -1,  3, $30, 7 | OAM_YFLIP
+	dbsprite  9,  5, -1,  3, $31, 7 | OAM_YFLIP
+	dbsprite 10,  5, -1,  3, $32, 7 | OAM_YFLIP
+	dbsprite 11,  5, -1,  3, $32, 7 | OAM_YFLIP
+	dbsprite 12,  5, -1,  3, $33, 7 | OAM_YFLIP
+	dbsprite 16,  5,  0,  3, $33, 7 | OAM_XFLIP | OAM_YFLIP
+	dbsprite 17,  5,  0,  3, $32, 7 | OAM_XFLIP | OAM_YFLIP
+	dbsprite 18,  5,  0,  3, $32, 7 | OAM_XFLIP | OAM_YFLIP
+	dbsprite 19,  5,  0,  3, $31, 7 | OAM_XFLIP | OAM_YFLIP
+	dbsprite 19,  4,  0,  3, $30, 7 | OAM_XFLIP | OAM_YFLIP
 	db -1
 
 Pokedex_UpdateSearchResultsCursorOAM:
@@ -2951,28 +2951,28 @@ Pokedex_UpdateSearchResultsCursorOAM:
 	dbsprite 11,  2, -1,  3, $32, 7
 	dbsprite 12,  2, -1,  3, $32, 7
 	dbsprite 13,  2, -1,  3, $33, 7
-	dbsprite 16,  2, -2,  3, $33, 7 | X_FLIP
-	dbsprite 17,  2, -2,  3, $32, 7 | X_FLIP
-	dbsprite 18,  2, -2,  3, $32, 7 | X_FLIP
-	dbsprite 19,  2, -2,  3, $32, 7 | X_FLIP
-	dbsprite 20,  2, -2,  3, $31, 7 | X_FLIP
-	dbsprite 20,  3, -2,  3, $30, 7 | X_FLIP
-	dbsprite  9,  4, -1,  3, $30, 7 | Y_FLIP
-	dbsprite  9,  5, -1,  3, $31, 7 | Y_FLIP
-	dbsprite 10,  5, -1,  3, $32, 7 | Y_FLIP
-	dbsprite 11,  5, -1,  3, $32, 7 | Y_FLIP
-	dbsprite 12,  5, -1,  3, $32, 7 | Y_FLIP
-	dbsprite 13,  5, -1,  3, $33, 7 | Y_FLIP
-	dbsprite 16,  5, -2,  3, $33, 7 | X_FLIP | Y_FLIP
-	dbsprite 17,  5, -2,  3, $32, 7 | X_FLIP | Y_FLIP
-	dbsprite 18,  5, -2,  3, $32, 7 | X_FLIP | Y_FLIP
-	dbsprite 19,  5, -2,  3, $32, 7 | X_FLIP | Y_FLIP
-	dbsprite 20,  5, -2,  3, $31, 7 | X_FLIP | Y_FLIP
-	dbsprite 20,  4, -2,  3, $30, 7 | X_FLIP | Y_FLIP
+	dbsprite 16,  2, -2,  3, $33, 7 | OAM_XFLIP
+	dbsprite 17,  2, -2,  3, $32, 7 | OAM_XFLIP
+	dbsprite 18,  2, -2,  3, $32, 7 | OAM_XFLIP
+	dbsprite 19,  2, -2,  3, $32, 7 | OAM_XFLIP
+	dbsprite 20,  2, -2,  3, $31, 7 | OAM_XFLIP
+	dbsprite 20,  3, -2,  3, $30, 7 | OAM_XFLIP
+	dbsprite  9,  4, -1,  3, $30, 7 | OAM_YFLIP
+	dbsprite  9,  5, -1,  3, $31, 7 | OAM_YFLIP
+	dbsprite 10,  5, -1,  3, $32, 7 | OAM_YFLIP
+	dbsprite 11,  5, -1,  3, $32, 7 | OAM_YFLIP
+	dbsprite 12,  5, -1,  3, $32, 7 | OAM_YFLIP
+	dbsprite 13,  5, -1,  3, $33, 7 | OAM_YFLIP
+	dbsprite 16,  5, -2,  3, $33, 7 | OAM_XFLIP | OAM_YFLIP
+	dbsprite 17,  5, -2,  3, $32, 7 | OAM_XFLIP | OAM_YFLIP
+	dbsprite 18,  5, -2,  3, $32, 7 | OAM_XFLIP | OAM_YFLIP
+	dbsprite 19,  5, -2,  3, $32, 7 | OAM_XFLIP | OAM_YFLIP
+	dbsprite 20,  5, -2,  3, $31, 7 | OAM_XFLIP | OAM_YFLIP
+	dbsprite 20,  4, -2,  3, $30, 7 | OAM_XFLIP | OAM_YFLIP
 	db -1
 
 Pokedex_LoadCursorOAM:
-	ld de, wVirtualOAMSprite00
+	ld de, wShadowOAMSprite00
 .loop
 	ld a, [hl]
 	cp -1
@@ -3061,26 +3061,26 @@ Pokedex_MoveArrowCursor:
 
 	ld hl, hJoyPressed
 	ld a, [hl]
-	and D_LEFT | D_UP
+	and PAD_LEFT | PAD_UP
 	and b
 	jr nz, .move_left_or_up
 	ld a, [hl]
-	and D_RIGHT | D_DOWN
+	and PAD_RIGHT | PAD_DOWN
 	and b
 	jr nz, .move_right_or_down
 	ld a, [hl]
-	and SELECT
+	and PAD_SELECT
 	and b
 	jr nz, .select
 	call Pokedex_ArrowCursorDelay
 	jr c, .no_action
 	ld hl, hJoyLast
 	ld a, [hl]
-	and D_LEFT | D_UP
+	and PAD_LEFT | PAD_UP
 	and b
 	jr nz, .move_left_or_up
 	ld a, [hl]
-	and D_RIGHT | D_DOWN
+	and PAD_RIGHT | PAD_DOWN
 	and b
 	jr nz, .move_right_or_down
 	jr .no_action
@@ -3090,7 +3090,7 @@ Pokedex_MoveArrowCursor:
 	and a
 	jr z, .no_action
 	call Pokedex_GetArrowCursorPos
-	ld [hl], " "
+	ld [hl], ' '
 	ld hl, wDexArrowCursorPosIndex
 	dec [hl]
 	jr .update_cursor_pos
@@ -3100,13 +3100,13 @@ Pokedex_MoveArrowCursor:
 	cp c
 	jr nc, .no_action
 	call Pokedex_GetArrowCursorPos
-	ld [hl], " "
+	ld [hl], ' '
 	ld hl, wDexArrowCursorPosIndex
 	inc [hl]
 
 .update_cursor_pos
 	call Pokedex_GetArrowCursorPos
-	ld [hl], "▶"
+	ld [hl], '▶'
 	ld a, 12
 	ld [wDexArrowCursorDelayCounter], a
 	xor a
@@ -3120,7 +3120,7 @@ Pokedex_MoveArrowCursor:
 
 .select
 	call Pokedex_GetArrowCursorPos
-	ld [hl], " "
+	ld [hl], ' '
 	ld a, [wDexArrowCursorPosIndex]
 	cp c
 	jr c, .update
@@ -3148,12 +3148,12 @@ Pokedex_BlinkArrowCursor:
 	and $8
 	jr z, .blink_on
 	call Pokedex_GetArrowCursorPos
-	ld [hl], " "
+	ld [hl], ' '
 	ret
 
 .blink_on
 	call Pokedex_GetArrowCursorPos
-	ld [hl], "▶"
+	ld [hl], '▶'
 	ret
 
 Pokedex_ArrowCursorDelay:
@@ -3172,16 +3172,16 @@ Pokedex_FillBox:
 	jp FillBoxWithByte
 
 Pokedex_BlackOutBG:
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, BANK(wBGPals1)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld hl, wBGPals1
 	ld bc, 8 palettes
 	xor a
 	call ByteFill
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 
 Pokedex_ApplyPrintPals:
 	ld a, $ff
@@ -3310,7 +3310,7 @@ Pokedex_LoadPageNums:
 ; lcd needs to be enabled or it will crash !!!
 	ldh a, [rLCDC]
 	push af ; preserve the state of lcd for after we're done
-	bit rLCDC_ENABLE, a
+	bit B_LCDC_ENABLE, a
 	jr nz, .lcdalreadyon
 	call EnableLCD
 
@@ -3445,7 +3445,7 @@ _NewPokedexEntry:
 	ld [hl], $3b
 	inc hl
 	ld bc, 19
-	ld a, " "
+	ld a, ' '
 	call ByteFill
 	farcall DisplayDexEntry
 	call EnableLCD

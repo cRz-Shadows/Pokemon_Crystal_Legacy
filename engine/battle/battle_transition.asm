@@ -1,13 +1,12 @@
 ; BattleTransitionJumptable.Jumptable indexes
-BATTLETRANSITION_CAVE             EQU $01
-BATTLETRANSITION_CAVE_STRONGER    EQU $09
-BATTLETRANSITION_NO_CAVE          EQU $10
-BATTLETRANSITION_NO_CAVE_STRONGER EQU $18
-BATTLETRANSITION_FINISH           EQU $20
-BATTLETRANSITION_END              EQU $80
+DEF BATTLETRANSITION_CAVE             EQU $01
+DEF BATTLETRANSITION_CAVE_STRONGER    EQU $09
+DEF BATTLETRANSITION_NO_CAVE          EQU $10
+DEF BATTLETRANSITION_NO_CAVE_STRONGER EQU $18
+DEF BATTLETRANSITION_FINISH           EQU $20
 
-BATTLETRANSITION_SQUARE EQU "8" ; $fe
-BATTLETRANSITION_BLACK  EQU "9" ; $ff
+DEF BATTLETRANSITION_SQUARE EQU '8' ; $fe
+DEF BATTLETRANSITION_BLACK  EQU '9' ; $ff
 
 DoBattleTransition:
 	call .InitGFX
@@ -21,22 +20,22 @@ DoBattleTransition:
 	ld hl, hVBlank
 	ld a, [hl]
 	push af
-	vc_hook FPA_link_fight_begin
-	ld [hl], $1
+	vc_hook Reduce_battle_transition_flashing
+	ld [hl], VBLANK_CUTSCENE
 
 .loop
 	ld a, [wJumptableIndex]
-	bit 7, a ; BATTLETRANSITION_END?
+	bit JUMPTABLE_EXIT_F, a
 	jr nz, .done
 	call BattleTransitionJumptable
 	call DelayFrame
 	jr .loop
 
 .done
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, BANK(wBGPals1)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 
 	ld hl, wBGPals1
 	ld bc, 8 palettes
@@ -44,7 +43,7 @@ DoBattleTransition:
 	call ByteFill
 
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 
 	ld a, %11111111
 	ld [wBGP], a
@@ -57,9 +56,9 @@ DoBattleTransition:
 	ldh [hSCY], a
 
 	ld a, $1 ; unnecessary bankswitch?
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	pop af
-	vc_hook FPA_link_fight_End4
+	vc_hook Stop_reducing_battle_transition_flashing
 	ldh [hVBlank], a
 	call DelayFrame
 	ret
@@ -71,12 +70,12 @@ DoBattleTransition:
 	farcall ReanchorBGMap_NoOAMUpdate
 	call UpdateSprites
 	call DelayFrame
-	call .NonMobile_LoadPokeballTiles
+	call .NonMobile_LoadBattleTransitionTiles
 	call BattleStart_CopyTilemapAtOnce
 	jr .resume
 
 .mobile
-	call LoadTrainerBattlePokeballTiles
+	call LoadBattleTransitionGFX
 
 .resume
 	ld a, SCREEN_HEIGHT_PX
@@ -92,18 +91,18 @@ DoBattleTransition:
 	call WipeLYOverrides
 	ret
 
-.NonMobile_LoadPokeballTiles:
-	call LoadTrainerBattlePokeballTiles
+.NonMobile_LoadBattleTransitionTiles:
+	call LoadBattleTransitionGFX
 	hlbgcoord 0, 0
-	call ConvertTrainerBattlePokeballTilesTo2bpp
+	call InitBattleTransitionBGMap
 	ret
 
-LoadTrainerBattlePokeballTiles:
+LoadBattleTransitionGFX:
 ; Load the tiles used in the Pokeball Graphic that fills the screen
 ; at the start of every Trainer battle.
-	ld de, TrainerBattlePokeballTiles
+	ld de, BattleTransitionTiles
 	ld hl, vTiles0 tile BATTLETRANSITION_SQUARE
-	ld b, BANK(TrainerBattlePokeballTiles)
+	ld b, BANK(BattleTransitionTiles)
 	ld c, 2
 	call Request2bpp
 
@@ -112,9 +111,9 @@ LoadTrainerBattlePokeballTiles:
 	ld a, $1
 	ldh [rVBK], a
 
-	ld de, TrainerBattlePokeballTiles
+	ld de, BattleTransitionTiles
 	ld hl, vTiles3 tile BATTLETRANSITION_SQUARE
-	ld b, BANK(TrainerBattlePokeballTiles)
+	ld b, BANK(BattleTransitionTiles)
 	ld c, 2
 	call Request2bpp
 
@@ -122,34 +121,35 @@ LoadTrainerBattlePokeballTiles:
 	ldh [rVBK], a
 	ret
 
-ConvertTrainerBattlePokeballTilesTo2bpp:
-	ldh a, [rSVBK]
+InitBattleTransitionBGMap:
+	ldh a, [rWBK]
 	push af
 	ld a, BANK(wDecompressScratch)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	push hl
 	ld hl, wDecompressScratch
-	ld bc, $28 tiles
+	ld bc, TILEMAP_WIDTH * (TILEMAP_HEIGHT - 12)
 
 .loop
-	ld [hl], -1
+	ld [hl], BATTLETRANSITION_BLACK
 	inc hl
 	dec bc
 	ld a, c
 	or b
 	jr nz, .loop
 
+; fill visible area of BGMap0 with BATTLETRANSITION_BLACK
 	pop hl
 	ld de, wDecompressScratch
 	ld b, BANK(@)
-	ld c, $28
+	ld c, TILEMAP_WIDTH * (TILEMAP_HEIGHT - 12) / TILE_SIZE
 	call Request2bpp
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ret
 
-TrainerBattlePokeballTiles:
-INCBIN "gfx/overworld/trainer_battle_pokeball_tiles.2bpp"
+BattleTransitionTiles:
+INCBIN "gfx/overworld/battle_transition_tiles.2bpp"
 
 BattleTransitionJumptable:
 	jumptable .Jumptable, wJumptableIndex
@@ -208,14 +208,13 @@ BattleTransitionJumptable:
 	const TRANS_NO_CAVE_STRONGER
 
 ; transition animation bits
-TRANS_STRONGER_F EQU 0 ; bit set in TRANS_CAVE_STRONGER and TRANS_NO_CAVE_STRONGER
-TRANS_NO_CAVE_F EQU 1 ; bit set in TRANS_NO_CAVE and TRANS_NO_CAVE_STRONGER
+DEF TRANS_STRONGER_F EQU 0 ; bit set in TRANS_CAVE_STRONGER and TRANS_NO_CAVE_STRONGER
+DEF TRANS_NO_CAVE_F  EQU 1 ; bit set in TRANS_NO_CAVE and TRANS_NO_CAVE_STRONGER
 
 StartTrainerBattle_DetermineWhichAnimation:
 ; The screen flashes a different number of times depending on the level of
 ; your lead Pokemon relative to the opponent's.
-; BUG: wBattleMonLevel and wEnemyMonLevel are not set at this point, so whatever
-; values happen to be there will determine the animation.
+; BUG: Battle transitions fail to account for enemy's level (see docs/bugs_and_glitches.md)
 	ld de, 0
 	ld a, [wBattleMonLevel]
 	add 3
@@ -248,7 +247,7 @@ StartTrainerBattle_DetermineWhichAnimation:
 
 StartTrainerBattle_Finish:
 	call ClearSprites
-	ld a, BATTLETRANSITION_END
+	ld a, JUMPTABLE_EXIT
 	ld [wJumptableIndex], a
 	ret
 
@@ -312,10 +311,10 @@ StartTrainerBattle_Flash:
 	dc 0, 0, 0, 1
 
 StartTrainerBattle_SetUpForWavyOutro:
-	vc_hook FPA_link_fight_End0
+	vc_hook Stop_reducing_battle_transition_flashing_WavyOutro
 	farcall RespawnPlayerAndOpponent
 	ld a, BANK(wLYOverrides)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call StartTrainerBattle_NextScene
 
 	ld a, LOW(rSCX)
@@ -370,10 +369,10 @@ StartTrainerBattle_SineWave:
 	ret
 
 StartTrainerBattle_SetUpForSpinOutro:
-	vc_hook FPA_link_fight_End1
+	vc_hook Stop_reducing_battle_transition_flashing_SpinOutro
 	farcall RespawnPlayerAndOpponent
 	ld a, BANK(wLYOverrides)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call StartTrainerBattle_NextScene
 	xor a
 	ld [wBattleTransitionCounter], a
@@ -422,11 +421,11 @@ endr
 	const LOWER_RIGHT
 
 ; quadrant bits
-RIGHT_QUADRANT_F EQU 0 ; bit set in UPPER_RIGHT and LOWER_RIGHT
-LOWER_QUADRANT_F EQU 1 ; bit set in LOWER_LEFT and LOWER_RIGHT
+DEF RIGHT_QUADRANT_F EQU 0 ; bit set in UPPER_RIGHT and LOWER_RIGHT
+DEF LOWER_QUADRANT_F EQU 1 ; bit set in LOWER_LEFT and LOWER_RIGHT
 
 .spin_quadrants:
-spin_quadrant: MACRO
+MACRO spin_quadrant
 	db \1
 	dw \2
 	dwcoord \3, \4
@@ -513,10 +512,10 @@ ENDM
 .wedge5: db 4, 0, 3, 0, 3, 0, 2, 0, 2, 0, 1, 0, 1, 0, 1, -1
 
 StartTrainerBattle_SetUpForRandomScatterOutro:
-	vc_hook FPA_link_fight_End2
+	vc_hook Stop_reducing_battle_transition_flashing_ScatterOutro
 	farcall RespawnPlayerAndOpponent
 	ld a, BANK(wLYOverrides)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call StartTrainerBattle_NextScene
 	ld a, $10
 	ld [wBattleTransitionCounter], a
@@ -591,7 +590,7 @@ StartTrainerBattle_LoadPokeBallGraphics:
 	ldh [hBGMapMode], a
 
 	hlcoord 0, 0, wAttrmap
-	ld bc, SCREEN_HEIGHT * SCREEN_WIDTH
+	ld bc, SCREEN_AREA
 	inc b
 	inc c
 	jr .enter_loop_midway
@@ -663,10 +662,10 @@ StartTrainerBattle_LoadPokeBallGraphics:
 	jr nz, .not_dark
 	ld hl, .darkpals
 .not_dark
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, BANK(wBGPals1)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call .copypals
 	push hl
 	ld de, wBGPals1 palette PAL_BG_TEXT
@@ -677,7 +676,7 @@ StartTrainerBattle_LoadPokeBallGraphics:
 	ld bc, 1 palettes
 	call CopyBytes
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, TRUE
 	ldh [hCGBPalUpdate], a
 	call DelayFrame
@@ -720,8 +719,7 @@ INCLUDE "gfx/overworld/trainer_battle_dark.pal"
 
 PokeBallTransition:
 ; 16x16 overlay of a Poke Ball
-pusho
-opt b.X ; . = 0, X = 1
+pusho b.X ; . = 0, X = 1
 	bigdw %......XXXX......
 	bigdw %....XXXXXXXX....
 	bigdw %..XXXX....XXXX..
@@ -741,10 +739,10 @@ opt b.X ; . = 0, X = 1
 popo
 
 WipeLYOverrides:
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, BANK(wLYOverrides)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 
 	ld hl, wLYOverrides
 	call .wipe
@@ -752,7 +750,7 @@ WipeLYOverrides:
 	call .wipe
 
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ret
 
 .wipe
@@ -768,7 +766,7 @@ StartTrainerBattle_DrawSineWave:
 	calc_sine_wave
 
 StartTrainerBattle_ZoomToBlack:
-	vc_hook	FPA_link_fight_End3
+	vc_hook Stop_reducing_battle_transition_flashing_ZoomToBlack
 	farcall RespawnPlayerAndOpponent
 	ld de, .boxes
 
@@ -799,7 +797,7 @@ StartTrainerBattle_ZoomToBlack:
 	ret
 
 .boxes
-zoombox: MACRO
+MACRO zoombox
 ; width, height, start y, start x
 	db \1, \2
 	dwcoord \3, \4

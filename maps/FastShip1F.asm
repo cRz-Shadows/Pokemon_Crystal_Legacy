@@ -6,23 +6,23 @@
 
 FastShip1F_MapScripts:
 	def_scene_scripts
-	scene_script .DummyScene0 ; SCENE_DEFAULT
-	scene_script .EnterFastShip ; SCENE_FASTSHIP1F_ENTER_SHIP
-	scene_script .DummyScene2 ; SCENE_FASTSHIP1F_MEET_GRANDPA
+	scene_script FastShip1FNoop1Scene,     SCENE_FASTSHIP1F_NOOP
+	scene_script FastShip1FEnterShipScene, SCENE_FASTSHIP1F_ENTER_SHIP
+	scene_script FastShip1FNoop2Scene,     SCENE_FASTSHIP1F_MEET_GRANDPA
 
 	def_callbacks
 
-.DummyScene0:
+FastShip1FNoop1Scene:
 	end
 
-.EnterFastShip:
-	sdefer .EnterFastShipScript
+FastShip1FEnterShipScene:
+	sdefer FastShip1FEnterShipScript
 	end
 
-.DummyScene2:
+FastShip1FNoop2Scene:
 	end
 
-.EnterFastShipScript:
+FastShip1FEnterShipScript:
 	applymovement FASTSHIP1F_SAILOR1, FastShip1F_SailorStepAsideMovement
 	applymovement PLAYER, FastShip1F_PlayerEntersShipMovement
 	applymovement FASTSHIP1F_SAILOR1, FastShip1F_SailorBlocksDoorMovement
@@ -37,7 +37,7 @@ FastShip1F_MapScripts:
 	end
 
 .SkipGrandpa:
-	setscene SCENE_DEFAULT
+	setscene SCENE_FASTSHIP1F_NOOP
 	end
 
 FastShip1FSailor1Script:
@@ -66,7 +66,7 @@ FastShip1FSailor1Script:
 	closetext
 	scall .LetThePlayerOut
 	playsound SFX_EXIT_BUILDING
-	special FadeOutPalettes
+	special FadeOutToWhite
 	waitsfx
 	setevent EVENT_VERMILION_PORT_SAILOR_AT_GANGWAY
 	setmapscene VERMILION_PORT, SCENE_VERMILIONPORT_LEAVE_SHIP
@@ -79,7 +79,7 @@ FastShip1FSailor1Script:
 	closetext
 	scall .LetThePlayerOut
 	playsound SFX_EXIT_BUILDING
-	special FadeOutPalettes
+	special FadeOutToWhite
 	waitsfx
 	setevent EVENT_OLIVINE_PORT_SAILOR_AT_GANGWAY
 	setmapscene OLIVINE_PORT, SCENE_OLIVINEPORT_LEAVE_SHIP
@@ -133,7 +133,7 @@ WorriedGrandpaSceneLeft:
 	turnobject PLAYER, RIGHT
 	applymovement FASTSHIP1F_GENTLEMAN, FastShip1F_GrandpaRunsOutMovement
 	disappear FASTSHIP1F_GENTLEMAN
-	setscene SCENE_DEFAULT
+	setscene SCENE_FASTSHIP1F_NOOP
 	end
 
 FastShip1F_SailorStepAsideMovement:

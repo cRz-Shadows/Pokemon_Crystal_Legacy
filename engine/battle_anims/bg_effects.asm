@@ -78,7 +78,8 @@ DoBattleBGEffectFunction:
 	jp hl
 
 BattleBGEffects:
-; entries correspond to ANIM_BG_* constants
+; entries correspond to BATTLE_BG_EFFECT_* constants
+	table_width 2
 	dw BattleBGEffect_End
 	dw BattleBGEffect_FlashInverted
 	dw BattleBGEffect_FlashWhite
@@ -133,6 +134,7 @@ BattleBGEffects:
 	dw BattleBGEffect_VibrateMon
 	dw BattleBGEffect_WobblePlayer
 	dw BattleBGEffect_WobbleScreen
+	assert_table_length NUM_BATTLE_BG_EFFECTS
 
 BattleBGEffect_End:
 	call EndBattleBGEffect
@@ -426,13 +428,13 @@ BattleBGEffect_BattlerObj_1Row:
 	push bc
 	call BGEffect_CheckBattleTurn
 	jr nz, .player_side
-	ld a, ANIM_OBJ_ENEMYFEET_1ROW
+	ld a, BATTLE_ANIM_OBJ_ENEMYFEET_1ROW
 	ld [wBattleObjectTempID], a
 	ld a, 16 * TILE_WIDTH + 4
 	jr .okay
 
 .player_side
-	ld a, ANIM_OBJ_PLAYERHEAD_1ROW
+	ld a, BATTLE_ANIM_OBJ_PLAYERHEAD_1ROW
 	ld [wBattleObjectTempID], a
 	ld a, 6 * TILE_WIDTH
 .okay
@@ -493,13 +495,13 @@ BattleBGEffect_BattlerObj_2Row:
 	push bc
 	call BGEffect_CheckBattleTurn
 	jr nz, .player_side
-	ld a, ANIM_OBJ_ENEMYFEET_2ROW
+	ld a, BATTLE_ANIM_OBJ_ENEMYFEET_2ROW
 	ld [wBattleObjectTempID], a
 	ld a, 16 * TILE_WIDTH + 4
 	jr .okay
 
 .player_side
-	ld a, ANIM_OBJ_PLAYERHEAD_2ROW
+	ld a, BATTLE_ANIM_OBJ_PLAYERHEAD_2ROW
 	ld [wBattleObjectTempID], a
 	ld a, 6 * TILE_WIDTH
 .okay
@@ -852,7 +854,7 @@ BattleBGEffect_RunPicResizeScript:
 	dwcoord 14,  4
 
 .BGSquares:
-bgsquare: MACRO
+MACRO bgsquare
 	dn \1, \2
 	dw \3
 ENDM
@@ -2076,10 +2078,10 @@ BattleBGEffect_FadeMonsToBlackRepeating:
 	add hl, de
 	ld a, [hli]
 	push hl
-	call BGEffects_LoadBGPal1_OBPal0
+	call BGEffects_LoadEnemyPals
 	pop hl
 	ld a, [hl]
-	call BGEffects_LoadBGPal0_OBPal1
+	call BGEffects_LoadPlayerPals
 	ret
 
 .player_2
@@ -2087,17 +2089,17 @@ BattleBGEffect_FadeMonsToBlackRepeating:
 	add hl, de
 	ld a, [hli]
 	push hl
-	call BGEffects_LoadBGPal0_OBPal1
+	call BGEffects_LoadPlayerPals
 	pop hl
 	ld a, [hl]
-	call BGEffects_LoadBGPal1_OBPal0
+	call BGEffects_LoadEnemyPals
 	ret
 
 .cgb_two
 	ld a, $e4
-	call BGEffects_LoadBGPal0_OBPal1
+	call BGEffects_LoadPlayerPals
 	ld a, $e4
-	call BGEffects_LoadBGPal1_OBPal0
+	call BGEffects_LoadEnemyPals
 	call EndBattleBGEffect
 	ret
 
@@ -2507,7 +2509,7 @@ BGEffect_RapidCyclePals:
 	ld [hl], a
 	call BattleBGEffect_GetFirstDMGPal
 	jr c, .okay_2_cgb
-	call BGEffects_LoadBGPal0_OBPal1
+	call BGEffects_LoadPlayerPals
 	ret
 
 .okay_2_cgb
@@ -2518,7 +2520,7 @@ BGEffect_RapidCyclePals:
 
 .two_cgb
 	ld a, $e4
-	call BGEffects_LoadBGPal0_OBPal1
+	call BGEffects_LoadPlayerPals
 	call EndBattleBGEffect
 	ret
 
@@ -2538,7 +2540,7 @@ BGEffect_RapidCyclePals:
 	ld [hl], a
 	call BattleBGEffect_GetFirstDMGPal
 	jr c, .okay_4_cgb
-	call BGEffects_LoadBGPal1_OBPal0
+	call BGEffects_LoadEnemyPals
 	ret
 
 .okay_4_cgb
@@ -2549,60 +2551,60 @@ BGEffect_RapidCyclePals:
 
 .four_cgb
 	ld a, $e4
-	call BGEffects_LoadBGPal1_OBPal0
+	call BGEffects_LoadEnemyPals
 	call EndBattleBGEffect
 	ret
 
-BGEffects_LoadBGPal0_OBPal1:
+BGEffects_LoadPlayerPals:
 	ld h, a
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, BANK(wBGPals1)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, h
 	push bc
 	push af
-	ld hl, wBGPals2
-	ld de, wBGPals1
+	ld hl, wBGPals2 palette PAL_BATTLE_BG_PLAYER
+	ld de, wBGPals1 palette PAL_BATTLE_BG_PLAYER
 	ld b, a
 	ld c, $1
 	call CopyPals
-	ld hl, wOBPals2 palette 1
-	ld de, wOBPals1 palette 1
+	ld hl, wOBPals2 palette PAL_BATTLE_OB_PLAYER
+	ld de, wOBPals1 palette PAL_BATTLE_OB_PLAYER
 	pop af
 	ld b, a
 	ld c, $1
 	call CopyPals
 	pop bc
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, TRUE
 	ldh [hCGBPalUpdate], a
 	ret
 
-BGEffects_LoadBGPal1_OBPal0:
+BGEffects_LoadEnemyPals:
 	ld h, a
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, BANK(wBGPals1)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, h
 	push bc
 	push af
-	ld hl, wBGPals2 palette 1
-	ld de, wBGPals1 palette 1
+	ld hl, wBGPals2 palette PAL_BATTLE_BG_ENEMY
+	ld de, wBGPals1 palette PAL_BATTLE_BG_ENEMY
 	ld b, a
 	ld c, $1
 	call CopyPals
-	ld hl, wOBPals2
-	ld de, wOBPals1
+	ld hl, wOBPals2 palette PAL_BATTLE_OB_ENEMY
+	ld de, wOBPals1 palette PAL_BATTLE_OB_ENEMY
 	pop af
 	ld b, a
 	ld c, $1
 	call CopyPals
 	pop bc
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, TRUE
 	ldh [hCGBPalUpdate], a
 	ret

@@ -11,7 +11,7 @@ Serial::
 	jr nz, .mobile
 
 	ld a, [wPrinterConnectionOpen]
-	bit 0, a
+	bit PRINTER_CONNECTION_OPEN, a
 	jr nz, .printer
 
 	ldh a, [hSerialConnectionStatus]
@@ -28,9 +28,9 @@ Serial::
 	cp USING_INTERNAL_CLOCK
 	jr z, .player2
 
-	ld a, (0 << rSC_ON) | (0 << rSC_CLOCK)
+	ld a, SC_EXTERNAL
 	ldh [rSC], a
-	ld a, (1 << rSC_ON) | (0 << rSC_CLOCK)
+	ld a, SC_START | SC_EXTERNAL
 	ldh [rSC], a
 	jr .player2
 
@@ -62,12 +62,12 @@ Serial::
 	ldh [rDIV], a
 .delay_loop
 	ldh a, [rDIV]
-	bit 7, a
+	bit 7, a ; wait until rDIV has incremented from 3 to $80 or more
 	jr nz, .delay_loop
 
-	ld a, (0 << rSC_ON) | (0 << rSC_CLOCK)
+	ld a, SC_EXTERNAL
 	ldh [rSC], a
-	ld a, (1 << rSC_ON) | (0 << rSC_CLOCK)
+	ld a, SC_START | SC_EXTERNAL
 	ldh [rSC], a
 	jr .player2
 
@@ -114,7 +114,7 @@ Serial_ExchangeBytes::
 	dec hl
 	cp SERIAL_PREAMBLE_BYTE
 	jr nz, .loop
-	xor a
+	xor a ; FALSE
 	ldh [hSerialIgnoringInitialData], a
 	jr .loop
 
@@ -134,9 +134,9 @@ Serial_ExchangeByte::
 	ldh a, [hSerialConnectionStatus]
 	cp USING_INTERNAL_CLOCK
 	jr nz, .not_player_2
-	ld a, (0 << rSC_ON) | (1 << rSC_CLOCK)
+	ld a, SC_INTERNAL
 	ldh [rSC], a
-	ld a, (1 << rSC_ON) | (1 << rSC_CLOCK)
+	ld a, SC_START | SC_INTERNAL
 	ldh [rSC], a
 .not_player_2
 .loop
@@ -164,8 +164,8 @@ Serial_ExchangeByte::
 
 .not_player_1_or_timed_out
 	ldh a, [rIE]
-	and (1 << SERIAL) | (1 << TIMER) | (1 << LCD_STAT) | (1 << VBLANK)
-	cp 1 << SERIAL
+	and IE_SERIAL | IE_TIMER | IE_STAT | IE_VBLANK
+	cp IE_SERIAL
 	jr nz, .loop
 	ld a, [wLinkByteTimeout]
 	dec a
@@ -188,8 +188,8 @@ Serial_ExchangeByte::
 	xor a
 	ldh [hSerialReceivedNewData], a
 	ldh a, [rIE]
-	and (1 << SERIAL) | (1 << TIMER) | (1 << LCD_STAT) | (1 << VBLANK)
-	sub 1 << SERIAL
+	and IE_SERIAL | IE_TIMER | IE_STAT | IE_VBLANK
+	sub IE_SERIAL
 	jr nz, .non_serial_interrupts_enabled
 
 	; a == 0
@@ -220,8 +220,8 @@ Serial_ExchangeByte::
 
 .timed_out
 	ldh a, [rIE]
-	and (1 << SERIAL) | (1 << TIMER) | (1 << LCD_STAT) | (1 << VBLANK)
-	cp 1 << SERIAL
+	and IE_SERIAL | IE_TIMER | IE_STAT | IE_VBLANK
+	cp IE_SERIAL
 	ld a, SERIAL_NO_DATA_BYTE
 	ret z
 	ld a, [hl]
@@ -278,7 +278,7 @@ Serial_ExchangeSyncBytes::
 	jr nz, .exchange
 	ret
 
-Serial_PrintWaitingTextAndSyncAndExchangeNybble::
+Serial_PlaceWaitingTextAndSyncAndExchangeNybble::
 	call LoadTilemapToTempTilemap
 	callfar PlaceWaitingText
 	call WaitLinkTransfer
@@ -290,7 +290,7 @@ Serial_SyncAndExchangeNybble:: ; unreferenced
 	jp WaitLinkTransfer ; pointless
 
 WaitLinkTransfer::
-	vc_hook send_send_buf2
+	vc_hook Wireless_WaitLinkTransfer
 	ld a, $ff
 	ld [wOtherPlayerLinkAction], a
 .loop
@@ -318,7 +318,7 @@ WaitLinkTransfer::
 	inc a
 	jr z, .loop
 
-	vc_patch Network10
+	vc_patch Wireless_net_delay_1
 if DEF(_CRYSTAL11_VC)
 	ld b, 26
 else
@@ -331,7 +331,7 @@ endc
 	dec b
 	jr nz, .receive
 
-	vc_patch Network11
+	vc_patch Wireless_net_delay_2
 if DEF(_CRYSTAL11_VC)
 	ld b, 26
 else
@@ -346,7 +346,7 @@ endc
 
 	ld a, [wOtherPlayerLinkAction]
 	ld [wOtherPlayerLinkMode], a
-	vc_hook send_send_buf2_ret
+	vc_hook Wireless_WaitLinkTransfer_ret
 	ret
 
 LinkTransfer::
@@ -370,9 +370,9 @@ LinkTransfer::
 	ldh a, [hSerialConnectionStatus]
 	cp USING_INTERNAL_CLOCK
 	jr nz, .player_1
-	ld a, (0 << rSC_ON) | (1 << rSC_CLOCK)
+	ld a, SC_INTERNAL
 	ldh [rSC], a
-	ld a, (1 << rSC_ON) | (1 << rSC_CLOCK)
+	ld a, SC_START | SC_INTERNAL
 	ldh [rSC], a
 
 .player_1
@@ -400,9 +400,9 @@ LinkDataReceived::
 	ldh a, [hSerialConnectionStatus]
 	cp USING_INTERNAL_CLOCK
 	ret nz
-	ld a, (0 << rSC_ON) | (1 << rSC_CLOCK)
+	ld a, SC_INTERNAL
 	ldh [rSC], a
-	ld a, (1 << rSC_ON) | (1 << rSC_CLOCK)
+	ld a, SC_START | SC_INTERNAL
 	ldh [rSC], a
 	ret
 
@@ -415,8 +415,8 @@ SetBitsForTimeCapsuleRequestIfNotLinked:: ; unreferenced
 	ldh [rSB], a
 	xor a
 	ldh [hSerialReceive], a
-	ld a, (0 << rSC_ON) | (0 << rSC_CLOCK)
+	ld a, SC_EXTERNAL
 	ldh [rSC], a
-	ld a, (1 << rSC_ON) | (0 << rSC_CLOCK)
+	ld a, SC_START | SC_EXTERNAL
 	ldh [rSC], a
 	ret

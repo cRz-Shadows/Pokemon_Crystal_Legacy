@@ -3,20 +3,20 @@
 
 KarensRoom_MapScripts:
 	def_scene_scripts
-	scene_script .LockDoor ; SCENE_DEFAULT
-	scene_script .DummyScene ; SCENE_FINISHED
+	scene_script KarensRoomLockDoorScene, SCENE_KARENSROOM_LOCK_DOOR
+	scene_script KarensRoomNoopScene,     SCENE_KARENSROOM_NOOP
 
 	def_callbacks
-	callback MAPCALLBACK_TILES, .KarensRoomDoors
+	callback MAPCALLBACK_TILES, KarensRoomDoorsCallback
 
-.LockDoor:
-	sdefer .KarensDoorLocksBehindYou
+KarensRoomLockDoorScene:
+	sdefer KarensRoomDoorLocksBehindYouScript
 	end
 
-.DummyScene:
+KarensRoomNoopScene:
 	end
 
-.KarensRoomDoors:
+KarensRoomDoorsCallback:
 	checkevent EVENT_KARENS_ROOM_ENTRANCE_CLOSED
 	iffalse .KeepEntranceOpen
 	changeblock 4, 14, $2a ; wall
@@ -27,15 +27,15 @@ KarensRoom_MapScripts:
 .KeepExitClosed:
 	endcallback
 
-.KarensDoorLocksBehindYou:
+KarensRoomDoorLocksBehindYouScript:
 	applymovement PLAYER, KarensRoom_EnterMovement
-	refreshscreen $86
+	reanchormap $86
 	playsound SFX_STRENGTH
 	earthquake 80
 	changeblock 4, 14, $2a ; wall
-	reloadmappart
+	refreshmap
 	closetext
-	setscene SCENE_FINISHED
+	setscene SCENE_KARENSROOM_NOOP
 	setevent EVENT_KARENS_ROOM_ENTRANCE_CLOSED
 	waitsfx
 	end
@@ -46,7 +46,7 @@ KarenScript_Battle:
 	checkevent EVENT_BEAT_ELITE_4_KAREN
 	iftrue KarenScript_AfterBattle
 	readvar VAR_BADGES
-	if_less_than 16, .OriginalText
+	ifless 16, .OriginalText
 	writetext KarenScript_KarenRematchBeforeText
 	sjump .EndIntroText
 .OriginalText
@@ -56,7 +56,7 @@ KarenScript_Battle:
 	closetext
 	winlosstext KarenScript_KarenBeatenText, 0
 	readvar VAR_BADGES
-	if_greater_than 15, .Rematch
+	ifgreater 15, .Rematch
 	loadtrainer KAREN, KAREN1
 	sjump .LoadtrainerEnd
 .Rematch:
@@ -75,7 +75,7 @@ KarenScript_Battle:
 	closetext
 	playsound SFX_ENTER_DOOR
 	changeblock 4, 2, $16 ; open door
-	reloadmappart
+	refreshmap
 	closetext
 	setevent EVENT_KARENS_ROOM_EXIT_OPEN
 	waitsfx

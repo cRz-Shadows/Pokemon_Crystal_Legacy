@@ -1,4 +1,4 @@
-MANIA_OT_ID EQU 00518
+DEF MANIA_OT_ID EQU 00518
 
 GiveShuckle:
 ; Adding to the party.
@@ -101,7 +101,7 @@ ReturnShuckie:
 	ld a, [de]
 	cp [hl]
 	jr nz, .DontReturn
-	cp "@"
+	cp '@'
 	jr z, .done
 	inc de
 	inc hl

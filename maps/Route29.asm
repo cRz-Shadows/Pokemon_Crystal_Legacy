@@ -10,19 +10,19 @@
 
 Route29_MapScripts:
 	def_scene_scripts
-	scene_script .DummyScene0 ; SCENE_ROUTE29_NOTHING
-	scene_script .DummyScene1 ; SCENE_ROUTE29_CATCH_TUTORIAL
+	scene_script Route29Noop1Scene, SCENE_ROUTE29_NOOP
+	scene_script Route29Noop2Scene, SCENE_ROUTE29_CATCH_TUTORIAL
 
 	def_callbacks
-	callback MAPCALLBACK_OBJECTS, .Tuscany
+	callback MAPCALLBACK_OBJECTS, Route29TuscanyCallback
 
-.DummyScene0:
+Route29Noop1Scene:
 	end
 
-.DummyScene1:
+Route29Noop2Scene:
 	end
 
-.Tuscany:
+Route29TuscanyCallback:
 	checkflag ENGINE_ZEPHYRBADGE
 	iftrue .DoesTuscanyAppear
 
@@ -57,7 +57,7 @@ Route29Tutorial1:
 	writetext CatchingTutorialDebriefText
 	waitbutton
 	closetext
-	setscene SCENE_ROUTE29_NOTHING
+	setscene SCENE_ROUTE29_NOOP
 	setevent EVENT_LEARNED_TO_CATCH_POKEMON
 	end
 
@@ -82,7 +82,7 @@ Route29Tutorial2:
 	writetext CatchingTutorialDebriefText
 	waitbutton
 	closetext
-	setscene SCENE_ROUTE29_NOTHING
+	setscene SCENE_ROUTE29_NOOP
 	setevent EVENT_LEARNED_TO_CATCH_POKEMON
 	end
 
@@ -91,7 +91,7 @@ Script_RefusedTutorial1:
 	waitbutton
 	closetext
 	applymovement ROUTE29_COOLTRAINER_M1, DudeMovementData1b
-	setscene SCENE_ROUTE29_NOTHING
+	setscene SCENE_ROUTE29_NOOP
 	end
 
 Script_RefusedTutorial2:
@@ -99,7 +99,7 @@ Script_RefusedTutorial2:
 	waitbutton
 	closetext
 	applymovement ROUTE29_COOLTRAINER_M1, DudeMovementData2b
-	setscene SCENE_ROUTE29_NOTHING
+	setscene SCENE_ROUTE29_NOOP
 	end
 
 CatchingTutorialDudeScript:

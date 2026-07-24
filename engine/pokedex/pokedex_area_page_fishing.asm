@@ -200,10 +200,10 @@ Fishing_Print_Rod:
 ; % char	
 	hlcoord 13, 11
 	call FishEntry_adjusthlcoord_rod ; current print line needs to be in c
-	ld [hl], "<%>"
+	ld [hl], '<%>'
 	ld de, 6 ; de should still be 6 since we push/pop de in adjust, check this
 	add hl, de
-	ld [hl], "<%>"
+	ld [hl], '<%>'
 
 	pop de ; nite encounter % in d, day in e
 	pop bc

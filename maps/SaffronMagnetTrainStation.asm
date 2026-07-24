@@ -6,11 +6,11 @@
 
 SaffronMagnetTrainStation_MapScripts:
 	def_scene_scripts
-	scene_script .DummyScene ; SCENE_DEFAULT
+	scene_script SaffronMagnetTrainStationNoopScene, SCENE_SAFFRONMAGNETTRAINSTATION_ARRIVE_FROM_GOLDENROD
 
 	def_callbacks
 
-.DummyScene:
+SaffronMagnetTrainStationNoopScene:
 	end
 
 SaffronMagnetTrainStationOfficerScript:
@@ -223,7 +223,7 @@ SaffronMagnetTrainStation_MapEvents:
 	warp_event 11,  5, GOLDENROD_MAGNET_TRAIN_STATION, 3
 
 	def_coord_events
-	coord_event 11,  6, SCENE_DEFAULT, Script_ArriveFromGoldenrod
+	coord_event 11,  6, SCENE_SAFFRONMAGNETTRAINSTATION_ARRIVE_FROM_GOLDENROD, Script_ArriveFromGoldenrod
 
 	def_bg_events
 

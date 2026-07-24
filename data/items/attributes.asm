@@ -1,4 +1,4 @@
-item_attribute: MACRO
+MACRO item_attribute
 ; price, held effect, parameter, property, pocket, field menu, battle menu
 	dw \1
 	db \2, \3, \4, \5
@@ -7,7 +7,7 @@ ENDM
 
 ItemAttributes:
 ; entries correspond to item ids (see constants/item_constants.asm)
-	table_width ITEMATTR_STRUCT_LENGTH, ItemAttributes
+	table_width ITEMATTR_STRUCT_LENGTH
 ; MASTER_BALL
 	item_attribute 0, HELD_NONE, 0, CANT_SELECT, BALL, ITEMMENU_NOUSE, ITEMMENU_CLOSE
 ; ULTRA_BALL

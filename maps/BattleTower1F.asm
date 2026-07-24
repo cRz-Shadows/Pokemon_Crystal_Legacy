@@ -7,12 +7,12 @@
 
 BattleTower1F_MapScripts:
 	def_scene_scripts
-	scene_script .Scene0 ; SCENE_DEFAULT
-	scene_script .Scene1 ; SCENE_FINISHED
+	scene_script BattleTower1FCheckStateScene, SCENE_BATTLETOWER1F_CHECKSTATE
+	scene_script BattleTower1FNoopScene,       SCENE_BATTLETOWER1F_NOOP
 
 	def_callbacks
 
-.Scene0:
+BattleTower1FCheckStateScene:
 	setval BATTLETOWERACTION_CHECKSAVEFILEISYOURS
 	special BattleTowerAction
 	iffalse .SkipEverything
@@ -36,8 +36,9 @@ BattleTower1F_MapScripts:
 	setval BATTLETOWERACTION_06
 	special BattleTowerAction
 .SkipEverything:
-	setscene SCENE_FINISHED
-.Scene1:
+	setscene SCENE_BATTLETOWER1F_NOOP
+	; fallthrough
+BattleTower1FNoopScene:
 	end
 
 BattleTower1FRulesSign:
@@ -79,10 +80,10 @@ Script_ChooseChallenge:
 	writetext Text_SaveBeforeEnteringBattleRoom
 	yesorno
 	iffalse Script_Menu_ChallengeExplanationCancel
-	setscene SCENE_DEFAULT
+	setscene SCENE_BATTLETOWER1F_CHECKSTATE
 	special TryQuickSave
 	iffalse Script_Menu_ChallengeExplanationCancel
-	setscene SCENE_FINISHED
+	setscene SCENE_BATTLETOWER1F_NOOP
 	setval BATTLETOWERACTION_SET_EXPLANATION_READ ; set 1, [sBattleTowerSaveFileFlags]
 	special BattleTowerAction
 	special BattleTowerRoomMenu
@@ -103,9 +104,9 @@ Script_ResumeBattleTowerChallenge:
 	special BattleTowerAction
 Script_WalkToBattleTowerElevator:
 	musicfadeout MUSIC_NONE, 8
-	setmapscene BATTLE_TOWER_BATTLE_ROOM, SCENE_DEFAULT
-	setmapscene BATTLE_TOWER_ELEVATOR, SCENE_DEFAULT
-	setmapscene BATTLE_TOWER_HALLWAY, SCENE_DEFAULT
+	setmapscene BATTLE_TOWER_BATTLE_ROOM, SCENE_BATTLETOWERBATTLEROOM_ENTER
+	setmapscene BATTLE_TOWER_ELEVATOR, SCENE_BATTLETOWERELEVATOR_ENTER
+	setmapscene BATTLE_TOWER_HALLWAY, SCENE_BATTLETOWERHALLWAY_ENTER
 	follow BATTLETOWER1F_RECEPTIONIST, PLAYER
 	applymovement BATTLETOWER1F_RECEPTIONIST, MovementData_BattleTower1FWalkToElevator
 	setval BATTLETOWERACTION_0A
@@ -217,10 +218,10 @@ Script_StartChallenge: ; unreferenced
 	writetext Text_SaveBeforeReentry
 	yesorno
 	iffalse Script_Menu_ChallengeExplanationCancel
-	setscene SCENE_DEFAULT
+	setscene SCENE_BATTLETOWER1F_CHECKSTATE
 	special TryQuickSave
 	iffalse Script_Menu_ChallengeExplanationCancel
-	setscene SCENE_FINISHED
+	setscene SCENE_BATTLETOWER1F_NOOP
 	setval BATTLETOWERACTION_06
 	special BattleTowerAction
 	setval BATTLETOWERACTION_12

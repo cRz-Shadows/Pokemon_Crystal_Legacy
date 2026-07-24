@@ -256,7 +256,7 @@ HPBarAnim_UpdateHPRemaining:
 .loaded_de
 	push hl
 	add hl, de
-	ld a, " "
+	ld a, ' '
 	ld [hli], a
 	ld [hli], a
 	ld [hld], a

@@ -1,6 +1,6 @@
 QueueBattleAnimation:
 	ld hl, wActiveAnimObjects
-	ld e, NUM_ANIM_OBJECTS
+	ld e, NUM_BATTLE_ANIM_STRUCTS
 .loop
 	ld a, [hl]
 	and a
@@ -80,16 +80,16 @@ endr
 BattleAnimOAMUpdate:
 	call InitBattleAnimBuffer
 	call GetBattleAnimFrame
-	cp dowait_command
+	cp oamwait_command
 	jp z, .done
-	cp delanim_command
+	cp oamdelete_command
 	jp z, .delete
 
 	push af
 	ld hl, wBattleAnimTempOAMFlags
 	ld a, [wBattleAnimTempFrameOAMFlags]
 	xor [hl]
-	and PRIORITY | Y_FLIP | X_FLIP
+	and OAM_PRIO | OAM_YFLIP | OAM_XFLIP
 	ld [hl], a
 	pop af
 
@@ -106,7 +106,7 @@ BattleAnimOAMUpdate:
 	ld l, a
 	ld a, [wBattleAnimOAMPointerLo]
 	ld e, a
-	ld d, HIGH(wVirtualOAM)
+	ld d, HIGH(wShadowOAM)
 
 .loop
 	; Y Coord
@@ -118,7 +118,7 @@ BattleAnimOAMUpdate:
 	push hl
 	ld a, [hl]
 	ld hl, wBattleAnimTempOAMFlags
-	bit OAM_Y_FLIP, [hl]
+	bit B_OAM_YFLIP, [hl]
 	jr z, .no_yflip
 	add $8
 	xor $ff
@@ -139,7 +139,7 @@ BattleAnimOAMUpdate:
 	push hl
 	ld a, [hl]
 	ld hl, wBattleAnimTempOAMFlags
-	bit OAM_X_FLIP, [hl]
+	bit B_OAM_XFLIP, [hl]
 	jr z, .no_xflip
 	add $8
 	xor $ff
@@ -164,14 +164,14 @@ BattleAnimOAMUpdate:
 	ld b, a
 	ld a, [hl]
 	xor b
-	and PRIORITY | Y_FLIP | X_FLIP
+	and OAM_PRIO | OAM_YFLIP | OAM_XFLIP
 	ld b, a
 	ld a, [hl]
-	and OBP_NUM
+	and OAM_PAL1
 	or b
 	ld b, a
 	ld a, [wBattleAnimTempPalette]
-	and PALETTE_MASK | VRAM_BANK_1
+	and OAM_PALETTE | OAM_BANK1
 	or b
 	ld [de], a
 
@@ -179,7 +179,7 @@ BattleAnimOAMUpdate:
 	inc de
 	ld a, e
 	ld [wBattleAnimOAMPointerLo], a
-	cp LOW(wVirtualOAMEnd)
+	cp LOW(wShadowOAMEnd)
 	jr nc, .exit_set_carry
 	dec c
 	jr nz, .loop
@@ -203,7 +203,7 @@ InitBattleAnimBuffer:
 	add hl, bc
 	ld a, [hl]
 
-	and PRIORITY
+	and OAM_PRIO
 	ld [wBattleAnimTempOAMFlags], a
 	xor a
 	ld [wBattleAnimTempFrameOAMFlags], a
@@ -236,14 +236,14 @@ InitBattleAnimBuffer:
 	add hl, bc
 	ld a, [hl]
 	ld [wBattleAnimTempOAMFlags], a
-	bit 0, [hl]
+	bit BATTLEANIMSTRUCT_OAMFLAGS_FIX_COORDS_F, [hl]
 	ret z
 
 	ld hl, BATTLEANIMSTRUCT_XCOORD
 	add hl, bc
 	ld a, [hli]
 	ld d, a
-	ld a, (-10 * 8) + 4
+	ld a, (-10 * TILE_WIDTH) + 4
 	sub d
 	ld [wBattleAnimTempXCoord], a
 	ld a, [hli]
@@ -251,7 +251,7 @@ InitBattleAnimBuffer:
 	ld a, [wBattleAnimTempFixY]
 	cp $ff
 	jr nz, .check_kinesis_softboiled_milkdrink
-	ld a, 5 * 8
+	ld a, 5 * TILE_WIDTH
 	add d
 	jr .done
 
@@ -270,7 +270,7 @@ InitBattleAnimBuffer:
 	jr nz, .no_sub
 .do_sub
 	pop af
-	sub 1 * 8
+	sub 1 * TILE_WIDTH
 	jr .done
 
 .no_sub

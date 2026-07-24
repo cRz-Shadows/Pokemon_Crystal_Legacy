@@ -1,7 +1,7 @@
 ; party menu icons
 
 MonMenuIcons:
-	table_width 1, MonMenuIcons
+	table_width 1
 	db ICON_BULBASAUR   ; BULBASAUR
 	db ICON_IVYSAUR     ; IVYSAUR
 	db ICON_VENUSAUR    ; VENUSAUR

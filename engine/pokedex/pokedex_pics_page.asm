@@ -9,9 +9,9 @@ Pokedex_PlaceAnimatedFrontpic:
 	ld hl, wTempMonDVs
 	predef GetUnownLetter
 	ld bc, wTempSpecies
-	call SetPalettes
+	call SetDefaultBGPAndOBP
 	call .AnimateMon
-	call SetPalettes
+	call SetDefaultBGPAndOBP
 	ret
 
 .AnimateMon:
@@ -230,10 +230,10 @@ Dex_Pics_DrawBorder:
 	ld a, [wPokedexShinyToggle]
 	bit 0, a
 	jr z, .not_shiny
-	ld [hl], "<DEX_⁂>"
+	ld [hl], '<DEX_⁂>'
 	jr .shiny_done
 .not_shiny
-	ld [hl], " "
+	ld [hl], ' '
 .shiny_done
 ; SELECT > SHINY START > CRY
 	hlcoord 0, 17

@@ -12,16 +12,16 @@ Route43_MapScripts:
 	def_scene_scripts
 
 	def_callbacks
-	callback MAPCALLBACK_NEWMAP, .CheckIfRockets
+	callback MAPCALLBACK_NEWMAP, Route43CheckIfRocketsScene
 
-.CheckIfRockets:
+Route43CheckIfRocketsScene:
 	checkevent EVENT_CLEARED_ROCKET_HIDEOUT
 	iftrue .NoRockets
-	setmapscene ROUTE_43_GATE, SCENE_DEFAULT
+	setmapscene ROUTE_43_GATE, SCENE_ROUTE43GATE_ROCKET_SHAKEDOWN
 	endcallback
 
 .NoRockets:
-	setmapscene ROUTE_43_GATE, SCENE_FINISHED
+	setmapscene ROUTE_43_GATE, SCENE_ROUTE43GATE_NOOP
 	endcallback
 
 TrainerCamperSpencer:

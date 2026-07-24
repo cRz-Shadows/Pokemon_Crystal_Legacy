@@ -7,7 +7,7 @@
 	const TEAMROCKETBASEB3F_SCIENTIST1
 	const TEAMROCKETBASEB3F_SCIENTIST2
 	const TEAMROCKETBASEB3F_ROCKET3
-	const TEAMROCKETBASEB3F_SILVER
+	const TEAMROCKETBASEB3F_RIVAL
 	const TEAMROCKETBASEB3F_POKE_BALL1
 	const TEAMROCKETBASEB3F_POKE_BALL2
 	const TEAMROCKETBASEB3F_POKE_BALL3
@@ -16,28 +16,28 @@
 
 TeamRocketBaseB3F_MapScripts:
 	def_scene_scripts
-	scene_script .LanceGetsPassword ; SCENE_DEFAULT
-	scene_script .DummyScene1 ; SCENE_TEAMROCKETBASEB3F_RIVAL_ENCOUNTER
-	scene_script .DummyScene2 ; SCENE_TEAMROCKETBASEB3F_ROCKET_BOSS
-	scene_script .DummyScene3 ; SCENE_TEAMROCKETBASEB3F_NOTHING
+	scene_script TeamRocketBaseB3FLanceGetsPasswordScene, SCENE_TEAMROCKETBASEB3F_LANCE_GETS_PASSWORD
+	scene_script TeamRocketBaseB3FNoop1Scene,             SCENE_TEAMROCKETBASEB3F_RIVAL_ENCOUNTER
+	scene_script TeamRocketBaseB3FNoop2Scene,             SCENE_TEAMROCKETBASEB3F_ROCKET_BOSS
+	scene_script TeamRocketBaseB3FNoop3Scene,             SCENE_TEAMROCKETBASEB3F_NOOP
 
 	def_callbacks
-	callback MAPCALLBACK_TILES, .CheckGiovanniDoor
+	callback MAPCALLBACK_TILES, TeamRocketBaseB3FCheckGiovanniDoorCallback
 
-.LanceGetsPassword:
+TeamRocketBaseB3FLanceGetsPasswordScene:
 	sdefer LanceGetPasswordScript
 	end
 
-.DummyScene1:
+TeamRocketBaseB3FNoop1Scene:
 	end
 
-.DummyScene2:
+TeamRocketBaseB3FNoop2Scene:
 	end
 
-.DummyScene3:
+TeamRocketBaseB3FNoop3Scene:
 	end
 
-.CheckGiovanniDoor:
+TeamRocketBaseB3FCheckGiovanniDoorCallback:
 	checkevent EVENT_OPENED_DOOR_TO_GIOVANNIS_OFFICE
 	iftrue .OpenSesame
 	endcallback
@@ -65,8 +65,8 @@ RocketBaseRival:
 	turnobject PLAYER, LEFT
 	showemote EMOTE_SHOCK, PLAYER, 15
 	special FadeOutMusic
-	appear TEAMROCKETBASEB3F_SILVER
-	applymovement TEAMROCKETBASEB3F_SILVER, RocketBaseRivalEnterMovement
+	appear TEAMROCKETBASEB3F_RIVAL
+	applymovement TEAMROCKETBASEB3F_RIVAL, RocketBaseRivalEnterMovement
 	turnobject PLAYER, LEFT
 	playmusic MUSIC_RIVAL_ENCOUNTER
 	opentext
@@ -75,8 +75,8 @@ RocketBaseRival:
 	closetext
 	playsound SFX_TACKLE
 	applymovement PLAYER, RocketBaseRivalShovesPlayerMovement
-	applymovement TEAMROCKETBASEB3F_SILVER, RocketBaseRivalLeavesMovement
-	disappear TEAMROCKETBASEB3F_SILVER
+	applymovement TEAMROCKETBASEB3F_RIVAL, RocketBaseRivalLeavesMovement
+	disappear TEAMROCKETBASEB3F_RIVAL
 	setscene SCENE_TEAMROCKETBASEB3F_ROCKET_BOSS
 	special RestartMapMusic
 	end
@@ -118,7 +118,7 @@ RocketBaseBoss:
 	playsound SFX_TACKLE
 	applymovement TEAMROCKETBASEB3F_ROCKET1, RocketBaseBossLeavesMovement
 	disappear TEAMROCKETBASEB3F_ROCKET1
-	setscene SCENE_TEAMROCKETBASEB3F_NOTHING
+	setscene SCENE_TEAMROCKETBASEB3F_NOOP
 	end
 
 RocketBaseMurkrow:
@@ -197,7 +197,7 @@ TeamRocketBaseB3FLockedDoor:
 	waitbutton
 	playsound SFX_ENTER_DOOR
 	changeblock 10, 8, $07 ; floor
-	reloadmappart
+	refreshmap
 	closetext
 	setevent EVENT_OPENED_DOOR_TO_GIOVANNIS_OFFICE
 	waitsfx
@@ -607,7 +607,7 @@ TeamRocketBaseB3F_MapEvents:
 	object_event 23, 11, SPRITE_SCIENTIST, SPRITEMOVEDATA_STANDING_UP, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 0, TrainerScientistRoss, EVENT_TEAM_ROCKET_BASE_POPULATION
 	object_event 11, 15, SPRITE_SCIENTIST, SPRITEMOVEDATA_STANDING_RIGHT, 0, 0, -1, -1, PAL_NPC_BLUE, OBJECTTYPE_TRAINER, 3, TrainerScientistMitch, EVENT_TEAM_ROCKET_BASE_POPULATION
 	object_event 24, 14, SPRITE_ROCKET, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, TeamRocketBaseB3FRocketScript, EVENT_TEAM_ROCKET_BASE_POPULATION
-	object_event  4,  5, SPRITE_SILVER, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_RIVAL_TEAM_ROCKET_BASE
+	object_event  4,  5, SPRITE_RIVAL, SPRITEMOVEDATA_STANDING_DOWN, 0, 0, -1, -1, 0, OBJECTTYPE_SCRIPT, 0, ObjectEvent, EVENT_RIVAL_TEAM_ROCKET_BASE
 	object_event  1, 12, SPRITE_POKE_BALL, SPRITEMOVEDATA_STILL, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, TeamRocketBaseB3FProtein, EVENT_TEAM_ROCKET_BASE_B3F_PROTEIN
 	object_event  3, 12, SPRITE_POKE_BALL, SPRITEMOVEDATA_STILL, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, TeamRocketBaseB3FXSpecial, EVENT_TEAM_ROCKET_BASE_B3F_X_SPECIAL
 	object_event 28,  9, SPRITE_POKE_BALL, SPRITEMOVEDATA_STILL, 0, 0, -1, -1, 0, OBJECTTYPE_ITEMBALL, 0, TeamRocketBaseB3FFullHeal, EVENT_TEAM_ROCKET_BASE_B3F_FULL_HEAL

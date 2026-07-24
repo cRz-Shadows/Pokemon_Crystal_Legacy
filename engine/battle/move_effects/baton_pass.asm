@@ -1,6 +1,4 @@
 BattleCommand_BatonPass:
-; batonpass
-
 	ldh a, [hBattleTurn]
 	and a
 	jp nz, .Enemy
@@ -31,7 +29,7 @@ BattleCommand_BatonPass:
 	call ClearBox
 	ld b, SCGB_BATTLE_COLORS
 	call GetSGBLayout
-	call SetPalettes
+	call SetDefaultBGPAndOBP
 	call BatonPass_LinkPlayerSwitch
 
 ; Mobile link battles handle entrances differently
@@ -130,7 +128,7 @@ ResetBatonPassStatus:
 	; Nightmare isn't passed.
 	ld a, BATTLE_VARS_STATUS
 	call GetBattleVar
-	and SLP
+	and SLP_MASK
 	jr nz, .ok
 
 	ld a, BATTLE_VARS_SUBSTATUS1

@@ -29,22 +29,22 @@ GetBattleAnimFrame:
 	inc [hl]
 	call .GetPointer
 	ld a, [hli]
-	cp dorestart_command
+	cp oamrestart_command
 	jr z, .restart
-	cp endanim_command
+	cp oamend_command
 	jr z, .repeat_last
 
 	push af
 	ld a, [hl]
 	push hl
-	and ~(Y_FLIP << 1 | X_FLIP << 1)
+	and ~(OAM_YFLIP << 1 | OAM_XFLIP << 1)
 	ld hl, BATTLEANIMSTRUCT_DURATION
 	add hl, bc
 	ld [hl], a
 	pop hl
 .okay
 	ld a, [hl]
-	and Y_FLIP << 1 | X_FLIP << 1 ; The << 1 is compensated in the "frame" macro
+	and OAM_YFLIP << 1 | OAM_XFLIP << 1 ; The << 1 is compensated in the "oamframe" macro
 	srl a
 	ld [wBattleAnimTempFrameOAMFlags], a
 	pop af
@@ -104,7 +104,7 @@ GetBattleAnimOAMPointer:
 
 LoadBattleAnimGFX:
 	push hl
-	cp ANIM_GFX_POKE_BALL
+	cp BATTLE_ANIM_GFX_POKE_BALL
 	call z, .LoadBallPalette
 	ld l, a
 	ld h, 0
@@ -143,7 +143,7 @@ LoadBattleAnimGFX:
 	jr z, .done
 	cp -1 ; did we reach the end of the list?
 	jr z, .done
-rept PAL_COLOR_SIZE * 2
+rept COLOR_SIZE * 2
 	inc hl ; skip over the two RGB colors to the next entry
 endr
 	jr .loop
@@ -153,7 +153,7 @@ endr
 	ld [rSVBK], a
 	; load the RGB colors into the middle two colors of PAL_BATTLE_OB_RED
 	ld de, wOBPals2 palette PAL_BATTLE_OB_RED color 1
-rept PAL_COLOR_SIZE * 2 - 1
+rept COLOR_SIZE * 2 - 1
 	ld a, [hli]
 	ld [de], a
 	inc de
@@ -167,7 +167,7 @@ endr
 	pop af
 	ld [rSVBK], a
 	; restore the graphics index to be loaded
-	ld a, ANIM_GFX_POKE_BALL
+	ld a, BATTLE_ANIM_GFX_POKE_BALL
 	ret
 
 INCLUDE "data/battle_anims/ball_colors.asm"

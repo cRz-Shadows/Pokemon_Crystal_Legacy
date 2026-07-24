@@ -1,7 +1,7 @@
 TreeMons::
 ; entries correspond to TREEMON_SET_* constants
-	table_width 2, TreeMons
-	dw TreeMonSet_City
+	table_width 2
+	dw TreeMonSet_None
 	dw TreeMonSet_Canyon
 	dw TreeMonSet_Town
 	dw TreeMonSet_Route
@@ -20,7 +20,9 @@ RockSmashMons::
 ; Structure:
 ;	db  %, species, level
 
-TreeMonSet_City:
+TreeMonSet_None:
+; no encounter data
+
 TreeMonSet_Canyon:
 ; common
 	db 50, SPEAROW,    10

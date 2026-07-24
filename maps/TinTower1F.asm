@@ -12,21 +12,21 @@
 
 TinTower1F_MapScripts:
 	def_scene_scripts
-	scene_script .FaceSuicune ; SCENE_DEFAULT
-	scene_script .DummyScene ; SCENE_FINISHED
+	scene_script TinTower1FSuicuneBattleScene, SCENE_TINTOWER1F_SUICUNE_BATTLE
+	scene_script TinTower1FNoopScene,          SCENE_TINTOWER1F_NOOP
 
 	def_callbacks
-	callback MAPCALLBACK_OBJECTS, .NPCsCallback
-	callback MAPCALLBACK_TILES, .StairsCallback
+	callback MAPCALLBACK_OBJECTS, TinTower1FNPCsCallback
+	callback MAPCALLBACK_TILES, TinTower1FStairsCallback
 
-.FaceSuicune:
-	sdefer .SuicuneBattle
+TinTower1FSuicuneBattleScene:
+	sdefer TinTower1FSuicuneBattleScript
 	end
 
-.DummyScene:
+TinTower1FNoopScene:
 	end
 
-.NPCsCallback:
+TinTower1FNPCsCallback:
 	checkevent EVENT_GOT_RAINBOW_WING
 	iftrue .GotRainbowWing
 	checkevent EVENT_BEAT_ELITE_FOUR
@@ -74,14 +74,14 @@ TinTower1F_MapScripts:
 	setevent EVENT_TIN_TOWER_1F_WISE_TRIO_2
 	endcallback
 
-.StairsCallback:
+TinTower1FStairsCallback:
 	checkevent EVENT_GOT_RAINBOW_WING
 	iftrue .DontHideStairs
 	changeblock 10, 2, $09 ; floor
 .DontHideStairs:
 	endcallback
 
-.SuicuneBattle:
+TinTower1FSuicuneBattleScript:
 	applymovement PLAYER, TinTower1FPlayerEntersMovement
 	pause 15
 	setval RAIKOU
@@ -127,12 +127,12 @@ TinTower1F_MapScripts:
 	disappear TINTOWER1F_SUICUNE
 	setevent EVENT_FOUGHT_SUICUNE
 	setevent EVENT_SAW_SUICUNE_ON_ROUTE_42
-	setmapscene ROUTE_42, SCENE_ROUTE42_NOTHING
+	setmapscene ROUTE_42, SCENE_ROUTE42_NOOP
 	setevent EVENT_SAW_SUICUNE_ON_ROUTE_36
-	setmapscene ROUTE_36, SCENE_ROUTE36_NOTHING
+	setmapscene ROUTE_36, SCENE_ROUTE36_NOOP
 	setevent EVENT_SAW_SUICUNE_AT_CIANWOOD_CITY
-	setmapscene CIANWOOD_CITY, SCENE_CIANWOODCITY_NOTHING
-	setscene SCENE_FINISHED
+	setmapscene CIANWOOD_CITY, SCENE_CIANWOODCITY_NOOP
+	setscene SCENE_TINTOWER1F_NOOP
 	clearevent EVENT_SET_WHEN_FOUGHT_HO_OH
 	reloadmapafterbattle
 	pause 20
@@ -199,12 +199,12 @@ TinTower1FSage5Script:
 	promptbutton
 	verbosegiveitem RAINBOW_WING
 	closetext
-	refreshscreen
+	reanchormap
 	earthquake 72
 	waitsfx
 	playsound SFX_STRENGTH
 	changeblock 10, 2, $20 ; stairs
-	reloadmappart
+	refreshmap
 	setevent EVENT_GOT_RAINBOW_WING
 	closetext
 	opentext

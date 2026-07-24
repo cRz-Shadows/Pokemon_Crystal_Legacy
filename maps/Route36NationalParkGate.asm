@@ -14,35 +14,35 @@
 
 Route36NationalParkGate_MapScripts:
 	def_scene_scripts
-	scene_script .DummyScene0 ; SCENE_ROUTE36NATIONALPARKGATE_NOTHING
-	scene_script .DummyScene1 ; SCENE_ROUTE36NATIONALPARKGATE_UNUSED
-	scene_script .LeaveContestEarly ; SCENE_ROUTE36NATIONALPARKGATE_LEAVE_CONTEST_EARLY
+	scene_script Route36NationalParkGateNoop1Scene,             SCENE_ROUTE36NATIONALPARKGATE_NOOP
+	scene_script Route36NationalParkGateNoop2Scene,             SCENE_ROUTE36NATIONALPARKGATE_UNUSED
+	scene_script Route36NationalParkGateLeaveContestEarlyScene, SCENE_ROUTE36NATIONALPARKGATE_LEAVE_CONTEST_EARLY
 
 	def_callbacks
-	callback MAPCALLBACK_NEWMAP, .CheckIfContestRunning
-	callback MAPCALLBACK_OBJECTS, .CheckIfContestAvailable
+	callback MAPCALLBACK_NEWMAP, Route36NationalParkGateCheckIfContestRunningCallback
+	callback MAPCALLBACK_OBJECTS, Route36NationalParkGateCheckIfContestAvailableCallback
 
-.DummyScene0:
+Route36NationalParkGateNoop1Scene:
 	end
 
-.DummyScene1:
+Route36NationalParkGateNoop2Scene:
 	end
 
-.LeaveContestEarly:
-	sdefer .LeavingContestEarly
+Route36NationalParkGateLeaveContestEarlyScene:
+	sdefer Route36NationalParkGateLeavingContestEarlyScript
 	end
 
-.CheckIfContestRunning:
+Route36NationalParkGateCheckIfContestRunningCallback:
 	checkflag ENGINE_BUG_CONTEST_TIMER
 	iftrue .BugContestIsRunning
-	setscene SCENE_ROUTE36NATIONALPARKGATE_NOTHING
+	setscene SCENE_ROUTE36NATIONALPARKGATE_NOOP
 	endcallback
 
 .BugContestIsRunning:
 	setscene SCENE_ROUTE36NATIONALPARKGATE_LEAVE_CONTEST_EARLY
 	endcallback
 
-.CheckIfContestAvailable:
+Route36NationalParkGateCheckIfContestAvailableCallback:
 	checkevent EVENT_WARPED_FROM_ROUTE_35_NATIONAL_PARK_GATE
 	iftrue .Return
 	readvar VAR_WEEKDAY
@@ -61,7 +61,7 @@ Route36NationalParkGate_MapScripts:
 .Return:
 	endcallback
 
-.LeavingContestEarly:
+Route36NationalParkGateLeavingContestEarlyScript:
 	turnobject PLAYER, UP
 	opentext
 	readvar VAR_CONTESTMINUTES
@@ -73,14 +73,14 @@ Route36NationalParkGate_MapScripts:
 	writetext Route36NationalParkGateOfficer1WaitHereForAnnouncementText
 	waitbutton
 	closetext
-	special FadeBlackQuickly
+	special FadeOutToBlack
 	special ReloadSpritesNoPalettes
 	scall .CopyContestants
 	disappear ROUTE36NATIONALPARKGATE_OFFICER1
 	appear ROUTE36NATIONALPARKGATE_OFFICER2
 	applymovement PLAYER, Route36NationalParkGatePlayerWaitWithContestantsMovement
 	pause 15
-	special FadeInQuickly
+	special FadeInFromBlack
 	jumpstd BugContestResultsScript
 
 .GoBackToContest:
@@ -89,7 +89,7 @@ Route36NationalParkGate_MapScripts:
 	closetext
 	turnobject PLAYER, LEFT
 	playsound SFX_EXIT_BUILDING
-	special FadeOutPalettes
+	special FadeOutToWhite
 	waitsfx
 	warpfacing LEFT, NATIONAL_PARK_BUG_CONTEST, 33, 18
 	end
@@ -172,7 +172,7 @@ Route36OfficerScriptContest:
 	special GiveParkBalls
 	turnobject PLAYER, LEFT
 	playsound SFX_EXIT_BUILDING
-	special FadeOutPalettes
+	special FadeOutToWhite
 	waitsfx
 	special SelectRandomBugContestContestants
 	warpfacing LEFT, NATIONAL_PARK_BUG_CONTEST, 33, 18

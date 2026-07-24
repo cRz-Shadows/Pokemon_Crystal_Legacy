@@ -18,19 +18,19 @@ Get2bppOptionalHDMA: ; unreferenced
 _LoadStandardFont::
 	ld de, Font
 	ld hl, vTiles1
-	lb bc, BANK(Font), 32 ; "A" to "]"
+	lb bc, BANK(Font), 32 ; 'A' to ']'
 	call Get1bppViaHDMA
-	ld de, Font + 32 * LEN_1BPP_TILE
+	ld de, Font + 32 * TILE_1BPP_SIZE
 	ld hl, vTiles1 tile $20
-	lb bc, BANK(Font), 33 ; "a" to "z" (skip "┌" to "┘")
+	lb bc, BANK(Font), 33 ; 'a' to 'z' (skip '┌' to '┘')
 	call Get1bppViaHDMA
-	ld de, Font + 77 * LEN_1BPP_TILE
+	ld de, Font + 77 * TILE_1BPP_SIZE
 	ld hl, vTiles1 tile $4d
-	lb bc, BANK(Font), 19 ; $c0 to "←"
+	lb bc, BANK(Font), 19 ; $c0 to '←'
 	call Get1bppViaHDMA
-	ld de, Font + 96 * LEN_1BPP_TILE
+	ld de, Font + 96 * TILE_1BPP_SIZE
 	ld hl, vTiles1 tile $60
-	lb bc, BANK(Font), 32 ; "'" to "9"
+	lb bc, BANK(Font), 32 ; '\'' to '9'
 	call Get1bppViaHDMA
 	ret
 
@@ -54,15 +54,15 @@ _LoadFontsBattleExtra::
 LoadFrame:
 	ld a, [wTextboxFrame]
 	maskbits NUM_FRAMES
-	ld bc, TEXTBOX_FRAME_TILES * LEN_1BPP_TILE
+	ld bc, TEXTBOX_FRAME_TILES * TILE_1BPP_SIZE
 	ld hl, Frames
 	call AddNTimes
 	ld d, h
 	ld e, l
-	ld hl, vTiles0 tile "┌" ; $ba
-	lb bc, BANK(Frames), TEXTBOX_FRAME_TILES ; "┌" to "┘"
+	ld hl, vTiles0 tile '┌' ; $ba
+	lb bc, BANK(Frames), TEXTBOX_FRAME_TILES ; '┌' to '┘'
 	call Get1bppViaHDMA
-	ld hl, vTiles2 tile " " ; $7f
+	ld hl, vTiles2 tile ' ' ; $7f
 	ld de, TextboxSpaceGFX
 	lb bc, BANK(TextboxSpaceGFX), 1
 	call Get1bppViaHDMA
@@ -74,8 +74,8 @@ LoadBattleFontsHPBar:
 	lb bc, BANK(FontBattleExtra), 12
 	call Get2bppViaHDMA
 	ld hl, vTiles2 tile $70
-	ld de, FontBattleExtra + 16 tiles ; "<DO>"
-	lb bc, BANK(FontBattleExtra), 3 ; "<DO>" to "『"
+	ld de, FontBattleExtra + 16 tiles ; '<DO>'
+	lb bc, BANK(FontBattleExtra), 3 ; '<DO>' to '『'
 	call Get2bppViaHDMA
 	call LoadFrame
 
@@ -108,7 +108,7 @@ StatsScreen_LoadFont:
 	ld hl, vTiles2 tile $78
 	lb bc, BANK(HPExpBarBorderGFX), 1
 	call Get1bppViaHDMA
-	ld de, HPExpBarBorderGFX + 3 * LEN_1BPP_TILE
+	ld de, HPExpBarBorderGFX + 3 * TILE_1BPP_SIZE
 	ld hl, vTiles2 tile $76
 	lb bc, BANK(HPExpBarBorderGFX), 2
 	call Get1bppViaHDMA

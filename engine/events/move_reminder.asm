@@ -276,7 +276,7 @@ ChooseMoveToLearn::
 	call ScrollingMenu
 	call SpeechTextbox
 	ld a, [wMenuJoypad]
-	cp B_BUTTON
+	cp PAD_B
 	jr z, .carry
 	ld a, [wMenuSelection]
 	ld [wPutativeTMHMMove], a
@@ -314,7 +314,7 @@ ChooseMoveToLearn::
 .PrintDetails
 	ld hl, wStringBuffer1
 	ld bc, wStringBuffer2 - wStringBuffer1
-	ld a, " "
+	ld a, ' '
 	call ByteFill
 	ld a, [wMenuSelection]
 	inc a
@@ -344,7 +344,7 @@ IF DEF(PSS)
 	ld bc, 3
 	call PlaceString
 	ld hl, wStringBuffer1 + 3
-	ld [hl], "/"
+	ld [hl], '/'
 
 	ld a, [wMenuSelection]
 	dec a
@@ -370,7 +370,7 @@ ENDC
 	ld bc, 3
 	call PlaceString
 	ld hl, wStringBuffer1 + 7
-	ld [hl], "/"
+	ld [hl], '/'
 
 	ld a, [wMenuSelection]
 	dec a
@@ -394,7 +394,7 @@ ENDC
 	call PlaceString
 .got_power
 	ld hl, wStringBuffer1 + 11
-	ld [hl], "/"
+	ld [hl], '/'
 
 	ld a, [wMenuSelection]
 	dec a
@@ -413,7 +413,7 @@ ENDC
 	lb bc, 1, 2
 	call PrintNum
 	ld hl, wStringBuffer1 + 14
-	ld [hl], "@"
+	ld [hl], '@'
 
 	pop hl
 	ld de, wStringBuffer1

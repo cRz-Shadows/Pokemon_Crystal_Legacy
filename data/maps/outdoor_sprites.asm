@@ -3,7 +3,7 @@
 
 OutdoorSprites:
 ; entries correspond to MAPGROUP_* constants
-	table_width 2, OutdoorSprites
+	table_width 2
 	dw OlivineGroupSprites
 	dw MahoganyGroupSprites
 	dw DungeonsGroupSprites
@@ -136,7 +136,7 @@ NewBarkGroupSprites:
 ; Route26, Route27, Route29, NewBarkTown
 CherrygroveGroupSprites:
 ; Route30, Route31, CherrygroveCity
-	db SPRITE_SILVER
+	db SPRITE_RIVAL
 	db SPRITE_TEACHER
 	db SPRITE_FISHER
 	db SPRITE_COOLTRAINER_M
@@ -178,7 +178,7 @@ AzaleaGroupSprites:
 	db SPRITE_POKEFAN_M
 	db SPRITE_TEACHER
 	db SPRITE_ROCKET
-	db SPRITE_SILVER
+	db SPRITE_RIVAL
 	db SPRITE_LASS
 	; 7 of max 9 walking sprites
 	db SPRITE_FRUIT_TREE
@@ -206,10 +206,10 @@ OlivineGroupSprites:
 ; Route38, Route39, OlivineCity
 CianwoodGroupSprites:
 ; Route40, Route41, CianwoodCity, BattleTowerOutside
-	db SPRITE_SILVER ; variable sprite: becomes SPRITE_SILVER and SPRITE_SWIMMER_GUY
+	db SPRITE_RIVAL
 	db SPRITE_POKEFAN_M
 	db SPRITE_LASS
-	db SPRITE_BUENA
+	db SPRITE_BEAUTY
 	db SPRITE_SWIMMER_GIRL
 	db SPRITE_SAILOR
 	db SPRITE_POKEFAN_F

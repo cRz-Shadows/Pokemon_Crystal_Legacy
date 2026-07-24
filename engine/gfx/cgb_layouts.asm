@@ -29,7 +29,8 @@ LoadSGBLayoutCGB:
 	ret
 
 CGBLayoutJumptable:
-	table_width 2, CGBLayoutJumptable
+; entries correspond to SCGB_* constants (see constants/scgb_constants.asm)
+	table_width 2
 	dw _CGB_BattleGrayscale
 	dw _CGB_BattleColors
 	dw _CGB_PokegearPals
@@ -118,7 +119,7 @@ _CGB_BattleColors:
 _CGB_FinishBattleScreenLayout:
 	call InitPartyMenuBGPal7
 	hlcoord 0, 0, wAttrmap
-	ld bc, SCREEN_WIDTH * SCREEN_HEIGHT
+	ld bc, SCREEN_AREA
 	ld a, PAL_BATTLE_BG_ENEMY_HP
 	call ByteFill
 	hlcoord 0, 4, wAttrmap
@@ -335,7 +336,7 @@ _CGB_Pokedex:
 ; mon base types
 	hlcoord 9, 4, wAttrmap
 	lb bc, 1, 8
-	ld a, 7 | VRAM_BANK_1 ; mon base type pals ; VRAM 1
+	ld a, 7 | OAM_BANK1 ; mon base type pals ; VRAM 1
 	call FillBoxCGB
 
 	call InitPartyMenuOBPals
@@ -348,22 +349,22 @@ _CGB_Pokedex:
 ; category enclosure + page nums + A >
 	hlcoord 18, 5, wAttrmap
 	ld bc, 2
-	ld a, 0 | VRAM_BANK_1 ; dex pal PREDEFPAL_POKEDEX
+	ld a, 0 | OAM_BANK1 ; dex pal PREDEFPAL_POKEDEX
 	call ByteFill
 	hlcoord 18, 7, wAttrmap
 	ld bc, 2
-	ld a, 0 | VRAM_BANK_1 ; dex pal PREDEFPAL_POKEDEX
+	ld a, 0 | OAM_BANK1 ; dex pal PREDEFPAL_POKEDEX
 	call ByteFill
 
 ; ; category box lateral sides
 ; 	hlcoord 8, 5, wAttrmap
 ; 	lb bc, 3, 1
-; 	ld a, 0 | VRAM_BANK_1 ; dex pal PREDEFPAL_POKEDEX
+; 	ld a, 0 | OAM_BANK1 ; dex pal PREDEFPAL_POKEDEX
 ; 	call FillBoxCGB	
 	
 ; 	hlcoord 19, 5, wAttrmap
 ; 	lb bc, 2, 1
-; 	ld a, 0 | X_FLIP | VRAM_BANK_1 ; dex pal PREDEFPAL_POKEDEX
+; 	ld a, 0 | OAM_XFLIP | OAM_BANK1 ; dex pal PREDEFPAL_POKEDEX
 ; 	call FillBoxCGB
 
 	call ApplyAttrmap
@@ -389,33 +390,33 @@ _CGB_Pokedex_EvoPage:
 ; main screen within border, vram 1
 	hlcoord 1, 1, wAttrmap
 	lb bc, 16, 19
-	ld a, 0 | VRAM_BANK_1 ; VRAM 1
+	ld a, 0 | OAM_BANK1 ; VRAM 1
 	call FillBoxCGB
 
 ; mon slot 1 types
 	hlcoord 16, 2, wAttrmap
 	lb bc, 2, 4
-	ld a, 1 | VRAM_BANK_1 ; VRAM 1
+	ld a, 1 | OAM_BANK1 ; VRAM 1
 	call FillBoxCGB
 ; mon slot 2 types
 	hlcoord 16, 5, wAttrmap
 	lb bc, 2, 4
-	ld a, 2 | VRAM_BANK_1 ; VRAM 1
+	ld a, 2 | OAM_BANK1 ; VRAM 1
 	call FillBoxCGB
 ; mon slot 3 types
 	hlcoord 16, 8, wAttrmap
 	lb bc, 3, 4
-	ld a, 3 | VRAM_BANK_1 ; VRAM 1
+	ld a, 3 | OAM_BANK1 ; VRAM 1
 	call FillBoxCGB
 ; mon slot 4 types
 	hlcoord 16, 12, wAttrmap
 	lb bc, 3, 4
-	ld a, 4 | VRAM_BANK_1 ; VRAM 1
+	ld a, 4 | OAM_BANK1 ; VRAM 1
 	call FillBoxCGB
 ; flip bottom row of sprite icon borders
 	hlcoord 1, 4, wAttrmap
 	ld bc, 4
-	ld a, 0 | Y_FLIP | VRAM_BANK_1 ; VRAM 1
+	ld a, 0 | OAM_YFLIP | OAM_BANK1 ; VRAM 1
 	call ByteFill
 	hlcoord 1, 8, wAttrmap
 	ld bc, 4
@@ -468,29 +469,29 @@ _CGB_Pokedex_PicsPage:
 ; animated front pic + border
 	hlcoord 0, 0, wAttrmap
 	lb bc, 9, 9
-	ld a, 0 | VRAM_BANK_1 ; VRAM 1
+	ld a, 0 | OAM_BANK1 ; VRAM 1
 	call FillBoxCGB
 ; animated front pic
 	hlcoord 1, 1, wAttrmap
 	lb bc, 7, 7
-	ld a, 1 | VRAM_BANK_1 ; VRAM 1
+	ld a, 1 | OAM_BANK1 ; VRAM 1
 	call FillBoxCGB
 
 ; back pic border
 	hlcoord 10, 0, wAttrmap
 	lb bc, 9, 9
-	ld a, 0 | VRAM_BANK_1 ; VRAM 1
+	ld a, 0 | OAM_BANK1 ; VRAM 1
 	call FillBoxCGB
 ; ; back pic
 	hlcoord 11, 2, wAttrmap
 	lb bc, 6, 6
-	ld a, 1 | VRAM_BANK_1 ; VRAM 1
+	ld a, 1 | OAM_BANK1 ; VRAM 1
 	call FillBoxCGB
 
 ; sprite box border
 	hlcoord 1, 13, wAttrmap
 	lb bc, 4, 4
-	ld a, 0 | VRAM_BANK_1 ; VRAM 1
+	ld a, 0 | OAM_BANK1 ; VRAM 1
 	call FillBoxCGB
 
 ; page/up down arrows
@@ -502,56 +503,56 @@ _CGB_Pokedex_PicsPage:
 ; front/back pic bottom border fix
 	hlcoord 0, 8, wAttrmap
 	ld bc, SCREEN_WIDTH
-	ld a, 0 | Y_FLIP | VRAM_BANK_1
+	ld a, 0 | OAM_YFLIP | OAM_BANK1
 	call ByteFill
 ; lower right corner of front pic
 	hlcoord 8, 8, wAttrmap
-	ld [hl], 0 | Y_FLIP | X_FLIP | VRAM_BANK_1
+	ld [hl], 0 | OAM_YFLIP | OAM_XFLIP | OAM_BANK1
 	inc hl
 	ld [hl], 0 ; remove VRAM 1 bit
 ; lower right corner of back pic
 	hlcoord 18, 8, wAttrmap
-	ld [hl], 0 | X_FLIP | Y_FLIP | VRAM_BANK_1
+	ld [hl], 0 | OAM_XFLIP | OAM_YFLIP | OAM_BANK1
 	inc hl
 	ld [hl], 0 ; remove VRAM 1 bit
 
 ; upper right corner of front pic
 	hlcoord 8, 0, wAttrmap
-	ld [hl], 0 | X_FLIP | VRAM_BANK_1
+	ld [hl], 0 | OAM_XFLIP | OAM_BANK1
 ; front pic right vertical side fix
 	hlcoord 8, 1, wAttrmap
 	lb bc, 7, 1
-	ld a, 0 | X_FLIP | Y_FLIP | VRAM_BANK_1 ; VRAM 1
+	ld a, 0 | OAM_XFLIP | OAM_YFLIP | OAM_BANK1 ; VRAM 1
 	call FillBoxCGB
 ; back pic right vertical side fix	
 	hlcoord 18, 1, wAttrmap
 	lb bc, 7, 1
-	ld a, 0 | X_FLIP | VRAM_BANK_1 ; VRAM 1
+	ld a, 0 | OAM_XFLIP | OAM_BANK1 ; VRAM 1
 	call FillBoxCGB	
 
 ; animated icon, upper right corner fix
 	hlcoord 4, 13, wAttrmap
-	ld [hl], 0 | X_FLIP | VRAM_BANK_1
+	ld [hl], 0 | OAM_XFLIP | OAM_BANK1
 ; animated icon, lower right corner fix
 	hlcoord 4, 16, wAttrmap
-	ld [hl], 0 | X_FLIP | Y_FLIP | VRAM_BANK_1
+	ld [hl], 0 | OAM_XFLIP | OAM_YFLIP | OAM_BANK1
 ; animated icon, lower left corner fix
 	hlcoord 1, 16, wAttrmap
-	ld [hl], 0 | Y_FLIP | VRAM_BANK_1		
+	ld [hl], 0 | OAM_YFLIP | OAM_BANK1		
 ; sprite border right side
 	hlcoord 4, 14, wAttrmap
-	ld [hl], 0 | X_FLIP | VRAM_BANK_1
+	ld [hl], 0 | OAM_XFLIP | OAM_BANK1
 	hlcoord 4, 15, wAttrmap
-	ld [hl], 0 | X_FLIP | VRAM_BANK_1
+	ld [hl], 0 | OAM_XFLIP | OAM_BANK1
 ; page bottom border row, bottom of sprite border	
 	hlcoord 2, 16, wAttrmap
 	ld bc, 2
-	ld a, 0 | Y_FLIP | VRAM_BANK_1
+	ld a, 0 | OAM_YFLIP | OAM_BANK1
 	call ByteFill
 ; > CRY, set VRAM	
 	hlcoord 14, 17, wAttrmap
 	lb bc, 1, 2
-	ld a, 0 | VRAM_BANK_1 ; VRAM 1
+	ld a, 0 | OAM_BANK1 ; VRAM 1
 	call FillBoxCGB
 
 	call InitPartyMenuOBPals
@@ -839,6 +840,7 @@ _CGB_BetaPoker:
 _CGB_Diploma:
 	ld hl, DiplomaPalettes
 	ld de, wBGPals1
+	assert DiplomaPalettes + 8 palettes == PartyMenuOBPals
 	ld bc, 16 palettes
 	ld a, BANK(wBGPals1)
 	call FarCopyWRAM
@@ -930,17 +932,17 @@ _CGB_UnownPuzzle:
 	ld a, PREDEFPAL_UNOWN_PUZZLE
 	call GetPredefPal
 	call LoadHLPaletteIntoDE
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, BANK(wOBPals1)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld hl, wOBPals1
 	ld a, LOW(palred 31 + palgreen 0 + palblue 0)
 	ld [hli], a
 	ld a, HIGH(palred 31 + palgreen 0 + palblue 0)
 	ld [hl], a
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call WipeAttrmap
 	call ApplyAttrmap
 	ret
@@ -978,7 +980,7 @@ _CGB_TrainerCard:
 
 	; fill screen with opposite-gender palette for the card border
 	hlcoord 0, 0, wAttrmap
-	ld bc, SCREEN_WIDTH * SCREEN_HEIGHT
+	ld bc, SCREEN_AREA
 	ld a, [wPlayerGender]
 	and a
 	ld a, $1 ; kris

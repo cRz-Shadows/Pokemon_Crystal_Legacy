@@ -31,7 +31,7 @@ DisplayDexMonEvos:
 	cp b
 	jr nz, .dont_arrow_stage1
 	hlcoord 5, 2
-	ld [hl], "→"
+	ld [hl], '→'
 .dont_arrow_stage1	
 	hlcoord 6, 2
 	call EVO_sethlcoord
@@ -65,7 +65,7 @@ DisplayDexMonEvos:
 	ld de, .doesnt_evo_text
 	call PlaceString
 	hlcoord 5, 2
-	ld [hl], " "
+	ld [hl], ' '
 	ret ; no Evos
 .does_evo
 	push hl
@@ -131,7 +131,7 @@ DisplayDexMonEvos:
 	cp b
 	jr nz, .dont_print_arrow
 	dec hl
-	ld [hl], "→"
+	ld [hl], '→'
 	inc hl
 .dont_print_arrow
 	pop bc ; count and stage
@@ -332,7 +332,7 @@ EVO_inchlcoord:
 EVO_level:
 	push hl ; pointing to lvl byte
 	call EVO_gethlcoord
-	ld [hl], "<DEX_LV_VRAM1>" ; lvl icon
+	ld [hl], '<DEX_LV_VRAM1>' ; lvl icon
 
 	pop hl ; pointing to lvl byte
 	ld a, BANK("Evolutions and Attacks")
@@ -431,7 +431,7 @@ EVO_happiness:
 EVO_stats:
 	push hl ; level Needed byte
 	call EVO_gethlcoord
-	ld [hl], "<DEX_LV_VRAM1>" ; for vram1 side
+	ld [hl], '<DEX_LV_VRAM1>' ; for vram1 side
 
 	pop hl ; level needed byte
 	ld a, BANK("Evolutions and Attacks")
@@ -493,7 +493,7 @@ EVO_place_Mon_Types:
 	ld b, d
 	call .determine_paladdr ; pal 1, 2, 3, or 4
 	farcall LoadDexTypePals
-	call SetPalettes
+	call SetDefaultBGPAndOBP
 	call DelayFrame
 
 	ld a, [wBaseType1]
@@ -501,7 +501,7 @@ EVO_place_Mon_Types:
 	call EVO_adjust_type_index
 	ld a, c
 	ld hl, TypeLightIconGFX
-	ld bc, 4 * LEN_2BPP_TILE
+	ld bc, 4 * TILE_SIZE
 	call AddNTimes
 	ld d, h
 	ld e, l
@@ -537,7 +537,7 @@ EVO_place_Mon_Types:
 	ld a, c ; type 2
 ; load type 2 tiles
 	ld hl, TypeDarkIconGFX ; DexTypeDarkIconGFX
-	ld bc, 4 * LEN_2BPP_TILE
+	ld bc, 4 * TILE_SIZE
 	call AddNTimes
 	ld d, h
 	ld e, l

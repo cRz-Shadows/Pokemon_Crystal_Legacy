@@ -105,7 +105,7 @@ AnimateDexSearchSlowpoke:
 DoDexSearchSlowpokeFrame:
 	ld a, [wDexSearchSlowpokeFrame]
 	ld hl, .SlowpokeSpriteData
-	ld de, wVirtualOAMSprite00
+	ld de, wShadowOAMSprite00
 .loop
 	ld a, [hli]
 	cp -1
@@ -161,10 +161,10 @@ DisplayDexEntry:
 	ld a, [wPokedexShinyToggle]
 	bit 0, a
 	jr z, .not_shiny
-	ld [hl], "<DEX_⁂>"
+	ld [hl], '<DEX_⁂>'
 	jr .next
 .not_shiny
-	ld [hl], " "	
+	ld [hl], ' '	
 .next
 	ld a, DEXENTRY_LORE
 	call HandlePageNumReset
@@ -292,7 +292,7 @@ GetDexEntryPagePointer:
 	ld a, b
 	call GetFarByte
 	inc hl
-	cp "@"
+	cp '@'
 	jr nz, .loop1
 ; skip height and weight
 rept 4
@@ -307,7 +307,7 @@ endr
 	ld a, b
 	call GetFarByte
 	inc hl
-	cp "@"
+	cp '@'
 	jr nz, .loop2
 .done
 	ld d, h
@@ -324,7 +324,7 @@ DisplayDexMonType_CustomGFX:
 	ld a, c
 ; load the tiles
 	ld hl, TypeLightIconGFX
-	ld bc, 4 * LEN_2BPP_TILE
+	ld bc, 4 * TILE_SIZE
 	call AddNTimes
 	ld d, h
 	ld e, l
@@ -358,7 +358,7 @@ DisplayDexMonType_CustomGFX:
 	ld a, c
 ; load type 2 tiles
 	ld hl, TypeDarkIconGFX
-	ld bc, 4 * LEN_2BPP_TILE
+	ld bc, 4 * TILE_SIZE
 	call AddNTimes
 	ld d, h
 	ld e, l
@@ -507,6 +507,6 @@ UncaughtMon_Info_Erase_PageNum:
 	call ByteFill
 	hlcoord 18, 7
 	ld bc, 2
-	ld a, " " ; category box border
+	ld a, ' ' ; category box border
 	call ByteFill	
 	ret

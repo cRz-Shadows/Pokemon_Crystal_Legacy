@@ -4,20 +4,20 @@
 
 TimeCapsule_MapScripts:
 	def_scene_scripts
-	scene_script .InitializeTimeCapsule ; SCENE_DEFAULT
-	scene_script .DummyScene ; SCENE_FINISHED
+	scene_script TimeCapsuleInitializeScene, SCENE_TIMECAPSULE_INITIALIZE
+	scene_script TimeCapsuleNoopScene,       SCENE_TIMECAPSULE_NOOP
 
 	def_callbacks
-	callback MAPCALLBACK_OBJECTS, .SetWhichChris
+	callback MAPCALLBACK_OBJECTS, TimeCapsuleSetWhichChrisCallback
 
-.InitializeTimeCapsule:
-	sdefer .InitializeAndPreparePokecenter2F
+TimeCapsuleInitializeScene:
+	sdefer TimeCapsuleInitializeAndPreparePokecenter2FScript
 	end
 
-.DummyScene:
+TimeCapsuleNoopScene:
 	end
 
-.SetWhichChris:
+TimeCapsuleSetWhichChrisCallback:
 	special CableClubCheckWhichChris
 	iffalse .Chris2
 	disappear TIMECAPSULE_CHRIS2
@@ -29,8 +29,8 @@ TimeCapsule_MapScripts:
 	appear TIMECAPSULE_CHRIS2
 	endcallback
 
-.InitializeAndPreparePokecenter2F:
-	setscene SCENE_FINISHED
+TimeCapsuleInitializeAndPreparePokecenter2FScript:
+	setscene SCENE_TIMECAPSULE_NOOP
 	setmapscene POKECENTER_2F, SCENE_POKECENTER2F_LEAVE_TIME_CAPSULE
 	end
 

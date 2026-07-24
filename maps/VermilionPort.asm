@@ -5,27 +5,27 @@
 
 VermilionPort_MapScripts:
 	def_scene_scripts
-	scene_script .DummyScene0 ; SCENE_DEFAULT
-	scene_script .LeaveFastShip ; SCENE_VERMILIONPORT_LEAVE_SHIP
+	scene_script VermilionPortNoopScene,      SCENE_VERMILIONPORT_ASK_ENTER_SHIP
+	scene_script VermilionPortLeaveShipScene, SCENE_VERMILIONPORT_LEAVE_SHIP
 
 	def_callbacks
-	callback MAPCALLBACK_NEWMAP, .FlyPoint
+	callback MAPCALLBACK_NEWMAP, VermilionPortFlypointCallback
 
-.DummyScene0:
+VermilionPortNoopScene:
 	end
 
-.LeaveFastShip:
-	sdefer .LeaveFastShipScript
+VermilionPortLeaveShipScene:
+	sdefer VermilionPortLeaveShipScript
 	end
 
-.FlyPoint:
+VermilionPortFlypointCallback:
 	setflag ENGINE_FLYPOINT_VERMILION
 	endcallback
 
-.LeaveFastShipScript:
+VermilionPortLeaveShipScript:
 	applymovement PLAYER, VermilionPortLeaveFastShipMovement
 	appear VERMILIONPORT_SAILOR1
-	setscene SCENE_DEFAULT
+	setscene SCENE_VERMILIONPORT_ASK_ENTER_SHIP
 	setevent EVENT_FAST_SHIP_CABINS_SE_SSE_CAPTAINS_CABIN_TWIN_1
 	setevent EVENT_FAST_SHIP_CABINS_SE_SSE_GENTLEMAN
 	setevent EVENT_FAST_SHIP_PASSENGERS_FIRST_TRIP
@@ -50,7 +50,7 @@ VermilionPortSailorAtGangwayScript:
 	waitsfx
 	applymovement PLAYER, VermilionPortEnterFastShipMovement
 	playsound SFX_EXIT_BUILDING
-	special FadeOutPalettes
+	special FadeOutToWhite
 	waitsfx
 	setevent EVENT_FAST_SHIP_PASSENGERS_EASTBOUND
 	clearevent EVENT_FAST_SHIP_PASSENGERS_WESTBOUND
@@ -112,7 +112,7 @@ VermilionPortWalkUpToShipScript:
 	end
 
 .NextShipWednesday:
-	writetext VermilionPortSailMondayText
+	writetext VermilionPortSailWednesdayText
 	waitbutton
 	closetext
 	applymovement PLAYER, VermilionPortCannotEnterFastShipMovement
@@ -173,7 +173,7 @@ VermilionPortSailorScript:
 	end
 
 .NextShipWednesday:
-	writetext VermilionPortSailMondayText
+	writetext VermilionPortSailWednesdayText
 	waitbutton
 	closetext
 	end
@@ -277,7 +277,7 @@ VermilionPortNoTicketText:
 	line "S.S.TICKET."
 	done
 
-VermilionPortSailMondayText:
+VermilionPortSailWednesdayText:
 	text "The FAST SHIP will"
 	line "sail on Wednesday."
 	done
@@ -304,7 +304,7 @@ VermilionPort_MapEvents:
 	warp_event  7, 17, FAST_SHIP_1F, 1
 
 	def_coord_events
-	coord_event  7, 11, SCENE_DEFAULT, VermilionPortWalkUpToShipScript
+	coord_event  7, 11, SCENE_VERMILIONPORT_ASK_ENTER_SHIP, VermilionPortWalkUpToShipScript
 
 	def_bg_events
 	bg_event 16, 13, BGEVENT_ITEM, VermilionPortHiddenIron

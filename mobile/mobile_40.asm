@@ -2,10 +2,10 @@ Function100000:
 ; d: 1 or 2
 ; e: bank
 ; bc: addr
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, 1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 
 	call Function100022
 	call Function1000ba
@@ -19,7 +19,7 @@ Function100000:
 	pop bc
 
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ret
 
 Function100022:
@@ -40,15 +40,15 @@ Function100022:
 	farcall Stubbed_Function106462
 	farcall Function106464 ; load broken gfx
 	farcall Function11615a ; init RAM
-	ld hl, wVramState
-	set 1, [hl]
+	ld hl, wStateFlags
+	set LAST_12_SPRITE_OAM_STRUCTS_RESERVED_F, [hl]
 	ret
 
 Function100057:
 	call DisableMobile
 	call ReturnToMapFromSubmenu
-	ld hl, wVramState
-	res 1, [hl]
+	ld hl, wStateFlags
+	res LAST_12_SPRITE_OAM_STRUCTS_RESERVED_F, [hl]
 	ret
 
 SetRAMStateForMobile:
@@ -94,6 +94,7 @@ DisableMobile:
 	xor a
 	ldh [hMobileReceive], a
 	ldh [hMobile], a
+	assert VBLANK_NORMAL == 0
 	xor a
 	ldh [hVBlank], a
 	call NormalSpeed
@@ -160,7 +161,7 @@ Function1000fa:
 	xor a
 	ldh [rIF], a
 	ldh a, [rIE]
-	and $1f ^ (1 << SERIAL | 1 << TIMER)
+	and IE_JOYPAD | IE_STAT | IE_VBLANK
 	ldh [rIE], a
 	xor a
 	ldh [hMobileReceive], a
@@ -238,7 +239,7 @@ Function10016f:
 	jr z, .asm_1001af
 	cp $f8
 	ret z
-	ret   ; ????????????????????????????
+	ret ; ???
 
 .asm_1001af
 	ld a, $d7
@@ -304,20 +305,20 @@ Function10016f:
 Function10020b:
 	xor a
 	ld [wc303], a
-	farcall FadeOutPalettes
+	farcall FadeOutToWhite
 	farcall Function106464
 	call HideSprites
 	call DelayFrame
 
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $01
-	ldh [rSVBK], a
+	ldh [rWBK], a
 
 	farcall DisplayMobileError
 
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ret
 
 Function100232:
@@ -360,7 +361,7 @@ Function100276:
 	ret
 
 .asm_100296
-	farcall Script_reloadmappart
+	farcall Script_refreshmap
 	ld c, $04
 	ret
 
@@ -370,7 +371,7 @@ Function100276:
 	ret
 
 .asm_1002a5
-	farcall Script_reloadmappart
+	farcall Script_refreshmap
 	call Function1002ed
 	ld c, $03
 	ret
@@ -426,7 +427,7 @@ Function100301:
 	ret
 
 Function100320:
-	farcall Mobile_ReloadMapPart
+	farcall Mobile_HDMATransferTilemapAndAttrmap_Overworld
 	ret
 
 Function100327: ; unreferenced
@@ -1378,7 +1379,7 @@ Function1008e0:
 	push bc
 	xor a
 	ldh [hBGMapMode], a
-	ld a, $03
+	ld a, VBLANK_CUTSCENE_CGB
 	ldh [hVBlank], a
 	call Function100970
 	call Function100902
@@ -1411,7 +1412,7 @@ Function100902:
 	call PrintNum
 	ld de, SFX_TWO_PC_BEEPS
 	call PlaySFX
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	ld c, $3c
 	call DelayFrames
 	ret
@@ -1422,7 +1423,7 @@ Function100902:
 	call PlaceString
 	ld de, SFX_4_NOTE_DITTY
 	call PlaySFX
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	ld c, 120
 	call DelayFrames
 	ret
@@ -1448,23 +1449,23 @@ Function100989:
 	decoord 0, 0
 	call Function1009a5
 	call Function1009ae
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	ld hl, w3_dd68
 	decoord 0, 0, wAttrmap
 	call Function1009a5
 	ret
 
 Function1009a5:
-	ld bc, SCREEN_WIDTH * SCREEN_HEIGHT
+	ld bc, SCREEN_AREA
 	ld a, $03
 	call FarCopyWRAM
 	ret
 
 Function1009ae:
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $03
-	ldh [rSVBK], a
+	ldh [rWBK], a
 
 	ld hl, w3_d800
 	decoord 0, 0, wAttrmap
@@ -1478,21 +1479,21 @@ Function1009ae:
 	inc de
 	dec c
 	jr nz, .loop_col
-	ld bc, BG_MAP_WIDTH - SCREEN_WIDTH
+	ld bc, TILEMAP_WIDTH - SCREEN_WIDTH
 	add hl, bc
 	pop bc
 	dec b
 	jr nz, .loop_row
 
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ret
 
 Function1009d2:
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $03
-	ldh [rSVBK], a
+	ldh [rWBK], a
 
 	ldh a, [rVBK]
 	push af
@@ -1500,7 +1501,7 @@ Function1009d2:
 	ldh [rVBK], a
 
 	ld hl, w3_d800
-	debgcoord 0, 0
+	debgcoord 0, 0 ; vBGMap2
 	lb bc, $03, $24
 	call Get2bpp
 
@@ -1508,13 +1509,13 @@ Function1009d2:
 	ldh [rVBK], a
 
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ret
 
 Function1009f3:
 	ldh a, [hJoyDown]
-	and SELECT + A_BUTTON
-	cp SELECT + A_BUTTON
+	and PAD_SELECT + PAD_A
+	cp PAD_SELECT + PAD_A
 	jr nz, .select_a
 	ld hl, wcd2a
 	set 4, [hl]
@@ -1530,7 +1531,7 @@ Function1009f3:
 _LinkBattleSendReceiveAction:
 	call .StageForSend
 	ld [wLinkBattleSentAction], a
-	vc_hook send_byt2
+	vc_hook Wireless_start_exchange
 	farcall PlaceWaitingText
 	ld a, [wLinkMode]
 	cp LINK_MOBILE
@@ -1585,8 +1586,8 @@ _LinkBattleSendReceiveAction:
 	inc a
 	jr z, .waiting
 
-	vc_hook send_byt2_ret
-	vc_patch send_byt2_wait
+	vc_hook Wireless_end_exchange
+	vc_patch Wireless_net_delay_3
 if DEF(_CRYSTAL11_VC)
 	ld b, 26
 else
@@ -1599,8 +1600,8 @@ endc
 	dec b
 	jr nz, .receive
 
-	vc_hook send_dummy
-	vc_patch send_dummy_wait
+	vc_hook Wireless_start_send_zero_bytes
+	vc_patch Wireless_net_delay_4
 if DEF(_CRYSTAL11_VC)
 	ld b, 26
 else
@@ -1613,7 +1614,7 @@ endc
 	dec b
 	jr nz, .acknowledge
 
-	vc_hook send_dummy_end
+	vc_hook Wireless_end_send_zero_bytes
 	ld a, [wOtherPlayerLinkAction]
 	ld [wBattleAction], a
 	ret
@@ -1697,8 +1698,7 @@ Function100ae7:
 	ld [wcd2b], a
 	ret
 
-pushc
-setcharmap ascii
+pushc ascii
 
 Unknown_100b0a:
 	db "tetsuji", 0
@@ -1795,13 +1795,13 @@ Mobile_MoveSelectionScreen:
 	jr c, .b_button
 	ld a, [wMenuJoypadFilter]
 	and c
-	bit D_UP_F, a
+	bit B_PAD_UP, a
 	jp nz, .d_up
-	bit D_DOWN_F, a
+	bit B_PAD_DOWN, a
 	jp nz, .d_down
-	bit A_BUTTON_F, a
+	bit B_PAD_A, a
 	jr nz, .a_button
-	bit B_BUTTON_F, a
+	bit B_PAD_B, a
 	jr nz, .b_button
 	jr .loop
 
@@ -1907,7 +1907,7 @@ Function100c98:
 	db -1, 1 ; rows, columns
 	db $a0, $00 ; flags
 	dn 2, 0 ; cursor offsets
-	db D_UP | D_DOWN | A_BUTTON | B_BUTTON ; accepted buttons
+	db PAD_UP | PAD_DOWN | PAD_A | PAD_B ; accepted buttons
 
 Mobile_PartyMenuSelect:
 	call Function100dd8
@@ -2395,12 +2395,12 @@ Function100f8d:
 	call CloseSRAM
 	ret
 
-macro_100fc0: MACRO
+MACRO macro_100fc0
 	; first byte:
 	;     Bit 7 set: Not SRAM
 	;     Lower 7 bits: Bank if SRAM
 	; address, size[, OT address]
-	db ($80 * (\1 >= SRAM_End)) | (BANK(\1) * (\1 < SRAM_End))
+	db ($80 * (\1 >= STARTOF(SRAM) + SIZEOF(SRAM))) | (BANK(\1) * (\1 < STARTOF(SRAM) + SIZEOF(SRAM)))
 	dw \1, \2
 	if _NARG == 3
 		dw \3
@@ -2423,14 +2423,14 @@ Unknown_100feb:
 	db -1 ; end
 
 Unknown_100ff3:
-	macro_100fc0 wdc41,                1
-	macro_100fc0 wPlayerName,          NAME_LENGTH
-	macro_100fc0 wPlayerName,          NAME_LENGTH
-	macro_100fc0 wPlayerID,            2
-	macro_100fc0 wSecretID,            2
-	macro_100fc0 wPlayerGender,        1
-	macro_100fc0 s4_a603,              8
-	macro_100fc0 s4_a007,              PARTYMON_STRUCT_LENGTH
+	macro_100fc0 wdc41,           1
+	macro_100fc0 wPlayerName,     NAME_LENGTH
+	macro_100fc0 wPlayerName,     NAME_LENGTH
+	macro_100fc0 wPlayerID,       2
+	macro_100fc0 wSecretID,       2
+	macro_100fc0 wPlayerGender,   1
+	macro_100fc0 s4_a603,         8
+	macro_100fc0 sEZChatMessages, EASY_CHAT_MESSAGE_LENGTH * 4
 	db -1 ; end
 
 Unknown_10102c:
@@ -2444,19 +2444,18 @@ Unknown_10102c:
 Function101050:
 	call Function10107d
 	ld a, [wOTPartyCount]
-rept 2 ; ???
 	ld hl, wc608
-endr
+	ld hl, wc608 ; redundant
 	ld bc, wc7bb - wc608
 	call Function1010de
 	ld hl, wc7bb
 	ld [hl], e
 	inc hl
 	ld [hl], d
-	ld a, $07
+	ld a, BANK(s7_a001)
 	call OpenSRAM
 	ld hl, wc608
-	ld de, $a001
+	ld de, s7_a001
 	ld bc, wc7bd - wc608
 	call CopyBytes
 	call CloseSRAM
@@ -2485,7 +2484,7 @@ Function10107d:
 	ld bc, NAME_LENGTH
 	call .CopyAllFromOT
 	ld hl, wOTPartyMon1Species
-	ld de, $c699
+	ld de, wc699
 	ld bc, PARTYMON_STRUCT_LENGTH
 	call .CopyAllFromOT
 	ld a, $50
@@ -2737,7 +2736,7 @@ Jumptable_101247:
 
 Function101251:
 	call UpdateSprites
-	call RefreshScreen
+	call ReanchorMap
 	ld hl, ClosingLinkText
 	call Function1021e0
 	call Function1020ea
@@ -2752,7 +2751,7 @@ Function101265:
 
 Function10126c:
 	call UpdateSprites
-	farcall Script_reloadmappart
+	farcall Script_refreshmap
 	ld hl, ClosingLinkText
 	call Function1021e0
 	ret
@@ -3016,8 +3015,8 @@ asm_101416:
 Function101418:
 	call GetJoypad
 	ldh a, [hJoyDown]
-	and SELECT + A_BUTTON
-	cp SELECT + A_BUTTON
+	and PAD_SELECT + PAD_A
+	cp PAD_SELECT + PAD_A
 	jr z, .asm_101425
 	xor a
 	ret
@@ -3111,7 +3110,7 @@ Function1014a6:
 Function1014b7:
 	call GetJoypad
 	ldh a, [hJoyPressed]
-	and $03
+	and PAD_A | PAD_B
 	jr nz, .asm_1014c5
 	ld hl, wcd42
 	dec [hl]
@@ -3638,23 +3637,25 @@ Function101826:
 	ld [wcd2b], a
 	ret
 
-pushc
-setcharmap ascii
+pushc ascii
 
 Unknown_10186f:
 	db .end - @
 	db $19, $73, $09, $13, "trade_crystal"
-.end	db 0
+.end
+	db 0
 
 Unknown_101882:
 	db .end - @
 	db $19, $67, $10, $01, "free__crystal"
-.end	db 0
+.end
+	db 0
 
 Unknown_101895:
 	db .end - @
 	db $19, $67, $10, $01, "limit_crystal"
-.end	db 0
+.end
+	db 0
 
 popc
 
@@ -3826,17 +3827,17 @@ _StartMobileBattle:
 	ret
 
 .CopyOTDetails:
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
-	ld a, 5
-	ldh [rSVBK], a
+	ld a, BANK(w5_dc0d)
+	ldh [rWBK], a
 
 	ld bc, w5_dc0d
 	ld de, w5_dc11
 	farcall GetMobileOTTrainerClass
 
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 
 	ld a, c
 	ld [wOtherTrainerClass], a
@@ -4560,7 +4561,7 @@ String_101fd2:
 	next "に　でんわを　かけています@"
 
 String_101fe1:
-	db   "でんわが　つながりました!@"
+	db   "でんわが　つながりました！@"
 
 String_101fef:
 	db   "つうわを"
@@ -4720,13 +4721,13 @@ Function1020ea:
 	ret
 
 Function102112:
-	ld a, $04
+	ld a, BANK(s4_a03b)
 	call OpenSRAM
-	ld hl, $a041
+	ld hl, s4_a03b + 6
 	ld c, 40
 .outer_loop
 	push hl
-	ld de, $c60f
+	ld de, wc60f
 	ld b, 31
 .inner_loop
 	ld a, [de]
@@ -4911,7 +4912,7 @@ Function10224b:
 .asm_10225e
 	res 1, [hl]
 	res 2, [hl]
-	farcall Mobile_ReloadMapPart
+	farcall Mobile_HDMATransferTilemapAndAttrmap_Overworld
 	scf
 	ret
 
@@ -5159,7 +5160,7 @@ Function102423:
 	ret nc
 	farcall SaveAfterLinkTrade
 	farcall StubbedTrainerRankings_Trades
-	farcall BackupMobileEventIndex
+	farcall BackupGSBallFlag
 	ld hl, wcd4b
 	set 1, [hl]
 	ld a, 0
@@ -5259,7 +5260,7 @@ Function1024de:
 	dec [hl]
 	jr z, .asm_1024e9
 	ldh a, [hJoyPressed]
-	and A_BUTTON | B_BUTTON
+	and PAD_A | PAD_B
 	ret z
 
 .asm_1024e9
@@ -5419,11 +5420,11 @@ Function1025ff:
 	ld a, [wMenuJoypadFilter]
 	and c
 	ret z
-	bit A_BUTTON_F, c
+	bit B_PAD_A, c
 	jr nz, .a_button
-	bit D_UP_F, c
+	bit B_PAD_UP, c
 	jr nz, .d_up
-	bit D_DOWN_F, c
+	bit B_PAD_DOWN, c
 	jr nz, .d_down
 	ret
 
@@ -5479,11 +5480,11 @@ Function10266b:
 	ld a, [wMenuJoypadFilter]
 	and c
 	ret z
-	bit A_BUTTON_F, c
+	bit B_PAD_A, c
 	jr nz, .a_button
-	bit D_DOWN_F, c
+	bit B_PAD_DOWN, c
 	jr nz, .d_down
-	bit D_UP_F, c
+	bit B_PAD_UP, c
 	jr nz, .d_up
 	ret
 
@@ -5548,17 +5549,17 @@ Function1026de:
 
 Function1026f3:
 	ldh a, [hJoyPressed]
-	bit A_BUTTON_F, a
+	bit B_PAD_A, a
 	jr nz, .asm_102723
-	bit D_UP_F, a
+	bit B_PAD_UP, a
 	jr nz, .asm_102712
-	bit D_DOWN_F, a
+	bit B_PAD_DOWN, a
 	jr nz, .asm_102702
 	ret
 
 .asm_102702
 	hlcoord 9, 17
-	ld [hl], " "
+	ld [hl], ' '
 	ld a, $01
 	ld [wMenuCursorY], a
 	ld a, $1d ; Function102652
@@ -5567,7 +5568,7 @@ Function1026f3:
 
 .asm_102712
 	hlcoord 9, 17
-	ld [hl], " "
+	ld [hl], ' '
 	ld a, [wOTPartyCount]
 	ld [wMenuCursorY], a
 	ld a, $1f ; Function1025e9
@@ -5576,7 +5577,7 @@ Function1026f3:
 
 .asm_102723
 	hlcoord 9, 17
-	ld [hl], "▷"
+	ld [hl], '▷'
 	ld hl, wcd4b
 	set 3, [hl]
 	ld hl, wcd4b
@@ -5620,9 +5621,9 @@ Function102770:
 
 Function102775:
 	hlcoord 1, 16
-	ld [hl], "▶"
+	ld [hl], '▶'
 	hlcoord 11, 16
-	ld [hl], " "
+	ld [hl], ' '
 	ld hl, wcd4b
 	set 2, [hl]
 	ld a, [wcd4a]
@@ -5632,11 +5633,11 @@ Function102775:
 
 Function10278c:
 	ldh a, [hJoyPressed]
-	bit A_BUTTON_F, a
+	bit B_PAD_A, a
 	jr nz, asm_1027c6
-	bit B_BUTTON_F, a
+	bit B_PAD_B, a
 	jr nz, asm_1027e2
-	bit D_RIGHT_F, a
+	bit B_PAD_RIGHT, a
 	jr nz, .asm_10279b
 	ret
 
@@ -5645,9 +5646,9 @@ Function10278c:
 	ld [wcd4a], a
 Function1027a0:
 	hlcoord 1, 16
-	ld [hl], " "
+	ld [hl], ' '
 	hlcoord 11, 16
-	ld [hl], "▶"
+	ld [hl], '▶'
 	ld hl, wcd4b
 	set 2, [hl]
 	ld a, [wcd4a]
@@ -5657,11 +5658,11 @@ Function1027a0:
 
 Function1027b7:
 	ldh a, [hJoyPressed]
-	bit A_BUTTON_F, a
+	bit B_PAD_A, a
 	jr nz, asm_1027d1
-	bit B_BUTTON_F, a
+	bit B_PAD_B, a
 	jr nz, asm_1027e2
-	bit D_LEFT_F, a
+	bit B_PAD_LEFT, a
 	jr nz, Function102770
 	ret
 
@@ -6011,7 +6012,7 @@ MenuData3_102a33:
 	db 2, 1 ; rows, columns
 	db $80, $00 ; flags
 	dn 2, 0 ; cursor offset
-	db A_BUTTON ; accepted buttons
+	db PAD_A ; accepted buttons
 
 Function102a3b:
 	ld a, [wcd30]
@@ -6161,7 +6162,7 @@ MenuData_102b73:
 	db -1, 1 ; rows, columns
 	db $a0, $00 ; flags
 	dn 1, 0 ; cursor offset
-	db D_UP | D_DOWN | A_BUTTON ; accepted buttons
+	db PAD_UP | PAD_DOWN | PAD_A ; accepted buttons
 
 Function102b7b:
 	xor a
@@ -6181,7 +6182,7 @@ MenuData_102b94:
 	db 255, 1 ; rows, columns
 	db $a0, $00 ; flags
 	dn 1, 0 ; cursor offset
-	db D_UP | D_DOWN | A_BUTTON ; accepted buttons
+	db PAD_UP | PAD_DOWN | PAD_A ; accepted buttons
 
 Function102b9c:
 	ld a, [wcd4d]
@@ -6436,13 +6437,13 @@ Function102d48:
 	ret
 
 Function102d9a:
-	ld a, " "
+	ld a, ' '
 	hlcoord 0, 0
-	ld bc, SCREEN_WIDTH * SCREEN_HEIGHT
+	ld bc, SCREEN_AREA
 	call ByteFill
 	ld a, $07
 	hlcoord 0, 0, wAttrmap
-	ld bc, SCREEN_WIDTH * SCREEN_HEIGHT
+	ld bc, SCREEN_AREA
 	call ByteFill
 	farcall HDMATransferAttrmapAndTilemapToWRAMBank3
 	ret
@@ -6480,7 +6481,7 @@ Function102dec:
 	ld a, $05
 	call FarCopyWRAM
 	farcall Function49742
-	call SetPalettes
+	call SetDefaultBGPAndOBP
 	call DelayFrame
 	ret
 
@@ -6672,8 +6673,8 @@ Function102f85:
 	ret
 
 String_102fb2:
-	db   "あいてがわ<PKMN>えらんだ　"
-	next "いじょう<PKMN>あるようです！！"
+	db   "あいてがわ<GA>えらんだ　"
+	next "いじょう<GA>あるようです！！"
 	db   "@"
 
 String_102fcc:
@@ -6688,7 +6689,7 @@ Function102fce:
 
 String_102fdb:
 	db   "あいてがわ<NO>せんたくに"
-	next "いじょう<PKMN>あるようです！！"
+	next "いじょう<GA>あるようです！！"
 	done
 
 Function102ff5:
@@ -6699,7 +6700,7 @@ Function102ff5:
 	ret
 
 String_103002:
-	db   "その#を　こうかんすると"
+	db   "その<POKEMON>を　こうかんすると"
 	next "せんとう　できなく　なっちゃうよ！"
 	db   "@"
 
@@ -6738,7 +6739,7 @@ Function10306e:
 	ld a, $01
 	ldh [hOAMUpdate], a
 	call ClearSprites
-	ld de, wVirtualOAM
+	ld de, wShadowOAM
 	call Function1030cd
 	xor a
 	ldh [hOAMUpdate], a
@@ -7016,17 +7017,17 @@ Function10339a:
 Function1033af:
 	call GetJoypad
 	ldh a, [hJoyPressed]
-	bit D_LEFT_F, a
+	bit B_PAD_LEFT, a
 	jr nz, .left
-	bit D_RIGHT_F, a
+	bit B_PAD_RIGHT, a
 	jr nz, .right
-	bit B_BUTTON_F, a
+	bit B_PAD_B, a
 	jr nz, .b
-	bit A_BUTTON_F, a
+	bit B_PAD_A, a
 	jr nz, .a
-	bit D_UP_F, a
+	bit B_PAD_UP, a
 	jr nz, .up
-	bit D_DOWN_F, a
+	bit B_PAD_DOWN, a
 	jr nz, .down
 	ret
 
@@ -7347,7 +7348,7 @@ MenuData_103648:
 	db "ケーブル@"
 
 Function103654:
-	farcall Mobile_AlwaysReturnNotCarry
+	farcall CheckMobileAdapterStatus
 	bit 7, c
 	jr nz, .asm_103666
 	ld hl, wcd2a
@@ -7362,7 +7363,7 @@ Function103654:
 	ret
 
 Mobile_SelectThreeMons:
-	farcall Mobile_AlwaysReturnNotCarry
+	farcall CheckMobileAdapterStatus
 	bit 7, c
 	jr z, .asm_10369b
 	ld hl, MobileBattleMustPickThreeMonText
@@ -7622,8 +7623,7 @@ MobileBattleNoTimeLeftForLinkingText:
 	text_end
 
 MobileCheckRemainingBattleTime:
-; Returns carry if less than one minute remains
-	farcall Mobile_AlwaysReturnNotCarry
+	farcall CheckMobileAdapterStatus
 	bit 7, c
 	jr nz, .ok
 	farcall MobileBattleGetRemainingTime
@@ -7650,7 +7650,7 @@ Function10383c:
 	ld hl, PickThreeMonForMobileBattleText
 	call PrintText
 	call JoyWaitAorB
-	farcall Script_reloadmappart
+	farcall Script_refreshmap
 	farcall Function4a94e
 	jr c, .asm_103870
 	ld hl, wd002
@@ -7671,7 +7671,7 @@ PickThreeMonForMobileBattleText:
 	text_end
 
 Function10387b:
-	farcall Mobile_AlwaysReturnNotCarry
+	farcall CheckMobileAdapterStatus
 	bit 7, c
 	ret nz
 	farcall MobileBattleGetRemainingTime

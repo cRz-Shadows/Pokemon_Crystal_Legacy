@@ -17,7 +17,7 @@ _ResetClock:
 	ret z
 	ld a, BANK(sRTCStatusFlags)
 	call OpenSRAM
-	ld a, $80
+	ld a, RTC_RESET
 	ld [sRTCStatusFlags], a
 	call CloseSRAM
 	ld hl, .PasswordAskResetText

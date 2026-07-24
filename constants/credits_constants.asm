@@ -157,7 +157,7 @@
 	const POKECRYSTAL14
 	const POKECRYSTALDISASSEMBLY
 	const NAYRUTHANKSTEXT
-NUM_CREDITS_STRINGS EQU const_value
+DEF NUM_CREDITS_STRINGS EQU const_value
 
 ; CreditsScript indexes (see data/credits_script.asm)
 	const_def -1, -1

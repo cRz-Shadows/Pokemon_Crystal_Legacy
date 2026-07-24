@@ -33,7 +33,7 @@ Function17c000:
 	pop hl
 
 	push bc
-	ld bc, BG_MAP_WIDTH * 2
+	ld bc, TILEMAP_WIDTH * 2
 	add hl, bc
 	pop bc
 
@@ -41,11 +41,11 @@ Function17c000:
 	dec a
 	jr nz, .y
 
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 
 	ld a, BANK(wBGPals1)
-	ldh [rSVBK], a
+	ldh [rWBK], a
 
 	ld hl, HaveWantPals
 	ld de, wBGPals1
@@ -53,7 +53,7 @@ Function17c000:
 	call CopyBytes
 
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 
 	ld hl, MobileSelectGFX
 	ld de, vTiles0 tile $30
@@ -64,12 +64,12 @@ Function17c000:
 	ldh [rVBK], a
 
 	ld hl, HaveWantGFX
-	ld de, vTiles2
+	ld de, vTiles5
 	ld bc, $80 tiles
 	call CopyBytes
 
 	ld hl, HaveWantGFX + $80 tiles
-	ld de, vTiles1
+	ld de, vTiles4
 	ld bc, $10 tiles
 	call CopyBytes
 
@@ -77,7 +77,7 @@ Function17c000:
 	ldh [rVBK], a
 
 	call EnableLCD
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	ret
 
 HaveWantGFX:
@@ -182,29 +182,29 @@ CheckStringForErrors:
 	jr z, .NextChar
 	cp FIRST_REGULAR_TEXT_CHAR
 	jr nc, .NextChar
-	cp "<NEXT>"
+	cp '<NEXT>'
 	jr z, .NextChar
-	cp "@"
+	cp '@'
 	jr z, .Done
-	cp "ガ"
+	cp 'ガ'
 	jr c, .Fail
-	cp "<PLAY_G>"
+	cp '<PLAY_G>'
 	jr c, .NextChar
-	cp "<JP_18>" + 1
+	cp '<JP_18>' + 1
 	jr c, .Fail
-	cp "<NI>"
+	cp '<NI>'
 	jr c, .NextChar
-	cp "<NO>" + 1
+	cp '<NO>' + 1
 	jr c, .Fail
-	cp "<ROUTE>"
+	cp '<ROUTE>'
 	jr c, .NextChar
-	cp "<GREEN>" + 1
+	cp '<GREEN>' + 1
 	jr c, .Fail
-	cp "<ENEMY>"
+	cp '<ENEMY>'
 	jr c, .NextChar
-	cp "<ENEMY>" + 1
+	cp '<ENEMY>' + 1
 	jr c, .Fail
-	cp "<MOM>"
+	cp '<MOM>'
 	jr c, .NextChar
 
 .Fail:
@@ -226,32 +226,32 @@ CheckStringForErrors_IgnoreTerminator:
 	inc de
 	and a
 	jr z, .next
-	cp "<DEXEND>" + 1
+	cp '<DEXEND>' + 1
 	jr nc, .next
-	cp "<NEXT>"
+	cp '<NEXT>'
 	jr z, .next
-	cp "@"
+	cp '@'
 	jr z, .next
 
-	cp "ガ"
+	cp 'ガ'
 	jr c, .end
-	cp "<PLAY_G>"
+	cp '<PLAY_G>'
 	jr c, .next
-	cp "<JP_18>" + 1
+	cp '<JP_18>' + 1
 	jr c, .end
-	cp "<NI>"
+	cp '<NI>'
 	jr c, .next
-	cp "<NO>" + 1
+	cp '<NO>' + 1
 	jr c, .end
-	cp "<ROUTE>"
+	cp '<ROUTE>'
 	jr c, .next
-	cp "<GREEN>" + 1
+	cp '<GREEN>' + 1
 	jr c, .end
-	cp "<ENEMY>"
+	cp '<ENEMY>'
 	jr c, .next
-	cp "<ENEMY>" + 1
+	cp '<ENEMY>' + 1
 	jr c, .end
-	cp "<MOM>"
+	cp '<MOM>'
 	jr c, .next
 
 .end
@@ -265,27 +265,27 @@ CheckStringForErrors_IgnoreTerminator:
 	ret
 
 Function17d0f3:
-	ld a, [wc608 + 5]
+	ld a, [wMobileMonSpecies]
 	ld [wOTTrademonSpecies], a
 	ld [wCurPartySpecies], a
 	ld a, [wcd81]
 	ld [wc74e], a
-	ld hl, wc608 + 53
+	ld hl, wMobileMonOT
 	ld de, wOTTrademonOTName
-	ld bc, 5
+	ld bc, NAME_LENGTH_JAPANESE - 1
 	call CopyBytes
-	ld a, "@"
+	ld a, '@'
 	ld [de], a
-	ld a, [wc608 + 11]
+	ld a, [wMobileMonID]
 	ld [wOTTrademonID], a
-	ld a, [wc608 + 12]
+	ld a, [wMobileMonID + 1]
 	ld [wOTTrademonID + 1], a
-	ld hl, wc608 + 26
+	ld hl, wMobileMonDVs
 	ld a, [hli]
 	ld [wOTTrademonDVs], a
 	ld a, [hl]
 	ld [wOTTrademonDVs + 1], a
-	ld bc, wc608 + 5
+	ld bc, wMobileMonSpecies
 	farcall GetCaughtGender
 	ld a, c
 	ld [wOTTrademonCaughtData], a
@@ -301,10 +301,10 @@ Function17d0f3:
 	xor a
 	ld [wLinkMode], a
 	farcall SaveAfterLinkTrade
-	ld a, $5
+	ld a, BANK(s5_a800)
 	call OpenSRAM
-	ld a, $5
-	ld [$a800], a
+	ld a, BANK(s5_a800)
+	ld [s5_a800], a
 	call CloseSRAM
 	ld a, [wMapGroup]
 	ld b, a
@@ -324,46 +324,47 @@ Function17d0f3:
 
 Mobile_CopyDefaultOTName:
 	ld hl, Mobile5F_PlayersName
-	ld de, wc63d
-	ld bc, 5
+	ld de, wMobileMonOT
+	ld bc, NAME_LENGTH_JAPANESE - 1
 	call CopyBytes
 	ret
 
 Mobile5F_PlayersName:
-	db "クりス@@"
+	dname "クりス", NAME_LENGTH_JAPANESE - 1
 
 Mobile_CopyDefaultNickname:
 	ld hl, .DefaultNickname
-	ld de, wc642
-	ld bc, 5
+	ld de, wMobileMonNick
+	ld bc, NAME_LENGTH_JAPANESE - 1
 	call CopyBytes
 	ret
 
 .DefaultNickname:
-	db "？？？？？"
+	dname "？？？？？", NAME_LENGTH_JAPANESE - 1
 
 Mobile_CopyDefaultMail:
-	ld a, "@"
-	ld hl, wc647
+	ld a, '@'
+	ld hl, wMobileMonMail
 	ld bc, MAIL_MSG_LENGTH + 1
 	call ByteFill
 	ld hl, .DefaultMessage
-	ld de, wc647
-	ld bc, 6
+	ld de, wMobileMonMail
+	ld bc, .DefaultMessageEnd - .DefaultMessage
 	call CopyBytes
 	ret
 
 .DefaultMessage:
 	db "こんにちは@"
+.DefaultMessageEnd:
 
 Mobile_CopyDefaultMailAuthor:
-	ld a, "@"
-	ld de, wc668
-	ld bc, 5
+	ld a, '@'
+	ld de, wMobileMonMailAuthor
+	ld bc, NAME_LENGTH_JAPANESE - 1
 	call ByteFill
 	ld hl, Mobile5F_PlayersName
-	ld de, wc668
-	ld bc, 5
+	ld de, wMobileMonMailAuthor
+	ld bc, NAME_LENGTH_JAPANESE - 1
 	call CopyBytes
 	ret
 
@@ -371,7 +372,7 @@ CheckStringContainsLessThanBNextCharacters:
 .loop
 	ld a, [de]
 	inc de
-	cp "<NEXT>"
+	cp '<NEXT>'
 	jr nz, .next_char
 	dec b
 	jr z, .done
@@ -475,8 +476,8 @@ MenuHeader_17d26a:
 MenuData_17d272:
 	db STATICMENU_CURSOR | STATICMENU_WRAP ; flags
 	db 4
-	db "ニュース¯よみこむ@"
-	db "ニュース¯みる@"
+	db "ニュース<WO>よみこむ@"
+	db "ニュース<WO>みる@"
 	db "せつめい@"
 	db "やめる@"
 
@@ -522,14 +523,14 @@ Function17d2ce:
 	ret c
 	call SpeechTextbox
 	call FadeToMenu
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $4
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call Function17d370
 	call Function17d45a
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld de, MUSIC_MOBILE_CENTER
 	ld a, e
 	ld [wMapMusic], a
@@ -542,20 +543,20 @@ Function17d2ce:
 	ret
 
 Function17d314:
-	ld a, $5
+	ld a, BANK(s5_b1b1)
 	call OpenSRAM
-	ld a, [$b1b1]
+	ld a, [s5_b1b1]
 	call CloseSRAM
 	cp $21
 	jr nc, .asm_17d354
-	ld a, $6
+	ld a, BANK(s6_a006)
 	call OpenSRAM
-	ld l, $0
+	ld l, 0
 	ld h, l
-	ld de, $a006
-	ld a, [$a004]
+	ld de, s6_a006
+	ld a, [s6_a004]
 	ld c, a
-	ld a, [$a005]
+	ld a, [s6_a005]
 	ld b, a
 .asm_17d336
 	push bc
@@ -569,10 +570,10 @@ Function17d314:
 	ld a, b
 	or c
 	jr nz, .asm_17d336
-	ld a, [$a002]
+	ld a, [s6_a002]
 	cp l
 	jr nz, .asm_17d354
-	ld a, [$a003]
+	ld a, [s6_a003]
 	cp h
 	jr nz, .asm_17d354
 	call CloseSRAM
@@ -603,7 +604,7 @@ Function17d370:
 	call ClearBGPalettes
 	call ClearSprites
 	call ClearScreen
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	call DisableLCD
 	ld hl, vTiles0 tile $ee
 	ld de, wc608
@@ -612,15 +613,15 @@ Function17d370:
 	ld a, $1
 	ldh [rVBK], a
 	ld hl, PokemonNewsGFX
-	ld de, vTiles1
+	ld de, vTiles4
 	ld bc, $48 tiles
 	call CopyBytes
 	xor a
-	ld hl, vTiles2 tile $7f
+	ld hl, vTiles5 tile $7f
 	ld bc, 1 tiles
 	call ByteFill
 	ld hl, wc608
-	ld de, vTiles0 tile $ee
+	ld de, vTiles3 tile $ee
 	ld bc, 1 tiles
 	call CopyBytes
 	xor a
@@ -635,10 +636,10 @@ Function17d370:
 	ld [wBGMapBuffer], a
 	ld a, $d0
 	ld [wcd21], a
-	ld a, $6
+	ld a, BANK(s6_a006)
 	call OpenSRAM
-	ld hl, $a006
-	ld de, wBGPals1
+	ld hl, s6_a006
+	ld de, w4_d000
 	ld bc, $1000
 	call CopyBytes
 	call CloseSRAM
@@ -648,7 +649,7 @@ Function17d3f6:
 	call ClearBGPalettes
 	call ClearSprites
 	call ClearScreen
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 
 Function17d405:
 	call DisableLCD
@@ -659,31 +660,31 @@ Function17d405:
 	ld a, $1
 	ldh [rVBK], a
 	ld hl, PokemonNewsGFX
-	ld de, vTiles1
+	ld de, vTiles4
 	ld bc, $48 tiles
 	call CopyBytes
 	xor a
-	ld hl, vTiles2 tile $7f
+	ld hl, vTiles5 tile $7f
 	ld bc, 1 tiles
 	call ByteFill
 	ld hl, wc608
-	ld de, vTiles0 tile $ee
+	ld de, vTiles3 tile $ee
 	ld bc, 1 tiles
 	call CopyBytes
 	xor a
 	ldh [rVBK], a
 	call EnableLCD
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $5
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld hl, PokemonNewsPalettes
 	ld de, wBGPals1
 	ld bc, 8 palettes
 	call CopyBytes
-	call SetPalettes
+	call SetDefaultBGPAndOBP
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ret
 
 Function17d45a:
@@ -693,7 +694,7 @@ Function17d45a:
 	bit 7, a
 	jr nz, .asm_17d46f
 	call Function17d474
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	jr .asm_17d45a
 
 .asm_17d46f
@@ -892,11 +893,11 @@ Function17d48d:
 	call Function17e451
 	call Function17e55b
 	call Function17e5af
-	farcall ReloadMapPart
+	farcall HDMATransferTilemapAndAttrmap_Overworld
 	jp Function17e438
 
 Function17d5be:
-	call SetPalettes
+	call SetDefaultBGPAndOBP
 	call Function17e438
 
 Function17d5c4:
@@ -937,13 +938,13 @@ Function17d5c4:
 
 Function17d5f6:
 	ld a, $5
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld hl, wc608
 	ld de, wBGPals1
 	ld bc, 8 palettes
 	call CopyBytes
 	ld a, $4
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ret
 
 Function17d60b:
@@ -1176,11 +1177,11 @@ Function17d78d:
 	ld a, [hli]
 	ld b, a
 	call HlToCrashCheckPointer
-	ld a, $6
+	ld a, BANK(s6_a006)
 	call OpenSRAM
-	ld hl, $a006
+	ld hl, s6_a006
 	add hl, bc
-	ld de, wBGPals1
+	ld de, w4_d000
 	ld bc, $1000
 	call CopyBytes
 	call CloseSRAM
@@ -1325,7 +1326,7 @@ Function17d85d:
 	cp $c0
 	jr c, .asm_17d89b
 	ld a, [wcd4f]
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	jr .asm_17d8a1
 
 .asm_17d89b
@@ -1353,7 +1354,7 @@ Function17d85d:
 	cp $c0
 	jr c, .asm_17d8c2
 	ld a, $4
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	jr .asm_17d878
 
 .asm_17d8c2
@@ -1364,13 +1365,13 @@ Function17d85d:
 	call HlToCrashCheckPointer
 	push bc
 	ld a, $3
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld hl, wc608
 	ld de, wBGPals1
 	ld b, $0
 	call CopyBytes
 	ld a, $4
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call Function17e32b
 	pop bc
 	ld a, c
@@ -1431,10 +1432,10 @@ Function17d93a:
 	call CopyBytes
 	call HlToCrashCheckPointer
 	call Function17e32b
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, [wc70c]
 	call Function17e6de
 	ld a, [wc70a]
@@ -1442,7 +1443,7 @@ Function17d93a:
 	ld a, [wc70c]
 	ld e, a
 	farcall LoadMonPaletteAsNthBGPal
-	call SetPalettes
+	call SetDefaultBGPAndOBP
 	ld a, [wc708]
 	ld l, a
 	ld a, [wc709]
@@ -1455,7 +1456,7 @@ Function17d93a:
 	ld d, h
 	farcall HOF_AnimateFrontpic
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call Function17e349
 	ret
 
@@ -1466,10 +1467,10 @@ Function17d98b:
 	call CopyBytes
 	call HlToCrashCheckPointer
 	call Function17e32b
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, [wc70b]
 	call Function17e6de
 	ld a, [wc70a]
@@ -1477,7 +1478,7 @@ Function17d98b:
 	ld a, [wc70b]
 	ld e, a
 	farcall LoadTrainerClassPaletteAsNthBGPal
-	call SetPalettes
+	call SetDefaultBGPAndOBP
 	ld a, [wc708]
 	ld e, a
 	ld a, [wc709]
@@ -1491,7 +1492,7 @@ Function17d98b:
 	ld bc, $707
 	predef PlaceGraphic
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call Function17e349
 	ret
 
@@ -1506,7 +1507,7 @@ Function17d9e3:
 	cp $c0
 	jr c, .asm_17da01
 	ld a, [wc70c]
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	jr .asm_17da07
 
 .asm_17da01
@@ -1531,7 +1532,7 @@ Function17d9e3:
 	cp $c0
 	jr c, .asm_17da2d
 	ld a, $4
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	jr .asm_17da30
 
 .asm_17da2d
@@ -1551,7 +1552,7 @@ Function17da31:
 	cp $c0
 	jr c, .asm_17da4f
 	ld a, [wc70a]
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	jr .asm_17da55
 
 .asm_17da4f
@@ -1591,7 +1592,7 @@ Function17da31:
 	cp $c0
 	jr c, .asm_17da88
 	ld a, $4
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	jr .asm_17da8b
 
 .asm_17da88
@@ -1824,10 +1825,10 @@ Function17dc1f:
 	ld bc, $6
 	call CopyBytes
 	call Function17e32b
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld hl, wc688
 	ld a, $40
 	ld [wc708], a
@@ -1855,7 +1856,7 @@ Function17dc1f:
 .asm_17dc6e
 	call CloseWindow
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, [wMenuCursorY]
 	cp $1
 	jr nz, .asm_17dc85
@@ -1896,7 +1897,7 @@ Function17dca9:
 
 Function17dcaf:
 	ld a, $5
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld hl, wBGPals1
 	ld de, 1 palettes
 	ld c, 8
@@ -1912,7 +1913,7 @@ Function17dcaf:
 	jr nz, .asm_17dcbb
 	call RotateThreePalettesRight
 	ld a, $4
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ret
 
 Function17dccf:
@@ -1978,7 +1979,7 @@ Function17dd13:
 	push hl
 	pop bc
 	pop hl
-	call PlaceHLTextAtBC
+	call PrintTextboxTextAt
 	ret
 
 Function17dd30:
@@ -2012,7 +2013,7 @@ Function17dd49:
 	cp $c0
 	jr c, .sram
 	ld a, [wc708]
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	jr .got_bank
 
 .sram
@@ -2033,7 +2034,7 @@ Function17dd49:
 	cp $c0
 	jr c, .close_sram
 	ld a, $4
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	jr .exited_bank
 
 .close_sram
@@ -2088,7 +2089,7 @@ Function17ddcd:
 	cp $c0
 	jr c, .asm_17dde7
 	ld a, [wc708]
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	jr .asm_17dded
 
 .asm_17dde7
@@ -2109,7 +2110,7 @@ Function17ddcd:
 	cp $c0
 	jr c, .asm_17de0c
 	ld a, $4
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	jr .asm_17de0f
 
 .asm_17de0c
@@ -2246,10 +2247,10 @@ Function17ded9:
 	ld bc, $1f
 	call CopyBytes
 	call Function17e32b
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld hl, wc708
 	ld a, [hli]
 	ld [wCurPartySpecies], a
@@ -2572,7 +2573,7 @@ asm_17e0ee:
 	ld h, [hl]
 	ld l, a
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	push hl
 	call Function17e349
 	pop hl
@@ -2584,10 +2585,10 @@ Function17e0fd:
 	ld de, wc708
 	ld bc, $6
 	call CopyBytes
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld hl, wc708
 	ld a, [hli]
 	ld [wCurItem], a
@@ -2608,7 +2609,7 @@ Function17e0fd:
 	ld h, a
 	ld l, b
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call Function17e40f
 	ret
 
@@ -2617,10 +2618,10 @@ Function17e133:
 	ld de, wc708
 	ld bc, $5
 	call CopyBytes
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld hl, wc708
 	ld a, [hli]
 	ld [wScriptVar], a
@@ -2638,7 +2639,7 @@ Function17e133:
 	ld h, a
 	ld l, b
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call Function17e40f
 	ret
 
@@ -2647,10 +2648,10 @@ Function17e165:
 	ld de, wc708
 	ld bc, $5
 	call CopyBytes
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld hl, wc708
 	ld a, [hli]
 	ld [wCurItem], a
@@ -2674,7 +2675,7 @@ Function17e165:
 	ld h, a
 	ld l, b
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call Function17e40f
 	ret
 
@@ -2687,7 +2688,7 @@ Function17e1a1:
 	cp $c0
 	jr c, .asm_17e1bb
 	ld a, [wc708]
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	jr .asm_17e1c1
 
 .asm_17e1bb
@@ -2708,7 +2709,7 @@ Function17e1a1:
 	cp $c0
 	jr c, .asm_17e1e2
 	ld a, $4
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	jr .asm_17e1e5
 
 .asm_17e1e2
@@ -2719,7 +2720,7 @@ Function17e1a1:
 	cp $c0
 	jr c, .asm_17e1f3
 	ld a, [wc70c]
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	jr .asm_17e1f9
 
 .asm_17e1f3
@@ -2740,7 +2741,7 @@ Function17e1a1:
 	cp $c0
 	jr c, .asm_17e21a
 	ld a, $4
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	jr .asm_17e21d
 
 .asm_17e21a
@@ -2946,19 +2947,19 @@ Function17e349:
 	call CloseSRAM
 	ret
 
-inc_crash_check_pointer_farcall: MACRO
+MACRO inc_crash_check_pointer_farcall
 	call IncCrashCheckPointer
 	call HlToCrashCheckPointer ; redundant
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $1
-	ldh [rSVBK], a
-rept _NARG
-	farcall \1
-	shift
-endr
+	ldh [rWBK], a
+	rept _NARG
+		farcall \1
+		shift
+	endr
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ret
 ENDM
 
@@ -2975,7 +2976,7 @@ IncCrashCheckPointer_SaveChecksum:
 	inc_crash_check_pointer_farcall SaveChecksum
 
 IncCrashCheckPointer_SaveTrainerRankingsChecksum:
-	inc_crash_check_pointer_farcall UpdateTrainerRankingsChecksum2, BackupMobileEventIndex
+	inc_crash_check_pointer_farcall UpdateTrainerRankingsChecksum2, BackupGSBallFlag
 
 Function17e3e0:
 	call IncCrashCheckPointer
@@ -3551,7 +3552,7 @@ RunMobileScript::
 _RunMobileScript:
 	ld a, [de]
 	inc de
-	cp "@"
+	cp '@'
 	jr z, .finished
 	cp $10 ; jumptable size
 	jr nc, .finished
@@ -3606,7 +3607,7 @@ Function17f081:
 	ld b, 0
 	add hl, bc
 	ld a, [de]
-	cp "@"
+	cp '@'
 	jr z, .asm_17f09d
 	and a
 	ret
@@ -3691,7 +3692,7 @@ Function17f0f8:
 	ld b, 0
 	add hl, bc
 	ld a, [de]
-	cp "@"
+	cp '@'
 	jr z, .asm_17f112
 	and a
 	ret
@@ -3719,7 +3720,7 @@ Function17f0f8:
 	ld c, a
 	ld b, 0
 	call CopyBytes
-	ld a, "@"
+	ld a, '@'
 	ld [de], a
 	pop hl
 	ld de, wc608
@@ -3743,7 +3744,7 @@ Function17f154:
 	ld e, l
 	ld d, h
 	ld a, [de]
-	cp "@"
+	cp '@'
 	jr z, .asm_17f165
 	and a
 	ret
@@ -3788,7 +3789,7 @@ Function17f181:
 	ld b, 0
 	add hl, bc
 	ld a, [de]
-	cp "@"
+	cp '@'
 	jr z, .asm_17f19b
 	and a
 	ret
@@ -3842,7 +3843,7 @@ Function17f1d0:
 	ld b, 0
 	add hl, bc
 	ld a, [de]
-	cp "@"
+	cp '@'
 	jr z, .asm_17f1ea
 	and a
 	ret
@@ -3865,8 +3866,8 @@ Function17f1d0:
 	call Function17f4f6
 	add hl, de
 	ld a, [hl]
-	ld a, $1
-	ldh [rSVBK], a
+	ld a, BANK(wNamedObjectIndex)
+	ldh [rWBK], a
 	ld [wNamedObjectIndex], a
 	call GetPokemonName
 	pop hl
@@ -3876,7 +3877,7 @@ Function17f1d0:
 	ld a, b
 	ld [wcd53], a
 	ld a, $4
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, [wcd54]
 	call Function17f50f
 	pop de
@@ -3898,7 +3899,7 @@ Function17f220:
 	ld b, 0
 	add hl, bc
 	ld a, [de]
-	cp "@"
+	cp '@'
 	jr z, .asm_17f23a
 	and a
 	ret
@@ -3961,7 +3962,7 @@ Function17f27b:
 	ld b, 0
 	add hl, bc
 	ld a, [de]
-	cp "@"
+	cp '@'
 	jr z, .asm_17f295
 	and a
 	ret
@@ -3985,7 +3986,7 @@ Function17f27b:
 	add hl, de
 	ld a, [hl]
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld [wNamedObjectIndex], a
 	call GetItemName
 	pop hl
@@ -3995,7 +3996,7 @@ Function17f27b:
 	ld a, b
 	ld [wcd53], a
 	ld a, $4
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld a, [wcd54]
 	call Function17f50f
 	pop de
@@ -4042,13 +4043,13 @@ MobileScript_PlayerName:
 	push hl
 	push bc
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	ld hl, wPlayerName
 	ld de, wc608
 	ld bc, NAME_LENGTH_JAPANESE
 	call CopyBytes
 	ld a, $4
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	pop hl
 	ld de, wc608
 	call PlaceString
@@ -4269,7 +4270,7 @@ Function17f44f:
 	ld b, 0
 	add hl, bc
 	ld a, [de]
-	cp "@"
+	cp '@'
 	jr z, .asm_17f46b
 	and a
 	ret
@@ -4290,7 +4291,7 @@ Function17f44f:
 	cp $c0
 	jr c, .asm_17f488
 	ld a, [wcd54]
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	jr .asm_17f48e
 
 .asm_17f488
@@ -4311,7 +4312,7 @@ Function17f44f:
 	cp $c0
 	jr c, .asm_17f4af
 	ld a, $4
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	jr .asm_17f4b7
 
 .asm_17f4af
@@ -4426,15 +4427,15 @@ BattleTowerMobileError:
 	call FadeToMenu
 	xor a
 	ld [wc303], a
-	ldh a, [rSVBK]
+	ldh a, [rWBK]
 	push af
 	ld a, $1
-	ldh [rSVBK], a
+	ldh [rWBK], a
 
 	call DisplayMobileError
 
 	pop af
-	ldh [rSVBK], a
+	ldh [rWBK], a
 	call ExitAllMenus
 	ret
 
@@ -4443,7 +4444,7 @@ DisplayMobileError:
 	call JoyTextDelay
 	call .RunJumptable
 	ld a, [wc303]
-	bit 7, a
+	bit JUMPTABLE_EXIT_F, a
 	jr nz, .quit
 	farcall HDMATransferAttrmapAndTilemapToWRAMBank3
 	jr .loop
@@ -4511,7 +4512,7 @@ Function17f5c3:
 Function17f5d2:
 	call Function17f5e4
 	farcall HDMATransferAttrmapAndTilemapToWRAMBank3
-	call SetPalettes
+	call SetDefaultBGPAndOBP
 	ld a, $1
 	ld [wc303], a
 	ret
@@ -4524,13 +4525,13 @@ Function17f5e4:
 	ld [wMusicFadeID], a
 	ld a, d
 	ld [wMusicFadeID + 1], a
-	ld a, " "
+	ld a, ' '
 	hlcoord 0, 0
-	ld bc, SCREEN_WIDTH * SCREEN_HEIGHT
+	ld bc, SCREEN_AREA
 	call ByteFill
 	ld a, $6
 	hlcoord 0, 0, wAttrmap
-	ld bc, SCREEN_WIDTH * SCREEN_HEIGHT
+	ld bc, SCREEN_AREA
 	call ByteFill
 	hlcoord 2, 1
 	ld b, $1
@@ -4667,7 +4668,7 @@ Function17f6b7:
 	and $f
 
 .bcd_digit
-	add "0"
+	add '0'
 	ld [hli], a
 	ret
 
@@ -5142,7 +5143,7 @@ Function17ff23:
 	xor a
 	ld [wMusicFadeID + 1], a
 	ld hl, wc303
-	set 7, [hl]
+	set JUMPTABLE_EXIT_F, [hl]
 	ret
 
 Function17ff3c:

@@ -5,19 +5,19 @@
 
 RuinsOfAlphInnerChamber_MapScripts:
 	def_scene_scripts
-	scene_script .DummyScene0 ; SCENE_RUINSOFALPHINNERCHAMBER_NOTHING
-	scene_script .UnownAppear ; SCENE_RUINSOFALPHINNERCHAMBER_STRANGE_PRESENCE
+	scene_script RuinsOfAlphInnerChamberNoopScene,            SCENE_RUINSOFALPHINNERCHAMBER_NOOP
+	scene_script RuinsOfAlphInnerChamberStrangePresenceScene, SCENE_RUINSOFALPHINNERCHAMBER_STRANGE_PRESENCE
 
 	def_callbacks
 
-.DummyScene0:
+RuinsOfAlphInnerChamberNoopScene:
 	end
 
-.UnownAppear:
-	sdefer .StrangePresenceScript
+RuinsOfAlphInnerChamberStrangePresenceScene:
+	sdefer RuinsOfAlphInnerChamberStrangePresenceScript
 	end
 
-.StrangePresenceScript:
+RuinsOfAlphInnerChamberStrangePresenceScript:
 	opentext
 	writetext RuinsOfAlphStrangePresenceText
 	waitbutton
@@ -62,7 +62,7 @@ RuinsOfAlphInnerChamber_MapScripts:
 	setevent EVENT_GOT_DOME_FOSSIL
 
 .gs_ball
-	checkevent EVENT_GOT_GS_BALL_FROM_POKECOM_CENTER
+	checkevent EVENT_GOT_GS_BALL_FROM_GOLDENROD_POKEMON_CENTER
 	iffalse .ho_oh_puzzle
 	sjump .end
 .ho_oh_puzzle
@@ -72,13 +72,13 @@ RuinsOfAlphInnerChamber_MapScripts:
 .get_gs_ball
 	verbosegiveitem GS_BALL
 	iffalse .NoRoom
-	setevent EVENT_GOT_GS_BALL_FROM_POKECOM_CENTER
+	setevent EVENT_GOT_GS_BALL_FROM_GOLDENROD_POKEMON_CENTER
 	setevent EVENT_CAN_GIVE_GS_BALL_TO_KURT
 
 .NoRoom
 .end
 	closetext
-	setscene SCENE_RUINSOFALPHINNERCHAMBER_NOTHING
+	setscene SCENE_RUINSOFALPHINNERCHAMBER_NOOP
 	setevent EVENT_MADE_UNOWN_APPEAR_IN_RUINS
 	clearevent EVENT_RUINS_OF_ALPH_OUTSIDE_TOURIST_FISHER
 	end

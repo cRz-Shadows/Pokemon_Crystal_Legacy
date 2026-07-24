@@ -6,20 +6,20 @@
 
 RuinsOfAlphResearchCenter_MapScripts:
 	def_scene_scripts
-	scene_script .DummyScene0 ; SCENE_RUINSOFALPHRESEARCHCENTER_NOTHING
-	scene_script .GetUnownDex ; SCENE_RUINSOFALPHRESEARCHCENTER_GET_UNOWN_DEX
+	scene_script RuinsOfAlphResearchCenterNoopScene,        SCENE_RUINSOFALPHRESEARCHCENTER_NOOP
+	scene_script RuinsOfAlphResearchCenterGetUnownDexScene, SCENE_RUINSOFALPHRESEARCHCENTER_GET_UNOWN_DEX
 
 	def_callbacks
-	callback MAPCALLBACK_OBJECTS, .ScientistCallback
+	callback MAPCALLBACK_OBJECTS, RuinsOfAlphResearchCenterScientistCallback
 
-.DummyScene0:
+RuinsOfAlphResearchCenterNoopScene:
 	end
 
-.GetUnownDex:
-	sdefer .GetUnownDexScript
+RuinsOfAlphResearchCenterGetUnownDexScene:
+	sdefer RuinsOfAlphResearchCenterGetUnownDexScript
 	end
 
-.ScientistCallback:
+RuinsOfAlphResearchCenterScientistCallback:
 	checkscene
 	ifequal SCENE_RUINSOFALPHRESEARCHCENTER_GET_UNOWN_DEX, .ShowScientist
 	endcallback
@@ -29,7 +29,7 @@ RuinsOfAlphResearchCenter_MapScripts:
 	appear RUINSOFALPHRESEARCHCENTER_SCIENTIST3
 	endcallback
 
-.GetUnownDexScript:
+RuinsOfAlphResearchCenterGetUnownDexScript:
 	applymovement RUINSOFALPHRESEARCHCENTER_SCIENTIST3, RuinsOfAlphResearchCenterApproachesComputerMovement
 	playsound SFX_BOOT_PC
 	pause 60
@@ -54,7 +54,7 @@ RuinsOfAlphResearchCenter_MapScripts:
 	waitbutton
 	closetext
 	applymovement RUINSOFALPHRESEARCHCENTER_SCIENTIST3, RuinsOfAlphResearchCenterLeavesPlayerMovement
-	setscene SCENE_RUINSOFALPHRESEARCHCENTER_NOTHING
+	setscene SCENE_RUINSOFALPHRESEARCHCENTER_NOOP
 	special RestartMapMusic
 	end
 
@@ -221,7 +221,7 @@ FossilScientist:
 	writetext FossilScientistMonText
 	promptbutton
 	readvar VAR_BADGES
-	if_greater_than 6, .GotSevenBadges
+	ifgreater 6, .GotSevenBadges
 	writetext MightTakeAWhileText
 	yesorno
 	iffalse .No
@@ -265,7 +265,7 @@ FossilScientist:
 
 .GaveScientistFossil:
 	closetext
-	special FadeBlackQuickly
+	special FadeOutToBlack
 	special ReloadSpritesNoPalettes
 	playsound SFX_WARP_TO
 	waitsfx
@@ -274,7 +274,7 @@ FossilScientist:
 
 .GiveAerodactyl:
 	readvar VAR_BADGES
-	if_less_than 7, .NotEnoughBadges
+	ifless 7, .NotEnoughBadges
 	readvar VAR_PARTYCOUNT
 	ifequal PARTY_LENGTH, .NoRoom
 	clearevent EVENT_GAVE_SCIENTIST_OLD_AMBER
@@ -291,7 +291,7 @@ FossilScientist:
 
 .GiveKabuto:
 	readvar VAR_BADGES
-	if_less_than 3, .NotEnoughBadges
+	ifless 3, .NotEnoughBadges
 	readvar VAR_PARTYCOUNT
 	ifequal PARTY_LENGTH, .NoRoom
 	clearevent EVENT_GAVE_SCIENTIST_DOME_FOSSIL
@@ -308,7 +308,7 @@ FossilScientist:
 
 .GiveOmanyte:
 	readvar VAR_BADGES
-	if_less_than 4, .NotEnoughBadges
+	ifless 4, .NotEnoughBadges
 	readvar VAR_PARTYCOUNT
 	ifequal PARTY_LENGTH, .NoRoom
 	clearevent EVENT_GAVE_SCIENTIST_HELIX_FOSSIL

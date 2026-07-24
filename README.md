@@ -42,9 +42,8 @@ These videos also provide an overview of the hack and the ideology behind it:
 - [**FAQ**](FAQ.md)
 - [**Documentation**][docs]
 - [**Wiki**][wiki] (includes [tutorials][tutorials])
-- **Discord:** [pret][discord]
-- **IRC:** [libera#pret][irc]
-
+- [**Symbols**][symbols]
+- [**Tools**][tools]
 
 ## Credits For Crystal Legacy:
 
@@ -140,18 +139,10 @@ These videos also provide an overview of the hack and the ideology behind it:
 - towersvault [Adds Pack item sorting](https://github.com/cRz-Shadows/Pokemon_Crystal_Legacy/pull/18)
 
 
-[pokered]: https://github.com/pret/pokered
-[pokeyellow]: https://github.com/pret/pokeyellow
-[pokegold]: https://github.com/pret/pokegold
-[pokepinball]: https://github.com/pret/pokepinball
-[poketcg]: https://github.com/pret/poketcg
-[pokeruby]: https://github.com/pret/pokeruby
-[pokefirered]: https://github.com/pret/pokefirered
-[pokeemerald]: https://github.com/pret/pokeemerald
 [docs]: https://pret.github.io/pokecrystal/
 [wiki]: https://github.com/pret/pokecrystal/wiki
 [tutorials]: https://github.com/pret/pokecrystal/wiki/Tutorials
-[discord]: https://discord.gg/d5dubZ3
-[irc]: https://web.libera.chat/?#pret
+[symbols]: https://github.com/pret/pokecrystal/tree/symbols
+[tools]: https://github.com/pret/gb-asm-tools
 [ci]: https://github.com/pret/pokecrystal/actions
 [ci-badge]: https://github.com/pret/pokecrystal/actions/workflows/main.yml/badge.svg

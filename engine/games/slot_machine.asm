@@ -6,26 +6,28 @@
 	const SLOTS_PIKACHU  ; $0c
 	const SLOTS_SQUIRTLE ; $10
 	const SLOTS_STARYU   ; $14
-NUM_SLOT_REELS EQU const_value / 4 ; 6
-SLOTS_NO_MATCH EQU -1
+DEF NUM_SLOT_REELS EQU const_value / 4 ; 6
+DEF SLOTS_NO_MATCH EQU -1
 
 ; wSlotBias values
-SLOTS_NO_BIAS  EQU -1
+DEF SLOTS_NO_BIAS EQU -1
 
-REEL_SIZE EQU 15
+DEF REEL_SIZE EQU 15
 
-; Constants for slot_reel offsets (see macros/wram.asm)
-REEL_ACTION        EQUS "(wReel1ReelAction - wReel1)"
-REEL_TILEMAP_ADDR  EQUS "(wReel1TilemapAddr - wReel1)"
-REEL_POSITION      EQUS "(wReel1Position - wReel1)"
-REEL_SPIN_DISTANCE EQUS "(wReel1SpinDistance - wReel1)"
-REEL_SPIN_RATE     EQUS "(wReel1SpinRate - wReel1)"
-REEL_OAM_ADDR      EQUS "(wReel1OAMAddr - wReel1)"
-REEL_X_COORD       EQUS "(wReel1XCoord - wReel1)"
-REEL_MANIP_COUNTER EQUS "(wReel1ManipCounter - wReel1)"
-REEL_MANIP_DELAY   EQUS "(wReel1ManipDelay - wReel1)"
-REEL_FIELD_0B      EQUS "(wReel1Field0b - wReel1)"
-REEL_STOP_DELAY    EQUS "(wReel1StopDelay - wReel1)"
+; Constants for slot_reel offsets (see macros/ram.asm)
+rsreset
+DEF REEL_ACTION        rb ; 0
+DEF REEL_TILEMAP_ADDR  rw ; 1
+DEF REEL_POSITION      rb ; 3
+DEF REEL_SPIN_DISTANCE rb ; 4
+DEF REEL_SPIN_RATE     rb ; 5
+DEF REEL_OAM_ADDR      rw ; 6
+DEF REEL_X_COORD       rb ; 8
+DEF REEL_MANIP_COUNTER rb ; 9
+DEF REEL_MANIP_DELAY   rb ; 10
+DEF REEL_DROP_COUNTER  rb ; 11
+                       rb_skip 3
+DEF REEL_STOP_DELAY    rb ; 15
 
 ; SlotsJumptable constants
 	const_def
@@ -48,7 +50,7 @@ REEL_STOP_DELAY    EQUS "(wReel1StopDelay - wReel1)"
 	const SLOTS_PAYOUT_ANIM
 	const SLOTS_RESTART_OF_QUIT
 	const SLOTS_QUIT
-SLOTS_END_LOOP_F EQU 7
+DEF SLOTS_END_LOOP_F EQU 7
 
 ; ReelActionJumptable constants
 	const_def
@@ -95,7 +97,7 @@ _SlotMachine:
 	ld hl, wOptions
 	res NO_TEXT_SCROLL, [hl]
 	ld hl, rLCDC
-	res rLCDC_SPRITE_SIZE, [hl] ; 8x8
+	res B_LCDC_OBJ_SIZE, [hl] ; 8x8
 	ret
 
 .InitGFX:
@@ -108,7 +110,7 @@ _SlotMachine:
 	call DisableLCD
 	hlbgcoord 0, 0
 	ld bc, vBGMap1 - vBGMap0
-	ld a, " "
+	ld a, ' '
 	call ByteFill
 	ld b, SCGB_SLOT_MACHINE
 	call GetSGBLayout
@@ -140,7 +142,7 @@ _SlotMachine:
 	call CopyBytes
 
 	ld hl, rLCDC
-	set rLCDC_SPRITE_SIZE, [hl] ; 8x16
+	set B_LCDC_OBJ_SIZE, [hl] ; 8x16
 	call EnableLCD
 	ld hl, wSlots
 	ld bc, wSlotsEnd - wSlots
@@ -240,13 +242,13 @@ DebugPrintSlotBias: ; unreferenced
 	daa
 	ld e, a
 	and $f
-	add "0"
+	add '0'
 	hlcoord 1, 0
 	ld [hl], a
 	ld a, e
 	swap a
 	and $f
-	add "0"
+	add '0'
 	hlcoord 0, 0
 	ld [hl], a
 	ret
@@ -258,13 +260,13 @@ AnimateSlotReelIcons: ; unreferenced
 	inc [hl]
 	and $7
 	ret nz
-	ld hl, wVirtualOAMSprite16TileID
-	ld c, NUM_SPRITE_OAM_STRUCTS - 16
+	ld hl, wShadowOAMSprite16TileID
+	ld c, OAM_COUNT - 16
 .loop
 	ld a, [hl]
 	xor $20 ; alternate between $00-$1f and $20-$3f
 	ld [hli], a ; tile id
-rept SPRITEOAMSTRUCT_LENGTH - 1
+rept OBJ_SIZE - 1
 	inc hl
 endr
 	dec c
@@ -352,7 +354,7 @@ SlotsAction_WaitStart:
 SlotsAction_WaitReel1:
 	ld hl, hJoypadSum
 	ld a, [hl]
-	and A_BUTTON
+	and PAD_A
 	ret z
 	call SlotsAction_Next
 	call Slots_StopReel1
@@ -372,7 +374,7 @@ SlotsAction_WaitStopReel1:
 SlotsAction_WaitReel2:
 	ld hl, hJoypadSum
 	ld a, [hl]
-	and A_BUTTON
+	and PAD_A
 	ret z
 	call SlotsAction_Next
 	call Slots_StopReel2
@@ -392,7 +394,7 @@ SlotsAction_WaitStopReel2:
 SlotsAction_WaitReel3:
 	ld hl, hJoypadSum
 	ld a, [hl]
-	and A_BUTTON
+	and PAD_A
 	ret z
 	call SlotsAction_Next
 	call Slots_StopReel3
@@ -483,6 +485,7 @@ SlotsAction_PayoutAnim:
 	jr c, .okay
 	inc de
 .okay
+; BUG: Slot machine payout sound effects cut each other off (see docs/bugs_and_glitches.md)
 	ld [hl], e
 	dec hl
 	ld [hl], d
@@ -666,7 +669,7 @@ Slots_InitReelTiles:
 	ld bc, wReel1
 	ld hl, REEL_OAM_ADDR
 	add hl, bc
-	ld de, wVirtualOAMSprite16
+	ld de, wShadowOAMSprite16
 	ld [hl], e
 	inc hl
 	ld [hl], d
@@ -678,13 +681,13 @@ Slots_InitReelTiles:
 	ld [hl], d
 	ld hl, REEL_X_COORD
 	add hl, bc
-	ld [hl], 6 * 8
+	ld [hl], 6 * TILE_WIDTH
 	call .OAM
 
 	ld bc, wReel2
 	ld hl, REEL_OAM_ADDR
 	add hl, bc
-	ld de, wVirtualOAMSprite24
+	ld de, wShadowOAMSprite24
 	ld [hl], e
 	inc hl
 	ld [hl], d
@@ -696,13 +699,13 @@ Slots_InitReelTiles:
 	ld [hl], d
 	ld hl, REEL_X_COORD
 	add hl, bc
-	ld [hl], 10 * 8
+	ld [hl], 10 * TILE_WIDTH
 	call .OAM
 
 	ld bc, wReel3
 	ld hl, REEL_OAM_ADDR
 	add hl, bc
-	ld de, wVirtualOAMSprite32
+	ld de, wShadowOAMSprite32
 	ld [hl], e
 	inc hl
 	ld [hl], d
@@ -714,7 +717,7 @@ Slots_InitReelTiles:
 	ld [hl], d
 	ld hl, REEL_X_COORD
 	add hl, bc
-	ld [hl], 14 * 8
+	ld [hl], 14 * TILE_WIDTH
 	call .OAM
 	ret
 
@@ -782,7 +785,7 @@ Slots_UpdateReelPositionAndOAM:
 	add hl, bc
 	ld a, [hl]
 	ld [wCurReelXCoord], a
-	ld a, 10 * 8
+	ld a, 10 * TILE_WIDTH
 	ld [wCurReelYCoord], a
 	ld hl, REEL_POSITION
 	add hl, bc
@@ -824,7 +827,7 @@ Slots_UpdateReelPositionAndOAM:
 	ld [hli], a ; tile id
 	srl a
 	srl a
-	set OAM_PRIORITY, a
+	set B_OAM_PRIO, a
 	ld [hli], a ; attributes
 
 	ld a, [wCurReelYCoord]
@@ -838,7 +841,7 @@ Slots_UpdateReelPositionAndOAM:
 	ld [hli], a ; tile id
 	srl a
 	srl a
-	set OAM_PRIORITY, a
+	set B_OAM_PRIO, a
 	ld [hli], a ; attributes
 	inc de
 	ld a, [wCurReelYCoord]
@@ -864,7 +867,7 @@ GetUnknownSlotReelData: ; unreferenced
 	ret
 
 .data:
-	table_width 1, GetUnknownSlotReelData.data
+	table_width 1
 	db 0 ; SLOTS_SEVEN
 	db 1 ; SLOTS_POKEBALL
 	db 2 ; SLOTS_CHERRY
@@ -1150,7 +1153,7 @@ ReelAction_InitGolem:
 	push bc
 	push af
 	depixel 12, 13
-	ld a, SPRITE_ANIM_INDEX_SLOTS_GOLEM
+	ld a, SPRITE_ANIM_OBJ_SLOTS_GOLEM
 	call InitSpriteAnimStruct
 	ld hl, SPRITEANIMSTRUCT_VAR3
 	add hl, bc
@@ -1211,7 +1214,7 @@ ReelAction_InitChansey:
 	ld [hl], 0
 	push bc
 	depixel 12, 0
-	ld a, SPRITE_ANIM_INDEX_SLOTS_CHANSEY
+	ld a, SPRITE_ANIM_OBJ_SLOTS_CHANSEY
 	call InitSpriteAnimStruct
 	pop bc
 	xor a
@@ -1299,14 +1302,14 @@ ReelAction_CheckDropReel:
 	ld hl, REEL_ACTION
 	add hl, bc
 	inc [hl] ; REEL_ACTION_WAIT_DROP_REEL
-	ld hl, REEL_FIELD_0B
+	ld hl, REEL_DROP_COUNTER
 	add hl, bc
 	ld [hl], 32
 	ld hl, REEL_SPIN_RATE
 	add hl, bc
 	ld [hl], 0
 ReelAction_WaitDropReel:
-	ld hl, REEL_FIELD_0B
+	ld hl, REEL_DROP_COUNTER
 	add hl, bc
 	ld a, [hl]
 	and a
@@ -1317,7 +1320,7 @@ ReelAction_WaitDropReel:
 .DropReel:
 	ld hl, REEL_ACTION
 	add hl, bc
-	dec [hl]
+	dec [hl] ; REEL_ACTION_CHECK_DROP_REEL
 	ld hl, REEL_SPIN_RATE
 	add hl, bc
 	ld [hl], 8
@@ -1840,7 +1843,7 @@ Slots_GetPayout:
 	ret
 
 .PayoutTable:
-	table_width 2, Slots_GetPayout.PayoutTable
+	table_width 2
 	dw 300 ; SLOTS_SEVEN
 	dw  50 ; SLOTS_POKEBALL
 	dw   6 ; SLOTS_CHERRY
@@ -1890,7 +1893,7 @@ Slots_PayoutText:
 	ret
 
 .PayoutStrings:
-	table_width 6, Slots_PayoutText.PayoutStrings
+	table_width 6
 	dbw "300@", .LinedUpSevens      ; SLOTS_SEVEN
 	dbw "50@@", .LinedUpPokeballs   ; SLOTS_POKEBALL
 	dbw "6@@@", .LinedUpMonOrCherry ; SLOTS_CHERRY
@@ -1911,7 +1914,7 @@ Slots_PayoutText:
 	inc a
 	ldcoord_a 3, 14
 	hlcoord 18, 17
-	ld [hl], "▼"
+	ld [hl], '▼'
 	ld hl, .SlotsLinedUpText
 rept 4
 	inc bc
@@ -2016,7 +2019,7 @@ Slots_AnimateGolem:
 	jr c, .play_sound
 	dec [hl]
 	ld e, a
-	ld d, 14 * 8
+	ld d, 14 * TILE_WIDTH
 	farcall BattleAnim_Sine_e
 	ld a, e
 	ld hl, SPRITEANIMSTRUCT_YOFFSET
@@ -2043,7 +2046,7 @@ Slots_AnimateGolem:
 	ld a, [hl]
 	inc [hl]
 	inc [hl]
-	cp 9 * 8
+	cp 9 * TILE_WIDTH
 	jr nc, .restart
 	and $3
 	ret nz
@@ -2087,7 +2090,7 @@ Slots_AnimateChansey:
 	add hl, bc
 	ld a, [hl]
 	inc [hl]
-	cp 13 * 8
+	cp 13 * TILE_WIDTH
 	jr z, .limit
 	and $f
 	ret nz
@@ -2135,7 +2138,7 @@ Slots_AnimateChansey:
 	dec [hl]
 	push bc
 	depixel 12, 13, 0, 4
-	ld a, SPRITE_ANIM_INDEX_SLOTS_EGG
+	ld a, SPRITE_ANIM_OBJ_SLOTS_EGG
 	call InitSpriteAnimStruct
 	pop bc
 	ret

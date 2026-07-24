@@ -1,6 +1,6 @@
 MovementPointers:
 ; entries correspond to movement_* constants (see macros/scripts/movement.asm)
-	table_width 2, MovementPointers
+	table_width 2
 	dw Movement_turn_head_down        ; 00
 	dw Movement_turn_head_up          ; 01
 	dw Movement_turn_head_left        ; 02
@@ -73,10 +73,10 @@ MovementPointers:
 	dw Movement_step_sleep_8          ; 45
 	dw Movement_step_sleep            ; 46
 	dw Movement_step_end              ; 47
-	dw Movement_48                    ; 48
+	dw Movement_step_wait_end         ; 48
 	dw Movement_remove_object         ; 49
 	dw Movement_step_loop             ; 4a
-	dw Movement_4b                    ; 4b
+	dw Movement_stop                  ; 4b
 	dw Movement_teleport_from         ; 4c
 	dw Movement_teleport_to           ; 4d
 	dw Movement_skyfall               ; 4e
@@ -134,7 +134,7 @@ Movement_step_dig:
 	ld hl, OBJECT_STEP_TYPE
 	add hl, bc
 	ld [hl], STEP_TYPE_SLEEP
-	ld hl, OBJECT_DIRECTION_WALKING
+	ld hl, OBJECT_WALKING
 	add hl, bc
 	ld [hl], STANDING
 	ret
@@ -150,7 +150,7 @@ Movement_return_dig:
 	ld hl, OBJECT_STEP_DURATION
 	add hl, bc
 	ld [hl], a
-	ld hl, OBJECT_DIRECTION_WALKING
+	ld hl, OBJECT_WALKING
 	add hl, bc
 	ld [hl], STANDING
 	ld hl, OBJECT_STEP_TYPE
@@ -190,36 +190,36 @@ Movement_fish_cast_rod:
 	ret
 
 Movement_step_loop:
-	ld hl, OBJECT_MOVEMENT_BYTE_INDEX
+	ld hl, OBJECT_MOVEMENT_INDEX
 	add hl, bc
 	ld [hl], $0
 	jp ContinueReadingMovement
 
 Movement_step_end:
 	call RestoreDefaultMovement
-	ld hl, OBJECT_MOVEMENTTYPE
+	ld hl, OBJECT_MOVEMENT_TYPE
 	add hl, bc
 	ld [hl], a
 
-	ld hl, OBJECT_MOVEMENT_BYTE_INDEX
+	ld hl, OBJECT_MOVEMENT_INDEX
 	add hl, bc
 	ld [hl], $0
 
-	ld hl, wVramState
-	res 7, [hl]
+	ld hl, wStateFlags
+	res SCRIPTED_MOVEMENT_STATE_F, [hl]
 
 	ld hl, OBJECT_STEP_TYPE
 	add hl, bc
 	ld [hl], STEP_TYPE_FROM_MOVEMENT
 	ret
 
-Movement_48:
+Movement_step_wait_end:
 	call RestoreDefaultMovement
-	ld hl, OBJECT_MOVEMENTTYPE
+	ld hl, OBJECT_MOVEMENT_TYPE
 	add hl, bc
 	ld [hl], a
 
-	ld hl, OBJECT_MOVEMENT_BYTE_INDEX
+	ld hl, OBJECT_MOVEMENT_INDEX
 	add hl, bc
 	ld [hl], $0
 
@@ -232,8 +232,8 @@ Movement_48:
 	add hl, bc
 	ld [hl], STEP_TYPE_SLEEP
 
-	ld hl, wVramState
-	res 7, [hl]
+	ld hl, wStateFlags
+	res SCRIPTED_MOVEMENT_STATE_F, [hl]
 	ret
 
 Movement_remove_object:
@@ -245,11 +245,11 @@ Movement_remove_object:
 	ld [hl], -1
 
 .not_leading
-	ld hl, wVramState
-	res 7, [hl]
+	ld hl, wStateFlags
+	res SCRIPTED_MOVEMENT_STATE_F, [hl]
 	ret
 
-Movement_4b:
+Movement_stop:
 	ld hl, OBJECT_ACTION
 	add hl, bc
 	ld [hl], OBJECT_ACTION_STAND
@@ -258,8 +258,8 @@ Movement_4b:
 	add hl, bc
 	ld [hl], STEP_TYPE_STANDING
 
-	ld hl, wVramState
-	res 7, [hl]
+	ld hl, wStateFlags
+	res SCRIPTED_MOVEMENT_STATE_F, [hl]
 	ret
 
 Movement_step_sleep_1:
@@ -314,7 +314,7 @@ Movement_step_sleep_common:
 	add hl, bc
 	ld [hl], OBJECT_ACTION_STAND
 
-	ld hl, OBJECT_DIRECTION_WALKING
+	ld hl, OBJECT_WALKING
 	add hl, bc
 	ld [hl], STANDING
 	ret
@@ -333,7 +333,7 @@ Movement_step_bump:
 	add hl, bc
 	ld [hl], OBJECT_ACTION_BUMP
 
-	ld hl, OBJECT_DIRECTION_WALKING
+	ld hl, OBJECT_WALKING
 	add hl, bc
 	ld [hl], STANDING
 	ret
@@ -352,7 +352,7 @@ Movement_tree_shake:
 	add hl, bc
 	ld [hl], OBJECT_ACTION_WEIRD_TREE
 
-	ld hl, OBJECT_DIRECTION_WALKING
+	ld hl, OBJECT_WALKING
 	add hl, bc
 	ld [hl], STANDING
 	ret
@@ -426,7 +426,7 @@ Movement_turn_head_right:
 	jr TurnHead
 
 TurnHead:
-	ld hl, OBJECT_FACING
+	ld hl, OBJECT_DIRECTION
 	add hl, bc
 	ld [hl], a
 
@@ -434,7 +434,7 @@ TurnHead:
 	add hl, bc
 	ld [hl], OBJECT_ACTION_STAND
 
-	ld hl, OBJECT_DIRECTION_WALKING
+	ld hl, OBJECT_WALKING
 	add hl, bc
 	ld [hl], STANDING
 	ret
@@ -668,7 +668,7 @@ NormalStep:
 	add hl, bc
 	ld [hl], OBJECT_ACTION_STEP
 
-	ld hl, OBJECT_NEXT_TILE
+	ld hl, OBJECT_TILE_COLLISION
 	add hl, bc
 	ld a, [hl]
 	call CheckSuperTallGrassTile
@@ -747,13 +747,13 @@ SlideStep:
 
 JumpStep:
 	call InitStep
-	ld hl, OBJECT_1F
+	ld hl, OBJECT_JUMP_HEIGHT
 	add hl, bc
 	ld [hl], $0
 
 	ld hl, OBJECT_FLAGS2
 	add hl, bc
-	res OVERHEAD_F, [hl]
+	res IN_GRASS_F, [hl]
 
 	ld hl, OBJECT_ACTION
 	add hl, bc

@@ -532,7 +532,7 @@ Pokedex_PrintBaseEVs:
 	srl a
 	srl a
 	pop hl
-	add a, "0"
+	add a, '0'
 	ld [hl], a
 	pop hl
 	ld de, BS_HP_text
@@ -544,7 +544,7 @@ Pokedex_PrintBaseEVs:
 	jr z, .ev_def
 	swap a
 	pop hl
-	add a, "0"
+	add a, '0'
 	ld [hl], a
 	pop hl
 	ld de, BS_ATK_text
@@ -557,7 +557,7 @@ Pokedex_PrintBaseEVs:
 	srl a
 	srl a
 	pop hl
-	add a, "0"
+	add a, '0'
 	ld [hl], a
 	pop hl
 	ld de, BS_DEF_text
@@ -568,7 +568,7 @@ Pokedex_PrintBaseEVs:
 	and %00000011
 	jr z, .ev_spatk
 	pop hl
-	add a, "0"
+	add a, '0'
 	ld [hl], a
 
 	pop hl
@@ -583,7 +583,7 @@ Pokedex_PrintBaseEVs:
 	srl a
 	srl a
 	pop hl
-	add a, "0"
+	add a, '0'
 	ld [hl], a
 	pop hl
 	ld de, BS_SPCL_text
@@ -595,7 +595,7 @@ Pokedex_PrintBaseEVs:
 	jr z, .ev_done
 	swap a
 	pop hl
-	add a, "0"
+	add a, '0'
 	ld [hl], a
 	pop hl
 	ld de, BS_SPCLDEF_text
@@ -669,7 +669,7 @@ ENDC
 	ld a, b ; bank
 	call GetFarByte
 	inc hl
-	cp "@"
+	cp '@'
 	jr nz, .loop1
 ; hl should now be at height
 	push hl ; keep the ptr, for weight
@@ -694,7 +694,7 @@ IF !DEF(wBaseHPAtkDefSpdEVs) ; vanilla
 ELSE ; using EVs
 	hlcoord 6, 14
 ENDC
-	ld [hl], "′"
+	ld [hl], '′'
 ; get weight
 	pop af ; bank
 	pop hl ; ptr

@@ -1,25 +1,25 @@
 RuinsOfAlphHoOhChamber_MapScripts:
 	def_scene_scripts
-	scene_script .CheckWall ; SCENE_DEFAULT
-	scene_script .DummyScene ; SCENE_FINISHED
+	scene_script RuinsOfAlphHoOhChamberCheckWallScene, SCENE_RUINSOFALPHHOOHCHAMBER_CHECK_WALL
+	scene_script RuinsOfAlphHoOhChamberNoopScene,      SCENE_RUINSOFALPHHOOHCHAMBER_NOOP
 
 	def_callbacks
-	callback MAPCALLBACK_TILES, .HiddenDoors
+	callback MAPCALLBACK_TILES, RuinsOfAlphHoOhChamberHiddenDoorsCallback
 
-.CheckWall:
+RuinsOfAlphHoOhChamberCheckWallScene:
 	special HoOhChamber
 	checkevent EVENT_WALL_OPENED_IN_HO_OH_CHAMBER
 	iftrue .OpenWall
 	end
 
 .OpenWall:
-	sdefer .WallOpenScript
+	sdefer RuinsOfAlphHoOhChamberWallOpenScript
 	end
 
-.DummyScene:
+RuinsOfAlphHoOhChamberNoopScene:
 	end
 
-.HiddenDoors:
+RuinsOfAlphHoOhChamberHiddenDoorsCallback:
 	checkevent EVENT_WALL_OPENED_IN_HO_OH_CHAMBER
 	iftrue .WallOpen
 	changeblock 4, 0, $2e ; closed wall
@@ -33,21 +33,21 @@ RuinsOfAlphHoOhChamber_MapScripts:
 	changeblock 4, 2, $02 ; right floor
 	endcallback
 
-.WallOpenScript:
+RuinsOfAlphHoOhChamberWallOpenScript:
 	pause 30
 	earthquake 30
 	showemote EMOTE_SHOCK, PLAYER, 20
 	pause 30
 	playsound SFX_STRENGTH
 	changeblock 4, 0, $30 ; open wall
-	reloadmappart
+	refreshmap
 	earthquake 50
-	setscene SCENE_FINISHED
+	setscene SCENE_RUINSOFALPHHOOHCHAMBER_NOOP
 	closetext
 	end
 
 RuinsOfAlphHoOhChamberPuzzle:
-	refreshscreen
+	reanchormap
 	setval UNOWNPUZZLE_HO_OH
 	special UnownPuzzle
 	closetext
@@ -63,7 +63,7 @@ RuinsOfAlphHoOhChamberPuzzle:
 	showemote EMOTE_SHOCK, PLAYER, 15
 	changeblock 2, 2, $18 ; left hole
 	changeblock 4, 2, $19 ; right hole
-	reloadmappart
+	refreshmap
 	playsound SFX_STRENGTH
 	earthquake 80
 	applymovement PLAYER, RuinsOfAlphHoOhChamberSkyfallTopMovement

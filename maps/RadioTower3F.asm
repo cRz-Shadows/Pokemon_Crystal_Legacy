@@ -11,9 +11,9 @@ RadioTower3F_MapScripts:
 	def_scene_scripts
 
 	def_callbacks
-	callback MAPCALLBACK_TILES, .CardKeyShutterCallback
+	callback MAPCALLBACK_TILES, RadioTower3FCardKeyShutterCallback
 
-.CardKeyShutterCallback:
+RadioTower3FCardKeyShutterCallback:
 	checkevent EVENT_USED_THE_CARD_KEY_IN_THE_RADIO_TOWER
 	iftrue .Change
 	endcallback
@@ -143,7 +143,7 @@ CardKeySlotScript::
 	playsound SFX_ENTER_DOOR
 	changeblock 14, 2, $2a ; open shutter
 	changeblock 14, 4, $01 ; floor
-	reloadmappart
+	refreshmap
 	closetext
 	waitsfx
 	end

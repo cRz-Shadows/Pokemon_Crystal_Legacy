@@ -240,7 +240,7 @@ EvolutionAnimation:
 	call JoyTextDelay
 	ldh a, [hJoyDown]
 	pop bc
-	and B_BUTTON
+	and PAD_B
 	jr nz, .pressed_b
 .loop3
 	dec c
@@ -311,7 +311,7 @@ EvolutionAnimation:
 .GenerateBallOfLight:
 	push de
 	depixel 9, 11
-	ld a, SPRITE_ANIM_INDEX_EVOLUTION_BALL_OF_LIGHT
+	ld a, SPRITE_ANIM_OBJ_EVOLUTION_BALL_OF_LIGHT
 	call InitSpriteAnimStruct
 	ld hl, SPRITEANIMSTRUCT_JUMPTABLE_INDEX
 	add hl, bc
@@ -340,13 +340,13 @@ EvolutionAnimation:
 	inc a
 	and $7
 	ld b, a
-	ld hl, wVirtualOAMSprite00Attributes
-	ld c, NUM_SPRITE_OAM_STRUCTS
+	ld hl, wShadowOAMSprite00Attributes
+	ld c, OAM_COUNT
 .loop6
 	ld a, [hl]
 	or b
 	ld [hli], a ; attributes
-rept SPRITEOAMSTRUCT_LENGTH - 1
+rept OBJ_SIZE - 1
 	inc hl
 endr
 	dec c

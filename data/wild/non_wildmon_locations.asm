@@ -1,10 +1,10 @@
-casinomon: MACRO
+MACRO casinomon
 ; species, coins needed
 	db \1
 	dw \2
 ENDM
 
-specialencounter: MACRO
+MACRO specialencounter
 ; requested mon, offered mon, item, OT ID, OT name, gender requested
 	db \1
 	dw \2

@@ -1,8 +1,7 @@
 _GiveOddEgg:
 	; Figure out which egg to give.
 
-	; Compare a random word to
-	; probabilities out of 0xffff.
+	; Compare a random word to probabilities out of $ffff.
 	call Random
 	ld hl, OddEggProbabilities
 	ld c, 0
@@ -59,12 +58,12 @@ _GiveOddEgg:
 
 	; load species in wMobileMonSpecies
 	ld a, EGG
-	ld [wMobileMonSpecies], a
+	ld [wMobileMonMiscSpecies], a
 
 	; load pointer to (wMobileMonSpecies - 1) in wMobileMonSpeciesPointer
-	ld a, LOW(wMobileMonSpecies - 1)
+	ld a, LOW(wMobileMonMiscSpecies - 1)
 	ld [wMobileMonSpeciesPointer], a
-	ld a, HIGH(wMobileMonSpecies - 1)
+	ld a, HIGH(wMobileMonMiscSpecies - 1)
 	ld [wMobileMonSpeciesPointer + 1], a
 	; load pointer to wOddEgg in wMobileMonStructPointer
 	ld a, LOW(wOddEgg)
@@ -92,6 +91,6 @@ _GiveOddEgg:
 	ret
 
 .Odd:
-	db "ODD@@@@@@@@@"
+	dname "ODD", MON_NAME_LENGTH + 1
 
 INCLUDE "data/events/odd_eggs.asm"

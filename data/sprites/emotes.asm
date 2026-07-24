@@ -1,4 +1,4 @@
-emote: MACRO
+MACRO emote
 ; graphics pointer, length, starting tile
 	dw \1
 	db \2 tiles, BANK(\1)
@@ -7,7 +7,7 @@ ENDM
 
 Emotes:
 ; entries correspond to EMOTE_* constants
-	table_width EMOTE_LENGTH, Emotes
+	table_width EMOTE_LENGTH
 	emote ShockEmote,     4, $f8
 	emote QuestionEmote,  4, $f8
 	emote HappyEmote,     4, $f8

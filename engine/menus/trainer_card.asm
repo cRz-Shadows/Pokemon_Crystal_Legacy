@@ -9,10 +9,10 @@
 	const TRAINERCARDSTATE_QUIT          ; 6
 
 TrainerCard:
-	ld a, [wVramState]
+	ld a, [wStateFlags]
 	push af
 	xor a
-	ld [wVramState], a
+	ld [wStateFlags], a
 	ld hl, wOptions
 	ld a, [hl]
 	push af
@@ -22,10 +22,10 @@ TrainerCard:
 	call UpdateTime
 	call JoyTextDelay
 	ld a, [wJumptableIndex]
-	bit 7, a
+	bit JUMPTABLE_EXIT_F, a
 	jr nz, .quit
 	ldh a, [hJoyLast]
-	and B_BUTTON
+	and PAD_B
 	jr nz, .quit
 	call .RunJumptable
 	call DelayFrame
@@ -35,7 +35,7 @@ TrainerCard:
 	pop af
 	ld [wOptions], a
 	pop af
-	ld [wVramState], a
+	ld [wStateFlags], a
 	ret
 
 .InitRAM:
@@ -68,7 +68,7 @@ TrainerCard:
 	call WaitBGMap
 	ld b, SCGB_TRAINER_CARD
 	call GetSGBLayout
-	call SetPalettes
+	call SetDefaultBGPAndOBP
 	call WaitBGMap
 	ld hl, wJumptableIndex
 	xor a ; TRAINERCARDSTATE_PAGE1_LOADGFX
@@ -98,7 +98,7 @@ TrainerCard_IncrementJumptable:
 
 TrainerCard_Quit:
 	ld hl, wJumptableIndex
-	set 7, [hl]
+	set JUMPTABLE_EXIT_F, [hl]
 	ret
 
 TrainerCard_Page1_LoadGFX:
@@ -109,7 +109,7 @@ TrainerCard_Page1_LoadGFX:
 	call WaitBGMap
 	ld b, SCGB_TRAINER_CARD
 	call GetSGBLayout
-	call SetPalettes
+	call SetDefaultBGPAndOBP
 	call WaitBGMap
 	ld de, CardStatusGFX
 	ld hl, vTiles2 tile $29
@@ -123,7 +123,7 @@ TrainerCard_Page1_Joypad:
 	call TrainerCard_Page1_PrintGameTime
 	ld hl, hJoyLast
 	ld a, [hl]
-	and D_RIGHT | A_BUTTON
+	and PAD_RIGHT | PAD_A
 	jr nz, .pressed_right_a
 	ret
 
@@ -140,7 +140,7 @@ TrainerCard_Page2_LoadGFX:
 	call WaitBGMap
 	ld b, SCGB_TRAINER_CARD
 	call GetSGBLayout
-	call SetPalettes
+	call SetDefaultBGPAndOBP
 	call WaitBGMap
 	ld de, LeaderGFX
 	ld hl, vTiles2 tile $29
@@ -160,18 +160,18 @@ TrainerCard_Page2_Joypad:
 	call TrainerCard_Page2_3_AnimateBadges
 	ld hl, hJoyLast
 	ld a, [hl]
-	and D_LEFT
+	and PAD_LEFT
 	jr nz, .pressed_left
 	ld a, [wKantoBadges]
 	and a
 	jr nz, .has_kanto_badges
 	ld a, [hl]
-	and A_BUTTON
+	and PAD_A
 	jr nz, .Quit
 	ret
 .has_kanto_badges
 	ld a, [hl]
-	and D_RIGHT | A_BUTTON
+	and PAD_RIGHT | PAD_A
 	jr nz, .pressed_right_a
 	ret
 
@@ -198,7 +198,7 @@ TrainerCard_Page3_LoadGFX:
 	call WaitBGMap
 	ld b, SCGB_TRAINER_CARD_KANTO
 	call GetSGBLayout
-	call SetPalettes
+	call SetDefaultBGPAndOBP
 	call WaitBGMap
 	ld de, LeaderGFX2
 	ld hl, vTiles2 tile $29
@@ -218,10 +218,10 @@ TrainerCard_Page3_Joypad:
 	call TrainerCard_Page2_3_AnimateBadges
 	ld hl, hJoyLast
 	ld a, [hl]
-	and D_LEFT
+	and PAD_LEFT
 	jr nz, .pressed_left
 	ld a, [hl]
-	and A_BUTTON
+	and PAD_A
 	jr nz, .pressed_a
 	ret
 
@@ -371,7 +371,7 @@ TrainerCard_InitBorder:
 	ld [hli], a
 
 	ld e, SCREEN_WIDTH - 3
-	ld a, " "
+	ld a, ' '
 .loop2
 	ld [hli], a
 	dec e
@@ -387,7 +387,7 @@ TrainerCard_InitBorder:
 	ld [hli], a
 
 	ld e, SCREEN_WIDTH - 2
-	ld a, " "
+	ld a, ' '
 .loop4
 	ld [hli], a
 	dec e
@@ -405,7 +405,7 @@ TrainerCard_InitBorder:
 	ld [hli], a
 
 	ld e, SCREEN_WIDTH - 3
-	ld a, " "
+	ld a, ' '
 .loop5
 	ld [hli], a
 	dec e
@@ -467,7 +467,7 @@ TrainerCard_Page1_PrintGameTime:
 	ret nz
 	hlcoord 15, 12
 	ld a, [hl]
-	xor " " ^ $2e ; alternate between space and small colon ($2e) tiles
+	xor ' ' ^ $2e ; alternate between space and small colon ($2e) tiles
 	ld [hl], a
 	ret
 
@@ -490,7 +490,7 @@ TrainerCard_Page2_3_OAMUpdate:
 	ld d, a
 	ld a, [de]
 	ld c, a
-	ld de, wVirtualOAMSprite00
+	ld de, wShadowOAMSprite00
 	ld b, NUM_JOHTO_BADGES
 .loop
 	srl c
@@ -565,10 +565,10 @@ TrainerCard_Page2_3_OAMUpdate:
 	db -1
 
 .facing2
-	dbsprite  0,  0,  0,  0, $01, 0 | X_FLIP
-	dbsprite  1,  0,  0,  0, $00, 0 | X_FLIP
-	dbsprite  0,  1,  0,  0, $03, 0 | X_FLIP
-	dbsprite  1,  1,  0,  0, $02, 0 | X_FLIP
+	dbsprite  0,  0,  0,  0, $01, 0 | OAM_XFLIP
+	dbsprite  1,  0,  0,  0, $00, 0 | OAM_XFLIP
+	dbsprite  0,  1,  0,  0, $03, 0 | OAM_XFLIP
+	dbsprite  1,  1,  0,  0, $02, 0 | OAM_XFLIP
 	db -1
 
 TrainerCard_JohtoBadgesOAM:

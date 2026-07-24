@@ -3,20 +3,20 @@
 
 WillsRoom_MapScripts:
 	def_scene_scripts
-	scene_script .LockDoor ; SCENE_DEFAULT
-	scene_script .DummyScene ; SCENE_FINISHED
+	scene_script WillsRoomLockDoorScene, SCENE_WILLSROOM_LOCK_DOOR
+	scene_script WillsRoomNoopScene,     SCENE_WILLSROOM_NOOP
 
 	def_callbacks
-	callback MAPCALLBACK_TILES, .WillsRoomDoors
+	callback MAPCALLBACK_TILES, WillsRoomDoorsCallback
 
-.LockDoor:
-	sdefer .WillsDoorLocksBehindYou
+WillsRoomLockDoorScene:
+	sdefer WillsRoomDoorLocksBehindYouScript
 	end
 
-.DummyScene:
+WillsRoomNoopScene:
 	end
 
-.WillsRoomDoors:
+WillsRoomDoorsCallback:
 	checkevent EVENT_WILLS_ROOM_ENTRANCE_CLOSED
 	iffalse .KeepEntranceOpen
 	changeblock 4, 14, $2a ; wall
@@ -27,15 +27,15 @@ WillsRoom_MapScripts:
 .KeepExitClosed:
 	endcallback
 
-.WillsDoorLocksBehindYou:
+WillsRoomDoorLocksBehindYouScript:
 	applymovement PLAYER, WillsRoom_EnterMovement
-	refreshscreen $86
+	reanchormap $86
 	playsound SFX_STRENGTH
 	earthquake 80
 	changeblock 4, 14, $2a ; wall
-	reloadmappart
+	refreshmap
 	closetext
-	setscene SCENE_FINISHED
+	setscene SCENE_WILLSROOM_NOOP
 	setevent EVENT_WILLS_ROOM_ENTRANCE_CLOSED
 	waitsfx
 	end
@@ -46,7 +46,7 @@ WillScript_Battle:
 	checkevent EVENT_BEAT_ELITE_4_WILL
 	iftrue WillScript_AfterBattle
 	readvar VAR_BADGES
-	if_less_than 16, .OriginalText
+	ifless 16, .OriginalText
 	writetext WillScript_WillRematchBeforeText
 	sjump .EndIntroText
 .OriginalText
@@ -56,7 +56,7 @@ WillScript_Battle:
 	closetext
 	winlosstext WillScript_WillBeatenText, 0
 	readvar VAR_BADGES
-	if_greater_than 15, .Rematch
+	ifgreater 15, .Rematch
 	loadtrainer WILL, WILL1
 	sjump .LoadtrainerEnd
 .Rematch:
@@ -73,7 +73,7 @@ WillScript_Battle:
 	checkflag ENGINE_HARD_MODE
 	iffalse .DontUpdateBadge
 	readvar VAR_BADGES
-	if_less_than 9, .BaseCap
+	ifless 9, .BaseCap
 	sjump .DontUpdateBadge
 .BaseCap
 	loadmem wLevelCap, 52 ; update level cap for hard mode
@@ -85,7 +85,7 @@ WillScript_Battle:
 	closetext
 	playsound SFX_ENTER_DOOR
 	changeblock 4, 2, $16 ; open door
-	reloadmappart
+	refreshmap
 	closetext
 	setevent EVENT_WILLS_ROOM_EXIT_OPEN
 	waitsfx

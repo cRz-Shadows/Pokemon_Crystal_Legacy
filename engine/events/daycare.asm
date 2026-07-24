@@ -510,7 +510,7 @@ DayCare_GiveEgg:
 	call AddNTimes
 	ld b, h
 	ld c, l
-	ld hl, MON_ID + 1
+	ld hl, MON_OT_ID + 1
 	add hl, bc
 	push hl
 	ld hl, MON_MAXHP
@@ -581,7 +581,7 @@ DayCare_InitBreeding:
 	ld [wTempMonDVs + 1], a
 	ld a, [wBreedMon1Species]
 	ld [wCurPartySpecies], a
-	ld a, $3
+	ld a, TEMPMON
 	ld [wMonType], a
 	ld a, [wBreedMon1Species]
 	cp DITTO

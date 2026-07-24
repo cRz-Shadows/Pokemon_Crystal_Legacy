@@ -107,7 +107,7 @@ BerryMartScript:
 	faceplayer
 	opentext
 	readvar VAR_BADGES
-	if_less_than 7, .NotSevenBadges
+	ifless 7, .NotSevenBadges
 	sjump .SevenBadges
 .NotSevenBadges
 	pokemart MARTTYPE_STANDARD, MART_BERRYS
